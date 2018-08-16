@@ -1,10 +1,8 @@
 ---
 title: 解读ReactiveCocoa中的部分函数
 date: 2018-08-13 23:11:19
-tags: ReactiveCocoa, RAC, 源码解读
+tags: ReactiveCocoa RAC 源码解读
 ---
-
-### 解读ReactiveCocoa中部分函数
 
 #### 一、bind、flattenMap和map
 
@@ -326,7 +324,6 @@ tags: ReactiveCocoa, RAC, 源码解读
 }
 ```
 
----
 #### 附录：
 
 ##### 附1：部分函数的图表解释
@@ -337,7 +334,7 @@ tags: ReactiveCocoa, RAC, 源码解读
 > ![Merge](http://img1.tuicool.com/U3Mzym3.png)
 > ![Concat](http://img0.tuicool.com/faIv6bu.png)
 
-##### 附2：`ReactiveCocoa`和`RxSwift`API图
+##### 附2：`ReactiveCocoa`和`RxSwift` API图
 > 引用自[FRPCheatSheeta](https://github.com/aiqiuqiu/FRPCheatSheeta)
 
 **1. ReactiveCocoa-ObjC**
@@ -348,7 +345,6 @@ tags: ReactiveCocoa, RAC, 源码解读
 
 **3. RxSwift**
 ![RXSwift.png](http://ww2.sinaimg.cn/large/006tNbRwjw1f69u2fugtjj317k1n1tis.jpg)
----
 
 #### 参考:
 + [RAC核心元素与信号流](http://www.jianshu.com/p/d262f2c55fbe) 

@@ -1,0 +1,63 @@
+# 头部菜单，title: link
+menu:
+  Whoami: /whoami
+  Github: https://github.com/faimin
+  Twitter: https://twitter.com/Zero_D_Saber
+
+# 是否显示目录
+TOC: true
+
+# 是否自动播放音乐
+autoplay: false
+
+# 默认音乐
+mp3: 
+  - http://link.hhtjim.com/163/5146554.mp3
+  - http://link.hhtjim.com/qq/001faIUs4M2zna.mp3
+
+# 首页封面图, 为空时取文章的cover作为封面
+welcome_cover: /img/welcome-cover.jpg
+
+# 默认文章封面图
+cover: /img/cover.jpg
+
+# 是否关闭默认滚动条
+scrollbar: true
+
+# Gitalk 评论插件（https://github.com/gitalk/gitalk）
+gitalk:
+    # 是否自动展开评论框
+    autoExpand: true
+    # 应用编号
+    clientID: '763f906863260a462bc4'
+    # 应用秘钥
+    clientSecret: 'b09ecb713d7df4fdbd123fe84b9f71e077d50b95'
+    # issue仓库名
+    repo: 'faimin.github.io'
+    # Github名
+    owner: 'faimin'
+    # Github名
+    admin: ['faimin']
+    # Ensure uniqueness and length less than 50
+    id: 'Users/Zero/Documents/Blog/zero-blog' #location.pathname
+    # Facebook-like distraction free mode
+    distractionFreeMode: false
+
+# 网站关键字
+keywords: Zero.D.Saber, iOS, Swift, Objective-C
+
+# 要使用google_analytics进行统计的话，这里需要配置ID
+google_analytics: 
+
+# 网站ico
+favicon: /img/favicon.png
+
+# rss文件
+rss: atom.xml
+
+feed:
+  type: atom
+  path: atom.xml
+  limit: 0
+  hub:
+  content:

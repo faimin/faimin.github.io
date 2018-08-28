@@ -9,8 +9,7 @@ tags: [Block, 源码分析]
 ![block语法](http://olmn3rwny.bkt.clouddn.com/20170330193208_8X7KiF_Screenshot.jpeg)
 
 <details open>
-<summary>Block Syntax</summary>
-
+<summary>Block Syntax Code</summary>
 ```objc
 // Block as a local variable
 returnType (^blockName)(parameterTypes) = ^returnType(parameters) {...};
@@ -49,7 +48,7 @@ struct __block_impl {
 >* descriptor：是用于描述当前这个 block 的附加信息的，包括结构体的大小，需要 capture 和 dispose 的变量列表等。结构体大小需要保存是因为，每个 block 因为会 capture 一些变量，这些变量会加到 __main_block_impl_0 这个结构体中，使其体积变大。
 
 接下来进入正题：
-> p.s：以下`Objective-C`的代码都处在ARC环境下
+> P.S：以下`Objective-C`的代码都处在ARC环境下
 
 ### 1、不加__block的情况:
 ```objc
@@ -68,7 +67,7 @@ int main(int argc, char *argv[]) {
 	}
 }
 ```
-----
+
 执行`clang`操作后的`C++`代码:
 
 ```C++
@@ -125,7 +124,6 @@ int main(int argc, char *argv[]) {
 }
 static struct IMAGE_INFO { unsigned version; unsigned flag; } _OBJC_IMAGE_INFO = { 0, 2 };
 ```
-----
 
 ### 2、添加__block的情况:
 ```objc
@@ -146,7 +144,7 @@ int main(int argc, char *argv[]) {
 	}
 }
 ```
-----
+
 执行`clang`后的`C++`代码:
 
 ```C++
@@ -222,8 +220,9 @@ int main(int argc, char *argv[]) {
 }
 static struct IMAGE_INFO { unsigned version; unsigned flag; } _OBJC_IMAGE_INFO = { 0, 2 };
 ```
+
 虽然NSMutableArray前面加不加__block，都不会影响往数组中添加数据，但是当在block中给`mutArr`重新赋值的时候就有区别了。
-![blockTest1.png](https://github.com/faimin/ZDStudyNotes/blob/master/Notes/SourceImages/blockTest1.png)
+![blockTest1](http://olmn3rwny.bkt.clouddn.com/20180828184027_Pll0EO_blockTest1.jpeg)
 如果你想对`mutArr`变量重新赋值一个新的`array`实例，改变原变量的指针，那么不加`_block`是不行的，但是如果只是单纯的`add`一个数据进去实际上改变的是变量所指的那个`mutArr`内存区域，这样是没有区别的。
 
 ### 3、静态变量:

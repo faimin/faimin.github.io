@@ -1,7 +1,7 @@
 ---
 title: Code Tips
 date: 2018-08-17 00:32:47
-tags: Tips C Objective-C
+tags: [Tips, C, Objective-C]
 ---
 
 > `C` && `Objective-C`代码技巧 

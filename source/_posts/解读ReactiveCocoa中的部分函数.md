@@ -1,7 +1,7 @@
 ---
 title: 解读ReactiveCocoa中的部分函数
 date: 2018-08-13 23:11:19
-tags: ReactiveCocoa RAC 源码解读
+tags: [ReactiveCocoa, RAC, 源码分析]
 ---
 
 #### 一、bind、flattenMap和map

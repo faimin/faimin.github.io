@@ -1,7 +1,7 @@
 ---
 title: Block捕获外部变量原理探究
 date: 2018-08-17 00:28:03
-tags: Block 源码 
+tags: [Block, 源码分析]
 ---
 
 在此之前先介绍一下**block 基本语法**：

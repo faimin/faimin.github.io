@@ -8,12 +8,19 @@ menu:
 TOC: true
 
 # 是否自动播放音乐
-autoplay: false
+autoplay: true
 
 # 默认音乐
 mp3: 
-  - http://link.hhtjim.com/163/5146554.mp3
-  - http://link.hhtjim.com/qq/001faIUs4M2zna.mp3
+  - http://www.170mv.com/kw/other.web.ra01.sycdn.kuwo.cn/resource/n2/2011/06/22/3886405066.mp3
+  - http://www.170mv.com/kw/other.web.ra01.sycdn.kuwo.cn/resource/n1/128/70/3/1239173815.mp3
+  - https://891622172.wodemo.com/down/20180828/218041/%E5%91%A8%E6%9D%B0%E4%BC%A6+-+%E9%BB%84%E9%87%91%E7%94%B2.mp3
+  - http://other.web.re01.sycdn.kuwo.cn/resource/n2/78/26/557358862.mp3
+  - http://www.170mv.com/kw/other.web.rl01.sycdn.kuwo.cn/resource/n3/12/75/3969672477.mp3
+  - http://www.170mv.com/kw/other.web.rg01.sycdn.kuwo.cn/resource/n1/82/58/2383694774.mp3
+  - http://www.170mv.com/kw/rd01.sycdn.kuwo.cn/resource/n2/31/27/3607457927.mp3
+  - http://www.170mv.com/kw/other.web.ra01.sycdn.kuwo.cn/resource/n1/128/85/83/3499520104.mp3
+  - http://www.170mv.com/kw/other.web.rm01.sycdn.kuwo.cn/resource/n2/46/8/2541300031.mp3
 
 # 首页封面图, 为空时取文章的cover作为封面
 welcome_cover: /img/welcome-cover.jpg

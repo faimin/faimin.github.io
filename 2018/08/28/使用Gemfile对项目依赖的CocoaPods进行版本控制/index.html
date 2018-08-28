@@ -1,0 +1,176 @@
+
+<!DOCTYPE html>
+<html lang="zh-cn" class="loading">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Zero.D.Saber&#39;s Home - 困于心，衡于虑，而后作</title>
+
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="google" content="notranslate" />
+    <meta name="keywords" content="Zero.D.Saber, iOS, Swift, Objective-C,"> 
+    <meta name="description" content="记录点滴,Q：多人协同开发同一项目时，每个人电脑上的CocoaPods 版本可能不尽相同，这样当某人重新执行pod install 操作后，有可能导致其他人打开项目时报错。对于这种问题我们有解决办法吗？
+A：,"> 
+    <meta name="author" content="Zero.D.Saber"> 
+    <link rel="alternative" href="atom.xml" title="Zero.D.Saber&#39;s Home" type="application/atom+xml"> 
+    <link rel="icon" href="/img/favicon.png"> 
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+    <link rel="stylesheet" href="/css/diaspora.css">
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <script>
+      (adsbygoogle = window.adsbygoogle || []).push({
+        google_ad_client: "ca-pub-8691406134231910",
+        enable_page_level_ads: true
+      });
+    </script>
+
+</head>
+
+<body class="loading">
+    <div id="loader"></div>
+    <div id="single">
+    <div id="top" style="display: block;">
+    <div class="bar" style="width: 0;"></div>
+    <a class="icon-home image-icon" href="javascript:;"></a>
+    <div title="播放/暂停" class="icon-play"></div>
+    <h3 class="subtitle">使用Gemfile对项目依赖的CocoaPods进行版本控制</h3>
+    <div class="social">
+        <!--<div class="like-icon">-->
+            <!--<a href="javascript:;" class="likeThis active"><span class="icon-like"></span><span class="count">76</span></a>-->
+        <!--</div>-->
+        <div>
+            <div class="share">
+                <a title="获取二维码" class="icon-scan" href="javascript:;"></a>
+            </div>
+            <div id="qr"></div>
+        </div>
+    </div>
+    <div class="scrollbar"></div>
+</div>
+    <div class="section">
+        <div class="article">
+    <div class='main'>
+        <h1 class="title">使用Gemfile对项目依赖的CocoaPods进行版本控制</h1>
+        <div class="stuff">
+            <span>八月 28, 2018</span>
+            
+
+        </div>
+        <div class="content markdown">
+            <h4 id="Q："><a href="#Q：" class="headerlink" title="Q："></a>Q：</h4><p>多人协同开发同一项目时，每个人电脑上的<code>CocoaPods</code> 版本可能不尽相同，这样当某人重新执行<code>pod install</code> 操作后，有可能导致其他人打开项目时报错。对于这种问题我们有解决办法吗？</p>
+<h4 id="A："><a href="#A：" class="headerlink" title="A："></a>A：</h4><p>有， <code>Gemfile</code>可以帮我们以非常简单的方式解决这个问题。</p>
+<hr>
+<h4 id="Gemfile-Usage"><a href="#Gemfile-Usage" class="headerlink" title="Gemfile Usage"></a>Gemfile Usage</h4><p>先贴一下官方文档 <a href="https://guides.cocoapods.org/using/a-gemfile.html" target="_blank" rel="noopener">Using a Gemfile</a> </p>
+<h5 id="大致用法："><a href="#大致用法：" class="headerlink" title="大致用法："></a>大致用法：</h5><ol>
+<li><p>进入到工程目录下，调用<code>bundle init</code>命令，会创建一个<code>Gemfile</code>文件，此操作类似于<code>pod init</code>;</p>
+</li>
+<li><p>编辑刚才创建的<code>Gemfile</code>文件，在里面添加<code>gem &quot;cocoapods&quot;, &#39;1.5.0&#39;</code>，这样就指定了<code>CocoaPods</code>的版本了；在国内建议修改<code>source</code>源为：<code>source &quot;https://gems.ruby-china.org&quot;</code>，否则更新会很慢。</p>
+</li>
+<li><p>最后执行<code>bundle exec pod update</code> 或者<code>bundle exec pod install</code>命令即可，这样就会使用<code>Gemfile</code>内的版本安装了，不受你电脑上的<code>cocoapods</code>版本影响，比如你电脑上是<code>1.5.0</code>版本的，也可以用<code>1.4.0</code>版本的<code>pod</code>安装；这里需要说明的一点是，如果你直接调用<code>pod install</code> 或者 <code>pod uodate</code>，则默认使用的还是你本机上的<code>cocoapods</code>版本。</p>
+</li>
+</ol>
+<p>为了方便使用，可以把以上命令封装到一个脚本中：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">!bin/sh</span></span><br><span class="line">rm -rf Podfile.lock</span><br><span class="line">rm -rf Pods</span><br><span class="line"></span><br><span class="line">bundle install</span><br><span class="line">bundle exec pod update --no-repo-update</span><br></pre></td></tr></table></figure>
+<p>以上脚本可以根据需要自行修改。</p>
+
+            <!--[if lt IE 9]><script>document.createElement('audio');</script><![endif]-->
+            <audio id="audio" loop="1" preload="auto" controls="controls" data-autoplay="false">
+                <source type="audio/mpeg" src="">
+            </audio>
+            
+                <ul id="audio-list" style="display:none">
+                    
+                        <li title='0' data-url='http://link.hhtjim.com/163/5146554.mp3'></li>
+                    
+                        <li title='1' data-url='http://link.hhtjim.com/qq/001faIUs4M2zna.mp3'></li>
+                    
+                </ul>
+            
+        </div>
+        
+    <div id='gitalk-container' class="comment link"
+        data-ae='true'
+        data-ci='763f906863260a462bc4'
+        data-cs='b09ecb713d7df4fdbd123fe84b9f71e077d50b95'
+        data-r='faimin.github.io'
+        data-o='faimin'
+        data-a='faimin'
+        data-d='false'
+    >查看评论</div>
+
+
+    </div>
+    
+        <div class='side'>
+            <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#Q："><span class="toc-number">1.</span> <span class="toc-text">Q：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#A："><span class="toc-number">2.</span> <span class="toc-text">A：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Gemfile-Usage"><span class="toc-number">3.</span> <span class="toc-text">Gemfile Usage</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#大致用法："><span class="toc-number">3.1.</span> <span class="toc-text">大致用法：</span></a></li></ol></li></ol>
+        </div>
+    
+</div>
+
+
+    </div>
+</div>
+</body>
+<script src="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+<script src="//lib.baomitu.com/jquery/1.8.3/jquery.min.js"></script>
+<script src="/js/plugin.js"></script>
+<script src="/js/diaspora.js"></script>
+<link rel="stylesheet" href="/photoswipe/photoswipe.css">
+<link rel="stylesheet" href="/photoswipe/default-skin/default-skin.css">
+<script src="/photoswipe/photoswipe.min.js"></script>
+<script src="/photoswipe/photoswipe-ui-default.min.js"></script>
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+            <div class="pswp__top-bar">
+                <!--  Controls are self-explanatory. Order can be changed. -->
+                <div class="pswp__counter"></div>
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+</html>

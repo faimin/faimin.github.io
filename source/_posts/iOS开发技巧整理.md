@@ -1,5 +1,5 @@
 ---
-title: iOS develop tips
+title: iOS开发技巧整理
 date: 2018-08-30 10:57:59
 tags: [iOS, Tips]
 cover: https://ooo.0o0.ooo/2017/01/12/5876ebd6266ac.png

@@ -2,7 +2,7 @@
 title: Promise源码简析
 date: 2018-08-30 11:33:35
 tags: [iOS, promise, 源码分析]
-cover: https://ooo.0o0.ooo/2017/01/12/5876ed68b3b77.gif
+cover: http://olmn3rwny.bkt.clouddn.com/20180830155318_FLoQyY_傲娇猫.jpeg
 ---
 
 > `Promise`思想的开源库其实有很多，这里仅简单分析下[Bolts](https://github.com/BoltsFramework/Bolts-ObjC)、[PromiseKit](https://github.com/mxcl/PromiseKit)、[promises](https://github.com/google/promises)

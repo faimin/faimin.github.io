@@ -262,7 +262,12 @@ BOOL isView = [targetView isDescendantOfView:superView];
 ```objectivec
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
-
+    
+    // 方案 1 (推荐)
+    BOOL dismissed = self.beingDismissed;
+    BOOL moveFromParentVC = self.movingFromParentViewController;
+    
+    // 方案 2
     BOOL isContains = [self.navigationController.childViewControllers containsObject:self];
     if (isContains) {
         NSLog(@"控制器只是单纯的disappear，比如pushToVC");
@@ -271,6 +276,9 @@ BOOL isView = [targetView isDescendantOfView:superView];
     }
 }
 ```
+
+> 方案1 参考自：[知识小集 - 被大家忽略的UIViewController两对API](https://github.com/awesome-tips/iOS-Tips/blob/master/2018/05.md#%E8%A2%AB%E5%A4%A7%E5%AE%B6%E5%BF%BD%E7%95%A5%E7%9A%84uiviewcontroller%E4%B8%A4%E5%AF%B9api)
+
 
 ### 判断当前viewController是push进来的还是present进来的
 

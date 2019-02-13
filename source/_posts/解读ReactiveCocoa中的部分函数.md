@@ -2,7 +2,7 @@
 title: 解读ReactiveCocoa中的部分函数
 date: 2018-08-13 23:11:19
 tags: [ReactiveCocoa, RAC, 源码分析]
-cover: http://olmn3rwny.bkt.clouddn.com/20180828192739_P8nFcP_三千院凪.jpeg
+cover: https://wx4.sinaimg.cn/large/62b0fc09ly1fyy0sqqy9nj21hc0xc16g.jpg
 ---
 
 #### 一、bind、flattenMap和map
@@ -11,14 +11,16 @@ cover: http://olmn3rwny.bkt.clouddn.com/20180828192739_P8nFcP_三千院凪.jpeg
 > 
 > 1. Hot Observable是主动的，尽管你并没有订阅事件，但是它会时刻推送，就像鼠标移动；而Cold Observable是被动的，只有当你订阅的时候，它才会发布消息。
 >    
->  2. Hot Observable可以有多个订阅者，是一对多，集合可以与订阅者共享信息；而Cold Observable只能一对一，当有不同的订阅者，消息是重新完整发送。
->  3. 冷信号可以理解为`点播`，每次订阅都从头开始；热信号可以理解为`直播`，订阅时从当前的状态开始；
+>    > 2. Hot Observable可以有多个订阅者，是一对多，集合可以与订阅者共享信息；而Cold Observable只能一对一，当有不同的订阅者，消息是重新完整发送。
+>    >    
+>    >    > > 3. 冷信号可以理解为`点播`，每次订阅都从头开始；热信号可以理解为`直播`，订阅时从当前的状态开始；
 
 ---
 
 > * `map`和`flatten`是基于`flattenMap`,而`flattenMap`是基于`bind:`,所以在此之前先来看看`bind`函数。
- 
+
 ##### 1. bind:
+
 * 具体来看源码（为方便理解，去掉了源代码中`RACDisposable`, `@synchronized`, `@autoreleasepool`相关代码)。当新信号`N`被外部订阅时，会进入信号`N`的`didSubscribeBlock` (1)，之后订阅原信号`O` (2)，当原信号`O`有值输出后就用`bind`函数传入的`bindBlock`将其变换成中间信号`M` (3), 并马上对其进行订阅(4)，最后将中间信号`M`的输出作为新信号`N`的输出 (5)。即：当新生成的信号被订阅时，源信号也会立即被订阅。
 
 ```objectivec
@@ -52,6 +54,7 @@ cover: http://olmn3rwny.bkt.clouddn.com/20180828192739_P8nFcP_三千院凪.jpeg
 ```
 
 ##### 2. flattenMap:
+
 `flattenMap`其实就是对`bind:`方法进行了一些安全检查，它最终返回的是`bindBlock`执行后生成的那个中间`signal`又被订阅后传递出的值的信号，而`map`方法返回的是`bindBlock`的执行结果生成的那个信号，没有再加工处理（即被订阅，再发送值）
 
 ```objectivec
@@ -84,6 +87,7 @@ cover: http://olmn3rwny.bkt.clouddn.com/20180828192739_P8nFcP_三千院凪.jpeg
 ```
 
 ##### 3. map:
+
 `map`: 下面是`map`方法的源码，可以看出，`map`只是对`flattenMap`传出的`vaue`（即原信号传出的值）进行了`mapBlock`操作，并没有再进行订阅操作，即并不像`bind：`一样再次对原信号进行`bindBlock`后生成的中间信号进行订阅。
 
 ```objectivec
@@ -99,6 +103,7 @@ cover: http://olmn3rwny.bkt.clouddn.com/20180828192739_P8nFcP_三千院凪.jpeg
 ```
 
 ##### 4. flatten:
+
 `flatten`: 该操作主要作用于信号的信号。原信号`O`作为信号的信号，在被订阅时输出的数据必然也是个信号`(signalValue)`，这往往不是我们想要的。当我们执行`[O flatten]`操作时，因为`flatten`内部调用了`flattenMap` (1)，`flattenMap`里对应的中间信号就是原信号`O`输出的`signalValue` (2)。按照之前分析的经验，在`flattenMap`操作中新信号`N`输出的结果就是各中间信号`M`输出的集合。因此在`flatten`操作中新信号`N`被订阅时输出的值就是原信号`O`的各个子信号输出值的集合。
 
 ```objectivec
@@ -112,6 +117,7 @@ cover: http://olmn3rwny.bkt.clouddn.com/20180828192739_P8nFcP_三千院凪.jpeg
 ```
 
 ##### 5. **小结：**
+
 以前一直不理解`flatten`与`map`之间的区别，然后经过不断在源码中打断点，一步步跟代码，终于是明白了：
 `flatten`和`map`后面的block返回结果其实最终都会变为`bind:`方法中的中间信号，但是`flatten:`的`block`是直接把原信号发出的值返回来作为中间信号的，所以中间信号被订阅，其实就是原信号发出的值又被订阅，这也就是`flatten:`能拿到信号中的信号中的值的原因。
 而`map:`后面的block是把原信号发出的值加工处理了的，又生成了一个新的信号，即`map:`方法`block`返回的中间信号已经不是原来的信号中的信号了，而是把原信号发出的值作为它的包含值的一个新的信号，它被订阅时，发送的是原信号发出的那个值，这就是`map`拿不到原信号中的信号的原因。
@@ -120,6 +126,7 @@ cover: http://olmn3rwny.bkt.clouddn.com/20180828192739_P8nFcP_三千院凪.jpeg
 ---
 
 #### 二、multicast:
+
 简单分析一下 `- (RACMulticastConnection *)multicast:(RACSubject *)subject;`方法：
 
 * 1、当 `RACSignal` 类的实例调用 `- (RACMulticastConnection *)multicast:(RACSubject *)subject` 时，以 `self` 和 `subject` 作为构造参数创建一个 `RACMulticastConnection` 实例。
@@ -250,7 +257,9 @@ cover: http://olmn3rwny.bkt.clouddn.com/20180828192739_P8nFcP_三千院凪.jpeg
 ```
 
 #### 四、其他：
+
 说说几个函数
+
 ```objectivec
 // 以下是对`allowsConcurrentExecution`属性的处理方法，利用了属性的原子性，防止资源竞争，值得学习
 @property (atomic, assign) BOOL allowsConcurrentExecution;
@@ -336,6 +345,7 @@ cover: http://olmn3rwny.bkt.clouddn.com/20180828192739_P8nFcP_三千院凪.jpeg
 > ![Concat](http://img0.tuicool.com/faIv6bu.png)
 
 ##### 附2：`ReactiveCocoa`和`RxSwift` API图
+
 > 引用自[FRPCheatSheeta](https://github.com/aiqiuqiu/FRPCheatSheeta)
 
 **1. ReactiveCocoa-ObjC**
@@ -348,6 +358,7 @@ cover: http://olmn3rwny.bkt.clouddn.com/20180828192739_P8nFcP_三千院凪.jpeg
 ![RXSwift.png](http://ww2.sinaimg.cn/large/006tNbRwjw1f69u2fugtjj317k1n1tis.jpg)
 
 #### 参考:
+
 + [RAC核心元素与信号流](http://www.jianshu.com/p/d262f2c55fbe) 
 + [细说ReactiveCocoa的冷信号与热信号（三）：怎么处理冷信号与热信号](http://tech.meituan.com/talk-about-reactivecocoas-cold-signal-and-hot-signal-part-3.html) 
 + [Halfrost's Field分析ReactiveCocoa的系列文章](http://www.tuicool.com/sites/NRbMbqa)

@@ -2,12 +2,13 @@
 title: Promise源码简析
 date: 2018-08-30 11:33:35
 tags: [iOS, promise, 源码分析]
-cover: http://olmn3rwny.bkt.clouddn.com/20180830155318_FLoQyY_傲娇猫.jpeg
+cover: https://i.loli.net/2019/01/07/5c32f7efa559b.jpg
 ---
 
 > `Promise`思想的开源库其实有很多，这里仅简单分析下[Bolts](https://github.com/BoltsFramework/Bolts-ObjC)、[PromiseKit](https://github.com/mxcl/PromiseKit)、[promises](https://github.com/google/promises)
 
 ### 一、 [Bolts](https://github.com/BoltsFramework/Bolts-ObjC):
+
 > `Facebook`出品
 
 `BFTask`原理：
@@ -22,8 +23,8 @@ cover: http://olmn3rwny.bkt.clouddn.com/20180830155318_FLoQyY_傲娇猫.jpeg
 - (BFTask *)continueWithExecutor:(BFExecutor *)executor
                            block:(BFContinuationBlock)block
                cancellationToken:(nullable BFCancellationToken *)cancellationToken {
-	 // 创建一个新的`BFTaskCompletionSource`，创建它时，它里面会`new`一个`task`对象，最后`return`的也是这个`task`
-	 // 这个不是单例方法，所以此处创建的`task`是一个新对象
+     // 创建一个新的`BFTaskCompletionSource`，创建它时，它里面会`new`一个`task`对象，最后`return`的也是这个`task`
+     // 这个不是单例方法，所以此处创建的`task`是一个新对象
     BFTaskCompletionSource *tcs = [BFTaskCompletionSource taskCompletionSource]; // (1)
 
     // 创建一个任务`block`，后面会把执行这个`block`的操作加入到数组中，当回调时会执行这个`block`里面的操作
@@ -33,8 +34,8 @@ cover: http://olmn3rwny.bkt.clouddn.com/20180830155318_FLoQyY_傲娇猫.jpeg
             [tcs cancel];
             return;
         }
-		  
-		   // 把当前类（`task`对象）作为参数进行回调               //(N.1)
+
+           // 把当前类（`task`对象）作为参数进行回调               //(N.1)
         id result = nil;
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
@@ -52,9 +53,9 @@ cover: http://olmn3rwny.bkt.clouddn.com/20180830155318_FLoQyY_傲娇猫.jpeg
             result = block(self);                          
         }
 #pragma clang diagnostic pop
-			// 如果回调结果返回的是`BFTask`类型
+            // 如果回调结果返回的是`BFTask`类型
         if ([result isKindOfClass:[BFTask class]]) {
-				 // 下面`block`中的`task`就是上面的`result`
+                 // 下面`block`中的`task`就是上面的`result`
             id (^setupWithTask) (BFTask *) = ^id(BFTask *task) {     //(N.3)
                 if (cancellationToken.cancellationRequested || task.cancelled) {
                     [tcs cancel];
@@ -72,7 +73,7 @@ cover: http://olmn3rwny.bkt.clouddn.com/20180830155318_FLoQyY_傲娇猫.jpeg
             };
 
             BFTask *resultTask = (BFTask *)result;
-				 /// 如果`continueWithBlock:`中的`block`回调返回的`task`是`complete`状态，则直接到 (N.3)，把任务的结果传递到上面新创建的那个`BFTask`对象的`result`属性中,否则就继续执行`continueWithBlock:`来监测任务状态
+                 /// 如果`continueWithBlock:`中的`block`回调返回的`task`是`complete`状态，则直接到 (N.3)，把任务的结果传递到上面新创建的那个`BFTask`对象的`result`属性中,否则就继续执行`continueWithBlock:`来监测任务状态
             if (resultTask.completed) {
                 setupWithTask(resultTask);                      //(N.2)
             } else {
@@ -82,13 +83,13 @@ cover: http://olmn3rwny.bkt.clouddn.com/20180830155318_FLoQyY_傲娇猫.jpeg
             tcs.result = result;
         }
     };
-	
-	  // 如果是未完成状态，则把操作加入到数组中，延后执行；否则就立即执行
+
+      // 如果是未完成状态，则把操作加入到数组中，延后执行；否则就立即执行
     BOOL completed;
-    @synchronized(self.lock) {	                        //(2.0)
+    @synchronized(self.lock) {                            //(2.0)
         completed = self.completed;
         if (!completed) {
-        		// 把任务添加到数组中
+                // 把任务添加到数组中
             [self.callbacks addObject:[^{
                 [executor execute:executionBlock];
             } copy]];
@@ -104,8 +105,8 @@ cover: http://olmn3rwny.bkt.clouddn.com/20180830155318_FLoQyY_傲娇猫.jpeg
 
 ![](http://olmn3rwny.bkt.clouddn.com/20180830114906_3C04kM_continueWithBlock.jpeg)
 
-
 ### 二、 [PromiseKit](https://github.com/mxcl/PromiseKit):
+
 1. 首先，让我们看看创建`Promise`的源码
 
 ```objc
@@ -167,7 +168,7 @@ static void PMKResolve(PMKPromise *this, id result) {
         PMKPromise *next = result;
         dispatch_barrier_sync(next->_promiseQueue, ^{
             id nextResult = next->_result;
-            
+
             if (nextResult == nil) {  // ie. pending
                 [next->_handlers addObject:^(id o){
                     PMKResolve(this, o);
@@ -179,9 +180,11 @@ static void PMKResolve(PMKPromise *this, id result) {
         set(result); // (8) 
 }
 ```
+
 调用`new:`方法时会调用`promiseWithResolver:`方法，在里面进行一些初始化`promise`的工作：创建了一个`GCD`并发队列和一个数组，并立即回调`new:`后面的那个参数`block`，即：立即执行，生成一个成功`fulfiller`和失败`rejecter`的`block`，这个`block`将由用户控制回调操作的时机。
 
-----
+---
+
 2. 下面看一下`then`的实现：
 
 ```objc
@@ -229,7 +232,7 @@ static void PMKResolve(PMKPromise *this, id result) {
 {
     __block PMKResolveOnQueueBlock callBlock;
     __block id result;
-    
+
     dispatch_sync(_promiseQueue, ^{
         if ((result = _result)) // 有结果的情况下直接返回
             return;
@@ -254,7 +257,7 @@ static void PMKResolve(PMKPromise *this, id result) {
                     mkpendingCallback(value, next, q, block, resolver); // (10)
                 }];
             });
-            
+
             // next can still be `nil` if the promise was resolved after
             // 1) `-thenOn` read it and decided which block to return; and
             // 2) the call to the block.
@@ -272,11 +275,13 @@ static void PMKResolve(PMKPromise *this, id result) {
 这个函数里面的`dispatch_barrier_sync`这个方法，就是`promise`后面可以链式调用`then`的原因，因为这个`GCD`函数保证了后面的`then`顺序执行。
 
 ### 三、 [Promises](https://github.com/google/promises)
+
 > `google`出品
 
 原理： 这个开源库的思路其实与`BFTask`很相似，每次`promise`执行then方法时都会创建一个新的`promise`对象，同时会创建一个观察者（`block`对象），这个观察者会持有这个新的`promise`，当（旧）`promise`对象`fulfilled`或者`rejected`的时候，会把`fulfilled`或者`rejected`拿到的`value`给新`promise`。
 
 先看下promise的初始化方法:
+
 ```objc
 - (instancetype)initPending {
   self = [super init];
@@ -286,9 +291,11 @@ static void PMKResolve(PMKPromise *this, id result) {
   return self;
 }
 ```
+
 首先进入一个单例`dispatch_group_t`中，为啥用`dispatch_group_t`呢？因为后面的`then`方法可以在其他队列处理，而且`dispatch_group_t`有同步队列的功能，后面作者每次初始化一个`promise`都会`enter`到`dispatch_group_t`中，`fulfilled`或者`rejected`时再`leave`。
 
 接下来看看最重要同时也是精华所在的`then`方法：
+
 ```objc
 - (instancetype)initPending {     // (0)
     self = [super init];
@@ -307,7 +314,7 @@ static void PMKResolve(PMKPromise *this, id result) {
                chainedReject:(FBLPromiseChainedRejectBlock)chainedReject {
     // 首先new一个新的promise对象
     FBLPromise *newPromise = [[FBLPromise alloc] initPending];               // (2)
-    
+
     // 这个block其实就是抽离的一个方法，避免写重复代码。
     // 当promise被fulfilled或者rejected时都会调用；
     // 结合下面方法block中的实现可以看出，如果thenBlock（chainedFulfill）存在，则先执行chainedFulfill这个block（其实就是map一下这个value值）重新生成一个value值（value值也可能不会变化，主要还得看map函数里有没有改变value）；接下来把这个重新赋值的value扔给resolverBlock，resolverBlock会把这个新的value给newPromise，newPromise会调用fulfilled方法，如果此时newPromise也有订阅者(被then过)，则就会把这个新value传递给下一个newNewPromise ...
@@ -431,4 +438,5 @@ static void PMKResolve(PMKPromise *this, id result) {
 主要的执行步骤已经在上面做了标注，作者的思路很鲜明，推荐同学们抽时间去学习一下这个库，必定会收获良多！
 
 ### 参考：
+
 - [iOS如何优雅的处理“回调地狱Callback hell”(一)——使用PromiseKit](https://www.jianshu.com/p/f060cfd52f17)

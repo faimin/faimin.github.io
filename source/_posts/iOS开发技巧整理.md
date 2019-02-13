@@ -2,10 +2,11 @@
 title: iOS开发技巧整理
 date: 2018-08-30 10:57:59
 tags: [iOS, Tips]
-cover: http://olmn3rwny.bkt.clouddn.com/20180901234620_8bndiq_IMG_0673.jpeg
+cover: https://wx1.sinaimg.cn/large/62b0fc09ly1fyy11b76spj23qs2o14qy.jpg
 ---
 
 ### 判断当前所在队列是否是目标队列
+
 > 三种方案，推荐前2种
 
 ```objc
@@ -24,7 +25,7 @@ BOOL ZD_InTargetQueue(dispatch_queue_t targetQueue) {
 BOOL ZD_IsMainQueue(void) {
     static const void *mainQueueKey = &mainQueueKey;
     static void *mainQueueContext = &mainQueueContext;
-    
+
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         dispatch_queue_set_specific(dispatch_get_main_queue(), mainQueueKey, mainQueueContext, (dispatch_function_t)CFRelease);
@@ -40,7 +41,6 @@ BOOL ZD_IsMainQueue(void) {
     BOOL isMainQueue = !strcmp(dispatch_queue_get_label(mainQueue), @"com.apple.main-thread".UTF8String);
     return isMainQueue;
 }
-
 ```
 
 ### UITableView plain样式下，让section跟随滑动
@@ -262,11 +262,11 @@ BOOL isView = [targetView isDescendantOfView:superView];
 ```objectivec
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
-    
+
     // 方案 1 (推荐)
     BOOL dismissed = self.beingDismissed;
     BOOL moveFromParentVC = self.movingFromParentViewController;
-    
+
     // 方案 2
     BOOL isContains = [self.navigationController.childViewControllers containsObject:self];
     if (isContains) {
@@ -278,7 +278,6 @@ BOOL isView = [targetView isDescendantOfView:superView];
 ```
 
 > 方案1 参考自：[知识小集 - 被大家忽略的UIViewController两对API](https://github.com/awesome-tips/iOS-Tips/blob/master/2018/05.md#%E8%A2%AB%E5%A4%A7%E5%AE%B6%E5%BF%BD%E7%95%A5%E7%9A%84uiviewcontroller%E4%B8%A4%E5%AF%B9api)
-
 
 ### 判断当前viewController是push进来的还是present进来的
 

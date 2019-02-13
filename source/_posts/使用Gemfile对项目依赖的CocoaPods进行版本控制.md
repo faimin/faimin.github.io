@@ -2,7 +2,7 @@
 title: 使用Gemfile对项目依赖的CocoaPods进行版本控制
 date: 2018-08-28 16:38:23
 tags: [cocoapods]
-cover: http://olmn3rwny.bkt.clouddn.com/20180828200007_1VKwSQ_QQ20151108-0@2x.jpeg
+cover: https://wx4.sinaimg.cn/large/62b0fc09ly1fyy0ubbv9hj21co0yshdt.jpg
 ---
 
 #### Q：

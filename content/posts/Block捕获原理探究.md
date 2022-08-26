@@ -10,27 +10,11 @@ description: "探索block变量捕获的原理"
 tags: ["ios", "block"]
 categories: ["实现原理"]
 
-license: "MIT"
 images: []
 featuredImage: "/images/block/limulu.jpg"
 featuredImagePreview: "/images/block/limulu.jpg"
 
 lightgallery: true
-hiddenFromHomePage: false
-hiddenFromSearch: false
-twemoji: false
-lightgallery: true
-ruby: true
-fraction: true
-fontawesome: true
-linkToMarkdown: true
-rssFullText: false
-
-toc:
-  enable: true
-  auto: true
-math:
-  enable: true
 
 ---
 
@@ -41,7 +25,8 @@ math:
 
 在此之前先介绍一下**block 基本语法**：
 
-<img src="/images/block/BlockSyntax.png" alt="BlockSyntax" style="zoom:50%;"/>
+![](/images/block/BlockSyntax.png "BlockSyntax")
+
 
 </br>
 
@@ -326,7 +311,7 @@ static struct Block_byref *_Block_byref_copy(const void *arg) {
 
 虽然`NSMutableArray`前面加不加`__block`，都不会影响往数组中添加数据，但是当在`block`中给`mutArr`重新赋值的时候就有区别了。
 
-![blockTest1.png](/images/block/blockTest1.png)
+![](/images/block/blockTest1.png "blockTest")
 
 如果你想对`mutArr`变量重新赋值一个新的`array`实例，改变原变量的指针，那么不加`_block`是不行的，因为`block`捕获的是对象的地址，重新赋值，指针的指向就变了。但是如果只是单纯的`add`一个数据进去实际上改变的是变量所指的那个`mutArr`内存区域，指针指向并没有发生变化，还是原来那个对象，这样是没有区别的。
 

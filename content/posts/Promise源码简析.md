@@ -12,24 +12,6 @@ categories: ["实现原理"]
 images: []
 featuredImage: "/images/promise/SpiritedAway.jpg"
 featuredImagePreview: "/images/promise/SpiritedAway.jpg"
-
-license: "MIT"
-lightgallery: true
-hiddenFromHomePage: false
-hiddenFromSearch: false
-twemoji: false
-lightgallery: true
-ruby: true
-fraction: true
-fontawesome: true
-linkToMarkdown: true
-rssFullText: false
-
-toc:
-  enable: true
-  auto: true
-math:
-  enable: true
 ---
 
 简析几个 `Promise` 开源库的实现

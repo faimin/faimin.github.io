@@ -1,4 +1,5 @@
 baseURL = "https://faimin.github.io"
+publishdir = "docs"
 
 # theme
 # 主题
@@ -969,4 +970,6 @@ ignoreErrors = ["error-remote-getjson", "error-missing-instagram-accesstoken"]
         RSS = true
 
 
-publishDir = "docs"
+
+
+

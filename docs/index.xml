@@ -14,7 +14,7 @@
     <guid>https://faimin.github.io/block%E6%8D%95%E8%8E%B7%E5%8E%9F%E7%90%86%E6%8E%A2%E7%A9%B6/</guid>
     <description><![CDATA[<div class="featured-image">
                 <img src="/images/block/limulu.jpg" referrerpolicy="no-referrer">
-            </div><p>探索<code>block</code>捕获外界变量原理</p>]]></description>
+            </div><p>探索<code>block</code>捕获外界变量的原理</p>]]></description>
 </item>
 <item>
     <title>Promise源码简析</title>

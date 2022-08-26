@@ -1,4 +1,5 @@
 baseURL = "https://faimin.github.io"
+publishdir = "docs"
 
 # theme
 # 主题
@@ -967,3 +968,8 @@ ignoreErrors = ["error-remote-getjson", "error-missing-instagram-accesstoken"]
         Email = "fuxianchao2009@163.com"
         #Phone = "555-555-555"
         RSS = true
+
+
+
+
+

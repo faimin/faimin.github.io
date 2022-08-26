@@ -1,4 +1,4 @@
-baseURL = "https://faimin.github.io"
+baseURL = "https://faimin.github.io/"
 publishdir = "docs"
 
 # theme

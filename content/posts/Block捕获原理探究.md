@@ -2,7 +2,7 @@
 weight: 1
 title: "Block捕获原理探究"
 date: 2018-08-17T12:10:41+08:00
-lastmod: 
+lastmod: 2022-08-26T23:27:25+08:00
 draft: false
 author: "Zero.D.Saber"
 authorLink: "https://github.com/faimin"
@@ -34,7 +34,7 @@ math:
 
 ---
 
-探索`block`捕获外界变量原理
+探索`block`捕获外界变量的原理
 
 <!--more-->
 
@@ -48,7 +48,7 @@ math:
 <details open>
 <summary>Block Syntax</summary>
 
-```objc
+```cpp
 // Block as a local variable
 returnType (^blockName)(parameterTypes) = ^returnType(parameters) {...};
 
@@ -70,9 +70,9 @@ TypeName blockName = ^returnType(parameters) {...};
 
 对`Object-C`文件执行 `xcrun -sdk iphonesimulator clang -fobjc-arc -fobjc-runtime=ios -rewrite-objc fileName.m` 操作来获取伪代码，仅供技术探究。
 
-先把`__block_impl`结构体拿出来放在最前面，最终block调用时都会被强转成这种类型，下面好多地方会用到。
+先把`__block_impl`结构体拿出来放在最前面，最终`block`调用时都会被强转成这种类型，下面好多地方会用到。
 
-```C++
+```cpp
 struct __block_impl {
   void *isa;        
   int Flags;
@@ -89,11 +89,11 @@ struct __block_impl {
 
 接下来进入正题：
 
-> p.s：以下`Objective-C`的代码都处在ARC环境下
+> p.s：以下`Objective-C`的代码都处在`ARC`环境下
 
 ## 1、不加__block的情况:
 
-```objc
+```cpp
 #import <Foundation/Foundation.h>
 
 int main(int argc, char *argv[]) {
@@ -114,7 +114,7 @@ int main(int argc, char *argv[]) {
 
 执行`clang`操作后的`C++`代码:
 
-```C++
+```cpp
 // 定义block的结构体
 struct __main_block_impl_0 {
   struct __block_impl impl;
@@ -173,7 +173,7 @@ static struct IMAGE_INFO { unsigned version; unsigned flag; } _OBJC_IMAGE_INFO =
 
 ## 2、添加__block的情况:
 
-```objc
+```cpp
 #import <Foundation/Foundation.h>
 
 int main(int argc, char *argv[]) {
@@ -196,7 +196,7 @@ int main(int argc, char *argv[]) {
 
 执行`clang`后的`C++`代码:
 
-```C++
+```cpp
 // 由下面的代码可知: `__block`的作用就是定义一个新的结构体来包裹原来的变量
 // 定义一个保存变量的结构体 （被__block标记的变量会被转化为这种格式的结构体对象）
 struct __Block_byref_mutArr_0 {
@@ -325,12 +325,14 @@ static struct Block_byref *_Block_byref_copy(const void *arg) {
 ```
 
 虽然`NSMutableArray`前面加不加`__block`，都不会影响往数组中添加数据，但是当在`block`中给`mutArr`重新赋值的时候就有区别了。
+
 ![blockTest1.png](/images/block/blockTest1.png)
-如果你想对`mutArr`变量重新赋值一个新的`array`实例，改变原变量的指针，那么不加`_block`是不行的，但是如果只是单纯的`add`一个数据进去实际上改变的是变量所指的那个`mutArr`内存区域，这样是没有区别的。
+
+如果你想对`mutArr`变量重新赋值一个新的`array`实例，改变原变量的指针，那么不加`_block`是不行的，因为`block`捕获的是对象的地址，重新赋值，指针的指向就变了。但是如果只是单纯的`add`一个数据进去实际上改变的是变量所指的那个`mutArr`内存区域，指针指向并没有发生变化，还是原来那个对象，这样是没有区别的。
 
 ## 3、静态变量:
 
-```objc
+```cpp
 #import <Foundation/Foundation.h>
 
 int main(int argc, char *argv[]) {
@@ -358,7 +360,7 @@ int main(int argc, char *argv[]) {
 
 `clang`之后的`C++`代码：
 
-```C++
+```cpp
 struct __main_block_impl_0 {
   struct __block_impl impl;
   struct __main_block_desc_0* Desc;
@@ -421,7 +423,7 @@ static struct IMAGE_INFO { unsigned version; unsigned flag; } _OBJC_IMAGE_INFO =
 
 ## 4、全局变量:
 
-```objc
+```cpp
 #import <Foundation/Foundation.h>
 
 NSString *myString = @"111";
@@ -448,7 +450,7 @@ int main(int argc, char *argv[]) {
 
 `clang`操作执行之后的`C++`伪代码:
 
-```C++
+```cpp
 NSString *myString = (NSString *)&__NSConstantStringImpl__var_folders_4t_ldgq93v932g220vwkl7c1fk40000gn_T_BlockTest_938f32_mi_0;
 
 // block结构体并没有捕获全局变量

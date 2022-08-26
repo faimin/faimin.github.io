@@ -32,3 +32,9 @@ math:
   enable: true
 ---
 
+xxxx 摘要
+
+<!--more-->
+
+
+xxxx 文章

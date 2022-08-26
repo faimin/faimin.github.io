@@ -1,0 +1,999 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title>Promise源码简析 - Zero.D.Saber</title><meta name="Description" content="Hugo theme - LoveIt"><meta property="og:title" content="Promise源码简析" />
+<meta property="og:description" content="简析几个 Promise 开源库的实现" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://faimin.github.io/promise%E6%BA%90%E7%A0%81%E7%AE%80%E6%9E%90/" /><meta property="og:image" content="https://faimin.github.io/logo/avatar.gif"/><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2019-02-13T20:55:36+08:00" />
+<meta property="article:modified_time" content="2019-02-13T20:55:36+08:00" /><meta property="og:site_name" content="Zero.D.Saber的小屋" />
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://faimin.github.io/logo/avatar.gif"/>
+
+<meta name="twitter:title" content="Promise源码简析"/>
+<meta name="twitter:description" content="简析几个 Promise 开源库的实现"/>
+<meta name="application-name" content="LoveIt">
+<meta name="apple-mobile-web-app-title" content="LoveIt"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://faimin.github.io/promise%E6%BA%90%E7%A0%81%E7%AE%80%E6%9E%90/" /><link rel="next" href="https://faimin.github.io/block%E6%8D%95%E8%8E%B7%E5%8E%9F%E7%90%86%E6%8E%A2%E7%A9%B6/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css"></noscript><link rel="preload" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css"></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "Promise源码简析",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/faimin.github.io\/promise%E6%BA%90%E7%A0%81%E7%AE%80%E6%9E%90\/"
+        },"image": ["https:\/\/faimin.github.io\/images\/Apple-Devices-Preview.png"],"genre": "posts","keywords": "ios, Promise","wordcount":  4781 ,
+        "url": "https:\/\/faimin.github.io\/promise%E6%BA%90%E7%A0%81%E7%AE%80%E6%9E%90\/","datePublished": "2019-02-13T20:55:36+08:00","dateModified": "2019-02-13T20:55:36+08:00","license": "This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher": {
+            "@type": "Organization",
+            "name": "Zero.D.Saber","logo": "https:\/\/faimin.github.io\/images\/avatar.png"},"author": {
+                "@type": "Person",
+                "name": "Zero.D.Saber"
+            },"description": ""
+    }
+    </script></head>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="Zero.D.Saber">Zero.D.Saber&#39;s Notes</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> 所有文章 </a><a class="menu-item" href="/tags/"> 标签 </a><a class="menu-item" href="/categories/"> 分类 </a><a class="menu-item" href="/categories/documentation/"> 文档 </a><a class="menu-item" href="/about/whoami"> 关于 </a><a class="menu-item" href="https://github.com/faimin" title="GitHub" rel="noopener noreffer" target="_blank"><i class='fab fa-github fa-fw' aria-hidden='true'></i>  </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-desktop">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+                            <i class="fas fa-search fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+                            <i class="fas fa-times-circle fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-desktop">
+                            <i class="fas fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+                        </span>
+                    </span><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+                </a><a href="javascript:void(0);" class="menu-item language" title="选择语言">
+                    <i class="fa fa-globe" aria-hidden="true"></i>                      
+                    <select class="language-select" id="language-select-desktop" onchange="location = this.value;"><option value="/promise%E6%BA%90%E7%A0%81%E7%AE%80%E6%9E%90/" selected>简体中文</option></select>
+                </a></div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="Zero.D.Saber">Zero.D.Saber&#39;s Notes</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                    <div class="search mobile" id="search-mobile">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-mobile">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                            <i class="fas fa-search fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                            <i class="fas fa-times-circle fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-mobile">
+                            <i class="fas fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+                        </span>
+                    </div>
+                    <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+                        取消
+                    </a>
+                </div><a class="menu-item" href="/posts/" title="">所有文章</a><a class="menu-item" href="/tags/" title="">标签</a><a class="menu-item" href="/categories/" title="">分类</a><a class="menu-item" href="/categories/documentation/" title="">文档</a><a class="menu-item" href="/about/whoami" title="">关于</a><a class="menu-item" href="https://github.com/faimin" title="GitHub" rel="noopener noreffer" target="_blank"><i class='fab fa-github fa-fw' aria-hidden='true'></i></a><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+            </a><a href="javascript:void(0);" class="menu-item" title="选择语言">
+                    <i class="fa fa-globe fa-fw" aria-hidden="true"></i>
+                    <select class="language-select" onchange="location = this.value;"><option value="/promise%E6%BA%90%E7%A0%81%E7%AE%80%E6%9E%90/" selected>简体中文</option></select>
+                </a></div>
+    </div>
+</header><div class="search-dropdown desktop">
+        <div id="search-dropdown-desktop"></div>
+    </div>
+    <div class="search-dropdown mobile">
+        <div id="search-dropdown-mobile"></div>
+    </div><main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">目录</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">Promise源码简析</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="https://github.com/faimin" title="Author" target="_blank" rel="noopener noreffer author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Zero.D.Saber</a></span>&nbsp;<span class="post-category">收录于 <a href="/categories/%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>实现原理</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2019-02-13">2019-02-13</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;约 4781 字&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;预计阅读 10 分钟&nbsp;<span id="/promise%E6%BA%90%E7%A0%81%E7%AE%80%E6%9E%90/" class="leancloud_visitors" data-flag-title="Promise源码简析">
+                        <i class="far fa-eye fa-fw" aria-hidden="true"></i>&nbsp;<span class=leancloud-visitors-count></span>&nbsp;次阅读
+                    </span>&nbsp;</div>
+        </div><div class="featured-image"><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="/images/promise/SpiritedAway.jpg"
+        data-srcset="/images/promise/SpiritedAway.jpg, /images/promise/SpiritedAway.jpg 1.5x, /images/promise/SpiritedAway.jpg 2x"
+        data-sizes="auto"
+        alt="/images/promise/SpiritedAway.jpg"
+        title="/images/promise/SpiritedAway.jpg" /></div><div class="details toc" id="toc-static"  data-kept="">
+                <div class="details-summary toc-title">
+                    <span>目录</span>
+                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#一-boltshttpsgithubcomboltsframeworkbolts-objc">一、 <a href="https://github.com/BoltsFramework/Bolts-ObjC">Bolts</a></a></li>
+    <li><a href="#二-promisekithttpsgithubcommxclpromisekit">二、 <a href="https://github.com/mxcl/PromiseKit">PromiseKit</a></a></li>
+    <li><a href="#三-promiseshttpsgithubcomgooglepromises">三、 <a href="https://github.com/google/promises">Promises</a></a></li>
+    <li><a href="#参考">参考：</a></li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><p>简析几个 <code>Promise</code> 开源库的实现</p>
+<blockquote>
+<p><code>Promise</code>思想的开源库其实有很多，这里仅简单分析下<a href="https://github.com/BoltsFramework/Bolts-ObjC" target="_blank" rel="noopener noreffer ">Bolts</a>、<a href="https://github.com/mxcl/PromiseKit" target="_blank" rel="noopener noreffer ">PromiseKit</a>、<a href="https://github.com/google/promises" target="_blank" rel="noopener noreffer ">promises</a></p>
+</blockquote>
+<h2 id="一-boltshttpsgithubcomboltsframeworkbolts-objc">一、 <a href="https://github.com/BoltsFramework/Bolts-ObjC" target="_blank" rel="noopener noreffer ">Bolts</a></h2>
+<blockquote>
+<p><code>Facebook</code>出品</p>
+</blockquote>
+<p><code>BFTask</code>原理：
+每个<code>BFTask</code>自己都维护着一个任务数组，当task执行<code>continueWithBlock:</code>后（会生成一个新的<code>BFTask</code>），<code>continueWithBlock:</code>带的那个<code>block</code>会被加入到任务数组中，每当有结果返回时，会执行<code>trySetResult:</code>方法，这个方法中会拿到<code>task</code>它自己维护的那个任务数组，然后取出其中的所有任务<code>block</code>，然后遍历执行。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span><span class="lnt">55
+</span><span class="lnt">56
+</span><span class="lnt">57
+</span><span class="lnt">58
+</span><span class="lnt">59
+</span><span class="lnt">60
+</span><span class="lnt">61
+</span><span class="lnt">62
+</span><span class="lnt">63
+</span><span class="lnt">64
+</span><span class="lnt">65
+</span><span class="lnt">66
+</span><span class="lnt">67
+</span><span class="lnt">68
+</span><span class="lnt">69
+</span><span class="lnt">70
+</span><span class="lnt">71
+</span><span class="lnt">72
+</span><span class="lnt">73
+</span><span class="lnt">74
+</span><span class="lnt">75
+</span><span class="lnt">76
+</span><span class="lnt">77
+</span><span class="lnt">78
+</span><span class="lnt">79
+</span><span class="lnt">80
+</span><span class="lnt">81
+</span><span class="lnt">82
+</span><span class="lnt">83
+</span><span class="lnt">84
+</span><span class="lnt">85
+</span><span class="lnt">86
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-objc" data-lang="objc"><span class="line"><span class="cl"><span class="c1">/// 内部维护的任务数组
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">@property</span> <span class="p">(</span><span class="k">nonatomic</span><span class="p">,</span> <span class="k">strong</span><span class="p">)</span> <span class="n">NSMutableArray</span> <span class="o">*</span><span class="n">callbacks</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">/// `continueWithBlock:`方法
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">-</span> <span class="p">(</span><span class="n">BFTask</span> <span class="o">*</span><span class="p">)</span><span class="nf">continueWithExecutor:</span><span class="p">(</span><span class="n">BFExecutor</span> <span class="o">*</span><span class="p">)</span><span class="nv">executor</span>
+</span></span><span class="line"><span class="cl">                           <span class="nf">block:</span><span class="p">(</span><span class="n">BFContinuationBlock</span><span class="p">)</span><span class="nv">block</span>
+</span></span><span class="line"><span class="cl">               <span class="nf">cancellationToken:</span><span class="p">(</span><span class="n">nullable</span> <span class="n">BFCancellationToken</span> <span class="o">*</span><span class="p">)</span><span class="nv">cancellationToken</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">   <span class="c1">// 创建一个新的`BFTaskCompletionSource`，创建它时，它里面会`new`一个`task`对象，最后`return`的也是这个`task`
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>   <span class="c1">// 这个不是单例方法，所以此处创建的`task`是一个新对象
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">BFTaskCompletionSource</span> <span class="o">*</span><span class="n">tcs</span> <span class="o">=</span> <span class="p">[</span><span class="n">BFTaskCompletionSource</span> <span class="n">taskCompletionSource</span><span class="p">];</span> <span class="c1">// (1)
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// 创建一个任务`block`，后面会把执行这个`block`的操作加入到数组中，当回调时会执行这个`block`里面的操作
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="c1">// P.S. 下面附一张把这个block折叠后的图片
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">dispatch_block_t</span> <span class="n">executionBlock</span> <span class="o">=</span> <span class="o">^</span><span class="p">{</span>                    <span class="c1">//(N.0)
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="k">if</span> <span class="p">(</span><span class="n">cancellationToken</span><span class="p">.</span><span class="n">cancellationRequested</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="p">[</span><span class="n">tcs</span> <span class="n">cancel</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl">            <span class="k">return</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">      
+</span></span><span class="line"><span class="cl">       <span class="c1">// 把当前类（`task`对象）作为参数进行回调               //(N.1)
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="kt">id</span> <span class="n">result</span> <span class="o">=</span> <span class="nb">nil</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="cp">#pragma clang diagnostic push
+</span></span></span><span class="line"><span class="cl"><span class="cp">#pragma clang diagnostic ignored &#34;-Wdeprecated-declarations&#34;
+</span></span></span><span class="line"><span class="cl"><span class="cp"></span>        <span class="k">if</span> <span class="p">(</span><span class="n">BFTaskCatchesExceptions</span><span class="p">())</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">@try</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                <span class="n">result</span> <span class="o">=</span> <span class="n">block</span><span class="p">(</span><span class="nb">self</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">            <span class="p">}</span> <span class="k">@catch</span> <span class="p">(</span><span class="n">NSException</span> <span class="o">*</span><span class="n">exception</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                <span class="n">NSLog</span><span class="p">(</span><span class="s">@&#34;[Bolts] Warning: `BFTask` caught an exception in the continuation block.&#34;</span>
+</span></span><span class="line"><span class="cl">                      <span class="s">@&#34; This behavior is discouraged and will be removed in a future release.&#34;</span>
+</span></span><span class="line"><span class="cl">                      <span class="s">@&#34; Caught Exception: %@&#34;</span><span class="p">,</span> <span class="n">exception</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">                <span class="n">tcs</span><span class="p">.</span><span class="n">exception</span> <span class="o">=</span> <span class="n">exception</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">                <span class="k">return</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">            <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">result</span> <span class="o">=</span> <span class="n">block</span><span class="p">(</span><span class="nb">self</span><span class="p">);</span>                          
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="cp">#pragma clang diagnostic pop
+</span></span></span><span class="line"><span class="cl"><span class="cp"></span>      <span class="c1">// 如果回调结果返回的是`BFTask`类型
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="k">if</span> <span class="p">([</span><span class="n">result</span> <span class="nl">isKindOfClass</span><span class="p">:[</span><span class="n">BFTask</span> <span class="k">class</span><span class="p">]])</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">         <span class="c1">// 下面`block`中的`task`就是上面的`result`
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>            <span class="kt">id</span> <span class="p">(</span><span class="o">^</span><span class="n">setupWithTask</span><span class="p">)</span> <span class="p">(</span><span class="n">BFTask</span> <span class="o">*</span><span class="p">)</span> <span class="o">=</span> <span class="o">^</span><span class="kt">id</span><span class="p">(</span><span class="n">BFTask</span> <span class="o">*</span><span class="n">task</span><span class="p">)</span> <span class="p">{</span>     <span class="c1">//(N.3)
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>                <span class="k">if</span> <span class="p">(</span><span class="n">cancellationToken</span><span class="p">.</span><span class="n">cancellationRequested</span> <span class="o">||</span> <span class="n">task</span><span class="p">.</span><span class="n">cancelled</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                    <span class="p">[</span><span class="n">tcs</span> <span class="n">cancel</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl"><span class="cp">#pragma clang diagnostic push
+</span></span></span><span class="line"><span class="cl"><span class="cp">#pragma clang diagnostic ignored &#34;-Wdeprecated-declarations&#34;
+</span></span></span><span class="line"><span class="cl"><span class="cp"></span>                <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">task</span><span class="p">.</span><span class="n">exception</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                    <span class="n">tcs</span><span class="p">.</span><span class="n">exception</span> <span class="o">=</span> <span class="n">task</span><span class="p">.</span><span class="n">exception</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="cp">#pragma clang diagnostic pop
+</span></span></span><span class="line"><span class="cl"><span class="cp"></span>                <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">task</span><span class="p">.</span><span class="n">error</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                    <span class="n">tcs</span><span class="p">.</span><span class="n">error</span> <span class="o">=</span> <span class="n">task</span><span class="p">.</span><span class="n">error</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">                <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                    <span class="n">tcs</span><span class="p">.</span><span class="n">result</span> <span class="o">=</span> <span class="n">task</span><span class="p">.</span><span class="n">result</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">                <span class="p">}</span>
+</span></span><span class="line"><span class="cl">                <span class="k">return</span> <span class="nb">nil</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">            <span class="p">};</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">            <span class="n">BFTask</span> <span class="o">*</span><span class="n">resultTask</span> <span class="o">=</span> <span class="p">(</span><span class="n">BFTask</span> <span class="o">*</span><span class="p">)</span><span class="n">result</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">         <span class="c1">/// 如果`continueWithBlock:`中的`block`回调返回的`task`是`complete`状态，则直接到 (N.3)，把任务的结果传递到上面新创建的那个`BFTask`对象的`result`属性中,否则就继续执行`continueWithBlock:`来监测任务状态
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>            <span class="k">if</span> <span class="p">(</span><span class="n">resultTask</span><span class="p">.</span><span class="n">completed</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                <span class="n">setupWithTask</span><span class="p">(</span><span class="n">resultTask</span><span class="p">);</span>                      <span class="c1">//(N.2)
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>            <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                <span class="p">[</span><span class="n">resultTask</span> <span class="nl">continueWithBlock</span><span class="p">:</span><span class="n">setupWithTask</span><span class="p">];</span>   <span class="c1">//(N.4)
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>            <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">tcs</span><span class="p">.</span><span class="n">result</span> <span class="o">=</span> <span class="n">result</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">};</span>
+</span></span><span class="line"><span class="cl">  
+</span></span><span class="line"><span class="cl">    <span class="c1">// 如果是未完成状态，则把操作加入到数组中，延后执行；否则就立即执行
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="kt">BOOL</span> <span class="n">completed</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">@synchronized</span><span class="p">(</span><span class="nb">self</span><span class="p">.</span><span class="n">lock</span><span class="p">)</span> <span class="p">{</span>                          <span class="c1">//(2.0)
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="n">completed</span> <span class="o">=</span> <span class="nb">self</span><span class="p">.</span><span class="n">completed</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">completed</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="c1">// 把任务添加到数组中
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>            <span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">callbacks</span> <span class="nl">addObject</span><span class="p">:[</span><span class="o">^</span><span class="p">{</span>
+</span></span><span class="line"><span class="cl">                <span class="p">[</span><span class="n">executor</span> <span class="nl">execute</span><span class="p">:</span><span class="n">executionBlock</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl">            <span class="p">}</span> <span class="k">copy</span><span class="p">]];</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="n">completed</span><span class="p">)</span> <span class="p">{</span>                                   <span class="c1">//(2.1) 
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="p">[</span><span class="n">executor</span> <span class="nl">execute</span><span class="p">:</span><span class="n">executionBlock</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">tcs</span><span class="p">.</span><span class="n">task</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="二-promisekithttpsgithubcommxclpromisekit">二、 <a href="https://github.com/mxcl/PromiseKit" target="_blank" rel="noopener noreffer ">PromiseKit</a></h2>
+<ol>
+<li>首先，让我们看看创建<code>Promise</code>的源码</li>
+</ol>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span><span class="lnt">55
+</span><span class="lnt">56
+</span><span class="lnt">57
+</span><span class="lnt">58
+</span><span class="lnt">59
+</span><span class="lnt">60
+</span><span class="lnt">61
+</span><span class="lnt">62
+</span><span class="lnt">63
+</span><span class="lnt">64
+</span><span class="lnt">65
+</span><span class="lnt">66
+</span><span class="lnt">67
+</span><span class="lnt">68
+</span><span class="lnt">69
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-objc" data-lang="objc"><span class="line"><span class="cl"><span class="p">+</span> <span class="p">(</span><span class="kt">instancetype</span><span class="p">)</span><span class="nf">promiseWithResolver:</span><span class="p">(</span><span class="kt">void</span> <span class="p">(</span><span class="o">^</span><span class="p">)(</span><span class="n">PMKResolver</span><span class="p">))</span><span class="nv">block</span> <span class="p">{</span>    <span class="c1">// (2)
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">PMKPromise</span> <span class="o">*</span><span class="n">this</span> <span class="o">=</span> <span class="p">[</span><span class="nb">self</span> <span class="n">alloc</span><span class="p">];</span>              <span class="c1">// (3)  初始化promise
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">this</span><span class="o">-&gt;</span><span class="n">_promiseQueue</span> <span class="o">=</span> <span class="n">PMKCreatePromiseQueue</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">    <span class="n">this</span><span class="o">-&gt;</span><span class="n">_handlers</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSMutableArray</span> <span class="n">new</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">@try</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">block</span><span class="p">(</span><span class="o">^</span><span class="p">(</span><span class="kt">id</span> <span class="n">result</span><span class="p">){</span>           <span class="c1">// (4)  立即开始原始任务（它传过去的参数还是一个`PMKResolver`类型的block，这个block会在PMKRejecter或者PMKFulfiller类型的block执行回调时执行） &#34;void (^PMKResolver)(id)&#34;
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>            <span class="k">if</span> <span class="p">(</span><span class="n">PMKGetResult</span><span class="p">(</span><span class="n">this</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">                <span class="k">return</span> <span class="n">PMKLog</span><span class="p">(</span><span class="s">@&#34;PromiseKit: Warning: Promise already resolved&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">            <span class="n">PMKResolve</span><span class="p">(</span><span class="n">this</span><span class="p">,</span> <span class="n">result</span><span class="p">);</span> <span class="c1">// (7) result为用户在`new:`方法中返回的数据结果,而this则是上面一开始时初始化的那个promise. 执行到这里后接下来会到(8),回调到(9)那个block,这个block中会遍历`handlers`数组中的`handler()` block, 
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="p">});</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span> <span class="k">@catch</span> <span class="p">(</span><span class="kt">id</span> <span class="n">e</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">// at this point, no pointer to the Promise has been provided
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="c1">// to the user, so we can’t have any handlers, so all we need
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="c1">// to do is set _result. Technically using PMKSetResult is
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="c1">// not needed either, but this seems better safe than sorry.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="n">PMKSetResult</span><span class="p">(</span><span class="n">this</span><span class="p">,</span> <span class="n">NSErrorFromException</span><span class="p">(</span><span class="n">e</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">this</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="p">+</span> <span class="p">(</span><span class="kt">instancetype</span><span class="p">)</span><span class="nf">new:</span><span class="p">(</span><span class="kt">void</span><span class="p">(</span><span class="o">^</span><span class="p">)(</span><span class="n">PMKFulfiller</span><span class="p">,</span> <span class="n">PMKRejecter</span><span class="p">))</span><span class="nv">block</span> <span class="p">{</span>   <span class="c1">// (1)
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="k">return</span> <span class="p">[</span><span class="nb">self</span> <span class="nl">promiseWithResolver</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="n">PMKResolver</span> <span class="n">resolve</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="kt">id</span> <span class="n">rejecter</span> <span class="o">=</span> <span class="o">^</span><span class="p">(</span><span class="kt">id</span> <span class="n">error</span><span class="p">){</span>                    <span class="c1">// (5-1) 失败的block
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>            <span class="k">if</span> <span class="p">(</span><span class="n">error</span> <span class="o">==</span> <span class="nb">nil</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                <span class="n">error</span> <span class="o">=</span> <span class="n">NSErrorFromNil</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">            <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">IsPromise</span><span class="p">(</span><span class="n">error</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="p">[</span><span class="n">error</span> <span class="n">rejected</span><span class="p">])</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                <span class="c1">// this is safe, acceptable and (basically) valid
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>            <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">IsError</span><span class="p">(</span><span class="n">error</span><span class="p">))</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                <span class="kt">id</span> <span class="n">userInfo</span> <span class="o">=</span> <span class="l">@{</span><span class="nl">NSLocalizedDescriptionKey</span><span class="p">:</span> <span class="p">[</span><span class="n">error</span> <span class="n">description</span><span class="p">],</span> <span class="nl">PMKUnderlyingExceptionKey</span><span class="p">:</span> <span class="n">error</span><span class="l">}</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">                <span class="n">error</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSError</span> <span class="nl">errorWithDomain</span><span class="p">:</span><span class="n">PMKErrorDomain</span> <span class="nl">code</span><span class="p">:</span><span class="n">PMKInvalidUsageError</span> <span class="nl">userInfo</span><span class="p">:</span><span class="n">userInfo</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl">            <span class="p">}</span>
+</span></span><span class="line"><span class="cl">            <span class="n">resolve</span><span class="p">(</span><span class="n">error</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="p">};</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="kt">id</span> <span class="n">fulfiller</span> <span class="o">=</span> <span class="o">^</span><span class="p">(</span><span class="kt">id</span> <span class="n">result</span><span class="p">){</span>                  <span class="c1">// (5-2) 成功的block
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>            <span class="k">if</span> <span class="p">(</span><span class="n">IsError</span><span class="p">(</span><span class="n">result</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">                <span class="n">PMKLog</span><span class="p">(</span><span class="s">@&#34;PromiseKit: Warning: PMKFulfiller called with NSError.&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">            <span class="n">resolve</span><span class="p">(</span><span class="n">result</span><span class="p">);</span>       <span class="c1">// (6) 当用户执行`PMKFulfiller`类型的block时,会回调到这里,此方法执行(4)中的那个参数block,即执行(7)
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="p">};</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="n">block</span><span class="p">(</span><span class="n">fulfiller</span><span class="p">,</span> <span class="n">rejecter</span><span class="p">);</span>                   <span class="c1">// (5-3) 把成功和失败的block作为参数，执行回调原任务（e.g demo中的网络请求任务）
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="p">}];</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">static</span> <span class="kt">void</span> <span class="nf">PMKResolve</span><span class="p">(</span><span class="n">PMKPromise</span> <span class="o">*</span><span class="n">this</span><span class="p">,</span> <span class="kt">id</span> <span class="n">result</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">void</span> <span class="p">(</span><span class="o">^</span><span class="n">set</span><span class="p">)(</span><span class="kt">id</span><span class="p">)</span> <span class="o">=</span> <span class="o">^</span><span class="p">(</span><span class="kt">id</span> <span class="n">r</span><span class="p">){</span> <span class="c1">// (9) handle回调执行(10)
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="n">NSArray</span> <span class="o">*</span><span class="n">handlers</span> <span class="o">=</span> <span class="n">PMKSetResult</span><span class="p">(</span><span class="n">this</span><span class="p">,</span> <span class="n">r</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="k">for</span> <span class="p">(</span><span class="kt">void</span> <span class="p">(</span><span class="o">^</span><span class="n">handler</span><span class="p">)(</span><span class="kt">id</span><span class="p">)</span> <span class="k">in</span> <span class="n">handlers</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">            <span class="n">handler</span><span class="p">(</span><span class="n">r</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="p">};</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="n">IsPromise</span><span class="p">(</span><span class="n">result</span><span class="p">))</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">PMKPromise</span> <span class="o">*</span><span class="n">next</span> <span class="o">=</span> <span class="n">result</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="n">dispatch_barrier_sync</span><span class="p">(</span><span class="n">next</span><span class="o">-&gt;</span><span class="n">_promiseQueue</span><span class="p">,</span> <span class="o">^</span><span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="kt">id</span> <span class="n">nextResult</span> <span class="o">=</span> <span class="n">next</span><span class="o">-&gt;</span><span class="n">_result</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">            
+</span></span><span class="line"><span class="cl">            <span class="k">if</span> <span class="p">(</span><span class="n">nextResult</span> <span class="o">==</span> <span class="nb">nil</span><span class="p">)</span> <span class="p">{</span>  <span class="c1">// ie. pending
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>                <span class="p">[</span><span class="n">next</span><span class="o">-&gt;</span><span class="n">_handlers</span> <span class="nl">addObject</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="kt">id</span> <span class="n">o</span><span class="p">){</span>
+</span></span><span class="line"><span class="cl">                    <span class="n">PMKResolve</span><span class="p">(</span><span class="n">this</span><span class="p">,</span> <span class="n">o</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">                <span class="p">}];</span>
+</span></span><span class="line"><span class="cl">            <span class="p">}</span> <span class="k">else</span>
+</span></span><span class="line"><span class="cl">                <span class="n">set</span><span class="p">(</span><span class="n">nextResult</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="p">});</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span> <span class="k">else</span>
+</span></span><span class="line"><span class="cl">        <span class="n">set</span><span class="p">(</span><span class="n">result</span><span class="p">);</span> <span class="c1">// (8) 
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>调用<code>new:</code>方法时会调用<code>promiseWithResolver:</code>方法，在里面进行一些初始化<code>promise</code>的工作：创建了一个<code>GCD</code>并发队列和一个数组，并立即回调<code>new:</code>后面的那个参数<code>block</code>，即：立即执行，生成一个成功<code>fulfiller</code>和失败<code>rejecter</code>的<code>block</code>，这个<code>block</code>将由用户控制回调操作的时机。</p>
+<hr>
+<ol start="2">
+<li>下面看一下<code>then</code>的实现：</li>
+</ol>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span><span class="lnt">55
+</span><span class="lnt">56
+</span><span class="lnt">57
+</span><span class="lnt">58
+</span><span class="lnt">59
+</span><span class="lnt">60
+</span><span class="lnt">61
+</span><span class="lnt">62
+</span><span class="lnt">63
+</span><span class="lnt">64
+</span><span class="lnt">65
+</span><span class="lnt">66
+</span><span class="lnt">67
+</span><span class="lnt">68
+</span><span class="lnt">69
+</span><span class="lnt">70
+</span><span class="lnt">71
+</span><span class="lnt">72
+</span><span class="lnt">73
+</span><span class="lnt">74
+</span><span class="lnt">75
+</span><span class="lnt">76
+</span><span class="lnt">77
+</span><span class="lnt">78
+</span><span class="lnt">79
+</span><span class="lnt">80
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-objc" data-lang="objc"><span class="line"><span class="cl"><span class="p">-</span> <span class="p">(</span><span class="n">PMKPromise</span> <span class="o">*</span><span class="p">(</span><span class="o">^</span><span class="p">)(</span><span class="kt">id</span><span class="p">))</span><span class="nf">then</span> <span class="p">{</span>      <span class="c1">// 1
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="c1">// 此处`then`本身就是一个block：（PMKPromise *(^then)(id param)），此方法类似于getter方法
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="c1">// 返回一个`(PMKPromise *(^)(id))`类型的block，这个block执行后，返回一个PMKPromise
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="c1">// 下面整个都是一个then `block`，当执行then的时候会调用 `self.thenOn(dispatch_get_main_queue(), block)`，返回一个Promise类型的结果
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="k">return</span> <span class="o">^</span><span class="p">(</span><span class="kt">id</span> <span class="n">block</span><span class="p">){</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="nb">self</span><span class="p">.</span><span class="n">thenOn</span><span class="p">(</span><span class="n">dispatch_get_main_queue</span><span class="p">(),</span> <span class="n">block</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="p">};</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="p">-</span> <span class="p">(</span><span class="n">PMKResolveOnQueueBlock</span><span class="p">)</span><span class="nf">thenOn</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="p">[</span><span class="nb">self</span> <span class="nl">resolved</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="kt">id</span> <span class="n">result</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="p">(</span><span class="n">IsPromise</span><span class="p">(</span><span class="n">result</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">            <span class="k">return</span> <span class="p">((</span><span class="n">PMKPromise</span> <span class="o">*</span><span class="p">)</span><span class="n">result</span><span class="p">).</span><span class="n">thenOn</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="p">(</span><span class="n">IsError</span><span class="p">(</span><span class="n">result</span><span class="p">))</span> <span class="k">return</span> <span class="o">^</span><span class="p">(</span><span class="n">dispatch_queue_t</span> <span class="n">q</span><span class="p">,</span> <span class="kt">id</span> <span class="n">block</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">return</span> <span class="p">[</span><span class="n">PMKPromise</span> <span class="nl">promiseWithValue</span><span class="p">:</span><span class="n">result</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl">        <span class="p">};</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="o">^</span><span class="p">(</span><span class="n">dispatch_queue_t</span> <span class="n">q</span><span class="p">,</span> <span class="kt">id</span> <span class="n">block</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">            <span class="c1">// HACK we seem to expose some bug in ARC where this block can
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>            <span class="c1">// be an NSStackBlock which then gets deallocated by the time
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>            <span class="c1">// we get around to using it. So we force it to be malloc&#39;d.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>            <span class="n">block</span> <span class="o">=</span> <span class="p">[</span><span class="n">block</span> <span class="k">copy</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">            <span class="k">return</span> <span class="n">dispatch_promise_on</span><span class="p">(</span><span class="n">q</span><span class="p">,</span> <span class="o">^</span><span class="p">{</span>
+</span></span><span class="line"><span class="cl">                <span class="k">return</span> <span class="n">pmk_safely_call_block</span><span class="p">(</span><span class="n">block</span><span class="p">,</span> <span class="n">result</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">            <span class="p">});</span>
+</span></span><span class="line"><span class="cl">        <span class="p">};</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="nl">pending</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="kt">id</span> <span class="n">result</span><span class="p">,</span> <span class="n">PMKPromise</span> <span class="o">*</span><span class="n">next</span><span class="p">,</span> <span class="n">dispatch_queue_t</span> <span class="n">q</span><span class="p">,</span> <span class="kt">id</span> <span class="n">block</span><span class="p">,</span> <span class="kt">void</span> <span class="p">(</span><span class="o">^</span><span class="n">resolve</span><span class="p">)(</span><span class="kt">id</span><span class="p">))</span> <span class="p">{</span>  
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="p">(</span><span class="n">IsError</span><span class="p">(</span><span class="n">result</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">            <span class="n">PMKResolve</span><span class="p">(</span><span class="n">next</span><span class="p">,</span> <span class="n">result</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="k">else</span> <span class="n">dispatch_async</span><span class="p">(</span><span class="n">q</span><span class="p">,</span> <span class="o">^</span><span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">resolve</span><span class="p">(</span><span class="n">pmk_safely_call_block</span><span class="p">(</span><span class="n">block</span><span class="p">,</span> <span class="n">result</span><span class="p">));</span>  <span class="c1">// (11)
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="p">});</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}];</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="p">-</span> <span class="p">(</span><span class="kt">id</span><span class="p">)</span><span class="nf">resolved:</span><span class="p">(</span><span class="n">PMKResolveOnQueueBlock</span><span class="p">(</span><span class="o">^</span><span class="p">)(</span><span class="kt">id</span> <span class="n">result</span><span class="p">))</span><span class="nv">mkresolvedCallback</span>
+</span></span><span class="line"><span class="cl">       <span class="nf">pending:</span><span class="p">(</span><span class="kt">void</span><span class="p">(</span><span class="o">^</span><span class="p">)(</span><span class="kt">id</span> <span class="n">result</span><span class="p">,</span> <span class="n">PMKPromise</span> <span class="o">*</span><span class="n">next</span><span class="p">,</span> <span class="n">dispatch_queue_t</span> <span class="n">q</span><span class="p">,</span> <span class="kt">id</span> <span class="n">block</span><span class="p">,</span> <span class="kt">void</span> <span class="p">(</span><span class="o">^</span><span class="n">resolver</span><span class="p">)(</span><span class="kt">id</span><span class="p">)))</span><span class="nv">mkpendingCallback</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">__block</span> <span class="n">PMKResolveOnQueueBlock</span> <span class="n">callBlock</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">__block</span> <span class="kt">id</span> <span class="n">result</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="n">dispatch_sync</span><span class="p">(</span><span class="n">_promiseQueue</span><span class="p">,</span> <span class="o">^</span><span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="p">((</span><span class="n">result</span> <span class="o">=</span> <span class="n">_result</span><span class="p">))</span> <span class="c1">// 有结果的情况下直接返回
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>            <span class="k">return</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="n">callBlock</span> <span class="o">=</span> <span class="o">^</span><span class="p">(</span><span class="n">dispatch_queue_t</span> <span class="n">q</span><span class="p">,</span> <span class="kt">id</span> <span class="n">block</span><span class="p">)</span> <span class="p">{</span> <span class="c1">// 此block在`thenOn:`方法赋值时进行回调
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl">            <span class="n">block</span> <span class="o">=</span> <span class="p">[</span><span class="n">block</span> <span class="k">copy</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">            <span class="k">__block</span> <span class="n">PMKPromise</span> <span class="o">*</span><span class="n">next</span> <span class="o">=</span> <span class="nb">nil</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">            <span class="n">dispatch_barrier_sync</span><span class="p">(</span><span class="n">_promiseQueue</span><span class="p">,</span> <span class="o">^</span><span class="p">{</span>
+</span></span><span class="line"><span class="cl">                <span class="k">if</span> <span class="p">((</span><span class="n">result</span> <span class="o">=</span> <span class="n">_result</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">                    <span class="k">return</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">                <span class="k">__block</span> <span class="n">PMKPromiseFulfiller</span> <span class="n">resolver</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">                <span class="n">next</span> <span class="o">=</span> <span class="p">[</span><span class="n">PMKPromise</span> <span class="nl">new</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="n">PMKPromiseFulfiller</span> <span class="n">fulfill</span><span class="p">,</span> <span class="n">PMKPromiseRejecter</span> <span class="n">reject</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                    <span class="n">resolver</span> <span class="o">=</span> <span class="o">^</span><span class="p">(</span><span class="kt">id</span> <span class="n">o</span><span class="p">){</span>
+</span></span><span class="line"><span class="cl">                        <span class="k">if</span> <span class="p">(</span><span class="n">IsError</span><span class="p">(</span><span class="n">o</span><span class="p">))</span> <span class="n">reject</span><span class="p">(</span><span class="n">o</span><span class="p">);</span> <span class="k">else</span> <span class="n">fulfill</span><span class="p">(</span><span class="n">o</span><span class="p">);</span> <span class="c1">// (12)
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>                    <span class="p">};</span>
+</span></span><span class="line"><span class="cl">                <span class="p">}];</span>
+</span></span><span class="line"><span class="cl">                <span class="p">[</span><span class="n">_handlers</span> <span class="nl">addObject</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="kt">id</span> <span class="n">value</span><span class="p">){</span>
+</span></span><span class="line"><span class="cl">                    <span class="n">mkpendingCallback</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">next</span><span class="p">,</span> <span class="n">q</span><span class="p">,</span> <span class="n">block</span><span class="p">,</span> <span class="n">resolver</span><span class="p">);</span> <span class="c1">// (10)
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>                <span class="p">}];</span>
+</span></span><span class="line"><span class="cl">            <span class="p">});</span>
+</span></span><span class="line"><span class="cl">            
+</span></span><span class="line"><span class="cl">            <span class="c1">// next can still be `nil` if the promise was resolved after
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>            <span class="c1">// 1) `-thenOn` read it and decided which block to return; and
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>            <span class="c1">// 2) the call to the block.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl">            <span class="k">return</span> <span class="n">next</span> <span class="o">?:</span> <span class="n">mkresolvedCallback</span><span class="p">(</span><span class="n">result</span><span class="p">)(</span><span class="n">q</span><span class="p">,</span> <span class="n">block</span><span class="p">);</span>  <span class="c1">// (2) 如果`next` promise没有生成,则用以前的参数再执行一次. `mkresolvedCallback(result)`返回一个`PMKResolveOnQueueBlock`类型的block`(在这里就相当于生成了一个callBlock),然后立即调用,生成`PMKPromise`类型的`next`,以供后面的链式调用.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="p">};</span>
+</span></span><span class="line"><span class="cl">    <span class="p">});</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">callBlock</span> <span class="o">?:</span> <span class="n">mkresolvedCallback</span><span class="p">(</span><span class="n">result</span><span class="p">);</span> <span class="c1">// (1) callBlock存在,说明result为nil,现在还没有结果;否则就执行后面的`mkresolvedCallback()` block.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>这个方法的形参其实就是2个<code>block</code>，一个是<code>resolved</code>的<code>block</code>，还有一个是<code>pending</code>的<code>block</code>。当一个<code>promise</code>经历过<code>resolved</code>之后，可能是<code>fulfill</code>，也可能是<code>reject</code>，之后生成<code>next</code>新的<code>promise</code>，传入到下一个<code>then</code>中，并且状态会变成<code>pending</code>。上面代码中第一个<code>return</code>，如果<code>next</code>为<code>nil</code>，那么意味着<code>promise</code>没有生成，这是会再调用一次<code>mkresolvedCallback</code>，并传入参数<code>result</code>，生成的<code>PMKResolveOnQueueBlock</code>，再次传入<code>(q, block)</code>，直到<code>next</code>的<code>promise</code>生成，并把<code>pendingCallback</code>存入到<code>handler</code>当中。这个<code>handler</code>存了所有待执行的<code>block</code>，如果把这个数组里面的<code>block</code>都执行，那么就相当于依次完成了上面的所有异步操作。第二个<code>return</code>是在<code>callblock</code>为<code>nil</code>的时候，还会再调一次<code>mkresolvedCallback(result)</code>，保证一定要生成<code>next</code>的<code>promise</code>。</p>
+<p>这个函数里面的<code>dispatch_barrier_sync</code>这个方法，就是<code>promise</code>后面可以链式调用<code>then</code>的原因，因为这个<code>GCD</code>函数保证了后面的<code>then</code>顺序执行。</p>
+<h2 id="三-promiseshttpsgithubcomgooglepromises">三、 <a href="https://github.com/google/promises" target="_blank" rel="noopener noreffer ">Promises</a></h2>
+<blockquote>
+<p><code>google</code>出品</p>
+</blockquote>
+<p>原理： 这个开源库的思路其实与<code>BFTask</code>很相似，每次<code>promise</code>执行then方法时都会创建一个新的<code>promise</code>对象，同时会创建一个观察者（<code>block</code>对象），这个观察者会持有这个新的<code>promise</code>，当（旧）<code>promise</code>对象<code>fulfilled</code>或者<code>rejected</code>的时候，会把<code>fulfilled</code>或者<code>rejected</code>拿到的<code>value</code>给新<code>promise</code>。</p>
+<p>先看下promise的初始化方法:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-objc" data-lang="objc"><span class="line"><span class="cl"><span class="p">-</span> <span class="p">(</span><span class="kt">instancetype</span><span class="p">)</span><span class="nf">initPending</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nb">self</span> <span class="o">=</span> <span class="p">[</span><span class="nb">super</span> <span class="n">init</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl">  <span class="k">if</span> <span class="p">(</span><span class="nb">self</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">dispatch_group_enter</span><span class="p">(</span><span class="n">FBLPromise</span><span class="p">.</span><span class="n">dispatchGroup</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="k">return</span> <span class="nb">self</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>首先进入一个单例<code>dispatch_group_t</code>中，为啥用<code>dispatch_group_t</code>呢？因为后面的<code>then</code>方法可以在其他队列处理，而且<code>dispatch_group_t</code>有同步队列的功能，后面作者每次初始化一个<code>promise</code>都会<code>enter</code>到<code>dispatch_group_t</code>中，<code>fulfilled</code>或者<code>rejected</code>时再<code>leave</code>。</p>
+<p>接下来看看最重要同时也是精华所在的<code>then</code>方法：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">  1
+</span><span class="lnt">  2
+</span><span class="lnt">  3
+</span><span class="lnt">  4
+</span><span class="lnt">  5
+</span><span class="lnt">  6
+</span><span class="lnt">  7
+</span><span class="lnt">  8
+</span><span class="lnt">  9
+</span><span class="lnt"> 10
+</span><span class="lnt"> 11
+</span><span class="lnt"> 12
+</span><span class="lnt"> 13
+</span><span class="lnt"> 14
+</span><span class="lnt"> 15
+</span><span class="lnt"> 16
+</span><span class="lnt"> 17
+</span><span class="lnt"> 18
+</span><span class="lnt"> 19
+</span><span class="lnt"> 20
+</span><span class="lnt"> 21
+</span><span class="lnt"> 22
+</span><span class="lnt"> 23
+</span><span class="lnt"> 24
+</span><span class="lnt"> 25
+</span><span class="lnt"> 26
+</span><span class="lnt"> 27
+</span><span class="lnt"> 28
+</span><span class="lnt"> 29
+</span><span class="lnt"> 30
+</span><span class="lnt"> 31
+</span><span class="lnt"> 32
+</span><span class="lnt"> 33
+</span><span class="lnt"> 34
+</span><span class="lnt"> 35
+</span><span class="lnt"> 36
+</span><span class="lnt"> 37
+</span><span class="lnt"> 38
+</span><span class="lnt"> 39
+</span><span class="lnt"> 40
+</span><span class="lnt"> 41
+</span><span class="lnt"> 42
+</span><span class="lnt"> 43
+</span><span class="lnt"> 44
+</span><span class="lnt"> 45
+</span><span class="lnt"> 46
+</span><span class="lnt"> 47
+</span><span class="lnt"> 48
+</span><span class="lnt"> 49
+</span><span class="lnt"> 50
+</span><span class="lnt"> 51
+</span><span class="lnt"> 52
+</span><span class="lnt"> 53
+</span><span class="lnt"> 54
+</span><span class="lnt"> 55
+</span><span class="lnt"> 56
+</span><span class="lnt"> 57
+</span><span class="lnt"> 58
+</span><span class="lnt"> 59
+</span><span class="lnt"> 60
+</span><span class="lnt"> 61
+</span><span class="lnt"> 62
+</span><span class="lnt"> 63
+</span><span class="lnt"> 64
+</span><span class="lnt"> 65
+</span><span class="lnt"> 66
+</span><span class="lnt"> 67
+</span><span class="lnt"> 68
+</span><span class="lnt"> 69
+</span><span class="lnt"> 70
+</span><span class="lnt"> 71
+</span><span class="lnt"> 72
+</span><span class="lnt"> 73
+</span><span class="lnt"> 74
+</span><span class="lnt"> 75
+</span><span class="lnt"> 76
+</span><span class="lnt"> 77
+</span><span class="lnt"> 78
+</span><span class="lnt"> 79
+</span><span class="lnt"> 80
+</span><span class="lnt"> 81
+</span><span class="lnt"> 82
+</span><span class="lnt"> 83
+</span><span class="lnt"> 84
+</span><span class="lnt"> 85
+</span><span class="lnt"> 86
+</span><span class="lnt"> 87
+</span><span class="lnt"> 88
+</span><span class="lnt"> 89
+</span><span class="lnt"> 90
+</span><span class="lnt"> 91
+</span><span class="lnt"> 92
+</span><span class="lnt"> 93
+</span><span class="lnt"> 94
+</span><span class="lnt"> 95
+</span><span class="lnt"> 96
+</span><span class="lnt"> 97
+</span><span class="lnt"> 98
+</span><span class="lnt"> 99
+</span><span class="lnt">100
+</span><span class="lnt">101
+</span><span class="lnt">102
+</span><span class="lnt">103
+</span><span class="lnt">104
+</span><span class="lnt">105
+</span><span class="lnt">106
+</span><span class="lnt">107
+</span><span class="lnt">108
+</span><span class="lnt">109
+</span><span class="lnt">110
+</span><span class="lnt">111
+</span><span class="lnt">112
+</span><span class="lnt">113
+</span><span class="lnt">114
+</span><span class="lnt">115
+</span><span class="lnt">116
+</span><span class="lnt">117
+</span><span class="lnt">118
+</span><span class="lnt">119
+</span><span class="lnt">120
+</span><span class="lnt">121
+</span><span class="lnt">122
+</span><span class="lnt">123
+</span><span class="lnt">124
+</span><span class="lnt">125
+</span><span class="lnt">126
+</span><span class="lnt">127
+</span><span class="lnt">128
+</span><span class="lnt">129
+</span><span class="lnt">130
+</span><span class="lnt">131
+</span><span class="lnt">132
+</span><span class="lnt">133
+</span><span class="lnt">134
+</span><span class="lnt">135
+</span><span class="lnt">136
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-objc" data-lang="objc"><span class="line"><span class="cl"><span class="p">-</span> <span class="p">(</span><span class="kt">instancetype</span><span class="p">)</span><span class="nf">initPending</span> <span class="p">{</span>     <span class="c1">// (0)
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="nb">self</span> <span class="o">=</span> <span class="p">[</span><span class="nb">super</span> <span class="n">init</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="nb">self</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">dispatch_group_enter</span><span class="p">(</span><span class="n">FBLPromise</span><span class="p">.</span><span class="n">dispatchGroup</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="nb">self</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="p">-</span> <span class="p">(</span><span class="n">FBLPromise</span> <span class="o">*</span><span class="p">)</span><span class="nf">onQueue:</span><span class="p">(</span><span class="n">dispatch_queue_t</span><span class="p">)</span><span class="nv">queue</span> <span class="nf">then:</span><span class="p">(</span><span class="n">FBLPromiseThenWorkBlock</span><span class="p">)</span><span class="nv">work</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="p">[</span><span class="nb">self</span> <span class="nl">chainOnQueue</span><span class="p">:</span><span class="n">queue</span> <span class="nl">chainedFulfill</span><span class="p">:</span><span class="n">work</span> <span class="nl">chainedReject</span><span class="p">:</span><span class="nb">nil</span><span class="p">];</span>     <span class="c1">// (1)
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="p">-</span> <span class="p">(</span><span class="n">FBLPromise</span> <span class="o">*</span><span class="p">)</span><span class="nf">chainOnQueue:</span><span class="p">(</span><span class="n">dispatch_queue_t</span><span class="p">)</span><span class="nv">queue</span>
+</span></span><span class="line"><span class="cl">              <span class="nf">chainedFulfill:</span><span class="p">(</span><span class="n">FBLPromiseChainedFulfillBlock</span><span class="p">)</span><span class="nv">chainedFulfill</span>
+</span></span><span class="line"><span class="cl">               <span class="nf">chainedReject:</span><span class="p">(</span><span class="n">FBLPromiseChainedRejectBlock</span><span class="p">)</span><span class="nv">chainedReject</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// 首先new一个新的promise对象
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">FBLPromise</span> <span class="o">*</span><span class="n">newPromise</span> <span class="o">=</span> <span class="p">[[</span><span class="n">FBLPromise</span> <span class="n">alloc</span><span class="p">]</span> <span class="n">initPending</span><span class="p">];</span>               <span class="c1">// (2)
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    
+</span></span><span class="line"><span class="cl">    <span class="c1">// 这个block其实就是抽离的一个方法，避免写重复代码。
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="c1">// 当promise被fulfilled或者rejected时都会调用；
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="c1">// 结合下面方法block中的实现可以看出，如果thenBlock（chainedFulfill）存在，则先执行chainedFulfill这个block（其实就是map一下这个value值）重新生成一个value值（value值也可能不会变化，主要还得看map函数里有没有改变value）；接下来把这个重新赋值的value扔给resolverBlock，resolverBlock会把这个新的value给newPromise，newPromise会调用fulfilled方法，如果此时newPromise也有订阅者(被then过)，则就会把这个新value传递给下一个newNewPromise ...
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="c1">// 如果then的时候promise已经结束了，则直接把结果返回给订阅者,即调用thenBlock。
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">__auto_type</span> <span class="n">resolver</span> <span class="o">=</span> <span class="o">^</span><span class="p">(</span><span class="kt">id</span> <span class="n">__nullable</span> <span class="n">value</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="p">([</span><span class="n">value</span> <span class="nl">isKindOfClass</span><span class="p">:[</span><span class="n">FBLPromise</span> <span class="k">class</span><span class="p">]])</span> <span class="p">{</span>                     <span class="c1">// (8)
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>            <span class="p">[(</span><span class="n">FBLPromise</span> <span class="o">*</span><span class="p">)</span><span class="n">value</span> <span class="nl">observeOnQueue</span><span class="p">:</span><span class="n">queue</span> <span class="nl">fulfill</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="kt">id</span> <span class="n">__nullable</span> <span class="n">value</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                <span class="p">[</span><span class="n">newPromise</span> <span class="nl">fulfill</span><span class="p">:</span><span class="n">value</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl">            <span class="p">}</span> <span class="nl">reject</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="n">NSError</span> <span class="o">*</span><span class="n">error</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                <span class="p">[</span><span class="n">newPromise</span> <span class="nl">reject</span><span class="p">:</span><span class="n">error</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl">            <span class="p">}];</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span> 
+</span></span><span class="line"><span class="cl">        <span class="k">else</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="p">[</span><span class="n">newPromise</span> <span class="nl">fulfill</span><span class="p">:</span><span class="n">value</span><span class="p">];</span>                                     <span class="c1">// (8)
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">};</span>
+</span></span><span class="line"><span class="cl">    <span class="p">[</span><span class="nb">self</span> <span class="nl">observeOnQueue</span><span class="p">:</span><span class="n">queue</span> <span class="nl">fulfill</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="kt">id</span> <span class="n">__nullable</span> <span class="n">value</span><span class="p">)</span> <span class="p">{</span>             
+</span></span><span class="line"><span class="cl">        <span class="n">value</span> <span class="o">=</span> <span class="n">chainedFulfill</span> <span class="o">?</span> <span class="n">chainedFulfill</span><span class="p">(</span><span class="n">value</span><span class="p">)</span> <span class="o">:</span> <span class="n">value</span><span class="p">;</span>             <span class="c1">// (7)
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="n">resolver</span><span class="p">(</span><span class="n">value</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span> <span class="nl">reject</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="n">NSError</span> <span class="o">*</span><span class="n">error</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="kt">id</span> <span class="n">value</span> <span class="o">=</span> <span class="n">chainedReject</span> <span class="o">?</span> <span class="n">chainedReject</span><span class="p">(</span><span class="n">error</span><span class="p">)</span> <span class="o">:</span> <span class="n">error</span><span class="p">;</span>            <span class="c1">// (7)
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="n">resolver</span><span class="p">(</span><span class="n">value</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}];</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">promise</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">observeOnQueue:</span><span class="p">(</span><span class="n">dispatch_queue_t</span><span class="p">)</span><span class="nv">queue</span>
+</span></span><span class="line"><span class="cl">               <span class="nf">fulfill:</span><span class="p">(</span><span class="n">FBLPromiseOnFulfillBlock</span><span class="p">)</span><span class="nv">onFulfill</span>
+</span></span><span class="line"><span class="cl">                <span class="nf">reject:</span><span class="p">(</span><span class="n">FBLPromiseOnRejectBlock</span><span class="p">)</span><span class="nv">onReject</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">@synchronized</span><span class="p">(</span><span class="nb">self</span><span class="p">)</span> <span class="p">{</span>                                                   <span class="c1">// (3)
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="k">switch</span> <span class="p">(</span><span class="n">_state</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="c1">// 默认的state，即待处理的事件
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>            <span class="k">case</span> <span class="nl">FBLPromiseStatePending</span><span class="p">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                <span class="c1">// 如果promise对象还没有观察者数组，new一个
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>                <span class="c1">// 这里为什么需要观察者数组呢？因为一个Promise可以被then很多次
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>                <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">_observers</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                    <span class="n">_observers</span> <span class="o">=</span> <span class="p">[[</span><span class="n">NSMutableArray</span> <span class="n">alloc</span><span class="p">]</span> <span class="n">init</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl">                <span class="p">}</span>
+</span></span><span class="line"><span class="cl">                <span class="c1">// 当事件被处理时会执行下面block
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>                <span class="n">__auto_type</span> <span class="n">observer</span> <span class="o">=</span> <span class="o">^</span><span class="p">(</span><span class="n">FBLPromiseState</span> <span class="n">state</span><span class="p">,</span> <span class="kt">id</span> <span class="n">__nullable</span> <span class="n">resolution</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                    <span class="n">dispatch_group_async</span><span class="p">(</span><span class="n">FBLPromise</span><span class="p">.</span><span class="n">dispatchGroup</span><span class="p">,</span> <span class="n">queue</span><span class="p">,</span> <span class="o">^</span><span class="p">{</span>
+</span></span><span class="line"><span class="cl">                        <span class="k">switch</span> <span class="p">(</span><span class="n">state</span><span class="p">)</span> <span class="p">{</span>                                    <span class="c1">// (6)
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>                            <span class="k">case</span> <span class="nl">FBLPromiseStatePending</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">                                <span class="k">break</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">                            <span class="k">case</span> <span class="nl">FBLPromiseStateFulfilled</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">                                <span class="n">onFulfill</span><span class="p">(</span><span class="n">resolution</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">                                <span class="k">break</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">                            <span class="k">case</span> <span class="nl">FBLPromiseStateRejected</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">                                <span class="n">onReject</span><span class="p">(</span><span class="n">resolution</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">                                <span class="k">break</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">                        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">                    <span class="p">});</span>
+</span></span><span class="line"><span class="cl">                <span class="p">};</span>
+</span></span><span class="line"><span class="cl">                <span class="p">[</span><span class="n">_observers</span> <span class="nl">addObject</span><span class="p">:</span><span class="n">observer</span><span class="p">];</span>                            <span class="c1">// (4)
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>                <span class="k">break</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">            <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">            <span class="c1">// 当前promise已经结束
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>            <span class="k">case</span> <span class="nl">FBLPromiseStateFulfilled</span><span class="p">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                <span class="n">dispatch_group_async</span><span class="p">(</span><span class="n">FBLPromise</span><span class="p">.</span><span class="n">dispatchGroup</span><span class="p">,</span> <span class="n">queue</span><span class="p">,</span> <span class="o">^</span><span class="p">{</span>
+</span></span><span class="line"><span class="cl">                    <span class="n">onFulfill</span><span class="p">(</span><span class="nb">self</span><span class="o">-&gt;</span><span class="n">_value</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">                <span class="p">});</span>
+</span></span><span class="line"><span class="cl">                <span class="k">break</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">            <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">            <span class="c1">// 当前promise已经结束
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>            <span class="k">case</span> <span class="nl">FBLPromiseStateRejected</span><span class="p">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                <span class="n">dispatch_group_async</span><span class="p">(</span><span class="n">FBLPromise</span><span class="p">.</span><span class="n">dispatchGroup</span><span class="p">,</span> <span class="n">queue</span><span class="p">,</span> <span class="o">^</span><span class="p">{</span>
+</span></span><span class="line"><span class="cl">                    <span class="n">onReject</span><span class="p">(</span><span class="nb">self</span><span class="o">-&gt;</span><span class="n">_error</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">                <span class="p">});</span>
+</span></span><span class="line"><span class="cl">                <span class="k">break</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">            <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">fulfill:</span><span class="p">(</span><span class="n">nullable</span> <span class="kt">id</span><span class="p">)</span><span class="nv">value</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="k">if</span> <span class="p">([</span><span class="n">value</span> <span class="nl">isKindOfClass</span><span class="p">:[</span><span class="n">NSError</span> <span class="k">class</span><span class="p">]])</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="p">[</span><span class="nb">self</span> <span class="nl">reject</span><span class="p">:(</span><span class="n">NSError</span> <span class="o">*</span><span class="p">)</span><span class="n">value</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">@synchronized</span><span class="p">(</span><span class="nb">self</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="k">if</span> <span class="p">(</span><span class="n">_state</span> <span class="o">==</span> <span class="n">FBLPromiseStatePending</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">_state</span> <span class="o">=</span> <span class="n">FBLPromiseStateFulfilled</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="n">_value</span> <span class="o">=</span> <span class="n">value</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="n">_pendingObjects</span> <span class="o">=</span> <span class="nb">nil</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">for</span> <span class="p">(</span><span class="n">FBLPromiseObserver</span> <span class="n">observer</span> <span class="k">in</span> <span class="n">_observers</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">          <span class="n">observer</span><span class="p">(</span><span class="n">_state</span><span class="p">,</span> <span class="n">_value</span><span class="p">);</span>                                         <span class="c1">// (5)
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="n">_observers</span> <span class="o">=</span> <span class="nb">nil</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">// 事件结束，leave group
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="n">dispatch_group_leave</span><span class="p">(</span><span class="n">FBLPromise</span><span class="p">.</span><span class="n">dispatchGroup</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">      <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">reject:</span><span class="p">(</span><span class="n">NSError</span> <span class="o">*</span><span class="p">)</span><span class="nv">error</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="n">NSAssert</span><span class="p">([</span><span class="n">error</span> <span class="nl">isKindOfClass</span><span class="p">:[</span><span class="n">NSError</span> <span class="k">class</span><span class="p">]],</span> <span class="s">@&#34;Invalid error type.&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="p">[</span><span class="n">error</span> <span class="nl">isKindOfClass</span><span class="p">:[</span><span class="n">NSError</span> <span class="k">class</span><span class="p">]])</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// Give up on invalid error type in Release mode.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="k">@throw</span> <span class="n">error</span><span class="p">;</span>  <span class="c1">// NOLINT
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="k">@synchronized</span><span class="p">(</span><span class="nb">self</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="n">_state</span> <span class="o">==</span> <span class="n">FBLPromiseStatePending</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="n">_state</span> <span class="o">=</span> <span class="n">FBLPromiseStateRejected</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">      <span class="n">_error</span> <span class="o">=</span> <span class="n">error</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">      <span class="n">_pendingObjects</span> <span class="o">=</span> <span class="nb">nil</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">      <span class="k">for</span> <span class="p">(</span><span class="n">FBLPromiseObserver</span> <span class="n">observer</span> <span class="k">in</span> <span class="n">_observers</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">observer</span><span class="p">(</span><span class="n">_state</span><span class="p">,</span> <span class="n">_error</span><span class="p">);</span>                                          <span class="c1">// (5)
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>      <span class="p">}</span>
+</span></span><span class="line"><span class="cl">      <span class="n">_observers</span> <span class="o">=</span> <span class="nb">nil</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">      <span class="c1">// 事件结束，leave group
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>      <span class="n">dispatch_group_leave</span><span class="p">(</span><span class="n">FBLPromise</span><span class="p">.</span><span class="n">dispatchGroup</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>主要的执行步骤已经在上面做了标注，作者的思路很鲜明，推荐同学们抽时间去学习一下这个库，必定会收获良多！</p>
+<h2 id="参考">参考：</h2>
+<ul>
+<li><a href="https://www.jianshu.com/p/f060cfd52f17" target="_blank" rel="noopener noreffer ">iOS如何优雅的处理“回调地狱Callback hell”(一)——使用PromiseKit</a></li>
+</ul></div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>更新于 2019-02-13</span>
+            </div><div class="post-info-license">
+                <span>MIT</span>
+            </div></div>
+        <div class="post-info-line">
+            <div class="post-info-md"><span>
+                            <a class="link-to-markdown" href="/promise%E6%BA%90%E7%A0%81%E7%AE%80%E6%9E%90/index.md" target="_blank">阅读原始文档</a>
+                        </span></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="分享到 Twitter" data-sharer="twitter" data-url="https://faimin.github.io/promise%E6%BA%90%E7%A0%81%E7%AE%80%E6%9E%90/" data-title="Promise源码简析" data-hashtags="ios,Promise"><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="分享到 Facebook" data-sharer="facebook" data-url="https://faimin.github.io/promise%E6%BA%90%E7%A0%81%E7%AE%80%E6%9E%90/" data-hashtag="ios"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="分享到 Hacker News" data-sharer="hackernews" data-url="https://faimin.github.io/promise%E6%BA%90%E7%A0%81%E7%AE%80%E6%9E%90/" data-title="Promise源码简析"><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="分享到 Line" data-sharer="line" data-url="https://faimin.github.io/promise%E6%BA%90%E7%A0%81%E7%AE%80%E6%9E%90/" data-title="Promise源码简析"><i data-svg-src="https://cdn.jsdelivr.net/npm/simple-icons@7.3.0/icons/line.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="分享到 微博" data-sharer="weibo" data-url="https://faimin.github.io/promise%E6%BA%90%E7%A0%81%E7%AE%80%E6%9E%90/" data-title="Promise源码简析" data-image="/images/promise/SpiritedAway.jpg" data-ralateuid="1655766025"><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/tags/ios/">ios</a>,&nbsp;<a href="/tags/promise/">Promise</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav">
+            <a href="/block%E6%8D%95%E8%8E%B7%E5%8E%9F%E7%90%86%E6%8E%A2%E7%A9%B6/" class="next" rel="next" title="Block捕获原理探究">Block捕获原理探究<i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+<div id="comments"><div id="valine" class="comment"></div><noscript>
+                Please enable JavaScript to view the comments powered by <a href="https://valine.js.org/">Valine</a>.
+            </noscript></div></article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.101.0">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.11"><i class="far fa-kiss-wink-heart fa-fw" aria-hidden="true"></i> LoveIt</a>
+                </div><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2019 - 2022</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="https://github.com/faimin" target="_blank">Zero.D.Saber</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="回到顶部">
+                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="查看评论">
+                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/valine/valine.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@2.5.0/css/lightgallery-bundle.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.css"><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/valine@1.5.0/dist/Valine.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/autocomplete.js@0.38.1/dist/autocomplete.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/algoliasearch@4.13.1/dist/algoliasearch-lite.umd.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lazysizes@5.3.2/lazysizes.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lightgallery@2.5.0/lightgallery.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lightgallery@2.5.0/plugins/thumbnail/lg-thumbnail.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lightgallery@2.5.0/plugins/zoom/lg-zoom.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/clipboard@2.0.11/dist/clipboard.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/sharer.js@0.5.1/sharer.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/contrib/auto-render.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/contrib/copy-tex.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/contrib/mhchem.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":50},"comment":{"valine":{"appId":"QGzwQXOqs5JOhN4RGPOkR2mR-MdYXbMMI","appKey":"WBmoGyJtbqUswvfLh6L8iEBr","avatar":"mp","el":"#valine","emojiCDN":"https://cdn.jsdelivr.net/npm/emoji-datasource-google@14.0.0/img/google/64/","emojiMaps":{"100":"1f4af.png","alien":"1f47d.png","anger":"1f4a2.png","angry":"1f620.png","anguished":"1f627.png","astonished":"1f632.png","black_heart":"1f5a4.png","blue_heart":"1f499.png","blush":"1f60a.png","bomb":"1f4a3.png","boom":"1f4a5.png","broken_heart":"1f494.png","brown_heart":"1f90e.png","clown_face":"1f921.png","cold_face":"1f976.png","cold_sweat":"1f630.png","confounded":"1f616.png","confused":"1f615.png","cry":"1f622.png","crying_cat_face":"1f63f.png","cupid":"1f498.png","dash":"1f4a8.png","disappointed":"1f61e.png","disappointed_relieved":"1f625.png","dizzy":"1f4ab.png","dizzy_face":"1f635.png","drooling_face":"1f924.png","exploding_head":"1f92f.png","expressionless":"1f611.png","face_vomiting":"1f92e.png","face_with_cowboy_hat":"1f920.png","face_with_hand_over_mouth":"1f92d.png","face_with_head_bandage":"1f915.png","face_with_monocle":"1f9d0.png","face_with_raised_eyebrow":"1f928.png","face_with_rolling_eyes":"1f644.png","face_with_symbols_on_mouth":"1f92c.png","face_with_thermometer":"1f912.png","fearful":"1f628.png","flushed":"1f633.png","frowning":"1f626.png","ghost":"1f47b.png","gift_heart":"1f49d.png","green_heart":"1f49a.png","grimacing":"1f62c.png","grin":"1f601.png","grinning":"1f600.png","hankey":"1f4a9.png","hear_no_evil":"1f649.png","heart":"2764-fe0f.png","heart_decoration":"1f49f.png","heart_eyes":"1f60d.png","heart_eyes_cat":"1f63b.png","heartbeat":"1f493.png","heartpulse":"1f497.png","heavy_heart_exclamation_mark_ornament":"2763-fe0f.png","hole":"1f573-fe0f.png","hot_face":"1f975.png","hugging_face":"1f917.png","hushed":"1f62f.png","imp":"1f47f.png","innocent":"1f607.png","japanese_goblin":"1f47a.png","japanese_ogre":"1f479.png","joy":"1f602.png","joy_cat":"1f639.png","kiss":"1f48b.png","kissing":"1f617.png","kissing_cat":"1f63d.png","kissing_closed_eyes":"1f61a.png","kissing_heart":"1f618.png","kissing_smiling_eyes":"1f619.png","laughing":"1f606.png","left_speech_bubble":"1f5e8-fe0f.png","love_letter":"1f48c.png","lying_face":"1f925.png","mask":"1f637.png","money_mouth_face":"1f911.png","nauseated_face":"1f922.png","nerd_face":"1f913.png","neutral_face":"1f610.png","no_mouth":"1f636.png","open_mouth":"1f62e.png","orange_heart":"1f9e1.png","partying_face":"1f973.png","pensive":"1f614.png","persevere":"1f623.png","pleading_face":"1f97a.png","pouting_cat":"1f63e.png","purple_heart":"1f49c.png","rage":"1f621.png","relaxed":"263a-fe0f.png","relieved":"1f60c.png","revolving_hearts":"1f49e.png","right_anger_bubble":"1f5ef-fe0f.png","robot_face":"1f916.png","rolling_on_the_floor_laughing":"1f923.png","scream":"1f631.png","scream_cat":"1f640.png","see_no_evil":"1f648.png","shushing_face":"1f92b.png","skull":"1f480.png","skull_and_crossbones":"2620-fe0f.png","sleeping":"1f634.png","sleepy":"1f62a.png","slightly_frowning_face":"1f641.png","slightly_smiling_face":"1f642.png","smile":"1f604.png","smile_cat":"1f638.png","smiley":"1f603.png","smiley_cat":"1f63a.png","smiling_face_with_3_hearts":"1f970.png","smiling_imp":"1f608.png","smirk":"1f60f.png","smirk_cat":"1f63c.png","sneezing_face":"1f927.png","sob":"1f62d.png","space_invader":"1f47e.png","sparkling_heart":"1f496.png","speak_no_evil":"1f64a.png","speech_balloon":"1f4ac.png","star-struck":"1f929.png","stuck_out_tongue":"1f61b.png","stuck_out_tongue_closed_eyes":"1f61d.png","stuck_out_tongue_winking_eye":"1f61c.png","sunglasses":"1f60e.png","sweat":"1f613.png","sweat_drops":"1f4a6.png","sweat_smile":"1f605.png","thinking_face":"1f914.png","thought_balloon":"1f4ad.png","tired_face":"1f62b.png","triumph":"1f624.png","two_hearts":"1f495.png","unamused":"1f612.png","upside_down_face":"1f643.png","weary":"1f629.png","white_frowning_face":"2639-fe0f.png","white_heart":"1f90d.png","wink":"1f609.png","woozy_face":"1f974.png","worried":"1f61f.png","yawning_face":"1f971.png","yellow_heart":"1f49b.png","yum":"1f60b.png","zany_face":"1f92a.png","zipper_mouth_face":"1f910.png","zzz":"1f4a4.png"},"enableQQ":false,"highlight":true,"lang":"zh-CN","pageSize":10,"placeholder":"你的评论 ...","recordIP":true,"serverURLs":"https://leancloud.hugoloveit.com","visitor":true}},"lightgallery":true,"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":true,"left":"\\begin{equation}","right":"\\end{equation}"},{"display":true,"left":"\\begin{equation*}","right":"\\end{equation*}"},{"display":true,"left":"\\begin{align}","right":"\\end{align}"},{"display":true,"left":"\\begin{align*}","right":"\\end{align*}"},{"display":true,"left":"\\begin{alignat}","right":"\\end{alignat}"},{"display":true,"left":"\\begin{alignat*}","right":"\\end{alignat*}"},{"display":true,"left":"\\begin{gather}","right":"\\end{gather}"},{"display":true,"left":"\\begin{CD}","right":"\\end{CD}"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"search":{"algoliaAppID":"PASDMWALPK","algoliaIndex":"index.zh-cn","algoliaSearchKey":"b42948e51daaa93df92381c8e2ac0f93","highlightTag":"em","maxResultLength":10,"noResultsFound":"没有找到结果","snippetLength":50,"type":"algolia"}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
+</html>

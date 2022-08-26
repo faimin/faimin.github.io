@@ -16,5 +16,15 @@
                 <img src="/images/block/limulu.jpg" referrerpolicy="no-referrer">
             </div><p>探索<code>block</code>捕获外界变量原理</p>]]></description>
 </item>
+<item>
+    <title>Promise源码简析</title>
+    <link>https://faimin.github.io/promise%E6%BA%90%E7%A0%81%E7%AE%80%E6%9E%90/</link>
+    <pubDate>Wed, 13 Feb 2019 20:55:36 &#43;0800</pubDate>
+    <author>Zero.D.Saber</author>
+    <guid>https://faimin.github.io/promise%E6%BA%90%E7%A0%81%E7%AE%80%E6%9E%90/</guid>
+    <description><![CDATA[<div class="featured-image">
+                <img src="/images/promise/SpiritedAway.jpg" referrerpolicy="no-referrer">
+            </div><p>简析几个 <code>Promise</code> 开源库的实现</p>]]></description>
+</item>
 </channel>
 </rss>

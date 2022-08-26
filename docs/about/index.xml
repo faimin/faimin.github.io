@@ -2,20 +2,20 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Abouts on Zero.D.Saber</title>
-    <link>https://github.com/faimin/faimin.github.io/about/</link>
+    <link>https://faimin.github.io/about/</link>
     <description>Recent content in Abouts on Zero.D.Saber</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-CN</language>
     <managingEditor>fuxianchao2009@163.com (Zero.D.Saber)</managingEditor>
     <webMaster>fuxianchao2009@163.com (Zero.D.Saber)</webMaster>
     <copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright>
-    <lastBuildDate>Fri, 26 Aug 2022 17:11:09 +0800</lastBuildDate><atom:link href="https://github.com/faimin/faimin.github.io/about/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 26 Aug 2022 17:11:09 +0800</lastBuildDate><atom:link href="https://faimin.github.io/about/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>自我简介</title>
-      <link>https://github.com/faimin/faimin.github.io/about/whoami/</link>
+      <link>https://faimin.github.io/about/whoami/</link>
       <pubDate>Fri, 26 Aug 2022 17:11:09 +0800</pubDate>
       <author>fuxianchao2009@163.com (Zero.D.Saber)</author>
-      <guid>https://github.com/faimin/faimin.github.io/about/whoami/</guid>
+      <guid>https://faimin.github.io/about/whoami/</guid>
       <description>iOS开发者，技术栈Objective-C、Swift、Lua，能看懂C++，会写点shell，正在学习Flutter和Rust 😄 ~</description>
     </item>
     

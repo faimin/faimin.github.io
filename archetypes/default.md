@@ -13,23 +13,6 @@ images: []
 featuredImage: ""
 featuredImagePreview: ""
 
-license: "MIT"
-lightgallery: true
-hiddenFromHomePage: false
-hiddenFromSearch: false
-twemoji: false
-lightgallery: true
-ruby: true
-fraction: true
-fontawesome: true
-linkToMarkdown: true
-rssFullText: false
-
-toc:
-  enable: true
-  auto: true
-math:
-  enable: true
 ---
 
 xxxx 摘要

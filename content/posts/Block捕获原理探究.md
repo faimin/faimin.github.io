@@ -33,7 +33,7 @@ lightgallery: true
 <details open>
 <summary>Block Syntax</summary>
 
-```cpp
+```objectivec
 // Block as a local variable
 returnType (^blockName)(parameterTypes) = ^returnType(parameters) {...};
 
@@ -78,7 +78,7 @@ struct __block_impl {
 
 ## 1、不加__block的情况:
 
-```cpp
+```objectivec
 #import <Foundation/Foundation.h>
 
 int main(int argc, char *argv[]) {
@@ -158,7 +158,7 @@ static struct IMAGE_INFO { unsigned version; unsigned flag; } _OBJC_IMAGE_INFO =
 
 ## 2、添加__block的情况:
 
-```cpp
+```objectivec
 #import <Foundation/Foundation.h>
 
 int main(int argc, char *argv[]) {
@@ -318,7 +318,7 @@ static struct Block_byref *_Block_byref_copy(const void *arg) {
 
 ## 3、静态变量:
 
-```cpp
+```objectivec
 #import <Foundation/Foundation.h>
 
 int main(int argc, char *argv[]) {
@@ -409,7 +409,7 @@ static struct IMAGE_INFO { unsigned version; unsigned flag; } _OBJC_IMAGE_INFO =
 
 ## 4、全局变量:
 
-```cpp
+```objectivec
 #import <Foundation/Foundation.h>
 
 NSString *myString = @"111";

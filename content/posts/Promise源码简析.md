@@ -28,7 +28,7 @@ featuredImagePreview: "/images/promise/SpiritedAway.jpg"
 每个`BFTask`自己都维护着一个任务数组，当task执行`continueWithBlock:`后（会生成一个新的`BFTask`），`continueWithBlock:`带的那个`block`会被加入到任务数组中，每当有结果返回时，会执行`trySetResult:`方法，这个方法中会拿到`task`它自己维护的那个任务数组，然后取出其中的所有任务`block`，然后遍历执行。
 
 
-```objc
+```objectivec
 /// 内部维护的任务数组
 @property (nonatomic, strong) NSMutableArray *callbacks;
 
@@ -122,7 +122,7 @@ featuredImagePreview: "/images/promise/SpiritedAway.jpg"
 
 1. 首先，让我们看看创建`Promise`的源码
 
-```objc
+```objectivec
 + (instancetype)promiseWithResolver:(void (^)(PMKResolver))block {    // (2)
     PMKPromise *this = [self alloc];              // (3)  初始化promise
     this->_promiseQueue = PMKCreatePromiseQueue();
@@ -200,7 +200,7 @@ static void PMKResolve(PMKPromise *this, id result) {
 
 2. 下面看一下`then`的实现：
 
-```objc
+```objectivec
 - (PMKPromise *(^)(id))then {      // 1
     // 此处`then`本身就是一个block：（PMKPromise *(^then)(id param)），此方法类似于getter方法
     // 返回一个`(PMKPromise *(^)(id))`类型的block，这个block执行后，返回一个PMKPromise
@@ -294,7 +294,7 @@ static void PMKResolve(PMKPromise *this, id result) {
 
 先看下promise的初始化方法:
 
-```objc
+```objectivec
 - (instancetype)initPending {
   self = [super init];
   if (self) {
@@ -308,7 +308,7 @@ static void PMKResolve(PMKPromise *this, id result) {
 
 接下来看看最重要同时也是精华所在的`then`方法：
 
-```objc
+```objectivec
 - (instancetype)initPending {     // (0)
     self = [super init];
     if (self) {

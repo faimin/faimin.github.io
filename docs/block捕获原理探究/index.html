@@ -132,7 +132,18 @@
     <li><a href="#2添加__block的情况">2、添加__block的情况:</a></li>
     <li><a href="#3静态变量">3、静态变量:</a></li>
     <li><a href="#4全局变量">4、全局变量:</a></li>
-    <li><a href="#总结">总结:</a></li>
+    <li><a href="#总结">总结:</a>
+      <ul>
+        <li>
+          <ul>
+            <li><a href="#局部变量">局部变量：</a></li>
+            <li><a href="#静态变量">静态变量：</a></li>
+            <li><a href="#全局变量或-全局静态变量">全局变量（或 全局静态变量）：</a></li>
+            <li><a href="#其他">其他</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
     <li><a href="#推荐文章">推荐文章：</a></li>
     <li><a href="#参考文章">参考文章:</a></li>
   </ul>
@@ -211,11 +222,11 @@
 </div>
 </div><blockquote>
 <ul>
-<li>isa指针：指向一个类对象，在非GC模式下有三种类型：_NSConcreteStackBlock、_NSConcreteGlobalBlock、_NSConcreteMallocBlock；</li>
-<li>Flags：block的负载信息（引用计数和类型信息），按位存储；</li>
-<li>Reserved：保留变量；</li>
-<li>FuncPtr：指向block函数地址的指针。</li>
-<li>descriptor：是用于描述当前这个 block 的附加信息的，包括结构体的大小，需要 capture 和 dispose 的变量列表等。结构体大小需要保存是因为，每个 block 因为会 capture 一些变量，这些变量会加到 __main_block_impl_0 这个结构体中，使其体积变大。</li>
+<li><code>isa</code>指针：指向一个类对象，在非<code>GC</code>模式下有三种类型：_<code>NSConcreteStackBlock</code>、<code>_NSConcreteGlobalBlock</code>、<code>_NSConcreteMallocBlock</code>；</li>
+<li><code>Flags</code>：<code>block</code>的负载信息（引用计数和类型信息），按位存储；</li>
+<li><code>Reserved</code>：保留变量；</li>
+<li><code>FuncPtr</code>：指向<code>block</code>函数地址的指针。</li>
+<li><code>descriptor</code>：是用于描述当前这个 <code>block</code> 的附加信息的，包括结构体的大小，需要 <code>capture</code> 和 <code>dispose</code> 的变量列表等。结构体大小需要保存是因为，每个 <code>block</code> 因为会 <code>capture</code> 一些变量，这些变量会加到 <code>__main_block_impl_0</code> 这个结构体中，使其体积变大。</li>
 </ul>
 </blockquote>
 <p>接下来进入正题：</p>
@@ -538,6 +549,7 @@
 </span><span class="lnt">123
 </span><span class="lnt">124
 </span><span class="lnt">125
+</span><span class="lnt">126
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="c1">// 由下面的代码可知: `__block`的作用就是定义一个新的结构体来包裹原来的变量
@@ -551,6 +563,7 @@
 </span></span><span class="line"><span class="cl"> <span class="kt">void</span> <span class="p">(</span><span class="o">*</span><span class="n">__Block_byref_id_object_dispose</span><span class="p">)(</span><span class="kt">void</span><span class="o">*</span><span class="p">);</span>
 </span></span><span class="line"><span class="cl"> <span class="n">NSMutableArray</span> <span class="o">*</span><span class="n">mutArr</span><span class="p">;</span>
 </span></span><span class="line"><span class="cl"><span class="p">};</span>
+</span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="c1">// block 结构体
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">struct</span> <span class="nc">__main_block_impl_0</span> <span class="p">{</span>
 </span></span><span class="line"><span class="cl">  <span class="k">struct</span> <span class="nc">__block_impl</span> <span class="n">impl</span><span class="p">;</span>
@@ -599,17 +612,17 @@
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="c1">// 即block捕获的是持有`mutArr`的结构体指针
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="kt">void</span><span class="p">(</span><span class="o">*</span><span class="n">block</span><span class="p">)()</span> <span class="o">=</span> <span class="p">((</span><span class="kt">void</span> <span class="p">(</span><span class="o">*</span><span class="p">)())</span><span class="o">&amp;</span><span class="n">__main_block_impl_0</span><span class="p">((</span><span class="kt">void</span> <span class="o">*</span><span class="p">)</span><span class="n">__main_block_func_0</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">__main_block_desc_0_DATA</span><span class="p">,</span> <span class="p">(</span><span class="n">__Block_byref_mutArr_0</span> <span class="o">*</span><span class="p">)</span><span class="o">&amp;</span><span class="n">mutArr</span><span class="p">,</span> <span class="mi">570425344</span><span class="p">));</span>
 </span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">    <span class="c1">// 在block外部对`mutArr`操作
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="c1">//
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="c1">// 此处对`mutArr`数组对象进行操作,获取`mutArr`也是和`block`内部的获取方法一样,
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="c1">// 都是通过持有`mutArr`的结构体一步步获取到`mutArr`数组,
+</span></span><span class="line"><span class="cl">  <span class="c1">// 在block外部对`mutArr`操作
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="c1">//
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="c1">// 此处对`mutArr`数组对象进行操作,获取`mutArr`也是和`block`内部的获取方法一样,
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="c1">// 都是通过持有`mutArr`的结构体一步步获取到`mutArr`数组,
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="c1">//
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="c1">// 这里要经过 __forwarding 来获取`mutArr`的原因是：
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="c1">// __block 标记的变量有可能被copy到堆上，__forwarding 的作用就是在被copy到堆上时修改指向，使栈和堆上的 __forwarding 都指向堆上的那个副本，这样就保证了block内外操作的都是同一份内存。
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="c1">// 具体的copy实现可以参见下面的 `_Block_byref_copy` 函数
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="c1">// 
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="c1">// 所以,在block内外,操作的都是同一个`mutArr`对象.都是通过包含`mutArr`对象的`__Block_byref_mutArr_0`结构体对其进行间接操作处理的
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="c1">// 这也就是为什么添加`__block`后还能改变原来的对象的原因
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="c1">// 所以,在block内外,操作的都是同一个`mutArr`对象.都是通过包含`mutArr`对象的`__Block_byref_mutArr_0`结构体对其进行间接操作处理的
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="c1">// 这也就是为什么添加`__block`后还能改变原来的对象的原因
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="c1">//
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="c1">// PS: 当我们用__block 标记一个变量以后，当我们用到这个变量时都不是直接使用这个变量了，而是变成了通过`__Block_byref`来操作这个变量
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="p">((</span><span class="kt">void</span> <span class="p">(</span><span class="o">*</span><span class="p">)(</span><span class="n">id</span><span class="p">,</span> <span class="n">SEL</span><span class="p">,</span> <span class="n">ObjectType</span><span class="p">))(</span><span class="kt">void</span> <span class="o">*</span><span class="p">)</span><span class="n">objc_msgSend</span><span class="p">)((</span><span class="n">id</span><span class="p">)(</span><span class="n">mutArr</span><span class="p">.</span><span class="n">__forwarding</span><span class="o">-&gt;</span><span class="n">mutArr</span><span class="p">),</span> <span class="n">sel_registerName</span><span class="p">(</span><span class="s">&#34;addObject:&#34;</span><span class="p">),</span> <span class="p">(</span><span class="n">id</span><span class="p">)(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="o">&amp;</span><span class="n">__NSConstantStringImpl__var_folders_4t_ldgq93v932g220vwkl7c1fk40000gn_T_BlockTest_b07809_mi_0</span><span class="p">);</span>
@@ -678,7 +691,7 @@
             alt="/images/block/blockTest1.png" />
     </a><figcaption class="image-caption">blockTest</figcaption>
     </figure></p>
-<p>如果你想对<code>mutArr</code>变量重新赋值一个新的<code>array</code>实例，改变原变量的指针，那么不加<code>_block</code>是不行的，因为<code>block</code>捕获的是对象的地址，重新赋值，指针的指向就变了。但是如果只是单纯的<code>add</code>一个数据进去实际上改变的是变量所指的那个<code>mutArr</code>内存区域，指针指向并没有发生变化，还是原来那个对象，这样是没有区别的。</p>
+<p>如果你想对<code>mutArr</code>变量重新赋一个新的<code>array</code>实例，改变原变量的指针，那么不加<code>_block</code>是不行的，因为<code>block</code>捕获的是对象的地址，重新赋值，指针的指向就变了。但是如果只是单纯的<code>add</code>一个数据进去实际上改变的是变量所指的那个<code>mutArr</code>内存区域，指针指向并没有发生变化，还是原来那个对象，这样是没有区别的。</p>
 <h2 id="3静态变量">3、静态变量:</h2>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -992,51 +1005,49 @@
 </span></span></code></pre></td></tr></table>
 </div>
 </div><h2 id="总结">总结:</h2>
-<ol>
+<h4 id="局部变量">局部变量：</h4>
+<ul>
 <li>
-<p>局部变量：不加<code>__block</code>，block内部捕获的是局部变量的值，而且如果局部变量是数值类型（比如int）不会有<code>__main_block_copy_0</code> 和 <code>__main_block_dispose_0</code> 两个函数，如果是引用类型（比如NSArray）则会有这个函数，说明对于值类型变量是直接定义新变量并赋值相同，对于引用类型变量是定义一个新变量并copy它。</p>
+<p>不加<code>__block</code>: <code>block</code>内部捕获的是局部变量的值，而且如果局部变量是数值类型（比如<code>int</code>）不会有<code>__main_block_copy_0</code> 和 <code>__main_block_dispose_0</code> 两个函数，如果是引用类型（比如<code>NSArray</code>）则会有这个函数，说明对于值类型变量是直接定义新变量并赋值相同，对于引用类型变量是定义一个新变量并<code>copy</code>这个对象的指针。</p>
 </li>
 <li>
-<p>局部变量：而添加<code>__block</code>后,原来的局部变量会被放入到一个<code>__Block_byref_变量名_0</code>类型的结构体中，然后block内部当捕获局部变量时其实是捕获的是这个结构体的指针，当获取原来的局部变量时(不管是在block内还是block外)，其实都是通过这个结构体或者这个结构体指针来拿到原来的局部变量，再进行操作的。这也就是为什么添加<code>__block</code>后可以对block内捕获的局部变量进行重新赋值等操作。</p>
+<p>添加<code>__block</code>: 原来的局部变量会被放入到一个<code>__Block_byref_变量名_0</code>类型的结构体中，然后<code>block</code>内部当捕获局部变量时其实是捕获的是这个结构体的指针，当获取原来的局部变量时(不管是在<code>block</code>内还是<code>block</code>外)，其实都是通过这个结构体或者这个结构体指针来拿到原来的局部变量再进行操作的。这也就是为什么添加<code>__block</code>后可以对<code>block</code>内捕获的局部变量进行重新赋值等操作。</p>
 </li>
-<li>
-<p>静态变量：block直接捕获的是静态变量的指针，前后都是对指针进行操作。</p>
-</li>
-<li>
-<p>全局变量（或 全局静态变量）：block并没有捕获变量，而是在结构体的执行方法中直接使用了全局变量，是在执行时才去取值，一直都是获取变量的最新值。而且细心点我们可以发现，对于没有捕获全局变量的block中也没有<code>__main_block_copy_0</code> 和 <code>__main_block_dispose_0</code> 两个函数（用于在调用前后修改相应变量的引用计数），即没有发生copy操作。</p>
-</li>
-<li>
-<p>在ARC环境下：在单独声明block的时候，block还是会在栈上的；当block作为参数返回的时候，block也会自动被移到堆上；在ARC下，只要指针过一下strong指针，或者由函数返回都会把block移动到堆上。</p>
+</ul>
+<h4 id="静态变量">静态变量：</h4>
+<p><code>block</code>直接捕获的是静态变量的指针，前后都是对指针进行操作。</p>
+<h4 id="全局变量或-全局静态变量">全局变量（或 全局静态变量）：</h4>
+<p><code>block</code>并没有捕获变量，而是在结构体的执行方法中直接使用了全局变量，是在执行时才去取值，一直都是获取变量的最新值。而且细心点我们可以发现，对于没有捕获全局变量的<code>block</code>中也没有<code>__main_block_copy_0</code> 和 <code>__main_block_dispose_0</code> 两个函数（用于在调用前后修改相应变量的引用计数），即没有发生<code>copy</code>操作。</p>
+<h4 id="其他">其他</h4>
+<p><code>ARC</code>环境下：在单独声明<code>block</code>的时候，<code>block</code>还是会在栈上的；当<code>block</code>作为参数返回的时候，<code>block</code>也会自动被移到堆上；在<code>ARC</code>下，只要指针过一下<code>strong</code>指针，或者由函数返回都会把<code>block</code>移动到堆上。</p>
 <blockquote>
-<p><code>__main_block_copy_0</code> 中的 <code>_Block_object_assign</code> 函数相当于<code>retain</code>实例方法，使 block 的成员变量持有捕获到的对象。 <code>__main_block_dispose_0</code> 中的 <code>_Block_object_dispose</code> 函数相当于 <code>release</code> 实例方法，释放 block 的成员变量持有的对象。</p>
+<p><code>__main_block_copy_0</code> 中的 <code>_Block_object_assign</code> 函数相当于<code>retain</code>实例方法，使 block 的成员变量持有捕获到的对象。 <code>__main_block_dispose_0</code> 中的 <code>_Block_object_dispose</code> 函数相当于 <code>release</code> 实例方法，释放 <code>block </code>的成员变量持有的对象。</p>
 </blockquote>
-<p>Objective-C 中的三中block <code>__NSStackBlock__</code>、<code>__NSMallocBlock</code>、<code>__NSGloballBlock</code> 会在下面的情况下出现：</p>
-</li>
-</ol>
+<p><code>Objective-C</code> 中的3种<code>block</code>： <code>__NSStackBlock__</code>、<code>__NSMallocBlock</code>、<code>__NSGloballBlock</code> 会在下面的情况下出现：</p>
 <table>
 <thead>
 <tr>
-<th></th>
+<th style="text-align:center">条件</th>
 <th style="text-align:center">ARC</th>
-<th>非ARC</th>
+<th style="text-align:center">MRC</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>捕获外部变量</td>
+<td style="text-align:center">捕获外部变量</td>
 <td style="text-align:center"><code>__NSStackBlock__</code> <br> <code>__NSMallocBlock__</code></td>
-<td><code>__NSStackBlock__</code></td>
+<td style="text-align:center"><code>__NSStackBlock__</code></td>
 </tr>
 <tr>
-<td>未捕获外部变量</td>
+<td style="text-align:center">未捕获外部变量</td>
 <td style="text-align:center"><code>__NSGlobalBlock__</code></td>
-<td><code>__NSGlobalBlock__</code></td>
+<td style="text-align:center"><code>__NSGlobalBlock__</code></td>
 </tr>
 </tbody>
 </table>
 <ul>
-<li>在 ARC 中，捕获了外部变量的block的类型会是<code>__NSStackBlock__</code> 或者 <code>__NSMallocBlock__</code>，如果 block 被赋值给了某个变量，在这个过程中会执行<code>_Block_copy</code>，将原有的 <code>__NSStackBlock__</code> 变成 <code>__NSMallocBlock__</code>；但是如果 block 没有被赋值给某个变量，那它的类型就是<code>__NSStackBlock__</code>；没有捕获外部变量的 block 的类则是 <code>__NSGlobalBlock__</code> ，既不在栈上，也不在堆上，它类似于 C 语言函数一样，会在代码段中。</li>
-<li>在非 ARC 中，捕获了外部变量的 block 的类会是<code>__NSStackBlock__</code>，放置在栈上；没有捕获外部变量的 block 与 ARC 环境下的情况是相同的，类型是<code>__NSGlobalBlock__</code>，放置在代码段中。</li>
+<li>在 <code>ARC</code> 中，捕获了外部变量的<code>block</code>的类型会是<code>__NSStackBlock__</code> 或者 <code>__NSMallocBlock__</code>，如果 <code>block</code> 被赋值给了某个变量，在这个过程中会执行<code>_Block_copy</code>，将原有的 <code>__NSStackBlock__</code> 变成 <code>__NSMallocBlock__</code>；但是如果 <code>block</code> 没有被赋值给某个变量，那它的类型就是<code>__NSStackBlock__</code>；没有捕获外部变量的 <code>block</code> 的类则是 <code>__NSGlobalBlock__</code> ，既不在栈上，也不在堆上，它类似于 <code>C</code> 语言函数一样，会在代码段中。</li>
+<li>在<code>MRC</code>中，捕获了外部变量的 <code>block</code> 的类会是<code>__NSStackBlock__</code>，放置在栈上；没有捕获外部变量的 <code>block</code> 与 <code>ARC</code> 环境下的情况是相同的，类型是<code>__NSGlobalBlock__</code>，放置在代码段中。</li>
 </ul>
 <hr>
 <h2 id="推荐文章">推荐文章：</h2>

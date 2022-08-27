@@ -49,11 +49,11 @@ struct __block_impl {
 };
 ```
 
-> * isa指针：指向一个类对象，在非GC模式下有三种类型：_NSConcreteStackBlock、_NSConcreteGlobalBlock、_NSConcreteMallocBlock；
-> * Flags：block的负载信息（引用计数和类型信息），按位存储；
-> * Reserved：保留变量；
-> * FuncPtr：指向block函数地址的指针。
-> * descriptor：是用于描述当前这个 block 的附加信息的，包括结构体的大小，需要 capture 和 dispose 的变量列表等。结构体大小需要保存是因为，每个 block 因为会 capture 一些变量，这些变量会加到 __main_block_impl_0 这个结构体中，使其体积变大。
+> * `isa`指针：指向一个类对象，在非`GC`模式下有三种类型：_`NSConcreteStackBlock`、`_NSConcreteGlobalBlock`、`_NSConcreteMallocBlock`；
+> * `Flags`：`block`的负载信息（引用计数和类型信息），按位存储；
+> * `Reserved`：保留变量；
+> * `FuncPtr`：指向`block`函数地址的指针。
+> * `descriptor`：是用于描述当前这个 `block` 的附加信息的，包括结构体的大小，需要 `capture` 和 `dispose` 的变量列表等。结构体大小需要保存是因为，每个 `block` 因为会 `capture` 一些变量，这些变量会加到 `__main_block_impl_0` 这个结构体中，使其体积变大。
 
 接下来进入正题：
 
@@ -176,6 +176,7 @@ struct __Block_byref_mutArr_0 {
  void (*__Block_byref_id_object_dispose)(void*);
  NSMutableArray *mutArr;
 };
+
 // block 结构体
 struct __main_block_impl_0 {
   struct __block_impl impl;
@@ -224,17 +225,17 @@ int main(int argc, char *argv[]) {
   // 即block捕获的是持有`mutArr`的结构体指针
   void(*block)() = ((void (*)())&__main_block_impl_0((void *)__main_block_func_0, &__main_block_desc_0_DATA, (__Block_byref_mutArr_0 *)&mutArr, 570425344));
 
-    // 在block外部对`mutArr`操作
-    //
-    // 此处对`mutArr`数组对象进行操作,获取`mutArr`也是和`block`内部的获取方法一样,
-    // 都是通过持有`mutArr`的结构体一步步获取到`mutArr`数组,
+  // 在block外部对`mutArr`操作
+  //
+  // 此处对`mutArr`数组对象进行操作,获取`mutArr`也是和`block`内部的获取方法一样,
+  // 都是通过持有`mutArr`的结构体一步步获取到`mutArr`数组,
   //
   // 这里要经过 __forwarding 来获取`mutArr`的原因是：
   // __block 标记的变量有可能被copy到堆上，__forwarding 的作用就是在被copy到堆上时修改指向，使栈和堆上的 __forwarding 都指向堆上的那个副本，这样就保证了block内外操作的都是同一份内存。
   // 具体的copy实现可以参见下面的 `_Block_byref_copy` 函数
   // 
-    // 所以,在block内外,操作的都是同一个`mutArr`对象.都是通过包含`mutArr`对象的`__Block_byref_mutArr_0`结构体对其进行间接操作处理的
-    // 这也就是为什么添加`__block`后还能改变原来的对象的原因
+  // 所以,在block内外,操作的都是同一个`mutArr`对象.都是通过包含`mutArr`对象的`__Block_byref_mutArr_0`结构体对其进行间接操作处理的
+  // 这也就是为什么添加`__block`后还能改变原来的对象的原因
   //
   // PS: 当我们用__block 标记一个变量以后，当我们用到这个变量时都不是直接使用这个变量了，而是变成了通过`__Block_byref`来操作这个变量
   ((void (*)(id, SEL, ObjectType))(void *)objc_msgSend)((id)(mutArr.__forwarding->mutArr), sel_registerName("addObject:"), (id)(NSString *)&__NSConstantStringImpl__var_folders_4t_ldgq93v932g220vwkl7c1fk40000gn_T_BlockTest_b07809_mi_0);
@@ -296,7 +297,7 @@ static struct Block_byref *_Block_byref_copy(const void *arg) {
 
 ![](/images/block/blockTest1.png "blockTest")
 
-如果你想对`mutArr`变量重新赋值一个新的`array`实例，改变原变量的指针，那么不加`_block`是不行的，因为`block`捕获的是对象的地址，重新赋值，指针的指向就变了。但是如果只是单纯的`add`一个数据进去实际上改变的是变量所指的那个`mutArr`内存区域，指针指向并没有发生变化，还是原来那个对象，这样是没有区别的。
+如果你想对`mutArr`变量重新赋一个新的`array`实例，改变原变量的指针，那么不加`_block`是不行的，因为`block`捕获的是对象的地址，重新赋值，指针的指向就变了。但是如果只是单纯的`add`一个数据进去实际上改变的是变量所指的那个`mutArr`内存区域，指针指向并没有发生变化，还是原来那个对象，这样是没有区别的。
 
 ## 3、静态变量:
 
@@ -465,27 +466,35 @@ static struct IMAGE_INFO { unsigned version; unsigned flag; } _OBJC_IMAGE_INFO =
 
 ## 总结:
 
-1. 局部变量：不加`__block`，block内部捕获的是局部变量的值，而且如果局部变量是数值类型（比如int）不会有`__main_block_copy_0` 和 `__main_block_dispose_0` 两个函数，如果是引用类型（比如NSArray）则会有这个函数，说明对于值类型变量是直接定义新变量并赋值相同，对于引用类型变量是定义一个新变量并copy它。
+#### 局部变量：
 
-2. 局部变量：而添加`__block`后,原来的局部变量会被放入到一个`__Block_byref_变量名_0`类型的结构体中，然后block内部当捕获局部变量时其实是捕获的是这个结构体的指针，当获取原来的局部变量时(不管是在block内还是block外)，其实都是通过这个结构体或者这个结构体指针来拿到原来的局部变量，再进行操作的。这也就是为什么添加`__block`后可以对block内捕获的局部变量进行重新赋值等操作。
+  - 不加`__block`: `block`内部捕获的是局部变量的值，而且如果局部变量是数值类型（比如`int`）不会有`__main_block_copy_0` 和 `__main_block_dispose_0` 两个函数，如果是引用类型（比如`NSArray`）则会有这个函数，说明对于值类型变量是直接定义新变量并赋值相同，对于引用类型变量是定义一个新变量并`copy`这个对象的指针。
 
-3. 静态变量：block直接捕获的是静态变量的指针，前后都是对指针进行操作。
+  - 添加`__block`: 原来的局部变量会被放入到一个`__Block_byref_变量名_0`类型的结构体中，然后`block`内部当捕获局部变量时其实是捕获的是这个结构体的指针，当获取原来的局部变量时(不管是在`block`内还是`block`外)，其实都是通过这个结构体或者这个结构体指针来拿到原来的局部变量再进行操作的。这也就是为什么添加`__block`后可以对`block`内捕获的局部变量进行重新赋值等操作。
 
-4. 全局变量（或 全局静态变量）：block并没有捕获变量，而是在结构体的执行方法中直接使用了全局变量，是在执行时才去取值，一直都是获取变量的最新值。而且细心点我们可以发现，对于没有捕获全局变量的block中也没有`__main_block_copy_0` 和 `__main_block_dispose_0` 两个函数（用于在调用前后修改相应变量的引用计数），即没有发生copy操作。
+#### 静态变量：
 
-5. 在ARC环境下：在单独声明block的时候，block还是会在栈上的；当block作为参数返回的时候，block也会自动被移到堆上；在ARC下，只要指针过一下strong指针，或者由函数返回都会把block移动到堆上。
+`block`直接捕获的是静态变量的指针，前后都是对指针进行操作。
+
+#### 全局变量（或 全局静态变量）：
+
+`block`并没有捕获变量，而是在结构体的执行方法中直接使用了全局变量，是在执行时才去取值，一直都是获取变量的最新值。而且细心点我们可以发现，对于没有捕获全局变量的`block`中也没有`__main_block_copy_0` 和 `__main_block_dispose_0` 两个函数（用于在调用前后修改相应变量的引用计数），即没有发生`copy`操作。
+
+#### 其他
+
+`ARC`环境下：在单独声明`block`的时候，`block`还是会在栈上的；当`block`作为参数返回的时候，`block`也会自动被移到堆上；在`ARC`下，只要指针过一下`strong`指针，或者由函数返回都会把`block`移动到堆上。
    
-   > `__main_block_copy_0` 中的 `_Block_object_assign` 函数相当于`retain`实例方法，使 block 的成员变量持有捕获到的对象。 `__main_block_dispose_0` 中的 `_Block_object_dispose` 函数相当于 `release` 实例方法，释放 block 的成员变量持有的对象。
-   
-    Objective-C 中的三中block `__NSStackBlock__`、`__NSMallocBlock`、`__NSGloballBlock` 会在下面的情况下出现：
+> `__main_block_copy_0` 中的 `_Block_object_assign` 函数相当于`retain`实例方法，使 block 的成员变量持有捕获到的对象。 `__main_block_dispose_0` 中的 `_Block_object_dispose` 函数相当于 `release` 实例方法，释放 `block `的成员变量持有的对象。
 
-|                    |ARC                                               |非ARC |
-    |--------------|:--------------------------------------------:|------------|
-    |捕获外部变量        |`__NSStackBlock__` <br> `__NSMallocBlock__`  |`__NSStackBlock__` |
-    |未捕获外部变量   |`__NSGlobalBlock__`                         |`__NSGlobalBlock__`|
+`Objective-C` 中的3种`block`： `__NSStackBlock__`、`__NSMallocBlock`、`__NSGloballBlock` 会在下面的情况下出现：
 
-* 在 ARC 中，捕获了外部变量的block的类型会是`__NSStackBlock__` 或者 `__NSMallocBlock__`，如果 block 被赋值给了某个变量，在这个过程中会执行`_Block_copy`，将原有的 `__NSStackBlock__` 变成 `__NSMallocBlock__`；但是如果 block 没有被赋值给某个变量，那它的类型就是`__NSStackBlock__`；没有捕获外部变量的 block 的类则是 `__NSGlobalBlock__` ，既不在栈上，也不在堆上，它类似于 C 语言函数一样，会在代码段中。
-* 在非 ARC 中，捕获了外部变量的 block 的类会是`__NSStackBlock__`，放置在栈上；没有捕获外部变量的 block 与 ARC 环境下的情况是相同的，类型是`__NSGlobalBlock__`，放置在代码段中。
+| 条件         |ARC                                            |MRC               |
+|:------------:|:--------------------------------------------:|:-----------------:|
+|捕获外部变量     |`__NSStackBlock__` <br> `__NSMallocBlock__`   |`__NSStackBlock__` |
+|未捕获外部变量   |`__NSGlobalBlock__`                           |`__NSGlobalBlock__`|
+
+* 在 `ARC` 中，捕获了外部变量的`block`的类型会是`__NSStackBlock__` 或者 `__NSMallocBlock__`，如果 `block` 被赋值给了某个变量，在这个过程中会执行`_Block_copy`，将原有的 `__NSStackBlock__` 变成 `__NSMallocBlock__`；但是如果 `block` 没有被赋值给某个变量，那它的类型就是`__NSStackBlock__`；没有捕获外部变量的 `block` 的类则是 `__NSGlobalBlock__` ，既不在栈上，也不在堆上，它类似于 `C` 语言函数一样，会在代码段中。
+* 在`MRC`中，捕获了外部变量的 `block` 的类会是`__NSStackBlock__`，放置在栈上；没有捕获外部变量的 `block` 与 `ARC` 环境下的情况是相同的，类型是`__NSGlobalBlock__`，放置在代码段中。
 
 ------
 
@@ -501,3 +510,5 @@ static struct IMAGE_INFO { unsigned version; unsigned flag; } _OBJC_IMAGE_INFO =
 2. [iOS中的block是如何持有对象的](http://draveness.me/block-retain-object)
 3. [深入分析Objective-C block、weakself、strongself实现原理](http://www.jianshu.com/p/a5dd014edb13)
 4. [block-copy](http://www.galloway.me.uk/2013/05/a-look-inside-blocks-episode-3-block-copy/)
+
+

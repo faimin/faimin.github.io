@@ -6,7 +6,7 @@ draft: false
 author: "Zero.D.Saber"
 authorLink: "https://github.com/faimin"
 description: ""
-tags: ["ios", "Promise"]
+tags: ["iOS", "promise"]
 categories: ["实现原理"]
 
 images: []

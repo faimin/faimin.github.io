@@ -7,12 +7,12 @@ draft: false
 author: "Zero.D.Saber"
 authorLink: "https://github.com/faimin"
 description: "探索block变量捕获的原理"
-tags: ["ios", "block"]
+tags: ["iOS", "block"]
 categories: ["实现原理"]
 
 images: []
-featuredImage: "/images/block/limulu.jpg"
-featuredImagePreview: "/images/block/limulu.jpg"
+featuredImage: "/images/block/milim.jpg"
+featuredImagePreview: "/images/block/milim.jpg"
 
 lightgallery: true
 

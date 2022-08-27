@@ -5,13 +5,13 @@ lastmod:
 draft: false
 author: "Zero.D.Saber"
 authorLink: "https://github.com/faimin"
-description: ""
-tags: []
-categories: []
+description: "摘要"
+tags: ["iOS"]
+categories: ["实现原理"]
 
 images: []
-featuredImage: ""
-featuredImagePreview: ""
+featuredImage: "/logo/welcome.jpg"
+featuredImagePreview: "/logo/welcome.jpg"
 
 ---
 

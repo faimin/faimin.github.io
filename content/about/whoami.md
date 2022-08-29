@@ -1,7 +1,7 @@
 ---
 title: "自我简介"
 date: 2022-08-26T17:11:09+08:00
-lastmod: 
+lastmod: 2022-08-27T22:02:59+08:00
 draft: false
 author: "Zero.D.Saber"
 authorLink: "https://github.com/faimin"
@@ -9,28 +9,31 @@ description: ""
 tags: []
 categories: []
 
-images: []
 featuredImage: ""
 featuredImagePreview: ""
-
-license: "MIT"
-lightgallery: true
-hiddenFromHomePage: true
-hiddenFromSearch: true
-twemoji: false
-lightgallery: true
-ruby: true
-fraction: true
-fontawesome: true
-linkToMarkdown: true
-rssFullText: false
-
-toc:
-  enable: true
-  auto: true
-math:
-  enable: true
 ---
 
+## 我
 
-`iOS`开发者，技术栈`Objective-C`、`Swift`、`Lua`，能看懂`C++`，会写点`shell`，正在学习`Flutter`和`Rust` 😄 ~
+符现超，菜鸡程序员一枚
+
+## 技术栈
+
+> 有向全栈发展的想法，正在修行中
+
+- `Objective-C`
+- `Swift`
+- `Lua`
+- 会点`C++`、`Shell`
+
+## 兴趣爱好
+
+- 喜欢热血系和治愈系动漫
+- 喜欢收藏各种工具
+- 爱瞎折腾
+- 喜欢尝试新技术
+- 喜欢想办法解决项目中的问题
+
+## 优缺点
+
+处女座，有点小强迫症；乡下人，踏实稳重，能吃苦；

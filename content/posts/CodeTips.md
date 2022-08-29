@@ -7,7 +7,7 @@ author: "Zero.D.Saber"
 authorLink: "https://github.com/faimin"
 description: "代码技巧"
 tags: ["iOS", "tips"]
-categories: ["技巧"]
+categories: ["Tips"]
 
 images: []
 featuredImage: "/images/tips/cartoon.webp"

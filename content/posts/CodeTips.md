@@ -10,8 +10,8 @@ tags: ["iOS", "tips"]
 categories: ["Tips"]
 
 images: []
-featuredImage: "/images/tips/cartoon.webp"
-featuredImagePreview: "/images/tips/cartoon.webp"
+featuredImage: ""
+featuredImagePreview: "/images/tips/cat.jpg"
 --- 
 
 <!--more-->

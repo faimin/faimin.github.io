@@ -1,5 +1,5 @@
 ---
-title: "CocoaPods Tips"
+title: "CocoaPods笔记"
 date: 2016-11-21T11:40:00+08:00
 lastmod: 2022-03-14T00:17:18+08:00
 draft: false

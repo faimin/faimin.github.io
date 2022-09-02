@@ -9,7 +9,7 @@
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://faimin.github.io/swift%E8%A7%A3%E6%83%91/" /><meta property="og:image" content="https://faimin.github.io/logo/avatar.gif"/><meta property="article:section" content="posts" />
 <meta property="article:published_time" content="2022-07-26T16:23:10+08:00" />
-<meta property="article:modified_time" content="2022-08-27T17:49:11+08:00" /><meta property="og:site_name" content="Zero.D.Saber的小屋" />
+<meta property="article:modified_time" content="2022-09-02T19:07:00+08:00" /><meta property="og:site_name" content="Zero.D.Saber的小屋" />
 
 <meta name="twitter:card" content="summary_large_image"/>
 <meta name="twitter:image" content="https://faimin.github.io/logo/avatar.gif"/>
@@ -30,8 +30,8 @@
         "mainEntityOfPage": {
             "@type": "WebPage",
             "@id": "https:\/\/faimin.github.io\/swift%E8%A7%A3%E6%83%91\/"
-        },"image": ["https:\/\/faimin.github.io\/images\/Apple-Devices-Preview.png"],"genre": "posts","keywords": "iOS, swift","wordcount":  1080 ,
-        "url": "https:\/\/faimin.github.io\/swift%E8%A7%A3%E6%83%91\/","datePublished": "2022-07-26T16:23:10+08:00","dateModified": "2022-08-27T17:49:11+08:00","license": "This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher": {
+        },"image": ["https:\/\/faimin.github.io\/images\/Apple-Devices-Preview.png"],"genre": "posts","keywords": "iOS, swift","wordcount":  1268 ,
+        "url": "https:\/\/faimin.github.io\/swift%E8%A7%A3%E6%83%91\/","datePublished": "2022-07-26T16:23:10+08:00","dateModified": "2022-09-02T19:07:00+08:00","license": "This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher": {
             "@type": "Organization",
             "name": "Zero.D.Saber","logo": "https:\/\/faimin.github.io\/images\/avatar.png"},"author": {
                 "@type": "Person",
@@ -110,7 +110,7 @@
             <div class="toc-content" id="toc-content-auto"></div>
         </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">Swift解惑</h1><div class="post-meta">
             <div class="post-meta-line"><span class="post-author"><a href="https://github.com/faimin" title="Author" target="_blank" rel="noopener noreffer author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Zero.D.Saber</a></span>&nbsp;<span class="post-category">收录于 <a href="/categories/%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>实现原理</a></span></div>
-            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2022-07-26">2022-07-26</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;约 1080 字&nbsp;
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2022-07-26">2022-07-26</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;约 1268 字&nbsp;
                 <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;预计阅读 3 分钟&nbsp;<span id="/swift%E8%A7%A3%E6%83%91/" class="leancloud_visitors" data-flag-title="Swift解惑">
                         <i class="far fa-eye fa-fw" aria-hidden="true"></i>&nbsp;<span class=leancloud-visitors-count></span>&nbsp;次阅读
                     </span>&nbsp;</div>
@@ -130,17 +130,17 @@
   <ul>
     <li><a href="#分析swift利器">分析Swift利器</a></li>
     <li><a href="#值类型线程安全">值类型线程安全？</a></li>
-    <li><a href="#闭包">闭包</a></li>
+    <li><a href="#闭包closure">闭包（closure）</a></li>
     <li><a href="#lazy">Lazy</a></li>
-    <li><a href="#参考文章">参考文章</a></li>
+    <li><a href="#推荐文章">推荐文章</a></li>
   </ul>
 </nav></div>
             </div><div class="content" id="content"><h2 id="分析swift利器">分析Swift利器</h2>
 <blockquote>
-<p>swiftc xxx.swift -emit-silgen | xcrun swift-demangle &gt; xxxxSILGen.sil</p>
+<p>swiftc xxx.swift -emit-sil[gen] | xcrun swift-demangle &gt; xxxxSILGen.sil</p>
 </blockquote>
 <h2 id="值类型线程安全">值类型线程安全？</h2>
-<p>不要人云亦云，这个说法是有问题的，你想想假如我们有个变量 <code>var i = 1</code>，多线程修改时不需要加锁？</p>
+<p>不要人云亦云，这个说法是有问题的，思考一下：假如我们有个变量 <code>var i = 1</code>，多线程修改时不需要加锁？</p>
 <p>在未优化状态下值类型其实默认是在堆上分配的，只是在<code>SIL</code>优化阶段，编译器会根据上下文把大部分值类型改为在栈上分配，在栈上分配的情况是才是线程安全的，因为每个线程都有自己的栈空间，不需要考虑线程安全问题。但是对于被捕获的这种情况是没办法优化的，你想想如果放到栈上在出作用域后不就被释放了嘛，所以这种情况不会优化到栈上，而是继续留在堆上，也就是说这种场景下多线程操作值类型是不安全的，需要加锁来防止数据竞争。</p>
 <p>那值类型的安全性体现在哪里呢？</p>
 <ol>
@@ -154,9 +154,27 @@
 <p><code>let</code> 标记的变量是不允许修改的，所以这种也是安全的</p>
 </li>
 </ol>
-<h2 id="闭包">闭包</h2>
-<p><code>OC</code>中的<code>block</code>默认会捕获外界变量，我们要想修改捕获的值需要添加<code>__block</code>。 但Swift不一样，Swift中默认是可以修改外界捕获的变量的，除非你显式捕获外界变量。</p>
-<p>这是为什么呢？原因是<code>Swift</code>捕获外界上下文变量时会在堆上开辟一块内存<code>project_box</code>，然后上下文变量会被包装成<code>project_box</code>(先被<code>HeapObject</code>包装一下，<code>HeapObject</code>再被<code>Box</code>包装一下，最后捕获的是<code>Box</code>，即<strong>捕获的上下文存储在堆空间</strong>)，这个<code>project_box</code>会被放到闭包的参数列表后面传递进来。变量属于是被间接捕获的，有点类似于<code>OC</code>中的<code>__block</code>原理。当然，并不是所有的外界变量捕获都是经过包装过的，只有在闭包内发生修改的变量才会被包装。</p>
+<h2 id="闭包closure">闭包（closure）</h2>
+<p><figure><a class="lightgallery" href="/images/opensource/swift/closure-define.png" title="闭包定义" data-thumbnail="/images/opensource/swift/closure-define.png" data-sub-html="<h2>closure-define</h2><p>闭包定义</p>">
+        <img
+            class="lazyload"
+            src="/svg/loading.min.svg"
+            data-src="/images/opensource/swift/closure-define.png"
+            data-srcset="/images/opensource/swift/closure-define.png, /images/opensource/swift/closure-define.png 1.5x, /images/opensource/swift/closure-define.png 2x"
+            data-sizes="auto"
+            alt="/images/opensource/swift/closure-define.png" />
+    </a><figcaption class="image-caption">closure-define</figcaption>
+    </figure></p>
+<blockquote>
+<p>闭包和函数都是<strong>引用类型</strong></p>
+<p>函数也是特殊的闭包</p>
+</blockquote>
+<p><code>OC</code>中的<code>block</code>默认会捕获外界变量，我们要想修改捕获的值需要添加<code>__block</code>。 可是在<code>Swift</code>中不太一样，<code>Swift</code>中的闭包是捕获和存储其所在上下文中任意常量和变量的<strong>引用</strong> <strong>引用</strong> <strong>引用</strong>，注意是<strong>引用</strong>，如果想要捕获值类型变量的值，需要在闭包中显式引用。</p>
+<p>我们来简单分析下，<code>Swift</code>捕获外界上下文变量时会在堆上开辟一块内存<code>project_box</code> （仔细想想，如果是在栈上，出作用域就会释放掉，还怎么实现捕获的目的？！），然后上下文变量会被包装成<code>project_box</code>(先被<code>HeapObject</code>包装一下，<code>HeapObject</code>再被<code>Box</code>包装一下，最后捕获的是<code>Box</code>，即<strong>捕获的上下文存储在堆空间</strong>)，这个<code>project_box</code>会被放到闭包的参数列表后面传递进来。变量属于是被间接捕获的，有点类似于<code>OC</code>中的<code>__block</code>原理。当然，并不是所有的外界变量捕获都是经过包装过的，只有在闭包内发生修改的变量才会被包装，官方文档中有提到（前辈都告诫过我们，一定要多读书）。</p>
+<blockquote>
+<p>注意：
+为了优化，如果一个值不会被闭包改变，或者在闭包创建后不会改变，Swift 可能会改为捕获并保存一份对值的拷贝。</p>
+</blockquote>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
@@ -201,7 +219,7 @@
             alt="/images/opensource/swift/Swift_Lazy.png" />
     </a><figcaption class="image-caption">swift_lazy</figcaption>
     </figure></p>
-<h2 id="参考文章">参考文章</h2>
+<h2 id="推荐文章">推荐文章</h2>
 <ul>
 <li>
 <p><a href="https://juejin.cn/post/7030983921328193549" target="_blank" rel="noopener noreffer ">从 SIL 角度看 Swift 中的值类型与引用类型</a></p>
@@ -222,7 +240,7 @@
     <div class="post-info">
         <div class="post-info-line">
             <div class="post-info-mod">
-                <span>更新于 2022-08-27</span>
+                <span>更新于 2022-09-02</span>
             </div></div>
         <div class="post-info-line">
             <div class="post-info-md"><span>
@@ -248,7 +266,7 @@
                 Please enable JavaScript to view the comments powered by <a href="https://valine.js.org/">Valine</a>.
             </noscript></div></article></div>
             </main><footer class="footer">
-        <div class="footer-container"><div class="footer-line"><span id="busuanzi_container_site_uv">本站访客数<span id="busuanzi_value_site_uv"></span>人次</span> | <span id="busuanzi_container_site_pv">本站总访问量 <span id="busuanzi_value_site_pv"></span>次 </span></div><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.102.1">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.11"><i class="far fa-kiss-wink-heart fa-fw" aria-hidden="true"></i> LoveIt</a>
+        <div class="footer-container"><div class="footer-line"><span id="busuanzi_container_site_uv">本站访客数<span id="busuanzi_value_site_uv"></span>人次</span> | <span id="busuanzi_container_site_pv">本站总访问量 <span id="busuanzi_value_site_pv"></span>次 </span></div><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.102.3">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.11"><i class="far fa-kiss-wink-heart fa-fw" aria-hidden="true"></i> LoveIt</a>
                 </div><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2018 - 2022</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="https://github.com/faimin" target="_blank">Zero.D.Saber</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
         </div>
     </footer></div>

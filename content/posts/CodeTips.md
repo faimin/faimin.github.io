@@ -1,5 +1,5 @@
 ---
-title: "Code Tips"
+title: "代码技巧"
 date: 2018-07-11T15:14:00+08:00
 lastmod: 2022-08-27T14:33:21+08:00
 draft: false
@@ -11,7 +11,7 @@ categories: ["Tips"]
 
 images: []
 featuredImage: ""
-featuredImagePreview: "/images/tips/cat.jpg"
+featuredImagePreview: "/images/tips/dragon.jpeg"
 --- 
 
 <!--more-->

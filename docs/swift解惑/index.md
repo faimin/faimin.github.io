@@ -29,9 +29,9 @@
 >
 > 函数也是特殊的闭包
 
-`OC`中的`block`默认会捕获外界变量，我们要想修改捕获的值需要添加`__block`。 可是在`Swift`中不太一样，`Swift`中的闭包是捕获和存储其所在上下文中任意常量和变量的**引用** **引用** **引用**，注意是**引用**，如果想要捕获值类型变量的值，需要在闭包中显式引用。
+`Objective-C`中的`block`默认会捕获外界变量，我们要想修改捕获的值需要添加`__block`。 可是在`Swift`中不太一样，`Swift`中的闭包是捕获和存储其所在上下文中任意常量和变量的**引用** **引用** **引用**，注意是**引用**，如果想要捕获值类型变量的值，需要在闭包中显式引用。
 
-我们来简单分析下，`Swift`捕获外界上下文变量时会在堆上开辟一块内存`project_box` （仔细想想，如果是在栈上，出作用域就会释放掉，还怎么实现捕获的目的？！），然后上下文变量会被包装成`project_box`(先被`HeapObject`包装一下，`HeapObject`再被`Box`包装一下，最后捕获的是`Box`，即**捕获的上下文存储在堆空间**)，这个`project_box`会被放到闭包的参数列表后面传递进来。变量属于是被间接捕获的，有点类似于`OC`中的`__block`原理。当然，并不是所有的外界变量捕获都是经过包装过的，只有在闭包内发生修改的变量才会被包装，官方文档中有提到（前辈都告诫过我们，一定要多读书）。
+我们来简单分析下，`Swift`捕获外界上下文变量时会在堆上开辟一块内存`project_box` （仔细想想，如果是在栈上，出作用域就会释放掉，还怎么实现捕获的目的？！），然后上下文变量会被包装成`project_box`(先被`HeapObject`包装一下，`HeapObject`再被`Box`包装一下，最后捕获的是`Box`，即**捕获的上下文存储在堆空间**)，这个`project_box`会被放到闭包的参数列表后面传递进来。变量属于是被间接捕获的，有点类似于`OC`中的`__block`原理。当然，并不是所有的外界变量捕获都是经过包装过的，只有在闭包内发生修改的变量才会被包装，官方文档中有提到。
 
 > 注意：
 > 为了优化，如果一个值不会被闭包改变，或者在闭包创建后不会改变，Swift 可能会改为捕获并保存一份对值的拷贝。
@@ -61,6 +61,70 @@
 使用`lazy`后再执行高阶函数，返回的其实是一个`lazy`对象，比如对一个数组进行`XX`操作，返回的是 `LazyXXSequence` 类型，这个类型中会保存原函数的操作行为和原始数据，只有在对这个`lazy`类型进行操作时才会真正进行函数操作。
 
 ![Lazy](/images/opensource/swift/Swift_Lazy.png "swift_lazy")
+
+
+## struct
+
+#### 嵌套类型会影响父级结构的内存占用吗？
+
+不会。最简单的验证方法就是通过`MemoryLayout<Type>.size`打印一下父级结构所占内存大小就清楚了。也就是说嵌套只是起到了命名空间的作用，并不会影响其他东西
+
+#### `Array`存`Any`类型的元素是怎么内存对齐的？
+
+元素会被包装成`existential`类型，初步猜测应该和数组中存放遵守相同协议的元素的处理方式类似。
+
+下面截取函数原型为`arr.append(1); arr.append((100, 200)); arr.append(XX());`的部分`SIL`代码，注意里面的`init_existential_addr`字眼：
+
+```c
+store %6 to %3 : $*Array<Any>                   // id: %7
+%8 = alloc_stack $Any                           // users: %17, %15, %11
+%9 = integer_literal $Builtin.Int64, 1          // user: %10
+%10 = struct $Int (%9 : $Builtin.Int64)         // user: %12
+%11 = init_existential_addr %8 : $*Any, $Int    // user: %12
+store %10 to %11 : $*Int                        // id: %12
+%13 = begin_access [modify] [dynamic] %3 : $*Array<Any> // users: %16, %15
+// function_ref Array.append(_:)
+%14 = function_ref @Swift.Array.append(__owned A) -> () : $@convention(method) <τ_0_0> (@in τ_0_0, @inout Array<τ_0_0>) -> () // user: %15
+%15 = apply %14<Any>(%8, %13) : $@convention(method) <τ_0_0> (@in τ_0_0, @inout Array<τ_0_0>) -> ()
+end_access %13 : $*Array<Any>                   // id: %16
+dealloc_stack %8 : $*Any                        // id: %17
+%18 = alloc_stack $Any                          // users: %32, %30, %19
+%19 = init_existential_addr %18 : $*Any, $(Int, Int) // users: %21, %20
+%20 = tuple_element_addr %19 : $*(Int, Int), 0  // user: %24
+%21 = tuple_element_addr %19 : $*(Int, Int), 1  // user: %27
+%22 = integer_literal $Builtin.Int64, 100       // user: %23
+%23 = struct $Int (%22 : $Builtin.Int64)        // user: %24
+store %23 to %20 : $*Int                        // id: %24
+%25 = integer_literal $Builtin.Int64, 200       // user: %26
+%26 = struct $Int (%25 : $Builtin.Int64)        // user: %27
+store %26 to %21 : $*Int                        // id: %27
+%28 = begin_access [modify] [dynamic] %3 : $*Array<Any> // users: %31, %30
+// function_ref Array.append(_:)
+%29 = function_ref @Swift.Array.append(__owned A) -> () : $@convention(method) <τ_0_0> (@in τ_0_0, @inout Array<τ_0_0>) -> () // user: %30
+%30 = apply %29<Any>(%18, %28) : $@convention(method) <τ_0_0> (@in τ_0_0, @inout Array<τ_0_0>) -> ()
+end_access %28 : $*Array<Any>                   // id: %31
+dealloc_stack %18 : $*Any                       // id: %32
+%33 = alloc_stack $Any                          // users: %43, %41, %37
+%34 = metatype $@thick XX.Type                  // user: %36
+// function_ref XX.__allocating_init()
+%35 = function_ref @A.XX.__allocating_init() -> A.XX : $@convention(method) (@thick XX.Type) -> @owned XX // user: %36
+%36 = apply %35(%34) : $@convention(method) (@thick XX.Type) -> @owned XX // user: %38
+%37 = init_existential_addr %33 : $*Any, $XX    // user: %38
+store %36 to %37 : $*XX                         // id: %38
+%39 = begin_access [modify] [dynamic] %3 : $*Array<Any> // users: %42, %41
+  ```
+
+
+## 枚举
+
+### 内存占用
+
+1. 普通的枚举（非关联类型）自身只占用`1个字节`，与`case`数量无关；
+2. 带关联值的枚举，其所占内存大小为所有`case`中关联类型占用内存最大的那个(类似`union`)，再加枚举自身的大小；
+3. 特殊场景：只有一个`case`的枚举，枚举本身所占用的内存大小是`0个字节`，如果带关联值，那枚举所占内存大小只包含关联值所占内存的大小，不包含枚举自身的大小；
+4. 对于有关联值的`case`，它的`case`值会根据定义的顺序默认从`0`开始累加`1`；而其余所有不带关联值的`case`，它们的`case`地址相同，都等于最后一个带关联成员`case`的值`+1`（也就是说不带关联值的`case`在带关联值的`case`后面）；
+5. **关联值**是直接存储在枚举变量内存里面的，而**原始值**不是，它是通过`xx.rawValue`（计算属性）访问的，因此它的原始值完全不需要存储（枚举也不支持存储属性），而是在计算属性函数的返回值中，即函数中。`rawValue`这个计算属性是编译器帮我们默认添加的，它的返回值默认是我们设置的**原始值**，假如我们自己实现了这个计算属性，编译器就不会帮我们默认添加了，而是使用我们自己的实现；
+6. 嵌套枚举：被`indirect`标记的对象会被`BoxPair`包装成引用类型（放到堆上），和`Rust`一样的处理方式（`Rust`中是被包装成`Box`类型）；
 
 
 ## 推荐文章

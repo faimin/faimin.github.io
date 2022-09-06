@@ -1,7 +1,7 @@
 ---
 title: "Swift与Objective-C混编"
 date: 2020-11-04T18:21:55+08:00
-lastmod: 2021-08-07T11:21:55+08:00
+lastmod: 2022-09-06T15:08:00+08:00
 draft: false
 author: "Zero.D.Saber"
 authorLink: "https://github.com/faimin"
@@ -101,7 +101,7 @@ end
 
 同一`pod`中，把`oc`类引用放入`umbrella`中（默认就有了），然后需要这个文件能被找到。
 
-1. 一种方式是修改此文件的`membership`为`public`，目的是为了把它移到`public header`中去（默认是`project`的）
+1. 一种方式是修改此文件的`membership`为`public`，目的是为了把它移到`public header`中去（静态库形式`pod`中的文件默认都是`project`的，动态库形式的pod才会区分`public`、`private`、`project`）
    
    > 修改起来成本比较高，不推荐
 
@@ -175,46 +175,6 @@ struct swift_class_t : objc_class {
 };
 ```
 
-## 后续
-
-需要平台制定规范，推动`pod`库的改造，以达到无缝混编
-
-## Podspec
-
-贴一下我的`Swift podspec`，没什么特别的，仅仅指定了一下`Swift`兼容的版本而已，仅供参考，按需修改
-
-```ruby
-Pod::Spec.new do |spec|
-  spec.name         = "ABC"
-  spec.version      = "0.0.1"
-  spec.summary      = "坑"
-  spec.description  = <<-DESC
-    大坑
-                   DESC
-  spec.homepage     = "https://foo/bar/abc"
-  spec.license      = "MIT"
-  spec.platform     = :ios, "10.0"
-  spec.source       = { 
-    :git => "https://foo/bar/abc.git", 
-    :tag => "#{spec.version}" 
-  }
-  spec.swift_versions = ['5.1'']
-  spec.source_files = "Source/**/*.{h,m,swift}"
-  spec.module_name = spec.name
-  spec.header_dir = "./"
-
-  spec.pod_target_xcconfig = {
-    'DEFINES_MODULE' => 'YES',
-    #'SWIFT_OBJC_BRIDGING_HEADER' => "$(PODS_ROOT)/#{spec.name}/KLiaoMarrySwift-Bridging-Header.h"
-  }
-
-  spec.dependency 'RxSwift'
-  spec.dependency 'RxCocoa'
-  spec.dependency 'Cartography', '~> 4.0.0'
-  spec.dependency 'ZDFlexLayoutKit'
-end
-```
-
 ## 解惑
 
 #### 1. Xcode9 & Cocopoads 1.5 之后，不是已经支持把Swift编译为静态库了吗，为什么会报错呢？
@@ -240,23 +200,55 @@ end
 
 ![image.png](/images/swiftocmix/header_dir_code.png "header_dir_code")
 
-#### 4. `pod`中没有`bridging-header`为什么`swift`还能引用`oc`类？
+#### 4. `pod`中没有`bridging-header`为什么`Swift`还能引用`Objective-C`类？
 
-`pod`中`umbrella`文件，它的作用其实就相当于是主工程中的`bridging-header`。
+`pod`中`umbrella`文件其实就相当于是主工程中的`bridging-header`。
 
-> 优化
 
-`podspec`中设置的`source_files`路径下的文件默认都是`public`的，而`public`的头文件默认都会放到`umbrella`中，这样很容易导致`umbrella`中头文件过多，尤其是业务`pod`，影响编译速度。
+## 推荐设置
 
-我们可以把文件默认设置为`private_header_files`，然后只需把给`swift`用的头文件设置为`public`，尽量减少头文件数量。
+`podspec`中在不指定`private_header_files`或`project_header_files`的时候`source_files`路径下的文件默认全都是`public`的，而`public`的头文件默认都会放到`umbrella`中，这样很容易导致`umbrella`中头文件过多，尤其是业务`pod`（比如我们直播业务有2300多头文件），特别影响编译速度。
+
+解决办法：把那些暴露给`swift`的头文件放到`public_header_files`中，其他的头文件则默认变成`project`类型。或者是把全部头文件默认指定为`private_header_files`或`project_header_files`，然后把需要公开的放到`public_header_files`中，尽量减少`umbrella`中头文件的数量。设置如下：
+
+
+贴一下供参考的`Swift podspec`，请按需修改
 
 ```ruby
-spec.subspec 'Room' do |s|
-    publicHeaders = Dir["Source/Room/PublicHeaders/*.h"]
-    privateHeaders = Dir["Source/Room/**/*.{h}"] - publicHeaders
-    s.source_files = 'Source/Room/**/*.{h,m,swift}'
-    s.public_header_files = publicHeaders
-    s.private_header_files = privateHeaders
+Pod::Spec.new do |spec|
+  spec.name         = "foo"
+  spec.version      = "0.0.1"
+  spec.summary      = "foo"
+  spec.description  = <<-DESC
+    是非成败转头空
+                   DESC
+  spec.homepage     = "https://foo/bar/abc"
+  spec.license      = "MIT"
+  spec.platform     = :ios, "12.0"
+  spec.source       = { 
+    :git => "https://foo/bar/abc.git", 
+    :tag => "#{spec.version}" 
+  }
+  spec.swift_versions = ['5.1']
+
+  publicHeaders = Dir["Source/Room/PublicHeaders/*.h"]
+  privateHeaders = Dir["Source/Room/**/*.{h}"] - publicHeaders
+  spec.source_files = 'Source/Room/**/*.{h,m,swift}'
+  spec.public_header_files = publicHeaders
+  # 下面这行可有可无，设置的话会放到private中，不设置则等价于 `spec.project_header_files = privateHeaders`，会放到project中
+  # spec.private_header_files = privateHeaders
+
+  spec.module_name = spec.name
+  spec.header_dir = "./"
+
+  spec.pod_target_xcconfig = {
+    'DEFINES_MODULE' => 'YES',
+  }
+
+  spec.dependency 'RxSwift'
+  spec.dependency 'RxCocoa'
+  spec.dependency 'Cartography', '~> 4.0.0'
+  spec.dependency 'ZDFlexLayoutKit'
 end
 ```
 

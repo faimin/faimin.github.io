@@ -2,10 +2,10 @@
     xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
     xmlns:xhtml="http://www.w3.org/1999/xhtml"
     ><url>
-            <loc>https://faimin.github.io/%E6%88%91%E7%9A%84%E6%94%B6%E8%97%8F/</loc><lastmod>2022-08-30T10:51:11&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+            <loc>https://faimin.github.io/%E6%88%91%E7%9A%84%E6%94%B6%E8%97%8F/</loc><lastmod>2022-08-30T10:51:11&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.9</priority></url><url>
             <loc>https://faimin.github.io/swift%E8%A7%A3%E6%83%91/</loc><lastmod>2022-09-04T21:07:00&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
             <loc>https://faimin.github.io/ios%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/</loc><lastmod>2022-09-02T20:20:00&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
-            <loc>https://faimin.github.io/categories/</loc><lastmod>2022-09-04T21:07:00&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority><xhtml:link
+            <loc>https://faimin.github.io/categories/</loc><lastmod>2022-09-06T15:08:00&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority><xhtml:link
                         rel="alternate"
                         hreflang="en"
                         href="https://faimin.github.io/en/categories/"
@@ -14,8 +14,8 @@
                     hreflang="zh-cn"
                     href="https://faimin.github.io/categories/"
                     /></url><url>
-            <loc>https://faimin.github.io/posts/</loc><lastmod>2022-09-04T21:07:00&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
-            <loc>https://faimin.github.io/tags/</loc><lastmod>2022-09-04T21:07:00&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority><xhtml:link
+            <loc>https://faimin.github.io/posts/</loc><lastmod>2022-09-06T15:08:00&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+            <loc>https://faimin.github.io/tags/</loc><lastmod>2022-09-06T15:08:00&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority><xhtml:link
                         rel="alternate"
                         hreflang="en"
                         href="https://faimin.github.io/en/tags/"
@@ -24,7 +24,7 @@
                     hreflang="zh-cn"
                     href="https://faimin.github.io/tags/"
                     /></url><url>
-            <loc>https://faimin.github.io/</loc><lastmod>2022-09-04T21:07:00&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority><xhtml:link
+            <loc>https://faimin.github.io/</loc><lastmod>2022-09-06T15:08:00&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority><xhtml:link
                         rel="alternate"
                         hreflang="en"
                         href="https://faimin.github.io/en/"
@@ -33,16 +33,16 @@
                     hreflang="zh-cn"
                     href="https://faimin.github.io/"
                     /></url><url>
-            <loc>https://faimin.github.io/tags/%E5%B7%A5%E5%85%B7/</loc><lastmod>2022-08-30T10:51:11&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
-            <loc>https://faimin.github.io/categories/%E5%B7%A5%E5%85%B7/</loc><lastmod>2022-08-30T10:51:11&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
-            <loc>https://faimin.github.io/about/</loc><lastmod>2022-08-29T16:26:47&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
-            <loc>https://faimin.github.io/about/whoami/</loc><lastmod>2022-08-29T16:26:47&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
-            <loc>https://faimin.github.io/tags/ios/</loc><lastmod>2022-09-04T21:07:00&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
-            <loc>https://faimin.github.io/tags/swift/</loc><lastmod>2022-09-04T21:07:00&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+            <loc>https://faimin.github.io/tags/%E5%B7%A5%E5%85%B7/</loc><lastmod>2022-08-30T10:51:11&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.9</priority></url><url>
+            <loc>https://faimin.github.io/categories/%E5%B7%A5%E5%85%B7/</loc><lastmod>2022-08-30T10:51:11&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.9</priority></url><url>
+            <loc>https://faimin.github.io/about/</loc><lastmod>2022-08-29T16:26:47&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.9</priority></url><url>
+            <loc>https://faimin.github.io/about/whoami/</loc><lastmod>2022-08-29T16:26:47&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.9</priority></url><url>
+            <loc>https://faimin.github.io/tags/ios/</loc><lastmod>2022-09-06T15:08:00&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+            <loc>https://faimin.github.io/tags/swift/</loc><lastmod>2022-09-06T15:08:00&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
             <loc>https://faimin.github.io/categories/%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/</loc><lastmod>2022-09-04T21:07:00&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
             <loc>https://faimin.github.io/tags/runtime/</loc><lastmod>2022-09-02T20:20:00&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
-            <loc>https://faimin.github.io/swift%E4%B8%8Eobjective-c%E6%B7%B7%E7%BC%96/</loc><lastmod>2021-08-07T11:21:55&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
-            <loc>https://faimin.github.io/categories/%E6%B7%B7%E7%BC%96/</loc><lastmod>2021-08-07T11:21:55&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>https://faimin.github.io/swift%E4%B8%8Eobjective-c%E6%B7%B7%E7%BC%96/</loc><lastmod>2022-09-06T15:08:00&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+            <loc>https://faimin.github.io/categories/%E6%B7%B7%E7%BC%96/</loc><lastmod>2022-09-06T15:08:00&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
             <loc>https://faimin.github.io/tags/jenkins/</loc><lastmod>2022-08-27T15:32:14&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.9</priority></url><url>
             <loc>https://faimin.github.io/categories/jenkins/</loc><lastmod>2022-08-27T15:32:14&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.9</priority></url><url>
             <loc>https://faimin.github.io/jenkins_note/</loc><lastmod>2022-08-27T15:32:14&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.9</priority></url><url>

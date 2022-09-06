@@ -101,7 +101,7 @@ end
 
 同一`pod`中，把`oc`类引用放入`umbrella`中（默认就有了），然后需要这个文件能被找到。
 
-1. 一种方式是修改此文件的`membership`为`public`，目的是为了把它移到`public header`中去（静态库形式`pod`中的文件默认都是`project`的，动态库形式的pod才会区分`public`、`private`、`project`）
+1. 一种方式是修改此文件的`membership`为`public`，目的是为了把它移到`public header`中去（静态库形式`pod`中的文件默认都是`project`的，动态库形式的`pod`才会区分`public`、`private`、`project`）
    
    > 修改起来成本比较高，不推荐
 
@@ -204,12 +204,16 @@ struct swift_class_t : objc_class {
 
 `pod`中`umbrella`文件其实就相当于是主工程中的`bridging-header`。
 
+#### 5. 为什么`Xcode`生成的`hmap`对我们的项目并没起到什么作用？
+
+上面已经提到静态库的形式下我们的类文件的`membership`是`project`，`hmap`生成的是`#import "xx.h"`形式的引用路径的`cache`，而我们通常引用库文件的方式为`#import <A/B.h>`，这就导致我们的引用根本就没办法命中`hmap`中的映射缓存（`pcm`），所以最终还是会走`search_path`的查找逻辑。而且由于`Xcode`中的`USE_HEADERMAP`设置默认是开启的，`Xcode`在编译期还会自动创建对我们用处不大的`hmap`，而这个过程间接拖慢了我们的编译速度。
+
 
 ## 推荐设置
 
 `podspec`中在不指定`private_header_files`或`project_header_files`的时候`source_files`路径下的文件默认全都是`public`的，而`public`的头文件默认都会放到`umbrella`中，这样很容易导致`umbrella`中头文件过多，尤其是业务`pod`（比如我们直播业务有2300多头文件），特别影响编译速度。
 
-解决办法：把那些暴露给`swift`的头文件放到`public_header_files`中，其他的头文件则默认变成`project`类型。或者是把全部头文件默认指定为`private_header_files`或`project_header_files`，然后把需要公开的放到`public_header_files`中，尽量减少`umbrella`中头文件的数量。设置如下：
+解决办法：把那些暴露给`swift`的头文件放到`public_header_files`中，其他的头文件则默认变成`project`类型。或者是把全部头文件默认指定为`private_header_files`或`project_header_files`，然后把需要公开的放到`public_header_files`中，尽量减少`umbrella`中头文件的数量。
 
 
 贴一下供参考的`Swift podspec`，请按需修改
@@ -263,3 +267,5 @@ end
 - [https://github.com/CocoaPods/CocoaPods/pull/7724](https://github.com/CocoaPods/CocoaPods/pull/7724)
 
 - [PromiseKit.podspec 6.15.3](https://github.com/mxcl/PromiseKit/blob/6.15.3/PromiseKit.podspec)
+
+- [从预编译的角度理解Swift与Objective-C及混编机制](https://tech.meituan.com/2021/02/25/swift-objective-c.html)

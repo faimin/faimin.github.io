@@ -30,7 +30,7 @@
         "mainEntityOfPage": {
             "@type": "WebPage",
             "@id": "https:\/\/faimin.github.io\/swift%E8%A7%A3%E6%83%91\/"
-        },"image": ["https:\/\/faimin.github.io\/images\/Apple-Devices-Preview.png"],"genre": "posts","keywords": "iOS, swift","wordcount":  2597 ,
+        },"image": ["https:\/\/faimin.github.io\/images\/Apple-Devices-Preview.png"],"genre": "posts","keywords": "iOS, swift","wordcount":  3334 ,
         "url": "https:\/\/faimin.github.io\/swift%E8%A7%A3%E6%83%91\/","datePublished": "2022-07-26T16:23:10+08:00","dateModified": "2022-09-04T21:07:00+08:00","license": "This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher": {
             "@type": "Organization",
             "name": "Zero.D.Saber","logo": "https:\/\/faimin.github.io\/images\/avatar.png"},"author": {
@@ -110,8 +110,8 @@
             <div class="toc-content" id="toc-content-auto"></div>
         </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">Swift解惑</h1><div class="post-meta">
             <div class="post-meta-line"><span class="post-author"><a href="https://github.com/faimin" title="Author" target="_blank" rel="noopener noreffer author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Zero.D.Saber</a></span>&nbsp;<span class="post-category">收录于 <a href="/categories/%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>实现原理</a></span></div>
-            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2022-07-26">2022-07-26</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;约 2597 字&nbsp;
-                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;预计阅读 6 分钟&nbsp;<span id="/swift%E8%A7%A3%E6%83%91/" class="leancloud_visitors" data-flag-title="Swift解惑">
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2022-07-26">2022-07-26</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;约 3334 字&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;预计阅读 7 分钟&nbsp;<span id="/swift%E8%A7%A3%E6%83%91/" class="leancloud_visitors" data-flag-title="Swift解惑">
                         <i class="far fa-eye fa-fw" aria-hidden="true"></i>&nbsp;<span class=leancloud-visitors-count></span>&nbsp;次阅读
                     </span>&nbsp;</div>
         </div><div class="featured-image"><img
@@ -128,7 +128,8 @@
                 </div>
                 <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
   <ul>
-    <li><a href="#分析swift利器">分析Swift利器</a></li>
+    <li><a href="#swift分析利器">Swift分析利器</a></li>
+    <li><a href="#备忘录">备忘录</a></li>
     <li><a href="#值类型线程安全">值类型线程安全？</a></li>
     <li><a href="#闭包closure">闭包（closure）</a></li>
     <li><a href="#lazy">Lazy</a></li>
@@ -150,10 +151,37 @@
     <li><a href="#推荐文章">推荐文章</a></li>
   </ul>
 </nav></div>
-            </div><div class="content" id="content"><h2 id="分析swift利器">分析Swift利器</h2>
+            </div><div class="content" id="content"><h2 id="swift分析利器">Swift分析利器</h2>
 <blockquote>
 <p>swiftc xxx.swift -emit-sil[gen] | xcrun swift-demangle &gt; xxxxSILGen.sil</p>
 </blockquote>
+<h2 id="备忘录">备忘录</h2>
+<ul>
+<li>
+<p><strong>全局的常量或者变量都是延迟计算的</strong>，跟延迟加载存储属性相似，不同的地方在于，全局的常量或变量不需要标记<code>lazy</code>修饰符。<strong>局部范围的常量和变量不延迟计算</strong>；</p>
+</li>
+<li>
+<p>枚举类型不支持存储属性，想存储数据可以使用枚举关联的方式；</p>
+</li>
+<li>
+<p>为类定义<strong>计算型类型属性</strong>时，可以改用关键字<code>class</code>来支持子类对父类的实现进行重写；</p>
+</li>
+<li>
+<p>如果一个被标记为<code>lazy</code>的属性在没有初始化时就被多个线程访问，则无法保证该属性只会被初始化一次，也就是说<code>lazy</code>不是线程安全的；</p>
+</li>
+<li>
+<p>我们可以为除了延迟计算属性之外的其他存储属性添加属性观察器，也可以通过重写属性的方式为继承的属性（包括存储属性和计算属性）添加属性观察器；不需要为非重写的计算属性添加属性观察器，因为可以通过它的<code>setter</code>直接监控和响应值的变化；如果在一个属性的<code>didSet</code>观察器里为它赋值，这个值会替换该观察器之前设置的值；</p>
+</li>
+<li>
+<p>父类的属性在子类的构造器中被赋值时，它在父类中的<code>willSet</code>和<code>didSet</code>观察器会被调用，随后才会调用子类的观察器。在父类初始化方法调用之前，子类给属性赋值时，观察器不会被调用。</p>
+</li>
+<li>
+<p>存储型类型属性可以是变量或常量，计算型类型属性跟实例的计算型属性一样只能定义成变量属性。跟实例的存储型属性不同，<strong>必须给存储型类型属性指定默认值</strong>，因为类型本身没有构造器，也就无法在初始化过程中使用构造器给类型属性赋值。<strong>存储型类型属性是延迟初始化的，它们只有在第一次被访问的时候才会被初始化，即使它们被多个线程同时访问，系统也保证只会对其进行一次初始化，并且不需要对其使用<code>lazy</code>修饰符</strong>。</p>
+</li>
+<li>
+<p>如果将属性通过<code>in-out</code>方式传入函数，<code>willSet</code> 和 <code>didSet</code> 也会调用，这是因为 <code>in-out</code>参数采用了拷入拷出模式：<strong>即在函数内部使用的是参数的<code>copy</code>，函数结束后，又对参数重新赋值</strong>；</p>
+</li>
+</ul>
 <h2 id="值类型线程安全">值类型线程安全？</h2>
 <p>不要人云亦云，这个说法是有问题的，思考一下：假如我们有个变量 <code>var i = 1</code>，多线程修改时不需要加锁？</p>
 <p>在未优化状态下值类型其实默认是在堆上分配的，只是在<code>SIL</code>优化阶段，编译器会根据上下文把大部分值类型改为在栈上分配，在栈上分配的情况是才是线程安全的，因为每个线程都有自己的栈空间，不需要考虑线程安全问题。但是对于被捕获的这种情况是没办法优化的，你想想如果放到栈上在出作用域后不就被释放了嘛，所以这种情况不会优化到栈上，而是继续留在堆上，也就是说这种场景下多线程操作值类型是不安全的，需要加锁来防止数据竞争。</p>

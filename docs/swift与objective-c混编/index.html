@@ -30,7 +30,7 @@
         "mainEntityOfPage": {
             "@type": "WebPage",
             "@id": "https:\/\/faimin.github.io\/swift%E4%B8%8Eobjective-c%E6%B7%B7%E7%BC%96\/"
-        },"image": ["https:\/\/faimin.github.io\/images\/Apple-Devices-Preview.png"],"genre": "posts","keywords": "iOS, swift","wordcount":  3427 ,
+        },"image": ["https:\/\/faimin.github.io\/images\/Apple-Devices-Preview.png"],"genre": "posts","keywords": "iOS, swift","wordcount":  3740 ,
         "url": "https:\/\/faimin.github.io\/swift%E4%B8%8Eobjective-c%E6%B7%B7%E7%BC%96\/","datePublished": "2020-11-04T18:21:55+08:00","dateModified": "2022-09-06T15:08:00+08:00","license": "This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher": {
             "@type": "Organization",
             "name": "Zero.D.Saber","logo": "https:\/\/faimin.github.io\/images\/avatar.png"},"author": {
@@ -110,8 +110,8 @@
             <div class="toc-content" id="toc-content-auto"></div>
         </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">Swift与Objective-C混编</h1><div class="post-meta">
             <div class="post-meta-line"><span class="post-author"><a href="https://github.com/faimin" title="Author" target="_blank" rel="noopener noreffer author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Zero.D.Saber</a></span>&nbsp;<span class="post-category">收录于 <a href="/categories/%E6%B7%B7%E7%BC%96/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>混编</a></span></div>
-            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2020-11-04">2020-11-04</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;约 3427 字&nbsp;
-                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;预计阅读 7 分钟&nbsp;<span id="/swift%E4%B8%8Eobjective-c%E6%B7%B7%E7%BC%96/" class="leancloud_visitors" data-flag-title="Swift与Objective-C混编">
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2020-11-04">2020-11-04</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;约 3740 字&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;预计阅读 8 分钟&nbsp;<span id="/swift%E4%B8%8Eobjective-c%E6%B7%B7%E7%BC%96/" class="leancloud_visitors" data-flag-title="Swift与Objective-C混编">
                         <i class="far fa-eye fa-fw" aria-hidden="true"></i>&nbsp;<span class=leancloud-visitors-count></span>&nbsp;次阅读
                     </span>&nbsp;</div>
         </div><div class="details toc" id="toc-static"  data-kept="">
@@ -137,6 +137,7 @@
             <li><a href="#2-为什么改为动态库就可以正常编译通过了">2. 为什么改为动态库就可以正常编译通过了？</a></li>
             <li><a href="#3-为什么设置-header_dir-编译就不报错了">3. 为什么设置 header_dir 编译就不报错了？</a></li>
             <li><a href="#4-pod中没有bridging-header为什么swift还能引用objective-c类">4. <code>pod</code>中没有<code>bridging-header</code>为什么<code>Swift</code>还能引用<code>Objective-C</code>类？</a></li>
+            <li><a href="#5-为什么xcode生成的hmap对我们的项目并没起到什么作用">5. 为什么<code>Xcode</code>生成的<code>hmap</code>对我们的项目并没起到什么作用？</a></li>
           </ul>
         </li>
       </ul>
@@ -262,7 +263,7 @@
 <p>同一<code>pod</code>中，把<code>oc</code>类引用放入<code>umbrella</code>中（默认就有了），然后需要这个文件能被找到。</p>
 <ol>
 <li>
-<p>一种方式是修改此文件的<code>membership</code>为<code>public</code>，目的是为了把它移到<code>public header</code>中去（静态库形式<code>pod</code>中的文件默认都是<code>project</code>的，动态库形式的pod才会区分<code>public</code>、<code>private</code>、<code>project</code>）</p>
+<p>一种方式是修改此文件的<code>membership</code>为<code>public</code>，目的是为了把它移到<code>public header</code>中去（静态库形式<code>pod</code>中的文件默认都是<code>project</code>的，动态库形式的<code>pod</code>才会区分<code>public</code>、<code>private</code>、<code>project</code>）</p>
 <blockquote>
 <p>修改起来成本比较高，不推荐</p>
 </blockquote>
@@ -439,9 +440,11 @@
     </figure></p>
 <h4 id="4-pod中没有bridging-header为什么swift还能引用objective-c类">4. <code>pod</code>中没有<code>bridging-header</code>为什么<code>Swift</code>还能引用<code>Objective-C</code>类？</h4>
 <p><code>pod</code>中<code>umbrella</code>文件其实就相当于是主工程中的<code>bridging-header</code>。</p>
+<h4 id="5-为什么xcode生成的hmap对我们的项目并没起到什么作用">5. 为什么<code>Xcode</code>生成的<code>hmap</code>对我们的项目并没起到什么作用？</h4>
+<p>上面已经提到静态库的形式下我们的类文件的<code>membership</code>是<code>project</code>，<code>hmap</code>生成的是<code>#import &quot;xx.h&quot;</code>形式的引用路径的<code>cache</code>，而我们通常引用库文件的方式为<code>#import &lt;A/B.h&gt;</code>，这就导致我们的引用根本就没办法命中<code>hmap</code>中的映射缓存（<code>pcm</code>），所以最终还是会走<code>search_path</code>的查找逻辑。而且由于<code>Xcode</code>中的<code>USE_HEADERMAP</code>设置默认是开启的，<code>Xcode</code>在编译期还会自动创建对我们用处不大的<code>hmap</code>，而这个过程间接拖慢了我们的编译速度。</p>
 <h2 id="推荐设置">推荐设置</h2>
 <p><code>podspec</code>中在不指定<code>private_header_files</code>或<code>project_header_files</code>的时候<code>source_files</code>路径下的文件默认全都是<code>public</code>的，而<code>public</code>的头文件默认都会放到<code>umbrella</code>中，这样很容易导致<code>umbrella</code>中头文件过多，尤其是业务<code>pod</code>（比如我们直播业务有2300多头文件），特别影响编译速度。</p>
-<p>解决办法：把那些暴露给<code>swift</code>的头文件放到<code>public_header_files</code>中，其他的头文件则默认变成<code>project</code>类型。或者是把全部头文件默认指定为<code>private_header_files</code>或<code>project_header_files</code>，然后把需要公开的放到<code>public_header_files</code>中，尽量减少<code>umbrella</code>中头文件的数量。设置如下：</p>
+<p>解决办法：把那些暴露给<code>swift</code>的头文件放到<code>public_header_files</code>中，其他的头文件则默认变成<code>project</code>类型。或者是把全部头文件默认指定为<code>private_header_files</code>或<code>project_header_files</code>，然后把需要公开的放到<code>public_header_files</code>中，尽量减少<code>umbrella</code>中头文件的数量。</p>
 <p>贴一下供参考的<code>Swift podspec</code>，请按需修改</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -535,6 +538,9 @@
 </li>
 <li>
 <p><a href="https://github.com/mxcl/PromiseKit/blob/6.15.3/PromiseKit.podspec" target="_blank" rel="noopener noreffer ">PromiseKit.podspec 6.15.3</a></p>
+</li>
+<li>
+<p><a href="https://tech.meituan.com/2021/02/25/swift-objective-c.html" target="_blank" rel="noopener noreffer ">从预编译的角度理解Swift与Objective-C及混编机制</a></p>
 </li>
 </ul></div><div class="post-footer" id="post-footer">
     <div class="post-info">

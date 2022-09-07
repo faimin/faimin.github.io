@@ -9,7 +9,7 @@
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://faimin.github.io/swift%E4%B8%8Eobjective-c%E6%B7%B7%E7%BC%96/" /><meta property="og:image" content="https://faimin.github.io/logo/avatar.gif"/><meta property="article:section" content="posts" />
 <meta property="article:published_time" content="2020-11-04T18:21:55+08:00" />
-<meta property="article:modified_time" content="2022-09-06T15:08:00+08:00" /><meta property="og:site_name" content="Zero.D.Saber的小屋" />
+<meta property="article:modified_time" content="2022-09-07T19:40:00+08:00" /><meta property="og:site_name" content="Zero.D.Saber的小屋" />
 
 <meta name="twitter:card" content="summary_large_image"/>
 <meta name="twitter:image" content="https://faimin.github.io/logo/avatar.gif"/>
@@ -30,8 +30,8 @@
         "mainEntityOfPage": {
             "@type": "WebPage",
             "@id": "https:\/\/faimin.github.io\/swift%E4%B8%8Eobjective-c%E6%B7%B7%E7%BC%96\/"
-        },"image": ["https:\/\/faimin.github.io\/images\/Apple-Devices-Preview.png"],"genre": "posts","keywords": "iOS, swift","wordcount":  4097 ,
-        "url": "https:\/\/faimin.github.io\/swift%E4%B8%8Eobjective-c%E6%B7%B7%E7%BC%96\/","datePublished": "2020-11-04T18:21:55+08:00","dateModified": "2022-09-06T15:08:00+08:00","license": "This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher": {
+        },"image": ["https:\/\/faimin.github.io\/images\/Apple-Devices-Preview.png"],"genre": "posts","keywords": "iOS, swift","wordcount":  4132 ,
+        "url": "https:\/\/faimin.github.io\/swift%E4%B8%8Eobjective-c%E6%B7%B7%E7%BC%96\/","datePublished": "2020-11-04T18:21:55+08:00","dateModified": "2022-09-07T19:40:00+08:00","license": "This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher": {
             "@type": "Organization",
             "name": "Zero.D.Saber","logo": "https:\/\/faimin.github.io\/images\/avatar.png"},"author": {
                 "@type": "Person",
@@ -110,7 +110,7 @@
             <div class="toc-content" id="toc-content-auto"></div>
         </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">Swift与Objective-C混编</h1><div class="post-meta">
             <div class="post-meta-line"><span class="post-author"><a href="https://github.com/faimin" title="Author" target="_blank" rel="noopener noreffer author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Zero.D.Saber</a></span>&nbsp;<span class="post-category">收录于 <a href="/categories/%E6%B7%B7%E7%BC%96/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>混编</a></span></div>
-            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2020-11-04">2020-11-04</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;约 4097 字&nbsp;
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2020-11-04">2020-11-04</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;约 4132 字&nbsp;
                 <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;预计阅读 9 分钟&nbsp;<span id="/swift%E4%B8%8Eobjective-c%E6%B7%B7%E7%BC%96/" class="leancloud_visitors" data-flag-title="Swift与Objective-C混编">
                         <i class="far fa-eye fa-fw" aria-hidden="true"></i>&nbsp;<span class=leancloud-visitors-count></span>&nbsp;次阅读
                     </span>&nbsp;</div>
@@ -124,16 +124,14 @@
     <li><a href="#前言">前言</a></li>
     <li><a href="#前期方案">前期方案</a></li>
     <li><a href="#踩坑记录">踩坑记录</a></li>
-    <li><a href="#注意事项">注意事项</a></li>
-    <li><a href="#cocoapods-骚操作">CocoaPods 骚操作：</a></li>
     <li><a href="#同一混编pod内oc调用swift">同一混编pod内OC调用Swift</a></li>
     <li><a href="#同一混编pod内swift调用oc">同一混编pod内Swift调用OC</a></li>
-    <li><a href="#为什么能够混编">为什么能够混编？</a></li>
     <li><a href="#解惑">解惑</a>
       <ul>
         <li>
           <ul>
-            <li><a href="#1-xcode9--cocopoads-15-之后不是已经支持把swift编译为静态库了吗为什么会报错呢">1. Xcode9 &amp; Cocopoads 1.5 之后，不是已经支持把Swift编译为静态库了吗，为什么会报错呢？</a></li>
+            <li><a href="#为什么能够混编">为什么能够混编？</a></li>
+            <li><a href="#1-xcode9--cocopoads-15-之后不是已经支持把swift编译为静态库了吗为什么会报错呢">1. XCode9 &amp; Cocopoads 1.5 之后，不是已经支持把Swift编译为静态库了吗，为什么会报错呢？</a></li>
             <li><a href="#2-为什么改为动态库就可以正常编译通过了">2. 为什么改为动态库就可以正常编译通过了？</a></li>
             <li><a href="#3-为什么设置-header_dir-编译就不报错了">3. 为什么设置 header_dir 编译就不报错了？</a></li>
             <li><a href="#4-pod中没有bridging-header为什么swift还能引用objective-c类">4. <code>pod</code>中没有<code>bridging-header</code>为什么<code>Swift</code>还能引用<code>Objective-C</code>类？</a></li>
@@ -150,7 +148,7 @@
             </div><div class="content" id="content"><h2 id="前言">前言</h2>
 <blockquote>
 <p>本文是笔者在解决混编时的一些记录，有些东西可能已经发生了变化。而且由于只是随手记录，写的比较乱，各位看官见谅~~~</p>
-<p>笔者负责的业务是以<code>pod模块</code>的形式存在于工程中的，所以以下调研的方案只针对于<code>pod</code>中的混编场景，在MM主工程混编几乎是无缝的，没什么可说的。。。</p>
+<p>笔者负责的业务是以<code>pod模块</code>的形式存在于工程中的，所以以下调研的方案只针对于<code>pod</code>中的混编场景，在MM主工程混编几乎是无缝，没什么可说的。。。</p>
 <p>推荐大家浏览下 <code>CocoaPods（podfile &amp; podspec）</code> 的 <code>API</code>，没几个，花费不了几分钟，但是却能帮助大家少踩很多的坑，一本万利~</p>
 </blockquote>
 <h2 id="前期方案">前期方案</h2>
@@ -171,11 +169,10 @@
 </ol>
 <h2 id="踩坑记录">踩坑记录</h2>
 <ul>
-<li><code>pod</code>中不支持<code>bridging-header</code></li>
-<li>所以混编<code>pod</code>中要想引用<code>OC</code>的<code>pod</code>需要支持<code>module</code></li>
-<li>混编的<code>Swift</code>库需要打成<code>framework</code>形式才可以编译成功，比如<code>RxCocoa</code>、<code>PromiseKit</code></li>
+<li><code>pod</code>中不支持<code>bridging-header</code>，所以混编<code>pod</code>中要想引用<code>OC</code>类，<code>pod</code>需要支持<code>module</code></li>
+<li><del>混编的<code>Swift</code>库需要打成<code>framework</code>形式才可以编译成功，比如<code>RxCocoa</code>、<code>PromiseKit</code></del></li>
 <li>限于苹果本身机制和现有二进制方案实现问题，不支持 <code>:modular_headers =&gt; true</code>，所以使用<code>:modular_headers =&gt; true</code> 时临时需要添加参数<code>:use_source_code =&gt; true</code>，切换为代码编译；</li>
-<li><code>Swift</code>与<code>OC</code>混编的<code>pod</code>所依赖的库需要改为动态库，比如<code>ZDFlexLayout</code>内部为Swift与OC混编的，依赖了<code>Yoga</code>，需要把<code>Yoga</code>编为动态库。报错如下图</li>
+<li><del><code>Swift</code>与<code>OC</code>混编的<code>pod</code>所依赖的库需要改为动态库，比如<code>ZDFlexLayout</code>内部为Swift与OC混编的，依赖了<code>Yoga</code>，需要把<code>Yoga</code>编为动态库。</del> 报错如下图</li>
 </ul>
 <p><figure><a class="lightgallery" href="/images/swiftocmix/undefine_symbol.png" title="undefine_symbol" data-thumbnail="/images/swiftocmix/undefine_symbol.png" data-sub-html="<h2>undefine_symbol</h2><p>undefine_symbol</p>">
         <img
@@ -187,13 +184,15 @@
             alt="/images/swiftocmix/undefine_symbol.png" />
     </a><figcaption class="image-caption">undefine_symbol</figcaption>
     </figure></p>
-<h2 id="注意事项">注意事项</h2>
+<blockquote>
+<p>实际操作</p>
+</blockquote>
 <ol>
 <li>
-<p>跨模块引用时需要把要暴露给外部的类或者函数的访问权限设置为 <code>public</code>，并标记为 <code>@objc</code></p>
+<p>跨模块引用时需要把要暴露给外部的类或者函数的访问权限设置为 <code>public</code>，并标记为 <code>@objc</code>，同时需要继承自<code>NSObject</code>类</p>
 </li>
 <li>
-<p><code>pod</code> 中引用都是通过 <code>@import</code> 语法</p>
+<p><code>pod</code> 中引用其他<code>pod</code>都是通过 <code>@import</code> 语法</p>
 </li>
 <li>
 <p><code>Swift</code>依赖的<code>repo</code>需要<code>module</code>化，</p>
@@ -208,46 +207,15 @@
 <p>如果<code>podspec</code>中不设置<code>DEFINES_MODULE=true</code>，默认是不会生成<code>module</code>的，哪怕你在<code>podspec</code>中设置了<code>module_map</code>也不行，除非你在<code>podfile</code>中手动开启<code>modular_hear</code>你自己的<code>modulemap</code>才会生效</p>
 </li>
 <li>
-<p>如果你手动创建了<code>modulemap</code>就不要设置<code>DEFINES_MODULE=true</code>了，因为笔者发现开启<code>DEFINES_MODULE</code>后它还会自己再生成一份<code>xxx-umbraller</code>伞文件。</p>
+<p>如果你手动创建了<code>modulemap</code>就不要设置<code>DEFINES_MODULE=true</code>了，因为笔者发现开启<code>DEFINES_MODULE</code>后它还会自己再生成一份<code>xxx-umbraller</code>文件。</p>
 <blockquote>
-<p>笔者推荐让<code>CocoaPods</code>帮我们创建<code>modulemap</code>，如非你特别懂<code>modulemap</code>，不建议自己手动创建。</p>
+<p>推荐让<code>CocoaPods</code>帮我们创建<code>modulemap</code>，如非你特别懂<code>modulemap</code>，不建议自己手动创建。</p>
 </blockquote>
 </li>
 <li>
 <p>只需要把<code>Swift</code>用到的<code>OC</code>类放到<code>umbrella</code>中（后面说控制方法）</p>
 </li>
 </ol>
-<h2 id="cocoapods-骚操作">CocoaPods 骚操作：</h2>
-<p>用踩坑中提到的<code>RxCocoa</code>做例子，为了编译成功，我们需要把它打成动态库，而其他的保持不变，这种需求我们可以在 <code>pre_install</code> 阶段动态修改编译模式；</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span><span class="lnt">11
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-ruby" data-lang="ruby"><span class="line"><span class="cl"><span class="n">pre_install</span> <span class="k">do</span> <span class="o">|</span><span class="n">installer</span><span class="o">|</span>    
-</span></span><span class="line"><span class="cl">    <span class="vg">$dynamic_framework</span> <span class="o">=</span> <span class="o">[</span><span class="s1">&#39;RxSwift&#39;</span><span class="p">,</span> <span class="s1">&#39;RxCocoa&#39;</span><span class="p">,</span> <span class="s1">&#39;RxRelay&#39;</span><span class="o">]</span> <span class="c1">#以framework形式存在的pod</span>
-</span></span><span class="line"><span class="cl">    <span class="no">Pod</span><span class="o">::</span><span class="no">Installer</span><span class="o">::</span><span class="no">Xcode</span><span class="o">::</span><span class="no">TargetValidator</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="ss">:define_method</span><span class="p">,</span> <span class="ss">:verify_no_static_framework_transitive_dependencies</span><span class="p">)</span> <span class="p">{}</span>
-</span></span><span class="line"><span class="cl">    <span class="n">installer</span><span class="o">.</span><span class="n">pod_targets</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">pod</span><span class="o">|</span>
-</span></span><span class="line"><span class="cl">      <span class="k">if</span> <span class="vg">$dynamic_framework</span><span class="o">.</span><span class="n">include?</span><span class="p">(</span><span class="n">pod</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">        <span class="k">def</span> <span class="nc">pod</span><span class="o">.</span><span class="nf">build_type</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">          <span class="no">Pod</span><span class="o">::</span><span class="no">BuildType</span><span class="o">.</span><span class="n">dynamic_framework</span>
-</span></span><span class="line"><span class="cl">        <span class="k">end</span>
-</span></span><span class="line"><span class="cl">      <span class="k">end</span>
-</span></span><span class="line"><span class="cl">    <span class="k">end</span>
-</span></span><span class="line"><span class="cl"><span class="k">end</span>
-</span></span></code></pre></td></tr></table>
-</div>
-</div><p>上面操作是把<code>dynamic_framework</code>数组中的<code>repo</code>编译为<code>framework</code>，其他未指定的默认还是静态库</p>
 <h2 id="同一混编pod内oc调用swift">同一混编pod内OC调用Swift</h2>
 <p>在头文件中引入 <code>#import &lt;module-name&gt;-Swift.h&quot;</code>，然后就可以调用<code>Swift</code>类了</p>
 <p><figure><a class="lightgallery" href="/images/swiftocmix/oc_import_swift.png" title="image.png" data-thumbnail="/images/swiftocmix/oc_import_swift.png" data-sub-html="<h2>oc_import_swift</h2><p>image.png</p>">
@@ -324,10 +292,11 @@
             alt="/images/swiftocmix/module_name.png" />
     </a><figcaption class="image-caption">module_name</figcaption>
     </figure></p>
-<h2 id="为什么能够混编">为什么能够混编？</h2>
+<h2 id="解惑">解惑</h2>
+<h4 id="为什么能够混编">为什么能够混编？</h4>
 <blockquote>
-<p>能够互相调用的类都需要集成<code>NSObject</code>
-<code>Swift</code>中的类和<code>OC</code>中的类底层元数据（<code>class metadata</code>）是共用的</p>
+<p>能够互相调用的类都需要继承<code>NSObject</code></p>
+<p><code>Swift</code>中的类和<code>Objective-C</code>中的类底层元数据（<code>class metadata</code>）是共用的</p>
 </blockquote>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -411,9 +380,8 @@
 </span></span><span class="line"><span class="cl"><span class="p">};</span>
 </span></span></code></pre></td></tr></table>
 </div>
-</div><h2 id="解惑">解惑</h2>
-<h4 id="1-xcode9--cocopoads-15-之后不是已经支持把swift编译为静态库了吗为什么会报错呢">1. Xcode9 &amp; Cocopoads 1.5 之后，不是已经支持把Swift编译为静态库了吗，为什么会报错呢？</h4>
-<p>第三方库对于把混编pod编译为静态库支持的不好，这不是苹果的锅，而是三方库的锅，像 <code>Kingfisher</code>、<code>RxCocoa</code>都有问题</p>
+</div><h4 id="1-xcode9--cocopoads-15-之后不是已经支持把swift编译为静态库了吗为什么会报错呢">1. XCode9 &amp; Cocopoads 1.5 之后，不是已经支持把Swift编译为静态库了吗，为什么会报错呢？</h4>
+<p>第三方库对于把混编pod编译为静态库支持的不好，这不是苹果的锅，而是三方库未进行及时的适配，<del>像<code>Kingfisher</code>、<code>RxCocoa</code>都有问题</del></p>
 <blockquote>
 <p>这两个库笔者已经提了<code>pr</code> 来解决这个问题，现已合入主分支，从 <code>RxCocoa 6.1.0</code>、<code>Kingfisher 6.1.0</code> 开始都已支持编译为静态库;</p>
 <ul>
@@ -425,7 +393,7 @@
 <p>静态库需要使用绝对路径引用，而动态库强制把头文件平铺了，所以动态库能引到，静态库引不到</p>
 <p>可以自己验证一下，改成 <code>#import &quot;&lt;module-name&gt;/xxxx.h&quot;</code> 之后你再编译一下</p>
 <h4 id="3-为什么设置-header_dir-编译就不报错了">3. 为什么设置 header_dir 编译就不报错了？</h4>
-<p>默认情况下使用的是普通的<code>header</code> ，设置<code>header_dir</code>之后，<code>pod</code>会以<code>header_dir</code>为名创建一个文件夹，然后把所有<code>public</code>出来的头文件引用放里面，<code>umbrella</code>引用头文件的时候其实指向的都是这里；</p>
+<p>默认情况下使用的是普通的<code>header</code> ，设置<code>header_dir</code>之后，<code>pod</code>会以<code>header_dir</code>为名称创建一个文件夹，然后把所有<code>public</code>出来的头文件引用放里面，<code>umbrella</code>引用头文件的时候其实指向的都是这里；</p>
 <blockquote>
 <p>见源码</p>
 </blockquote>
@@ -496,7 +464,6 @@
 </span><span class="lnt">32
 </span><span class="lnt">33
 </span><span class="lnt">34
-</span><span class="lnt">35
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-ruby" data-lang="ruby"><span class="line"><span class="cl"><span class="no">Pod</span><span class="o">::</span><span class="no">Spec</span><span class="o">.</span><span class="n">new</span> <span class="k">do</span> <span class="o">|</span><span class="n">spec</span><span class="o">|</span>
@@ -504,7 +471,7 @@
 </span></span><span class="line"><span class="cl">  <span class="n">spec</span><span class="o">.</span><span class="n">version</span>      <span class="o">=</span> <span class="s2">&#34;0.0.1&#34;</span>
 </span></span><span class="line"><span class="cl">  <span class="n">spec</span><span class="o">.</span><span class="n">summary</span>      <span class="o">=</span> <span class="s2">&#34;foo&#34;</span>
 </span></span><span class="line"><span class="cl">  <span class="n">spec</span><span class="o">.</span><span class="n">description</span>  <span class="o">=</span> <span class="s">&lt;&lt;-DESC
-</span></span></span><span class="line"><span class="cl"><span class="s"></span>    <span class="err">是非成败转头空</span>
+</span></span></span><span class="line"><span class="cl"><span class="s"></span>    <span class="err">我是一只小柯基</span>
 </span></span><span class="line"><span class="cl">                   <span class="no">DESC</span>
 </span></span><span class="line"><span class="cl">  <span class="n">spec</span><span class="o">.</span><span class="n">homepage</span>     <span class="o">=</span> <span class="s2">&#34;https://foo/bar/abc&#34;</span>
 </span></span><span class="line"><span class="cl">  <span class="n">spec</span><span class="o">.</span><span class="n">license</span>      <span class="o">=</span> <span class="s2">&#34;MIT&#34;</span>
@@ -529,10 +496,43 @@
 </span></span><span class="line"><span class="cl">    <span class="s1">&#39;DEFINES_MODULE&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;YES&#39;</span><span class="p">,</span>
 </span></span><span class="line"><span class="cl">  <span class="p">}</span>
 </span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">  <span class="n">spec</span><span class="o">.</span><span class="n">dependency</span> <span class="s1">&#39;RxSwift&#39;</span>
 </span></span><span class="line"><span class="cl">  <span class="n">spec</span><span class="o">.</span><span class="n">dependency</span> <span class="s1">&#39;RxCocoa&#39;</span>
 </span></span><span class="line"><span class="cl">  <span class="n">spec</span><span class="o">.</span><span class="n">dependency</span> <span class="s1">&#39;Cartography&#39;</span><span class="p">,</span> <span class="s1">&#39;~&gt; 4.0.0&#39;</span>
 </span></span><span class="line"><span class="cl">  <span class="n">spec</span><span class="o">.</span><span class="n">dependency</span> <span class="s1">&#39;ZDFlexLayoutKit&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="k">end</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><blockquote>
+<p>CocoaPods 骚操作：</p>
+</blockquote>
+<p>用踩坑中提到的<code>RxCocoa</code>做例子，为了编译成功，我们需要把它指定为动态库，而其他的保持不变，这种需求我们可以在 <code>pre_install</code> 阶段动态修改编译模式：把<code>dynamic_framework</code>数组中的<code>repo</code>编译为<code>framework</code>，其他未指定的默认还是静态库。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-ruby" data-lang="ruby"><span class="line"><span class="cl"><span class="n">pre_install</span> <span class="k">do</span> <span class="o">|</span><span class="n">installer</span><span class="o">|</span>    
+</span></span><span class="line"><span class="cl">    <span class="c1">#以framework形式存在的pod</span>
+</span></span><span class="line"><span class="cl">    <span class="n">dynamic_frameworks</span> <span class="o">=</span> <span class="o">[</span><span class="s1">&#39;RxSwift&#39;</span><span class="p">,</span> <span class="s1">&#39;RxCocoa&#39;</span><span class="p">,</span> <span class="s1">&#39;RxRelay&#39;</span><span class="o">]</span> 
+</span></span><span class="line"><span class="cl">    <span class="no">Pod</span><span class="o">::</span><span class="no">Installer</span><span class="o">::</span><span class="no">Xcode</span><span class="o">::</span><span class="no">TargetValidator</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="ss">:define_method</span><span class="p">,</span> <span class="ss">:verify_no_static_framework_transitive_dependencies</span><span class="p">)</span> <span class="p">{}</span>
+</span></span><span class="line"><span class="cl">    <span class="n">installer</span><span class="o">.</span><span class="n">pod_targets</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">pod</span><span class="o">|</span>
+</span></span><span class="line"><span class="cl">      <span class="k">if</span> <span class="n">dynamic_frameworks</span><span class="o">.</span><span class="n">include?</span><span class="p">(</span><span class="n">pod</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="k">def</span> <span class="nc">pod</span><span class="o">.</span><span class="nf">build_type</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">          <span class="no">Pod</span><span class="o">::</span><span class="no">BuildType</span><span class="o">.</span><span class="n">dynamic_framework</span>
+</span></span><span class="line"><span class="cl">        <span class="k">end</span>
+</span></span><span class="line"><span class="cl">      <span class="k">end</span>
+</span></span><span class="line"><span class="cl">    <span class="k">end</span>
 </span></span><span class="line"><span class="cl"><span class="k">end</span>
 </span></span></code></pre></td></tr></table>
 </div>
@@ -560,7 +560,7 @@
     <div class="post-info">
         <div class="post-info-line">
             <div class="post-info-mod">
-                <span>更新于 2022-09-06</span>
+                <span>更新于 2022-09-07</span>
             </div></div>
         <div class="post-info-line">
             <div class="post-info-md"><span>

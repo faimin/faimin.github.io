@@ -8,9 +8,10 @@
 
 > 本文是笔者在解决混编时的一些记录，有些东西可能已经发生了变化。而且由于只是随手记录，写的比较乱，各位看官见谅~~~
 > 
-> 笔者负责的业务是以`pod模块`的形式存在于工程中的，所以以下调研的方案只针对于`pod`中的混编场景，在MM主工程混编几乎是无缝的，没什么可说的。。。
+> 笔者负责的业务是以`pod模块`的形式存在于工程中的，所以以下调研的方案只针对于`pod`中的混编场景，在MM主工程混编几乎是无缝，没什么可说的。。。
 > 
 > 推荐大家浏览下 `CocoaPods（podfile & podspec）` 的 `API`，没几个，花费不了几分钟，但是却能帮助大家少踩很多的坑，一本万利~
+
 
 ## 前期方案
 
@@ -24,21 +25,21 @@
 
 3. 把`Swift`单独放一个`pod`中去，让`Swift`尽量少的依赖其他`repo`，然后业务`pod`再依赖`Swift repo`来调用`Swift`代码；
 
+
 ## 踩坑记录
 
-- `pod`中不支持`bridging-header`
-- 所以混编`pod`中要想引用`OC`的`pod`需要支持`module`
-- 混编的`Swift`库需要打成`framework`形式才可以编译成功，比如`RxCocoa`、`PromiseKit`
+- `pod`中不支持`bridging-header`，所以混编`pod`中要想引用`OC`类，`pod`需要支持`module`
+- ~~混编的`Swift`库需要打成`framework`形式才可以编译成功，比如`RxCocoa`、`PromiseKit`~~
 - 限于苹果本身机制和现有二进制方案实现问题，不支持 `:modular_headers => true`，所以使用`:modular_headers => true` 时临时需要添加参数`:use_source_code => true`，切换为代码编译；
-- `Swift`与`OC`混编的`pod`所依赖的库需要改为动态库，比如`ZDFlexLayout`内部为Swift与OC混编的，依赖了`Yoga`，需要把`Yoga`编为动态库。报错如下图
+- ~~`Swift`与`OC`混编的`pod`所依赖的库需要改为动态库，比如`ZDFlexLayout`内部为Swift与OC混编的，依赖了`Yoga`，需要把`Yoga`编为动态库。~~ 报错如下图
 
 ![undefine_symbol](/images/swiftocmix/undefine_symbol.png "undefine_symbol")
 
-## 注意事项
+> 实际操作
 
-1. 跨模块引用时需要把要暴露给外部的类或者函数的访问权限设置为 `public`，并标记为 `@objc`
+1. 跨模块引用时需要把要暴露给外部的类或者函数的访问权限设置为 `public`，并标记为 `@objc`，同时需要继承自`NSObject`类
 
-2. `pod` 中引用都是通过 `@import` 语法
+2. `pod` 中引用其他`pod`都是通过 `@import` 语法
 
 3. `Swift`依赖的`repo`需要`module`化，
    
@@ -52,31 +53,12 @@
 
 4. 如果`podspec`中不设置`DEFINES_MODULE=true`，默认是不会生成`module`的，哪怕你在`podspec`中设置了`module_map`也不行，除非你在`podfile`中手动开启`modular_hear`你自己的`modulemap`才会生效
 
-5. 如果你手动创建了`modulemap`就不要设置`DEFINES_MODULE=true`了，因为笔者发现开启`DEFINES_MODULE`后它还会自己再生成一份`xxx-umbraller`伞文件。
+5. 如果你手动创建了`modulemap`就不要设置`DEFINES_MODULE=true`了，因为笔者发现开启`DEFINES_MODULE`后它还会自己再生成一份`xxx-umbraller`文件。
    
-   > 笔者推荐让`CocoaPods`帮我们创建`modulemap`，如非你特别懂`modulemap`，不建议自己手动创建。
+   > 推荐让`CocoaPods`帮我们创建`modulemap`，如非你特别懂`modulemap`，不建议自己手动创建。
 
 6. 只需要把`Swift`用到的`OC`类放到`umbrella`中（后面说控制方法）
 
-## CocoaPods 骚操作：
-
-用踩坑中提到的`RxCocoa`做例子，为了编译成功，我们需要把它打成动态库，而其他的保持不变，这种需求我们可以在 `pre_install` 阶段动态修改编译模式；
-
-```ruby
-pre_install do |installer|    
-    $dynamic_framework = ['RxSwift', 'RxCocoa', 'RxRelay'] #以framework形式存在的pod
-    Pod::Installer::Xcode::TargetValidator.send(:define_method, :verify_no_static_framework_transitive_dependencies) {}
-    installer.pod_targets.each do |pod|
-      if $dynamic_framework.include?(pod.name)
-        def pod.build_type;
-          Pod::BuildType.dynamic_framework
-        end
-      end
-    end
-end
-```
-
-上面操作是把`dynamic_framework`数组中的`repo`编译为`framework`，其他未指定的默认还是静态库
 
 ## 同一混编pod内OC调用Swift
 
@@ -116,10 +98,14 @@ end
 
 ![image.png](/images/swiftocmix/module_name.png "module_name")
 
-## 为什么能够混编？
 
-> 能够互相调用的类都需要集成`NSObject`
-> `Swift`中的类和`OC`中的类底层元数据（`class metadata`）是共用的
+## 解惑
+
+#### 为什么能够混编？
+
+> 能够互相调用的类都需要继承`NSObject`
+>
+> `Swift`中的类和`Objective-C`中的类底层元数据（`class metadata`）是共用的
 
 ```cpp
 // objc4-818.2
@@ -162,11 +148,9 @@ struct swift_class_t : objc_class {
 };
 ```
 
-## 解惑
+#### 1. XCode9 & Cocopoads 1.5 之后，不是已经支持把Swift编译为静态库了吗，为什么会报错呢？
 
-#### 1. Xcode9 & Cocopoads 1.5 之后，不是已经支持把Swift编译为静态库了吗，为什么会报错呢？
-
-第三方库对于把混编pod编译为静态库支持的不好，这不是苹果的锅，而是三方库的锅，像 `Kingfisher`、`RxCocoa`都有问题
+第三方库对于把混编pod编译为静态库支持的不好，这不是苹果的锅，而是三方库未进行及时的适配，~~像`Kingfisher`、`RxCocoa`都有问题~~
 
 > 这两个库笔者已经提了`pr` 来解决这个问题，现已合入主分支，从 `RxCocoa 6.1.0`、`Kingfisher 6.1.0` 开始都已支持编译为静态库;
 > 
@@ -181,7 +165,7 @@ struct swift_class_t : objc_class {
 
 #### 3. 为什么设置 header_dir 编译就不报错了？
 
-默认情况下使用的是普通的`header` ，设置`header_dir`之后，`pod`会以`header_dir`为名创建一个文件夹，然后把所有`public`出来的头文件引用放里面，`umbrella`引用头文件的时候其实指向的都是这里；
+默认情况下使用的是普通的`header` ，设置`header_dir`之后，`pod`会以`header_dir`为名称创建一个文件夹，然后把所有`public`出来的头文件引用放里面，`umbrella`引用头文件的时候其实指向的都是这里；
 
 > 见源码
 
@@ -222,7 +206,7 @@ Pod::Spec.new do |spec|
   spec.version      = "0.0.1"
   spec.summary      = "foo"
   spec.description  = <<-DESC
-    是非成败转头空
+    我是一只小柯基
                    DESC
   spec.homepage     = "https://foo/bar/abc"
   spec.license      = "MIT"
@@ -247,12 +231,31 @@ Pod::Spec.new do |spec|
     'DEFINES_MODULE' => 'YES',
   }
 
-  spec.dependency 'RxSwift'
   spec.dependency 'RxCocoa'
   spec.dependency 'Cartography', '~> 4.0.0'
   spec.dependency 'ZDFlexLayoutKit'
 end
 ```
+
+> CocoaPods 骚操作：
+
+用踩坑中提到的`RxCocoa`做例子，为了编译成功，我们需要把它指定为动态库，而其他的保持不变，这种需求我们可以在 `pre_install` 阶段动态修改编译模式：把`dynamic_framework`数组中的`repo`编译为`framework`，其他未指定的默认还是静态库。
+
+```ruby
+pre_install do |installer|    
+    #以framework形式存在的pod
+    dynamic_frameworks = ['RxSwift', 'RxCocoa', 'RxRelay'] 
+    Pod::Installer::Xcode::TargetValidator.send(:define_method, :verify_no_static_framework_transitive_dependencies) {}
+    installer.pod_targets.each do |pod|
+      if dynamic_frameworks.include?(pod.name)
+        def pod.build_type;
+          Pod::BuildType.dynamic_framework
+        end
+      end
+    end
+end
+```
+
 
 ## 参考
 

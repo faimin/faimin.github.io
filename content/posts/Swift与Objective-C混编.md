@@ -209,9 +209,20 @@ struct swift_class_t : objc_class {
 上面已经提到静态库的形式下我们的类文件的`membership`是`project`，`hmap`生成的是`#import "xx.h"`形式的引用路径的`cache`，而我们通常引用库文件的方式为`#import <A/B.h>`，这就导致我们的引用根本就没办法命中`hmap`中的映射缓存（`pcm`），所以最终还是会走`search_path`的查找逻辑。而且由于`Xcode`中的`USE_HEADERMAP`设置默认是开启的，`Xcode`在编译期还会自动创建对我们用处不大的`hmap`，而这个过程间接拖慢了我们的编译速度。
 
 
+#### 6. `public`、`private`、`project`区别
+
+- **Public**: The interface is finalized and meant to be used by your product’s clients. A public header is included in the product as readable source code without restriction. 
+
+- **Private**: The interface isn’t intended for your clients or it’s in early stages of development. A private header is included in the product, but it’s marked “private”. Thus the symbols are visible to all clients, but clients should understand that they’re not supposed to use them. 
+
+- **Project**: The interface is for use only by implementation files in the current project. A project header is not included in the target, except in object code. The symbols are not visible to clients at all, only to you.
+
+`Project`和`Private`的权限或者说是作用基本一致，都是私有化的一种方式，只是`Project`权限的**头文件**是不会放到编译产物中的，**注意说的是头文件**，而`Private`头文件会放到编译产物中，只是告诉编译器不要暴漏给外界。`CocoaPods`是通过`Pods->Headers->Public/Private`目录管理头文件的引用，来控制对某一文件的访问权限的。
+
+
 ## 推荐设置
 
-`podspec`中在不指定`private_header_files`或`project_header_files`的时候`source_files`路径下的文件默认全都是`public`的，而`public`的头文件默认都会放到`umbrella`中，这样很容易导致`umbrella`中头文件过多，尤其是业务`pod`（比如我们直播业务有2300多头文件），特别影响编译速度。
+`podspec`中在不指定`private_header_files`或`project_header_files`的时候`source_files`路径下的文件默认全都是`public`的，而`public`的头文件默认都会放到`umbrella`中，这样很容易导致`umbrella`中头文件爆炸，尤其是业务`pod`（比如我们的直播业务有2300多个头文件），特别影响编译速度。
 
 解决办法：把那些暴露给`swift`的头文件放到`public_header_files`中，其他的头文件则默认变成`project`类型。或者是把全部头文件默认指定为`private_header_files`或`project_header_files`，然后把需要公开的放到`public_header_files`中，尽量减少`umbrella`中头文件的数量。
 

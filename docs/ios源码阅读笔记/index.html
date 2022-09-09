@@ -30,7 +30,7 @@
         "mainEntityOfPage": {
             "@type": "WebPage",
             "@id": "https:\/\/faimin.github.io\/ios%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0\/"
-        },"image": ["https:\/\/faimin.github.io\/images\/Apple-Devices-Preview.png"],"genre": "posts","keywords": "iOS, runtime","wordcount":  7133 ,
+        },"image": ["https:\/\/faimin.github.io\/images\/Apple-Devices-Preview.png"],"genre": "posts","keywords": "iOS, runtime","wordcount":  7713 ,
         "url": "https:\/\/faimin.github.io\/ios%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0\/","datePublished": "2022-06-09T17:06:35+08:00","dateModified": "2022-09-02T20:20:00+08:00","license": "This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher": {
             "@type": "Organization",
             "name": "Zero.D.Saber","logo": "https:\/\/faimin.github.io\/images\/avatar.png"},"author": {
@@ -110,8 +110,8 @@
             <div class="toc-content" id="toc-content-auto"></div>
         </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">iOS源码阅读笔记</h1><div class="post-meta">
             <div class="post-meta-line"><span class="post-author"><a href="https://github.com/faimin" title="Author" target="_blank" rel="noopener noreffer author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Zero.D.Saber</a></span>&nbsp;<span class="post-category">收录于 <a href="/categories/%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>实现原理</a></span></div>
-            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2022-06-09">2022-06-09</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;约 7133 字&nbsp;
-                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;预计阅读 15 分钟&nbsp;<span id="/ios%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/" class="leancloud_visitors" data-flag-title="iOS源码阅读笔记">
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2022-06-09">2022-06-09</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;约 7713 字&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;预计阅读 16 分钟&nbsp;<span id="/ios%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/" class="leancloud_visitors" data-flag-title="iOS源码阅读笔记">
                         <i class="far fa-eye fa-fw" aria-hidden="true"></i>&nbsp;<span class=leancloud-visitors-count></span>&nbsp;次阅读
                     </span>&nbsp;</div>
         </div><div class="details toc" id="toc-static"  data-kept="">
@@ -140,6 +140,7 @@
             <li><a href="#为什么执行load方法时没有触发initialize">为什么执行<code>load</code>方法时没有触发<code>initialize</code>？</a></li>
           </ul>
         </li>
+        <li><a href="#对象释放流程">对象释放流程</a></li>
       </ul>
     </li>
     <li><a href="#weak">Weak</a></li>
@@ -269,7 +270,74 @@
 </ul>
 <h4 id="为什么执行load方法时没有触发initialize">为什么执行<code>load</code>方法时没有触发<code>initialize</code>？</h4>
 <p>一定明确<code>initialize</code>是在首次发消息时才会触发，而<code>load</code>的执行是通过函数指针的方式调用的，没有走消息发送机制，所以不会触发<code>initialize</code>。</p>
-<h2 id="weak">Weak</h2>
+<h3 id="对象释放流程">对象释放流程</h3>
+<p>调用<code>release</code>，引用计数<code>-1</code>，当引用计数变为<code>0</code>时，就会通过消息发送执行<code>OC</code>的<code>dealloc</code>方法，然后进入到<code>objc_object::rootDealloc()</code>函数，函数内部会读取当前对象的<code>isa</code>中存储的信息，包括是否是非指针、有没有弱引用、成员变量、关联对象、<code>has_sidetable_rc</code>，如果都没有会直接释放（<code>free</code>），否则会执行<code>objc_destructInstance(obj)</code>，这个函数的逻辑为先释放成员变量，接着移除关联对象，再移除弱引用，把弱引用指针置为<code>nil</code>，最后再从<code>SideTable</code>的<code>RefcountMap refcnts</code>成员变量中 把存储当前对象引用计数的记录（<code>key-value</code>）从引用计数表中移除，类似于从字典中把这条<code>key-value</code>都删除（疑问：此时引用计数已经是0了，那最后这个引用计数表的处理是不是多余的，什么情况下会执行进来？？？）。</p>
+<p>在<code>dealloc</code>方法中如果有对<code>self</code>的引用，比如<code>- (void)dealloc { id obj = self; }</code>，是不会发生引用计数<code>+1</code>的，<code>runtime</code>处理如下：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="c1">// 是否正在释放
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kt">bool</span> <span class="nf">isDeallocating</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">extra_rc</span> <span class="o">==</span> <span class="mi">0</span> <span class="o">&amp;&amp;</span> <span class="n">has_sidetable_rc</span> <span class="o">==</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// retain最终执行的函数
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">ALWAYS_INLINE</span> <span class="n">id</span>
+</span></span><span class="line"><span class="cl"><span class="n">objc_object</span><span class="o">::</span><span class="n">rootRetain</span><span class="p">(</span><span class="kt">bool</span> <span class="n">tryRetain</span><span class="p">,</span> <span class="n">objc_object</span><span class="o">::</span><span class="n">RRVariant</span> <span class="n">variant</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// 省略代码
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="p">...</span> 
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1">// 在dealloc中这里的执行结果是true
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="k">if</span> <span class="p">(</span><span class="n">slowpath</span><span class="p">(</span><span class="n">newisa</span><span class="p">.</span><span class="n">isDeallocating</span><span class="p">()))</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">ClearExclusive</span><span class="p">(</span><span class="o">&amp;</span><span class="n">isa</span><span class="p">.</span><span class="n">bits</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="p">(</span><span class="n">sideTableLocked</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">ASSERT</span><span class="p">(</span><span class="n">variant</span> <span class="o">==</span> <span class="n">RRVariant</span><span class="o">::</span><span class="n">Full</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">            <span class="n">sidetable_unlock</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="p">(</span><span class="n">slowpath</span><span class="p">(</span><span class="n">tryRetain</span><span class="p">))</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">return</span> <span class="n">nil</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">return</span> <span class="p">(</span><span class="n">id</span><span class="p">)</span><span class="k">this</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1">// 省略代码
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="p">...</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="weak">Weak</h2>
 <p><code>weak_table_t</code> 是全局保存弱引用的哈希表，它是通过对<code>object</code>地址做<code>hash</code>计算，然后从<code>8</code>个<code>SideTable</code>数组中取出其中一张，然后再从<code>SideTable</code>中读取到<code>weak_table</code>。<code>weak_table_t</code> 是以 <code>object</code> 地址为 <code>key</code>，以 <code>weak_entry_t</code> 为 <code>value</code>。</p>
 <p><code>weak_entry_t</code> 是用来存储所有指向某个对象的弱引用变量的地址的，里面有个<code>weak_referrer_t</code>数组，它存储的其实是弱引用的指针，即指针的指针，这么做的目的是可以把弱引用置为<code>nil</code>。</p>
 <p><code>weak_entry_t</code> 中有<code>2</code>种结构，当存储的弱引用数量<code>&lt;= 4</code>个的时候用的其实是个定长数组，<code>&gt; 4</code>的时候才会转为哈希数组。（这里使用哈希数组的原因应该是为了处理B弱引用A，然后B先释放了，这时那个弱引用可能也要置为nil，用hash数组的话查询速度会比较快）。往<code>weak_entry_t</code> 中添加弱引用变量时，即更新<code>weak_referrer_t</code>采用的是定向寻址法；</p>

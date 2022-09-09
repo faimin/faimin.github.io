@@ -89,6 +89,44 @@ featuredImagePreview: "/logo/welcome.jpg"
 
 一定明确`initialize`是在首次发消息时才会触发，而`load`的执行是通过函数指针的方式调用的，没有走消息发送机制，所以不会触发`initialize`。
 
+### 对象释放流程
+
+调用`release`，引用计数`-1`，当引用计数变为`0`时，就会通过消息发送执行`OC`的`dealloc`方法，然后进入到`objc_object::rootDealloc()`函数，函数内部会读取当前对象的`isa`中存储的信息，包括是否是非指针、有没有弱引用、成员变量、关联对象、`has_sidetable_rc`，如果都没有会直接释放（`free`），否则会执行`objc_destructInstance(obj)`，这个函数的逻辑为先释放成员变量，接着移除关联对象，再移除弱引用，把弱引用指针置为`nil`，最后再从`SideTable`的`RefcountMap refcnts`成员变量中 把存储当前对象引用计数的记录（`key-value`）从引用计数表中移除，类似于从字典中把这条`key-value`都删除（疑问：此时引用计数已经是0了，那最后这个引用计数表的处理是不是多余的，什么情况下会执行进来？？？）。
+
+在`dealloc`方法中如果有对`self`的引用，比如`- (void)dealloc { id obj = self; }`，是不会发生引用计数`+1`的，`runtime`处理如下：
+
+```cpp
+// 是否正在释放
+bool isDeallocating() {
+    return extra_rc == 0 && has_sidetable_rc == 0;
+}
+
+// retain最终执行的函数
+ALWAYS_INLINE id
+objc_object::rootRetain(bool tryRetain, objc_object::RRVariant variant)
+{
+    // 省略代码
+    ... 
+
+    // 在dealloc中这里的执行结果是true
+    if (slowpath(newisa.isDeallocating())) {
+        ClearExclusive(&isa.bits);
+        if (sideTableLocked) {
+            ASSERT(variant == RRVariant::Full);
+            sidetable_unlock();
+        }
+        if (slowpath(tryRetain)) {
+            return nil;
+        } else {
+            return (id)this;
+        }
+    }
+
+    // 省略代码
+    ...
+}
+```
+
 
 ## Weak
 

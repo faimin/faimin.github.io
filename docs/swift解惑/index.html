@@ -30,7 +30,7 @@
         "mainEntityOfPage": {
             "@type": "WebPage",
             "@id": "https:\/\/faimin.github.io\/swift%E8%A7%A3%E6%83%91\/"
-        },"image": ["https:\/\/faimin.github.io\/images\/Apple-Devices-Preview.png"],"genre": "posts","keywords": "iOS, swift","wordcount":  3334 ,
+        },"image": ["https:\/\/faimin.github.io\/images\/Apple-Devices-Preview.png"],"genre": "posts","keywords": "iOS, swift","wordcount":  5173 ,
         "url": "https:\/\/faimin.github.io\/swift%E8%A7%A3%E6%83%91\/","datePublished": "2022-07-26T16:23:10+08:00","dateModified": "2022-09-04T21:07:00+08:00","license": "This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher": {
             "@type": "Organization",
             "name": "Zero.D.Saber","logo": "https:\/\/faimin.github.io\/images\/avatar.png"},"author": {
@@ -110,8 +110,8 @@
             <div class="toc-content" id="toc-content-auto"></div>
         </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">Swift解惑</h1><div class="post-meta">
             <div class="post-meta-line"><span class="post-author"><a href="https://github.com/faimin" title="Author" target="_blank" rel="noopener noreffer author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Zero.D.Saber</a></span>&nbsp;<span class="post-category">收录于 <a href="/categories/%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>实现原理</a></span></div>
-            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2022-07-26">2022-07-26</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;约 3334 字&nbsp;
-                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;预计阅读 7 分钟&nbsp;<span id="/swift%E8%A7%A3%E6%83%91/" class="leancloud_visitors" data-flag-title="Swift解惑">
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2022-07-26">2022-07-26</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;约 5173 字&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;预计阅读 11 分钟&nbsp;<span id="/swift%E8%A7%A3%E6%83%91/" class="leancloud_visitors" data-flag-title="Swift解惑">
                         <i class="far fa-eye fa-fw" aria-hidden="true"></i>&nbsp;<span class=leancloud-visitors-count></span>&nbsp;次阅读
                     </span>&nbsp;</div>
         </div><div class="featured-image"><img
@@ -133,6 +133,7 @@
     <li><a href="#值类型线程安全">值类型线程安全？</a></li>
     <li><a href="#闭包closure">闭包（closure）</a></li>
     <li><a href="#lazy">Lazy</a></li>
+    <li><a href="#weak机制">Weak机制</a></li>
     <li><a href="#struct">struct</a>
       <ul>
         <li>
@@ -262,6 +263,319 @@
             alt="/images/opensource/swift/Swift_Lazy.png" />
     </a><figcaption class="image-caption">swift_lazy</figcaption>
     </figure></p>
+<h2 id="weak机制">Weak机制</h2>
+<p><code>Swift</code>中<code>weak</code>与<code>Objective-C</code>中的<code>weak</code>实现机制不太一样，<code>Objective-C</code>中是不允许在一个对象释放过程中再被弱引用的，而<code>Swift</code>却没有这个限制。</p>
+<p><code>Swift</code>中的弱引用并没有和<code>Objective-C</code>一样放在全局的<code>side table</code>表中（Swift也不存在这个全局<code>side table</code>），而是由自身结构中的 <code>InlineRefCounts refCounts</code>来管理，这样效能会比<code>Objective-C</code>那种查表的方式高一些。</p>
+<p><code>Swift</code><a href="https://github.com/apple/swift/blob/main/stdlib/public/SwiftShims/swift/shims/HeapObject.h" target="_blank" rel="noopener noreffer ">对象基本结构</a>如下：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="c1">// The members of the HeapObject header that are not shared by a
+</span></span></span><span class="line"><span class="cl"><span class="c1">// standard Objective-C instance
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="cp">#define SWIFT_HEAPOBJECT_NON_OBJC_MEMBERS       \
+</span></span></span><span class="line"><span class="cl"><span class="cp">  InlineRefCounts refCounts
+</span></span></span><span class="line"><span class="cl"><span class="cp"></span>
+</span></span><span class="line"><span class="cl"><span class="c1">/// The Swift heap-object header.
+</span></span></span><span class="line"><span class="cl"><span class="c1">/// This must match RefCountedStructTy in IRGen.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">struct</span> <span class="nc">HeapObject</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="c1">/// This is always a valid pointer to a metadata object.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="n">HeapMetadata</span> <span class="k">const</span> <span class="o">*</span><span class="n">__ptrauth_objc_isa_pointer</span> <span class="n">metadata</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="n">SWIFT_HEAPOBJECT_NON_OBJC_MEMBERS</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="cp">#ifndef __swift__
+</span></span></span><span class="line"><span class="cl"><span class="cp"></span>  <span class="n">HeapObject</span><span class="p">()</span> <span class="o">=</span> <span class="k">default</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="c1">// Initialize a HeapObject header as appropriate for a newly-allocated object.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="k">constexpr</span> <span class="nf">HeapObject</span><span class="p">(</span><span class="n">HeapMetadata</span> <span class="k">const</span> <span class="o">*</span><span class="n">newMetadata</span><span class="p">)</span> 
+</span></span><span class="line"><span class="cl">    <span class="o">:</span> <span class="n">metadata</span><span class="p">(</span><span class="n">newMetadata</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">,</span> <span class="n">refCounts</span><span class="p">(</span><span class="n">InlineRefCounts</span><span class="o">::</span><span class="n">Initialized</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">  <span class="p">{</span> <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  
+</span></span><span class="line"><span class="cl">  <span class="c1">// Initialize a HeapObject header for an immortal object
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="k">constexpr</span> <span class="nf">HeapObject</span><span class="p">(</span><span class="n">HeapMetadata</span> <span class="k">const</span> <span class="o">*</span><span class="n">newMetadata</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                       <span class="n">InlineRefCounts</span><span class="o">::</span><span class="n">Immortal_t</span> <span class="n">immortal</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">  <span class="o">:</span> <span class="n">metadata</span><span class="p">(</span><span class="n">newMetadata</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">  <span class="p">,</span> <span class="n">refCounts</span><span class="p">(</span><span class="n">InlineRefCounts</span><span class="o">::</span><span class="n">Immortal</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">  <span class="p">{</span> <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="cp">#ifndef NDEBUG
+</span></span></span><span class="line"><span class="cl"><span class="cp"></span>  <span class="kt">void</span> <span class="nf">dump</span><span class="p">()</span> <span class="k">const</span> <span class="n">SWIFT_USED</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="cp">#endif
+</span></span></span><span class="line"><span class="cl"><span class="cp"></span>
+</span></span><span class="line"><span class="cl"><span class="cp">#endif </span><span class="c1">// __swift__
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">};</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><code>Swift</code> 引用计数的存储结构在<a href="https://github.com/apple/swift/blob/main/stdlib/public/SwiftShims/swift/shims/RefCount.h" target="_blank" rel="noopener noreffer ">RefCount 头文件</a> 有介绍：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-swift" data-lang="swift"><span class="line"><span class="cl">  <span class="c1">//Strong and unowned variables point at the object.</span>
+</span></span><span class="line"><span class="cl">  <span class="c1">//Weak variables point at the object&#39;s side table.</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="c1">//Storage layout:</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="n">HeapObject</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">isa</span>
+</span></span><span class="line"><span class="cl">    <span class="n">InlineRefCounts</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="n">atomic</span><span class="p">&lt;</span><span class="n">InlineRefCountBits</span><span class="p">&gt;</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">strong</span> <span class="n">RC</span> <span class="o">+</span> <span class="kr">unowned</span> <span class="n">RC</span> <span class="o">+</span> <span class="n">flags</span>
+</span></span><span class="line"><span class="cl">        <span class="n">OR</span>
+</span></span><span class="line"><span class="cl">        <span class="n">HeapObjectSideTableEntry</span><span class="o">*</span>
+</span></span><span class="line"><span class="cl">      <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="n">HeapObjectSideTableEntry</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">SideTableRefCounts</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="n">object</span> <span class="n">pointer</span>
+</span></span><span class="line"><span class="cl">      <span class="n">atomic</span><span class="p">&lt;</span><span class="n">SideTableRefCountBits</span><span class="p">&gt;</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">strong</span> <span class="n">RC</span> <span class="o">+</span> <span class="kr">unowned</span> <span class="n">RC</span> <span class="o">+</span> <span class="kr">weak</span> <span class="n">RC</span> <span class="o">+</span> <span class="n">flags</span>
+</span></span><span class="line"><span class="cl">      <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>   
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>一般情况下<code>Swift</code>引用类型的对象结构中的<code>InlineRefCounts</code>并不会开辟<code>HeapObjectSideTableEntry</code>内存，只有在创建<code>weak</code>引用时，会先把对象的引用计数放到新创建的<code>HeapObjectSideTableEntry</code>中去，再把空出来的空间存放 <code>HeapObjectSideTableEntry</code> 的地址，而 <code>runtime</code> 会通过一个标志位来区分对象是否有 <code>HeapObjectSideTableEntry</code>。</p>
+<p>对象的生命周期在 <a href="https://github.com/apple/swift/blob/main/stdlib/public/SwiftShims/swift/shims/RefCount.h" target="_blank" rel="noopener noreffer ">RefCount 头文件</a> 中也有详细的说明：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span><span class="lnt">55
+</span><span class="lnt">56
+</span><span class="lnt">57
+</span><span class="lnt">58
+</span><span class="lnt">59
+</span><span class="lnt">60
+</span><span class="lnt">61
+</span><span class="lnt">62
+</span><span class="lnt">63
+</span><span class="lnt">64
+</span><span class="lnt">65
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-swift" data-lang="swift"><span class="line"><span class="cl">  <span class="n">Object</span> <span class="n">lifecycle</span> <span class="n">state</span> <span class="n">machine</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="n">LIVE</span> <span class="n">without</span> <span class="n">side</span> <span class="n">table</span>
+</span></span><span class="line"><span class="cl">  <span class="n">The</span> <span class="n">object</span> <span class="k">is</span> <span class="n">alive</span><span class="p">.</span>
+</span></span><span class="line"><span class="cl">  <span class="n">Object</span><span class="err">&#39;</span><span class="n">s</span> <span class="n">refcounts</span> <span class="n">are</span> <span class="n">initialized</span> <span class="k">as</span> <span class="mi">1</span> <span class="n">strong</span><span class="p">,</span> <span class="mi">1</span> <span class="kr">unowned</span><span class="p">,</span> <span class="mi">1</span> <span class="kr">weak</span><span class="p">.</span>
+</span></span><span class="line"><span class="cl">  <span class="n">No</span> <span class="n">side</span> <span class="n">table</span><span class="p">.</span> <span class="n">No</span> <span class="kr">weak</span> <span class="n">RC</span> <span class="n">storage</span><span class="p">.</span>
+</span></span><span class="line"><span class="cl">  <span class="n">Strong</span> <span class="n">variable</span> <span class="n">operations</span> <span class="n">work</span> <span class="n">normally</span><span class="p">.</span> 
+</span></span><span class="line"><span class="cl">  <span class="n">Unowned</span> <span class="n">variable</span> <span class="n">operations</span> <span class="n">work</span> <span class="n">normally</span><span class="p">.</span>
+</span></span><span class="line"><span class="cl">  <span class="n">Weak</span> <span class="n">variable</span> <span class="n">load</span> <span class="n">can</span><span class="err">&#39;</span><span class="n">t</span> <span class="n">happen</span><span class="p">.</span>
+</span></span><span class="line"><span class="cl">  <span class="n">Weak</span> <span class="n">variable</span> <span class="n">store</span> <span class="n">adds</span> <span class="n">the</span> <span class="n">side</span> <span class="n">table</span><span class="p">,</span> <span class="n">becoming</span> <span class="n">LIVE</span> <span class="n">with</span> <span class="n">side</span> <span class="n">table</span><span class="p">.</span>
+</span></span><span class="line"><span class="cl">  <span class="n">When</span> <span class="n">the</span> <span class="n">strong</span> <span class="n">RC</span> <span class="n">reaches</span> <span class="n">zero</span> <span class="kd">deinit</span><span class="p">()</span> <span class="k">is</span> <span class="n">called</span> <span class="n">and</span> <span class="n">the</span> <span class="n">object</span> 
+</span></span><span class="line"><span class="cl">    <span class="n">becomes</span> <span class="n">DEINITING</span><span class="p">.</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="n">LIVE</span> <span class="n">with</span> <span class="n">side</span> <span class="n">table</span>
+</span></span><span class="line"><span class="cl">  <span class="n">Weak</span> <span class="n">variable</span> <span class="n">operations</span> <span class="n">work</span> <span class="n">normally</span><span class="p">.</span>
+</span></span><span class="line"><span class="cl">  <span class="n">Everything</span> <span class="k">else</span> <span class="k">is</span> <span class="n">the</span> <span class="n">same</span> <span class="k">as</span> <span class="n">LIVE</span><span class="p">.</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="n">DEINITING</span> <span class="n">without</span> <span class="n">side</span> <span class="n">table</span>
+</span></span><span class="line"><span class="cl">  <span class="kd">deinit</span><span class="p">()</span> <span class="k">is</span> <span class="k">in</span> <span class="n">progress</span> <span class="n">on</span> <span class="n">the</span> <span class="n">object</span><span class="p">.</span>
+</span></span><span class="line"><span class="cl">  <span class="n">Strong</span> <span class="n">variable</span> <span class="n">operations</span> <span class="n">have</span> <span class="n">no</span> <span class="n">effect</span><span class="p">.</span>
+</span></span><span class="line"><span class="cl">  <span class="n">Unowned</span> <span class="n">variable</span> <span class="n">load</span> <span class="n">halts</span> <span class="k">in</span> <span class="n">swift_abortRetainUnowned</span><span class="p">().</span>
+</span></span><span class="line"><span class="cl">  <span class="n">Unowned</span> <span class="n">variable</span> <span class="n">store</span> <span class="n">works</span> <span class="n">normally</span><span class="p">.</span>
+</span></span><span class="line"><span class="cl">  <span class="n">Weak</span> <span class="n">variable</span> <span class="n">load</span> <span class="n">can</span><span class="err">&#39;</span><span class="n">t</span> <span class="n">happen</span><span class="p">.</span>
+</span></span><span class="line"><span class="cl">  <span class="n">Weak</span> <span class="n">variable</span> <span class="n">store</span> <span class="n">stores</span> <span class="kc">nil</span><span class="p">.</span>
+</span></span><span class="line"><span class="cl">  <span class="n">When</span> <span class="kd">deinit</span><span class="p">()</span> <span class="n">completes</span><span class="p">,</span> <span class="n">the</span> <span class="n">generated</span> <span class="n">code</span> <span class="n">calls</span> <span class="n">swift_deallocObject</span><span class="p">.</span> 
+</span></span><span class="line"><span class="cl">    <span class="n">swift_deallocObject</span> <span class="n">calls</span> <span class="n">canBeFreedNow</span><span class="p">()</span> <span class="n">checking</span> <span class="k">for</span> <span class="n">the</span> <span class="n">fast</span> <span class="n">path</span> 
+</span></span><span class="line"><span class="cl">    <span class="n">of</span> <span class="n">no</span> <span class="kr">weak</span> <span class="n">or</span> <span class="kr">unowned</span> <span class="n">references</span><span class="p">.</span> 
+</span></span><span class="line"><span class="cl">    <span class="n">If</span> <span class="n">canBeFreedNow</span><span class="p">()</span> <span class="n">the</span> <span class="n">object</span> <span class="k">is</span> <span class="n">freed</span> <span class="n">and</span> <span class="n">it</span> <span class="n">becomes</span> <span class="n">DEAD</span><span class="p">.</span> 
+</span></span><span class="line"><span class="cl">    <span class="n">Otherwise</span><span class="p">,</span> <span class="n">it</span> <span class="n">decrements</span> <span class="n">the</span> <span class="kr">unowned</span> <span class="n">RC</span> <span class="n">and</span> <span class="n">the</span> <span class="n">object</span> <span class="n">becomes</span> <span class="n">DEINITED</span><span class="p">.</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="n">DEINITING</span> <span class="n">with</span> <span class="n">side</span> <span class="n">table</span>
+</span></span><span class="line"><span class="cl">  <span class="n">Weak</span> <span class="n">variable</span> <span class="n">load</span> <span class="n">returns</span> <span class="kc">nil</span><span class="p">.</span> 
+</span></span><span class="line"><span class="cl">  <span class="n">Weak</span> <span class="n">variable</span> <span class="n">store</span> <span class="n">stores</span> <span class="kc">nil</span><span class="p">.</span>
+</span></span><span class="line"><span class="cl">  <span class="n">canBeFreedNow</span><span class="p">()</span> <span class="k">is</span> <span class="n">always</span> <span class="kc">false</span><span class="p">,</span> <span class="n">so</span> <span class="n">it</span> <span class="n">never</span> <span class="n">transitions</span> <span class="n">directly</span> <span class="n">to</span> <span class="n">DEAD</span><span class="p">.</span>
+</span></span><span class="line"><span class="cl">  <span class="n">Everything</span> <span class="k">else</span> <span class="k">is</span> <span class="n">the</span> <span class="n">same</span> <span class="k">as</span> <span class="n">DEINITING</span><span class="p">.</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="n">DEINITED</span> <span class="n">without</span> <span class="n">side</span> <span class="n">table</span>
+</span></span><span class="line"><span class="cl">  <span class="kd">deinit</span><span class="p">()</span> <span class="n">has</span> <span class="n">completed</span> <span class="n">but</span> <span class="n">there</span> <span class="n">are</span> <span class="kr">unowned</span> <span class="n">references</span> <span class="n">outstanding</span><span class="p">.</span>
+</span></span><span class="line"><span class="cl">  <span class="n">Strong</span> <span class="n">variable</span> <span class="n">operations</span> <span class="n">can</span><span class="err">&#39;</span><span class="n">t</span> <span class="n">happen</span><span class="p">.</span>
+</span></span><span class="line"><span class="cl">  <span class="n">Unowned</span> <span class="n">variable</span> <span class="n">store</span> <span class="n">can</span><span class="err">&#39;</span><span class="n">t</span> <span class="n">happen</span><span class="p">.</span>
+</span></span><span class="line"><span class="cl">  <span class="n">Unowned</span> <span class="n">variable</span> <span class="n">load</span> <span class="n">halts</span> <span class="k">in</span> <span class="n">swift_abortRetainUnowned</span><span class="p">().</span>
+</span></span><span class="line"><span class="cl">  <span class="n">Weak</span> <span class="n">variable</span> <span class="n">operations</span> <span class="n">can</span><span class="err">&#39;</span><span class="n">t</span> <span class="n">happen</span><span class="p">.</span>
+</span></span><span class="line"><span class="cl">  <span class="n">When</span> <span class="n">the</span> <span class="kr">unowned</span> <span class="n">RC</span> <span class="n">reaches</span> <span class="n">zero</span><span class="p">,</span> <span class="n">the</span> <span class="n">object</span> <span class="k">is</span> <span class="n">freed</span> <span class="n">and</span> <span class="n">it</span> <span class="n">becomes</span> <span class="n">DEAD</span><span class="p">.</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="n">DEINITED</span> <span class="n">with</span> <span class="n">side</span> <span class="n">table</span>
+</span></span><span class="line"><span class="cl">  <span class="n">Weak</span> <span class="n">variable</span> <span class="n">load</span> <span class="n">returns</span> <span class="kc">nil</span><span class="p">.</span>
+</span></span><span class="line"><span class="cl">  <span class="n">Weak</span> <span class="n">variable</span> <span class="n">store</span> <span class="n">can</span><span class="err">&#39;</span><span class="n">t</span> <span class="n">happen</span><span class="p">.</span>
+</span></span><span class="line"><span class="cl">  <span class="n">When</span> <span class="n">the</span> <span class="kr">unowned</span> <span class="n">RC</span> <span class="n">reaches</span> <span class="n">zero</span><span class="p">,</span> <span class="n">the</span> <span class="n">object</span> <span class="k">is</span> <span class="n">freed</span><span class="p">,</span> <span class="n">the</span> <span class="kr">weak</span> <span class="n">RC</span> <span class="k">is</span> 
+</span></span><span class="line"><span class="cl">    <span class="n">decremented</span><span class="p">,</span> <span class="n">and</span> <span class="n">the</span> <span class="n">object</span> <span class="n">becomes</span> <span class="n">FREED</span><span class="p">.</span>
+</span></span><span class="line"><span class="cl">  <span class="n">Everything</span> <span class="k">else</span> <span class="k">is</span> <span class="n">the</span> <span class="n">same</span> <span class="k">as</span> <span class="n">DEINITED</span><span class="p">.</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="n">FREED</span> <span class="n">without</span> <span class="n">side</span> <span class="n">table</span>
+</span></span><span class="line"><span class="cl">  <span class="n">This</span> <span class="n">state</span> <span class="n">never</span> <span class="n">happens</span><span class="p">.</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="n">FREED</span> <span class="n">with</span> <span class="n">side</span> <span class="n">table</span>
+</span></span><span class="line"><span class="cl">  <span class="n">The</span> <span class="n">object</span> <span class="k">is</span> <span class="n">freed</span> <span class="n">but</span> <span class="n">there</span> <span class="n">are</span> <span class="kr">weak</span> <span class="n">refs</span> <span class="n">to</span> <span class="n">the</span> <span class="n">side</span> <span class="n">table</span> <span class="n">outstanding</span><span class="p">.</span>
+</span></span><span class="line"><span class="cl">  <span class="n">Strong</span> <span class="n">variable</span> <span class="n">operations</span> <span class="n">can</span><span class="err">&#39;</span><span class="n">t</span> <span class="n">happen</span><span class="p">.</span>
+</span></span><span class="line"><span class="cl">  <span class="n">Unowned</span> <span class="n">variable</span> <span class="n">operations</span> <span class="n">can</span><span class="err">&#39;</span><span class="n">t</span> <span class="n">happen</span><span class="p">.</span>
+</span></span><span class="line"><span class="cl">  <span class="n">Weak</span> <span class="n">variable</span> <span class="n">load</span> <span class="n">returns</span> <span class="kc">nil</span><span class="p">.</span>
+</span></span><span class="line"><span class="cl">  <span class="n">Weak</span> <span class="n">variable</span> <span class="n">store</span> <span class="n">can</span><span class="err">&#39;</span><span class="n">t</span> <span class="n">happen</span><span class="p">.</span>
+</span></span><span class="line"><span class="cl">  <span class="n">When</span> <span class="n">the</span> <span class="kr">weak</span> <span class="n">RC</span> <span class="n">reaches</span> <span class="n">zero</span><span class="p">,</span> <span class="n">the</span> <span class="n">side</span> <span class="n">table</span> <span class="n">entry</span> <span class="k">is</span> <span class="n">freed</span> <span class="n">and</span> 
+</span></span><span class="line"><span class="cl">    <span class="n">the</span> <span class="n">object</span> <span class="n">becomes</span> <span class="n">DEAD</span><span class="p">.</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="n">DEAD</span>
+</span></span><span class="line"><span class="cl">  <span class="n">The</span> <span class="n">object</span> <span class="n">and</span> <span class="n">its</span> <span class="n">side</span> <span class="n">table</span> <span class="n">are</span> <span class="n">gone</span><span class="p">.</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>简单翻译过来就是：</p>
+<ol>
+<li>
+<p><strong>LIVE</strong>阶段：</p>
+<p>在给对象添加<code>weak</code>引用时，创建<code>side table</code>，把弱引用计数放到其中，强引用计数和无主引用计数也会挪到这里，在强引用计数变为<code>0</code>时调用<code>deinit()</code>析构函数，然后这个对象被标记为<strong>DEINITING</strong>；</p>
+</li>
+<li>
+<p><strong>DEINITING</strong>阶段（对象正在析构）：</p>
+<p>a. 没有弱引用：</p>
+<pre><code> i. 再强引用此对象不会发生任何效果，即什么都不做(OC中也是如此)；
+ ii. 通过无主引用加载此对象会发生`abort`；
+ iii. 可以正常新增对此对象的无主引用;
+ iv. 新增weak引用会指向nil
+</code></pre>
+<p>在<code>deinit()</code>析构函数执行结束会调用<code>swift_deallocObject</code>函数，内部会执行<code>canBeFreedNow()</code>进行检查，如果没有无主引用和弱引用，则这个对象会被立即释放并且变为<code>DEAD</code>状态，否则，无主引用计数<code>-1</code>，变为<strong>DEINITED</strong>状态。</p>
+<p>b. 存在弱引用：</p>
+<pre><code> i. 通过`weak`获取对象或者新增`weak`指向对象都不会有问题，它们都会指向`nil`；
+</code></pre>
+<p>这种情况<code>canBeFreedNow()</code>必定返回<code>false</code>，然后无主引用计数<code>-1</code>，变为<strong>DEINITED</strong>状态。</p>
+</li>
+<li>
+<p><strong>DEINITED</strong>阶段（对象析构完成，强引用计数变为0，但是存在无主引用）：</p>
+<p>a. 没有弱引用：
+i. 通过无主引用加载此对象会发生abort；</p>
+<p>当无主引用计数变为<code>0</code>的时候会真正释放此对象的内存，然后变为<strong>DEAD</strong>状态。</p>
+<p>b. 存在弱引用：
+i. 通过<code>weak</code>获取对象得到<code>nil</code>；</p>
+<p>当无主引用计数变为<code>0</code>的时候会真正释放此对象的内存，弱引用计数<code>-1</code>，对象变为<strong>FREED</strong>状态。</p>
+</li>
+<li>
+<p><strong>FREED</strong>阶段（对象已释放，但是存在弱引用，即<code>side table</code>）：</p>
+<p>a. 当弱引用计数变为<code>0</code>，则释放<code>side table entry</code>，然后对象变为<strong>DEAD</strong>。</p>
+</li>
+<li>
+<p><strong>DEAD</strong>阶段：</p>
+<p>对象和它的<code>side table</code>都被释放了。</p>
+</li>
+</ol>
 <h2 id="struct">struct</h2>
 <h4 id="嵌套类型会影响父级结构的内存占用吗">嵌套类型会影响父级结构的内存占用吗？</h4>
 <p>不会。最简单的验证方法就是通过<code>MemoryLayout&lt;Type&gt;.size</code>打印一下父级结构所占内存大小就清楚了。也就是说嵌套只是起到了命名空间的作用，并不会影响其他东西</p>
@@ -397,13 +711,13 @@
     </div>
 
     <div class="post-nav"><a href="/ios%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/" class="prev" rel="prev" title="iOS源码阅读笔记"><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i>iOS源码阅读笔记</a>
-            <a href="/%E6%88%91%E7%9A%84%E6%94%B6%E8%97%8F/" class="next" rel="next" title="我的收藏">我的收藏<i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+            <a href="/%E6%88%91%E7%9A%84%E6%94%B6%E8%97%8F/" class="next" rel="next" title="工具收藏">工具收藏<i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
 </div>
 <div id="comments"><div id="valine" class="comment"></div><noscript>
                 Please enable JavaScript to view the comments powered by <a href="https://valine.js.org/">Valine</a>.
             </noscript></div></article></div>
             </main><footer class="footer">
-        <div class="footer-container"><div class="footer-line"><span id="busuanzi_container_site_uv">本站访客数<span id="busuanzi_value_site_uv"></span>人次</span> | <span id="busuanzi_container_site_pv">本站总访问量 <span id="busuanzi_value_site_pv"></span>次 </span></div><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.102.3">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.11"><i class="far fa-kiss-wink-heart fa-fw" aria-hidden="true"></i> LoveIt</a>
+        <div class="footer-container"><div class="footer-line"><span id="busuanzi_container_site_uv">本站访客数<span id="busuanzi_value_site_uv"></span>人次</span> | <span id="busuanzi_container_site_pv">本站总访问量 <span id="busuanzi_value_site_pv"></span>次 </span></div><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.103.1">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.11"><i class="far fa-kiss-wink-heart fa-fw" aria-hidden="true"></i> LoveIt</a>
                 </div><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2018 - 2022</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="https://github.com/faimin" target="_blank">Zero.D.Saber</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
         </div>
     </footer></div>

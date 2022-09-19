@@ -4,10 +4,10 @@
         <link>https://faimin.github.io/</link>
         <description>Hugo theme - LoveIt</description>
         <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>fuxianchao2009@163.com (Zero.D.Saber)</managingEditor>
-            <webMaster>fuxianchao2009@163.com (Zero.D.Saber)</webMaster><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Mon, 29 Aug 2022 10:49:11 &#43;0800</lastBuildDate>
+            <webMaster>fuxianchao2009@163.com (Zero.D.Saber)</webMaster><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Mon, 19 Sep 2022 16:34:10 &#43;0800</lastBuildDate>
             <atom:link href="https://faimin.github.io/index.xml" rel="self" type="application/rss+xml" />
         <item>
-    <title>我的收藏</title>
+    <title>工具收藏</title>
     <link>https://faimin.github.io/%E6%88%91%E7%9A%84%E6%94%B6%E8%97%8F/</link>
     <pubDate>Mon, 29 Aug 2022 10:49:11 &#43;0800</pubDate>
     <author>Zero.D.Saber</author>
@@ -31,6 +31,16 @@
     <author>Zero.D.Saber</author>
     <guid>https://faimin.github.io/ios%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/</guid>
     <description><![CDATA[Runtime AutoreleasePoolPage 、SideTableMap、AssociationsManager 是在map_images-&gt;map_images_nolock-]]></description>
+</item>
+<item>
+    <title>NextResponder</title>
+    <link>https://faimin.github.io/nextresponder/</link>
+    <pubDate>Mon, 19 Sep 2022 16:34:10 &#43;0800</pubDate>
+    <author>Zero.D.Saber</author>
+    <guid>https://faimin.github.io/nextresponder/</guid>
+    <description><![CDATA[<div class="featured-image">
+                <img src="/images/ui/fairy_tail_ailusaha.jpeg" referrerpolicy="no-referrer">
+            </div>childController的nextResponder是谁？]]></description>
 </item>
 <item>
     <title>Swift与Objective-C混编</title>
@@ -83,16 +93,6 @@
     <author>Zero.D.Saber</author>
     <guid>https://faimin.github.io/cocoapods_tips/</guid>
     <description><![CDATA[<p><code>CocoaPods</code>笔记</p>]]></description>
-</item>
-<item>
-    <title>ReactiveCocoa部分简析</title>
-    <link>https://faimin.github.io/reactivecocoa%E9%83%A8%E5%88%86%E7%AE%80%E6%9E%90/</link>
-    <pubDate>Sat, 01 Oct 2016 09:42:32 &#43;0800</pubDate>
-    <author>Zero.D.Saber</author>
-    <guid>https://faimin.github.io/reactivecocoa%E9%83%A8%E5%88%86%E7%AE%80%E6%9E%90/</guid>
-    <description><![CDATA[<div class="featured-image">
-                <img src="/images/rac/reactive_milim.jpg" referrerpolicy="no-referrer">
-            </div><p>简析<code>ReactiveCocoa</code>中的几个函数</p>]]></description>
 </item>
 </channel>
 </rss>

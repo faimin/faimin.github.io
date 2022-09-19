@@ -97,6 +97,198 @@ featuredImagePreview: "/images/opensource/swift/naruto.jpg"
 ![Lazy](/images/opensource/swift/Swift_Lazy.png "swift_lazy")
 
 
+## Weak机制
+
+`Swift`中`weak`与`Objective-C`中的`weak`实现机制不太一样，`Objective-C`中是不允许在一个对象释放过程中再被弱引用的，而`Swift`却没有这个限制。
+
+`Swift`中的弱引用并没有和`Objective-C`一样放在全局的`side table`表中（Swift也不存在这个全局`side table`），而是由自身结构中的 `InlineRefCounts refCounts`来管理，这样效能会比`Objective-C`那种查表的方式高一些。
+
+`Swift`[对象基本结构](https://github.com/apple/swift/blob/main/stdlib/public/SwiftShims/swift/shims/HeapObject.h)如下：
+
+```cpp
+// The members of the HeapObject header that are not shared by a
+// standard Objective-C instance
+#define SWIFT_HEAPOBJECT_NON_OBJC_MEMBERS       \
+  InlineRefCounts refCounts
+
+/// The Swift heap-object header.
+/// This must match RefCountedStructTy in IRGen.
+struct HeapObject {
+  /// This is always a valid pointer to a metadata object.
+  HeapMetadata const *__ptrauth_objc_isa_pointer metadata;
+
+  SWIFT_HEAPOBJECT_NON_OBJC_MEMBERS;
+
+#ifndef __swift__
+  HeapObject() = default;
+
+  // Initialize a HeapObject header as appropriate for a newly-allocated object.
+  constexpr HeapObject(HeapMetadata const *newMetadata) 
+    : metadata(newMetadata)
+    , refCounts(InlineRefCounts::Initialized)
+  { }
+  
+  // Initialize a HeapObject header for an immortal object
+  constexpr HeapObject(HeapMetadata const *newMetadata,
+                       InlineRefCounts::Immortal_t immortal)
+  : metadata(newMetadata)
+  , refCounts(InlineRefCounts::Immortal)
+  { }
+
+#ifndef NDEBUG
+  void dump() const SWIFT_USED;
+#endif
+
+#endif // __swift__
+};
+```
+
+`Swift` 引用计数的存储结构在[RefCount 头文件](https://github.com/apple/swift/blob/main/stdlib/public/SwiftShims/swift/shims/RefCount.h) 有介绍：
+
+```swift
+  //Strong and unowned variables point at the object.
+  //Weak variables point at the object's side table.
+
+
+  //Storage layout:
+
+  HeapObject {
+    isa
+    InlineRefCounts {
+      atomic<InlineRefCountBits> {
+        strong RC + unowned RC + flags
+        OR
+        HeapObjectSideTableEntry*
+      }
+    }
+  }
+
+  HeapObjectSideTableEntry {
+    SideTableRefCounts {
+      object pointer
+      atomic<SideTableRefCountBits> {
+        strong RC + unowned RC + weak RC + flags
+      }
+    }   
+  }
+```
+
+一般情况下`Swift`引用类型的对象结构中的`InlineRefCounts`并不会开辟`HeapObjectSideTableEntry`内存，只有在创建`weak`引用时，会先把对象的引用计数放到新创建的`HeapObjectSideTableEntry`中去，再把空出来的空间存放 `HeapObjectSideTableEntry` 的地址，而 `runtime` 会通过一个标志位来区分对象是否有 `HeapObjectSideTableEntry`。
+
+对象的生命周期在 [RefCount 头文件](https://github.com/apple/swift/blob/main/stdlib/public/SwiftShims/swift/shims/RefCount.h) 中也有详细的说明：
+
+```swift
+  Object lifecycle state machine:
+
+  LIVE without side table
+  The object is alive.
+  Object's refcounts are initialized as 1 strong, 1 unowned, 1 weak.
+  No side table. No weak RC storage.
+  Strong variable operations work normally. 
+  Unowned variable operations work normally.
+  Weak variable load can't happen.
+  Weak variable store adds the side table, becoming LIVE with side table.
+  When the strong RC reaches zero deinit() is called and the object 
+    becomes DEINITING.
+
+  LIVE with side table
+  Weak variable operations work normally.
+  Everything else is the same as LIVE.
+
+  DEINITING without side table
+  deinit() is in progress on the object.
+  Strong variable operations have no effect.
+  Unowned variable load halts in swift_abortRetainUnowned().
+  Unowned variable store works normally.
+  Weak variable load can't happen.
+  Weak variable store stores nil.
+  When deinit() completes, the generated code calls swift_deallocObject. 
+    swift_deallocObject calls canBeFreedNow() checking for the fast path 
+    of no weak or unowned references. 
+    If canBeFreedNow() the object is freed and it becomes DEAD. 
+    Otherwise, it decrements the unowned RC and the object becomes DEINITED.
+
+  DEINITING with side table
+  Weak variable load returns nil. 
+  Weak variable store stores nil.
+  canBeFreedNow() is always false, so it never transitions directly to DEAD.
+  Everything else is the same as DEINITING.
+
+  DEINITED without side table
+  deinit() has completed but there are unowned references outstanding.
+  Strong variable operations can't happen.
+  Unowned variable store can't happen.
+  Unowned variable load halts in swift_abortRetainUnowned().
+  Weak variable operations can't happen.
+  When the unowned RC reaches zero, the object is freed and it becomes DEAD.
+
+  DEINITED with side table
+  Weak variable load returns nil.
+  Weak variable store can't happen.
+  When the unowned RC reaches zero, the object is freed, the weak RC is 
+    decremented, and the object becomes FREED.
+  Everything else is the same as DEINITED.
+
+  FREED without side table
+  This state never happens.
+
+  FREED with side table
+  The object is freed but there are weak refs to the side table outstanding.
+  Strong variable operations can't happen.
+  Unowned variable operations can't happen.
+  Weak variable load returns nil.
+  Weak variable store can't happen.
+  When the weak RC reaches zero, the side table entry is freed and 
+    the object becomes DEAD.
+
+  DEAD
+  The object and its side table are gone.
+```
+
+简单翻译过来就是：
+
+1. **LIVE**阶段：
+
+    在给对象添加`weak`引用时，创建`side table`，把弱引用计数放到其中，强引用计数和无主引用计数也会挪到这里，在强引用计数变为`0`时调用`deinit()`析构函数，然后这个对象被标记为**DEINITING**；
+
+2. **DEINITING**阶段（对象正在析构）：
+
+    a. 没有弱引用：
+
+        i. 再强引用此对象不会发生任何效果，即什么都不做(OC中也是如此)；
+        ii. 通过无主引用加载此对象会发生`abort`；
+        iii. 可以正常新增对此对象的无主引用;
+        iv. 新增weak引用会指向nil
+
+    在`deinit()`析构函数执行结束会调用`swift_deallocObject`函数，内部会执行`canBeFreedNow()`进行检查，如果没有无主引用和弱引用，则这个对象会被立即释放并且变为`DEAD`状态，否则，无主引用计数`-1`，变为**DEINITED**状态。
+
+    b. 存在弱引用：
+
+        i. 通过`weak`获取对象或者新增`weak`指向对象都不会有问题，它们都会指向`nil`；
+
+    这种情况`canBeFreedNow()`必定返回`false`，然后无主引用计数`-1`，变为**DEINITED**状态。        
+    
+2. **DEINITED**阶段（对象析构完成，强引用计数变为0，但是存在无主引用）：
+
+    a. 没有弱引用：
+        i. 通过无主引用加载此对象会发生abort；
+
+    当无主引用计数变为`0`的时候会真正释放此对象的内存，然后变为**DEAD**状态。
+
+    b. 存在弱引用：
+        i. 通过`weak`获取对象得到`nil`；
+
+    当无主引用计数变为`0`的时候会真正释放此对象的内存，弱引用计数`-1`，对象变为**FREED**状态。 
+
+3. **FREED**阶段（对象已释放，但是存在弱引用，即`side table`）：
+
+    a. 当弱引用计数变为`0`，则释放`side table entry`，然后对象变为**DEAD**。
+
+3. **DEAD**阶段：
+
+    对象和它的`side table`都被释放了。
+
+
 ## struct
 
 #### 嵌套类型会影响父级结构的内存占用吗？

@@ -30,7 +30,7 @@
         "mainEntityOfPage": {
             "@type": "WebPage",
             "@id": "https:\/\/faimin.github.io\/ios%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0\/"
-        },"image": ["https:\/\/faimin.github.io\/images\/Apple-Devices-Preview.png"],"genre": "posts","keywords": "iOS, runtime","wordcount":  7744 ,
+        },"image": ["https:\/\/faimin.github.io\/images\/Apple-Devices-Preview.png"],"genre": "posts","keywords": "iOS, runtime","wordcount":  8460 ,
         "url": "https:\/\/faimin.github.io\/ios%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0\/","datePublished": "2022-06-09T17:06:35+08:00","dateModified": "2022-09-02T20:20:00+08:00","license": "This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher": {
             "@type": "Organization",
             "name": "Zero.D.Saber","logo": "https:\/\/faimin.github.io\/images\/avatar.png"},"author": {
@@ -110,8 +110,8 @@
             <div class="toc-content" id="toc-content-auto"></div>
         </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">iOS源码阅读笔记</h1><div class="post-meta">
             <div class="post-meta-line"><span class="post-author"><a href="https://github.com/faimin" title="Author" target="_blank" rel="noopener noreffer author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Zero.D.Saber</a></span>&nbsp;<span class="post-category">收录于 <a href="/categories/%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>实现原理</a></span></div>
-            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2022-06-09">2022-06-09</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;约 7744 字&nbsp;
-                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;预计阅读 16 分钟&nbsp;<span id="/ios%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/" class="leancloud_visitors" data-flag-title="iOS源码阅读笔记">
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2022-06-09">2022-06-09</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;约 8460 字&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;预计阅读 17 分钟&nbsp;<span id="/ios%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/" class="leancloud_visitors" data-flag-title="iOS源码阅读笔记">
                         <i class="far fa-eye fa-fw" aria-hidden="true"></i>&nbsp;<span class=leancloud-visitors-count></span>&nbsp;次阅读
                     </span>&nbsp;</div>
         </div><div class="details toc" id="toc-static"  data-kept="">
@@ -138,6 +138,7 @@
             <li><a href="#类和category实现load对加载的影响">类和<code>category</code>实现<code>load</code>对加载的影响</a></li>
             <li><a href="#为什么会有cleanmemory和dirtymemory呢">为什么会有CleanMemory和DirtyMemory呢？</a></li>
             <li><a href="#为什么执行load方法时没有触发initialize">为什么执行<code>load</code>方法时没有触发<code>initialize</code>？</a></li>
+            <li><a href="#什么在对象释放过程中通过weak变量获取不到这个对象">什么在对象释放过程中通过<code>weak</code>变量获取不到这个对象？</a></li>
           </ul>
         </li>
         <li><a href="#对象释放流程">对象释放流程</a></li>
@@ -270,6 +271,239 @@
 </ul>
 <h4 id="为什么执行load方法时没有触发initialize">为什么执行<code>load</code>方法时没有触发<code>initialize</code>？</h4>
 <p>一定明确<code>initialize</code>是在首次发消息时才会触发，而<code>load</code>的执行是通过函数指针的方式调用的，没有走消息发送机制，所以不会触发<code>initialize</code>。</p>
+<h4 id="什么在对象释放过程中通过weak变量获取不到这个对象">什么在对象释放过程中通过<code>weak</code>变量获取不到这个对象？</h4>
+<p>在关联的场景中，比如<code>A</code>关联<code>B</code>，<code>B</code>弱持有<code>A</code>，<code>A</code>释放时会释放其关联的<code>B</code>，导致<code>B</code>的<code>dealloc</code>执行，然后我们在<code>B</code>的<code>dealloc</code>方法中通过<code>weak</code>变量读取<code>A</code>，却发现获取到的是<code>nil</code>（根据释放流程此时A还没有free掉），这是为什么？</p>
+<p>分析如下：</p>
+<p>读取<code>weak</code>变量时执行的是<code>objc_loadWeak</code>函数，内部执行大概流程为：<code>objc_loadWeak</code> -&gt; <code>objc_loadWeakRetained</code> -&gt; <code>obj-&gt;rootTryRetain()</code> -&gt; <code>rootRetain(true, RRVariant::Fast)</code> ，在<code>rootRetain</code>中如果当前对象正在处于释放流程中，则返回<code>nil</code>。具体代码如下：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">  1
+</span><span class="lnt">  2
+</span><span class="lnt">  3
+</span><span class="lnt">  4
+</span><span class="lnt">  5
+</span><span class="lnt">  6
+</span><span class="lnt">  7
+</span><span class="lnt">  8
+</span><span class="lnt">  9
+</span><span class="lnt"> 10
+</span><span class="lnt"> 11
+</span><span class="lnt"> 12
+</span><span class="lnt"> 13
+</span><span class="lnt"> 14
+</span><span class="lnt"> 15
+</span><span class="lnt"> 16
+</span><span class="lnt"> 17
+</span><span class="lnt"> 18
+</span><span class="lnt"> 19
+</span><span class="lnt"> 20
+</span><span class="lnt"> 21
+</span><span class="lnt"> 22
+</span><span class="lnt"> 23
+</span><span class="lnt"> 24
+</span><span class="lnt"> 25
+</span><span class="lnt"> 26
+</span><span class="lnt"> 27
+</span><span class="lnt"> 28
+</span><span class="lnt"> 29
+</span><span class="lnt"> 30
+</span><span class="lnt"> 31
+</span><span class="lnt"> 32
+</span><span class="lnt"> 33
+</span><span class="lnt"> 34
+</span><span class="lnt"> 35
+</span><span class="lnt"> 36
+</span><span class="lnt"> 37
+</span><span class="lnt"> 38
+</span><span class="lnt"> 39
+</span><span class="lnt"> 40
+</span><span class="lnt"> 41
+</span><span class="lnt"> 42
+</span><span class="lnt"> 43
+</span><span class="lnt"> 44
+</span><span class="lnt"> 45
+</span><span class="lnt"> 46
+</span><span class="lnt"> 47
+</span><span class="lnt"> 48
+</span><span class="lnt"> 49
+</span><span class="lnt"> 50
+</span><span class="lnt"> 51
+</span><span class="lnt"> 52
+</span><span class="lnt"> 53
+</span><span class="lnt"> 54
+</span><span class="lnt"> 55
+</span><span class="lnt"> 56
+</span><span class="lnt"> 57
+</span><span class="lnt"> 58
+</span><span class="lnt"> 59
+</span><span class="lnt"> 60
+</span><span class="lnt"> 61
+</span><span class="lnt"> 62
+</span><span class="lnt"> 63
+</span><span class="lnt"> 64
+</span><span class="lnt"> 65
+</span><span class="lnt"> 66
+</span><span class="lnt"> 67
+</span><span class="lnt"> 68
+</span><span class="lnt"> 69
+</span><span class="lnt"> 70
+</span><span class="lnt"> 71
+</span><span class="lnt"> 72
+</span><span class="lnt"> 73
+</span><span class="lnt"> 74
+</span><span class="lnt"> 75
+</span><span class="lnt"> 76
+</span><span class="lnt"> 77
+</span><span class="lnt"> 78
+</span><span class="lnt"> 79
+</span><span class="lnt"> 80
+</span><span class="lnt"> 81
+</span><span class="lnt"> 82
+</span><span class="lnt"> 83
+</span><span class="lnt"> 84
+</span><span class="lnt"> 85
+</span><span class="lnt"> 86
+</span><span class="lnt"> 87
+</span><span class="lnt"> 88
+</span><span class="lnt"> 89
+</span><span class="lnt"> 90
+</span><span class="lnt"> 91
+</span><span class="lnt"> 92
+</span><span class="lnt"> 93
+</span><span class="lnt"> 94
+</span><span class="lnt"> 95
+</span><span class="lnt"> 96
+</span><span class="lnt"> 97
+</span><span class="lnt"> 98
+</span><span class="lnt"> 99
+</span><span class="lnt">100
+</span><span class="lnt">101
+</span><span class="lnt">102
+</span><span class="lnt">103
+</span><span class="lnt">104
+</span><span class="lnt">105
+</span><span class="lnt">106
+</span><span class="lnt">107
+</span><span class="lnt">108
+</span><span class="lnt">109
+</span><span class="lnt">110
+</span><span class="lnt">111
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="n">id</span>
+</span></span><span class="line"><span class="cl"><span class="nf">objc_loadWeakRetained</span><span class="p">(</span><span class="n">id</span> <span class="o">*</span><span class="n">location</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">id</span> <span class="n">obj</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">id</span> <span class="n">result</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Class</span> <span class="n">cls</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">SideTable</span> <span class="o">*</span><span class="n">table</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl"> <span class="nl">retry</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">    <span class="n">obj</span> <span class="o">=</span> <span class="o">*</span><span class="n">location</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="n">_objc_isTaggedPointerOrNil</span><span class="p">(</span><span class="n">obj</span><span class="p">))</span> <span class="k">return</span> <span class="n">obj</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="n">table</span> <span class="o">=</span> <span class="o">&amp;</span><span class="n">SideTables</span><span class="p">()[</span><span class="n">obj</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="n">table</span><span class="o">-&gt;</span><span class="n">lock</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="o">*</span><span class="n">location</span> <span class="o">!=</span> <span class="n">obj</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">table</span><span class="o">-&gt;</span><span class="n">unlock</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">        <span class="k">goto</span> <span class="n">retry</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="n">result</span> <span class="o">=</span> <span class="n">obj</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">cls</span> <span class="o">=</span> <span class="n">obj</span><span class="o">-&gt;</span><span class="n">ISA</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="o">!</span> <span class="n">cls</span><span class="o">-&gt;</span><span class="n">hasCustomRR</span><span class="p">())</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">// 执行此逻辑
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="k">if</span> <span class="p">(</span><span class="o">!</span> <span class="n">obj</span><span class="o">-&gt;</span><span class="n">rootTryRetain</span><span class="p">())</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">result</span> <span class="o">=</span> <span class="n">nil</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="k">else</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">// 执行不到的逻辑，删掉
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        
+</span></span><span class="line"><span class="cl">    <span class="n">table</span><span class="o">-&gt;</span><span class="n">unlock</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">result</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">ALWAYS_INLINE</span> <span class="kt">bool</span> 
+</span></span><span class="line"><span class="cl"><span class="n">objc_object</span><span class="o">::</span><span class="n">rootTryRetain</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="nf">rootRetain</span><span class="p">(</span><span class="nb">true</span><span class="p">,</span> <span class="n">RRVariant</span><span class="o">::</span><span class="n">Fast</span><span class="p">)</span> <span class="o">?</span> <span class="nb">true</span> <span class="o">:</span> <span class="nb">false</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">ALWAYS_INLINE</span> <span class="n">id</span>
+</span></span><span class="line"><span class="cl"><span class="n">objc_object</span><span class="o">::</span><span class="n">rootRetain</span><span class="p">(</span><span class="kt">bool</span> <span class="n">tryRetain</span><span class="p">,</span> <span class="n">objc_object</span><span class="o">::</span><span class="n">RRVariant</span> <span class="n">variant</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="n">slowpath</span><span class="p">(</span><span class="n">isTaggedPointer</span><span class="p">()))</span> <span class="k">return</span> <span class="p">(</span><span class="n">id</span><span class="p">)</span><span class="k">this</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kt">bool</span> <span class="n">sideTableLocked</span> <span class="o">=</span> <span class="nb">false</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">bool</span> <span class="n">transcribeToSideTable</span> <span class="o">=</span> <span class="nb">false</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">isa_t</span> <span class="n">oldisa</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">isa_t</span> <span class="n">newisa</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">oldisa</span> <span class="o">=</span> <span class="n">LoadExclusive</span><span class="p">(</span><span class="o">&amp;</span><span class="n">isa</span><span class="p">().</span><span class="n">bits</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1">// ...
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl">    <span class="k">do</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">transcribeToSideTable</span> <span class="o">=</span> <span class="nb">false</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="n">newisa</span> <span class="o">=</span> <span class="n">oldisa</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="c1">// 关键逻辑：
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="c1">// 如果正在释放中，并且tryRetain=true，则返回nil
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="c1">// don&#39;t check newisa.fast_rr; we already called any RR overrides
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="k">if</span> <span class="p">(</span><span class="n">slowpath</span><span class="p">(</span><span class="n">newisa</span><span class="p">.</span><span class="n">isDeallocating</span><span class="p">()))</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">ClearExclusive</span><span class="p">(</span><span class="o">&amp;</span><span class="n">isa</span><span class="p">().</span><span class="n">bits</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">            <span class="k">if</span> <span class="p">(</span><span class="n">sideTableLocked</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                <span class="n">ASSERT</span><span class="p">(</span><span class="n">variant</span> <span class="o">==</span> <span class="n">RRVariant</span><span class="o">::</span><span class="n">Full</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">                <span class="n">sidetable_unlock</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">            <span class="p">}</span>
+</span></span><span class="line"><span class="cl">            <span class="k">if</span> <span class="p">(</span><span class="n">slowpath</span><span class="p">(</span><span class="n">tryRetain</span><span class="p">))</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                <span class="k">return</span> <span class="n">nil</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">            <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                <span class="k">return</span> <span class="p">(</span><span class="n">id</span><span class="p">)</span><span class="k">this</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">            <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="n">uintptr_t</span> <span class="n">carry</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="n">newisa</span><span class="p">.</span><span class="n">bits</span> <span class="o">=</span> <span class="n">addc</span><span class="p">(</span><span class="n">newisa</span><span class="p">.</span><span class="n">bits</span><span class="p">,</span> <span class="n">RC_ONE</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">carry</span><span class="p">);</span>  <span class="c1">// extra_rc++
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="p">(</span><span class="n">slowpath</span><span class="p">(</span><span class="n">carry</span><span class="p">))</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="c1">// newisa.extra_rc++ overflowed
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>            <span class="k">if</span> <span class="p">(</span><span class="n">variant</span> <span class="o">!=</span> <span class="n">RRVariant</span><span class="o">::</span><span class="n">Full</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                <span class="n">ClearExclusive</span><span class="p">(</span><span class="o">&amp;</span><span class="n">isa</span><span class="p">().</span><span class="n">bits</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">                <span class="k">return</span> <span class="nf">rootRetain_overflow</span><span class="p">(</span><span class="n">tryRetain</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">            <span class="p">}</span>
+</span></span><span class="line"><span class="cl">            <span class="c1">// Leave half of the retain counts inline and 
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>            <span class="c1">// prepare to copy the other half to the side table.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>            <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">tryRetain</span> <span class="o">&amp;&amp;</span> <span class="o">!</span><span class="n">sideTableLocked</span><span class="p">)</span> <span class="n">sidetable_lock</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">            <span class="n">sideTableLocked</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">            <span class="n">transcribeToSideTable</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">            <span class="n">newisa</span><span class="p">.</span><span class="n">extra_rc</span> <span class="o">=</span> <span class="n">RC_HALF</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">            <span class="n">newisa</span><span class="p">.</span><span class="n">has_sidetable_rc</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span> <span class="k">while</span> <span class="p">(</span><span class="n">slowpath</span><span class="p">(</span><span class="o">!</span><span class="n">StoreExclusive</span><span class="p">(</span><span class="o">&amp;</span><span class="n">isa</span><span class="p">().</span><span class="n">bits</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">oldisa</span><span class="p">.</span><span class="n">bits</span><span class="p">,</span> <span class="n">newisa</span><span class="p">.</span><span class="n">bits</span><span class="p">)));</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="n">variant</span> <span class="o">==</span> <span class="n">RRVariant</span><span class="o">::</span><span class="n">Full</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="p">(</span><span class="n">slowpath</span><span class="p">(</span><span class="n">transcribeToSideTable</span><span class="p">))</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="c1">// Copy the other half of the retain counts to the side table.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>            <span class="n">sidetable_addExtraRC_nolock</span><span class="p">(</span><span class="n">RC_HALF</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="p">(</span><span class="n">slowpath</span><span class="p">(</span><span class="o">!</span><span class="n">tryRetain</span> <span class="o">&amp;&amp;</span> <span class="n">sideTableLocked</span><span class="p">))</span> <span class="n">sidetable_unlock</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">ASSERT</span><span class="p">(</span><span class="o">!</span><span class="n">transcribeToSideTable</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">ASSERT</span><span class="p">(</span><span class="o">!</span><span class="n">sideTableLocked</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="p">(</span><span class="n">id</span><span class="p">)</span><span class="k">this</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>既然没释放，那我们怎么拿到这个对象呢？通过<code>unsafe_unretained</code>或者<code>assign</code>标记就可以获取到了。</p>
 <h3 id="对象释放流程">对象释放流程</h3>
 <p>调用<code>release</code> -&gt; <code>rootRelease</code>，引用计数<code>-1</code>，当引用计数变为<code>0</code>时，就会通过<code>objc_msgSend</code>调用<code>Objective-C</code>对象的<code>dealloc</code>方法，然后进入到<code>objc_object::rootDealloc()</code>函数，函数内部会读取当前对象的<code>isa</code>中存储的信息，包括是否是非指针、有没有弱引用、成员变量、关联对象、<code>has_sidetable_rc</code>，如果都没有会直接释放（<code>free</code>），否则会执行<code>objc_destructInstance(obj)</code>，这个函数的逻辑为先释放成员变量，接着移除关联对象，再移除弱引用，把弱引用指针置为<code>nil</code>，最后再从<code>SideTable</code>的<code>RefcountMap refcnts</code>成员变量中 把存储当前对象引用计数的记录（<code>key-value</code>）从引用计数表中移除，类似于从字典中把这条<code>key-value</code>都删除（疑问：此时引用计数已经是0了，那最后这个引用计数表的处理是不是多余的，什么情况下会执行进来？？？）。</p>
 <p>在<code>dealloc</code>方法中如果有对<code>self</code>的引用，比如<code>- (void)dealloc { id obj = self; }</code>，是不会发生引用计数<code>+1</code>的，<code>runtime</code>处理如下：</p>
@@ -596,7 +830,7 @@
                 Please enable JavaScript to view the comments powered by <a href="https://valine.js.org/">Valine</a>.
             </noscript></div></article></div>
             </main><footer class="footer">
-        <div class="footer-container"><div class="footer-line"><span id="busuanzi_container_site_uv">本站访客数<span id="busuanzi_value_site_uv"></span>人次</span> | <span id="busuanzi_container_site_pv">本站总访问量 <span id="busuanzi_value_site_pv"></span>次 </span></div><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.103.1">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.11"><i class="far fa-kiss-wink-heart fa-fw" aria-hidden="true"></i> LoveIt</a>
+        <div class="footer-container"><div class="footer-line"><span id="busuanzi_container_site_uv">本站访客数<span id="busuanzi_value_site_uv"></span>人次</span> | <span id="busuanzi_container_site_pv">本站总访问量 <span id="busuanzi_value_site_pv"></span>次 </span></div><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.104.2">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.11"><i class="far fa-kiss-wink-heart fa-fw" aria-hidden="true"></i> LoveIt</a>
                 </div><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2018 - 2022</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="https://github.com/faimin" target="_blank">Zero.D.Saber</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
         </div>
     </footer></div>

@@ -211,8 +211,9 @@
 
 - [LLVM](https://github.com/llvm/llvm-project)
 - [Lookin](https://github.com/hughkli/Lookin)
+- [LLDB](https://github.com/DerekSelander/LLDB) -  lldb 插件
 - [Chisel](https://github.com/facebook/chisel) - `lldb`插件
-- [injectionIII](https://github.com/johnno1962/InjectionIII) - 所见即所得
+- [injectionIII](https://github.com/johnno1962/InjectionIII) - hotreload
 - [OpenSim](https://github.com/luosheng/OpenSim) - 读取模拟器沙盒
 - [HTTPToolKit-Desktop](https://github.com/httptoolkit/httptoolkit-desktop)
 

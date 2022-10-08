@@ -336,7 +336,7 @@ e. 会死锁的原因：执行时会检查当前线程的状态（是否正在�
 
 a. 将异步任务（`dispatch_queue 、 block`）封装为 `dispatch_continuation_t` 类型
 
-b. 然后执行 `_dispatch_continuation_async -> dx_push`递归重定向到根队列，然后通过创建线程执行 `dx_invoke` 执行`block`回调；
+b. 然后执行 `_dispatch_continuation_async -> dx_push`递归重定向到根队列，然后执行`_dispatch_root_queue_poke`进行出队操作，通过创建线程执行 `dx_invoke` 执行`block`回调；
 
 ---
 
@@ -408,6 +408,29 @@ _dispatch_worker_thread(void *context)
 	return NULL;
 }
 ```
+
+---
+
+#### dispatch_source_merge_data
+
+对应的结构定义
+
+```cpp
+// 定义在 libdispatch 仓库中的 init.c 文件中
+DISPATCH_VTABLE_INSTANCE(source,
+	.do_type        = DISPATCH_SOURCE_KEVENT_TYPE,
+	.do_dispose     = _dispatch_source_dispose,
+	.do_debug       = _dispatch_source_debug,
+	.do_invoke      = _dispatch_source_invoke,
+
+	.dq_activate    = _dispatch_source_activate,
+	.dq_wakeup      = _dispatch_source_wakeup,
+	.dq_push        = _dispatch_lane_push,
+);
+```
+
+把任务包装成`dispatch_continuation_t`对象，每次`dispatch_source_merge_data`时对内部变量进行原子性的`ADD、OR、REPLACE`等操作，并执行`dx_wakeup`函数，`dx_wakeup`是个宏定义，其实调用的是`_dispatch_source_wakeup`，wakeup这个函数其实是一个入队操作，但并不是每次都会进行入队（此处还未完全看明白 o(╯□╰)o ），接着会执行`_dispatch_main_queue_drain -> _dispatch_continuation_pop_inline`出队操作，流程基本和`dispatch_async`一致。
+
 
 ---
 

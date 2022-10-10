@@ -1,1 +1,8 @@
-<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>Documentation - Category - Zero.D.Saber</title><link>https://github.com/faimin/faimin.github.io/tree/gh-pages/en/categories/documentation/</link><description>Documentation - Category - Zero.D.Saber</description><generator>Hugo -- gohugo.io</generator><language>en</language><managingEditor>fuxianchao2009@163.com (Zero.D.Saber)</managingEditor><webMaster>fuxianchao2009@163.com (Zero.D.Saber)</webMaster><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><atom:link href="https://github.com/faimin/faimin.github.io/tree/gh-pages/en/categories/documentation/" rel="self" type="application/rss+xml"/></channel></rss>
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title>Documentation - Category - Zero.D.Saber</title>
+        <link>https://github.com/faimin/faimin.github.io/tree/gh-pages/en/categories/documentation/</link>
+        <description>Documentation - Category - Zero.D.Saber</description>
+        <generator>Hugo -- gohugo.io</generator><language>en</language><managingEditor>fuxianchao2009@163.com (Zero.D.Saber)</managingEditor>
+            <webMaster>fuxianchao2009@163.com (Zero.D.Saber)</webMaster><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><atom:link href="https://github.com/faimin/faimin.github.io/tree/gh-pages/en/categories/documentation/" rel="self" type="application/rss+xml" /></channel>
+</rss>

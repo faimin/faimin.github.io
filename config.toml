@@ -1,6 +1,5 @@
-# baseURL = "https://faimin.github.io/"
-# publishdir = "docs"
-baseURL = "https://github.com/faimin/faimin.github.io/tree/gh-pages"
+baseURL = "https://faimin.github.io/"
+publishdir = "docs"
 
 # theme
 # 主题

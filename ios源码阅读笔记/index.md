@@ -397,6 +397,26 @@ _dispatch_worker_thread(void *context)
 
 ---
 
+#### dispatch_once
+
+`dispatch_once`函数中的`token` (`dispatch_once_t`) 会被强转为`dispatch_once_gate_t`类型，而`dispatch_once_gate_t`里面是个`union`联合体类型，其中`dgo_once`用来记录当前`block`的执行状态，执行完后状态会被标记为`DLOCK_ONCE_DONE`。
+
+```cpp
+typedef struct dispatch_once_gate_s {
+	union {
+		dispatch_gate_s dgo_gate;
+		uintptr_t dgo_once;
+	};
+} dispatch_once_gate_s, *dispatch_once_gate_t;
+```
+
+我们首先获取`dgo_once`变量的值，如果是`DLOCK_ONCE_DONE`，则表示已经执行过了，直接return掉；
+如果是`DLOCK_ONCE_UNLOCKED`状态，则表示首次执行，然后会把当前的`线程id`存到`dgo_once`变量中，然后开始执行block任务，结束后会把`dgo_once`置为`DLOCK_ONCE_DONE`；
+如果有其他线程执行过来，根据`dgo_once`判断，发现正在执行中，则会进入等待流程，等待其实是启了个`for (;;)`无限循环，在循环中不断地通过原子操作查询`dgo_once`的状态，等发现变为`DLOCK_ONCE_DONE`后则退出循环。
+
+
+---
+
 #### dispatch_source_merge_data
 
 对应的结构定义

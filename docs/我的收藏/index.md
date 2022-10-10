@@ -368,6 +368,7 @@
 - shellman
 - Hex Editor
 - Better Comments
+- whatchanged
 - Swift
     > 1. 如果没有代码联想，可能是因为`sourcekit-lsp`与本机`Swift`不在同一目录下。在`/usr/local/bin`下建立一个`sourcekit-lsp`的软链接可以解决：`ls -s $(xcrun --find sourcekit-lsp) /usr/local/bin/sourcekit-lsp`。
     >
@@ -387,5 +388,5 @@
 - [open-source-mac-os-apps](https://github.com/serhii-londar/open-source-mac-os-apps)
 - [AlternativeTo](https://alternativeto.net/)
 - [麦氪搜](https://www.imacso.com/)
-- [MacWk](https://www.macwk.com/)
+- ~~[MacWk（已关站）](https://www.macwk.com/)~~
 - [Xclient](http://xclient.info/s/)

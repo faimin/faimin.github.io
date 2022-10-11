@@ -1,870 +1,457 @@
-<!DOCTYPE html>
-<html lang="zh-CN">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="robots" content="noodp" />
-        <title>代码技巧 - Zero.D.Saber</title><meta name="Description" content="代码技巧"><meta property="og:title" content="代码技巧" />
-<meta property="og:description" content="代码技巧" />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="https://faimin.github.io/codetips/" /><meta property="og:image" content="https://faimin.github.io/logo/avatar.gif"/><meta property="article:section" content="posts" />
-<meta property="article:published_time" content="2018-07-11T15:14:00+08:00" />
-<meta property="article:modified_time" content="2022-09-02T20:21:22+08:00" /><meta property="og:site_name" content="Zero.D.Saber的小屋" />
-
-<meta name="twitter:card" content="summary_large_image"/>
-<meta name="twitter:image" content="https://faimin.github.io/logo/avatar.gif"/>
-
-<meta name="twitter:title" content="代码技巧"/>
-<meta name="twitter:description" content="代码技巧"/>
-<meta name="application-name" content="LoveIt">
-<meta name="apple-mobile-web-app-title" content="LoveIt"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="icon" href="/logo/avatar.gif"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://faimin.github.io/codetips/" /><link rel="prev" href="https://faimin.github.io/cocoapods_tips/" /><link rel="next" href="https://faimin.github.io/block%E6%8D%95%E8%8E%B7%E5%8E%9F%E7%90%86%E6%8E%A2%E7%A9%B6/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-        <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css"></noscript><link rel="preload" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-        <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css"></noscript><script type="application/ld+json">
-    {
-        "@context": "http://schema.org",
-        "@type": "BlogPosting",
-        "headline": "代码技巧",
-        "inLanguage": "zh-CN",
-        "mainEntityOfPage": {
-            "@type": "WebPage",
-            "@id": "https:\/\/faimin.github.io\/codetips\/"
-        },"image": ["https:\/\/faimin.github.io\/images\/Apple-Devices-Preview.png"],"genre": "posts","keywords": "iOS, tips","wordcount":  2136 ,
-        "url": "https:\/\/faimin.github.io\/codetips\/","datePublished": "2018-07-11T15:14:00+08:00","dateModified": "2022-09-02T20:21:22+08:00","license": "This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher": {
-            "@type": "Organization",
-            "name": "Zero.D.Saber","logo": "https:\/\/faimin.github.io\/images\/avatar.png"},"author": {
-                "@type": "Person",
-                "name": "Zero.D.Saber"
-            },"description": "代码技巧"
-    }
-    </script></head>
-    <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
-
-        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
-    <div class="header-wrapper">
-        <div class="header-title">
-            <a href="/" title="Zero.D.Saber">Zero.D.Saber&#39;s Notes</a>
-        </div>
-        <div class="menu">
-            <div class="menu-inner"><a class="menu-item" href="/posts/"> 所有文章 </a><a class="menu-item" href="/tags/"> 标签 </a><a class="menu-item" href="/categories/"> 分类 </a><a class="menu-item" href="/categories/documentation/"> 文档 </a><a class="menu-item" href="/about/whoami"> 关于 </a><a class="menu-item" href="https://github.com/faimin" title="GitHub" rel="noopener noreffer" target="_blank"><i class='fab fa-github fa-fw' aria-hidden='true'></i>  </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
-                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-desktop">
-                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
-                            <i class="fas fa-search fa-fw" aria-hidden="true"></i>
-                        </a>
-                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
-                            <i class="fas fa-times-circle fa-fw" aria-hidden="true"></i>
-                        </a>
-                        <span class="search-button search-loading" id="search-loading-desktop">
-                            <i class="fas fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
-                        </span>
-                    </span><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
-                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
-                </a><a href="javascript:void(0);" class="menu-item language" title="选择语言">
-                    <i class="fa fa-globe" aria-hidden="true"></i>                      
-                    <select class="language-select" id="language-select-desktop" onchange="location = this.value;"><option value="/codetips/" selected>简体中文</option></select>
-                </a></div>
-        </div>
-    </div>
-</header><header class="mobile" id="header-mobile">
-    <div class="header-container">
-        <div class="header-wrapper">
-            <div class="header-title">
-                <a href="/" title="Zero.D.Saber">Zero.D.Saber&#39;s Notes</a>
-            </div>
-            <div class="menu-toggle" id="menu-toggle-mobile">
-                <span></span><span></span><span></span>
-            </div>
-        </div>
-        <div class="menu" id="menu-mobile"><div class="search-wrapper">
-                    <div class="search mobile" id="search-mobile">
-                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-mobile">
-                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
-                            <i class="fas fa-search fa-fw" aria-hidden="true"></i>
-                        </a>
-                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
-                            <i class="fas fa-times-circle fa-fw" aria-hidden="true"></i>
-                        </a>
-                        <span class="search-button search-loading" id="search-loading-mobile">
-                            <i class="fas fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
-                        </span>
-                    </div>
-                    <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
-                        取消
-                    </a>
-                </div><a class="menu-item" href="/posts/" title="">所有文章</a><a class="menu-item" href="/tags/" title="">标签</a><a class="menu-item" href="/categories/" title="">分类</a><a class="menu-item" href="/categories/documentation/" title="">文档</a><a class="menu-item" href="/about/whoami" title="">关于</a><a class="menu-item" href="https://github.com/faimin" title="GitHub" rel="noopener noreffer" target="_blank"><i class='fab fa-github fa-fw' aria-hidden='true'></i></a><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
-                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
-            </a><a href="javascript:void(0);" class="menu-item" title="选择语言">
-                    <i class="fa fa-globe fa-fw" aria-hidden="true"></i>
-                    <select class="language-select" onchange="location = this.value;"><option value="/codetips/" selected>简体中文</option></select>
-                </a></div>
-    </div>
-</header><div class="search-dropdown desktop">
-        <div id="search-dropdown-desktop"></div>
-    </div>
-    <div class="search-dropdown mobile">
-        <div id="search-dropdown-mobile"></div>
-    </div><main class="main">
-                <div class="container"><div class="toc" id="toc-auto">
-            <h2 class="toc-title">目录</h2>
-            <div class="toc-content" id="toc-content-auto"></div>
-        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">代码技巧</h1><div class="post-meta">
-            <div class="post-meta-line"><span class="post-author"><a href="https://github.com/faimin" title="Author" target="_blank" rel="noopener noreffer author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Zero.D.Saber</a></span>&nbsp;<span class="post-category">收录于 <a href="/categories/tips/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Tips</a></span></div>
-            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2018-07-11">2018-07-11</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;约 2136 字&nbsp;
-                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;预计阅读 5 分钟&nbsp;<span id="/codetips/" class="leancloud_visitors" data-flag-title="代码技巧">
-                        <i class="far fa-eye fa-fw" aria-hidden="true"></i>&nbsp;<span class=leancloud-visitors-count></span>&nbsp;次阅读
-                    </span>&nbsp;</div>
-        </div><div class="details toc" id="toc-static"  data-kept="">
-                <div class="details-summary toc-title">
-                    <span>目录</span>
-                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
-                </div>
-                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
-  <ul>
-    <li><a href="#1-gnu-c的赋值扩展">1. <code>GNU-C</code>的赋值扩展</a></li>
-    <li><a href="#2-case语句中使用范围表达式">2. <code>case</code>语句中使用范围表达式</a></li>
-    <li><a href="#3-__auto_type">3. <code>__auto_type</code></a></li>
-    <li><a href="#4-结构体的初始化">4. 结构体的初始化</a></li>
-    <li><a href="#5-数组的下标初始化">5. 数组的下标初始化</a></li>
-    <li><a href="#6-自带提示的keypath宏">6. 自带提示的<code>keypath</code>宏</a></li>
-    <li><a href="#7-逗号表达式">7. 逗号表达式</a></li>
-    <li><a href="#8-c函数重载标示符">8. <code>C</code>函数重载标示符</a></li>
-    <li><a href="#9-参数个数">9. 参数个数</a></li>
-    <li><a href="#10-同名全局变量或者全局函数共存">10. 同名全局变量或者全局函数共存</a></li>
-    <li><a href="#11-偷梁换柱">11. 偷梁换柱</a></li>
-    <li><a href="#12-移花接木">12. 移花接木</a></li>
-    <li><a href="#13-swift类名解析">13. Swift类名解析</a></li>
-    <li><a href="#14-队列校验">14. 队列校验</a></li>
-    <li><a href="#15-assert">15. Assert</a></li>
-    <li><a href="#16-保证对象的生命周期">16. 保证对象的生命周期</a></li>
-    <li><a href="#17-区间判断">17. 区间判断</a>
-      <ul>
-        <li><a href="#参考">参考</a></li>
-      </ul>
-    </li>
-  </ul>
-</nav></div>
-            </div><div class="content" id="content"><h2 id="1-gnu-c的赋值扩展">1. <code>GNU-C</code>的赋值扩展</h2>
-<p>即使用<code>({...})</code>的形式。这种形式的语句可以类似很多脚本语言，在顺次执行之后，会将最后一次的表达式的值作为返回值。</p>
-<blockquote>
-<p>注意：这个不是懒加载</p>
-</blockquote>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span><span class="lnt">4
-</span><span class="lnt">5
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="n">RETURN_VALUE_RECEIVER</span> <span class="o">=</span> <span class="p">{(</span>
-</span></span><span class="line"><span class="cl">     <span class="c1">// do whatever you want
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>     <span class="p">...</span>
-</span></span><span class="line"><span class="cl">     <span class="n">RETURN_VALUE</span><span class="p">;</span> <span class="c1">// 返回值
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">)};</span>
-</span></span></code></pre></td></tr></table>
-</div>
-</div><p><a href="https://github.com/romaonthego/REMenu" target="_blank" rel="noopener noreffer ">REMenu</a> 这个开源库中就使用了这种语法，如下：</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span><span class="lnt">4
-</span><span class="lnt">5
-</span><span class="lnt">6
-</span><span class="lnt">7
-</span><span class="lnt">8
-</span><span class="lnt">9
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-objectivec" data-lang="objectivec"><span class="line"><span class="cl"><span class="n">_titleLabel</span> <span class="o">=</span> <span class="p">({</span>
-</span></span><span class="line"><span class="cl">   <span class="n">UILabel</span> <span class="o">*</span><span class="n">label</span> <span class="o">=</span> <span class="p">[[</span><span class="n">UILabel</span> <span class="n">alloc</span><span class="p">]</span> <span class="nl">initWithFrame</span><span class="p">:</span><span class="n">titleFrame</span><span class="p">];</span>
-</span></span><span class="line"><span class="cl">   <span class="n">label</span><span class="p">.</span><span class="n">isAccessibilityElement</span> <span class="o">=</span> <span class="nb">NO</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">   <span class="n">label</span><span class="p">.</span><span class="n">contentMode</span> <span class="o">=</span> <span class="n">UIViewContentModeCenter</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">   <span class="n">label</span><span class="p">.</span><span class="n">textAlignment</span> <span class="o">=</span> <span class="p">(</span><span class="n">NSInteger</span><span class="p">)</span><span class="nb">self</span><span class="p">.</span><span class="n">item</span><span class="p">.</span><span class="n">textAlignment</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span> <span class="o">?</span> <span class="nb">self</span><span class="p">.</span><span class="n">menu</span><span class="p">.</span><span class="nl">textAlignment</span> <span class="p">:</span> <span class="nb">self</span><span class="p">.</span><span class="n">item</span><span class="p">.</span><span class="n">subtitleTextAlignment</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">   <span class="n">label</span><span class="p">.</span><span class="n">backgroundColor</span> <span class="o">=</span> <span class="p">[</span><span class="n">UIColor</span> <span class="n">clearColor</span><span class="p">];</span>
-</span></span><span class="line"><span class="cl">   <span class="n">label</span><span class="p">.</span><span class="n">autoresizingMask</span> <span class="o">=</span> <span class="n">UIViewAutoresizingFlexibleWidth</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">   <span class="n">label</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl"><span class="p">});</span>
-</span></span></code></pre></td></tr></table>
-</div>
-</div><p>使用这种语法的其中一个优点是结构鲜明紧凑，而且由于不用担心块里面的变量名污染外面变量名的问题。</p>
-<h2 id="2-case语句中使用范围表达式">2. <code>case</code>语句中使用范围表达式</h2>
-<blockquote>
-<p><code>GCC</code>对<code>C11</code>标准的语法扩展</p>
-</blockquote>
-<p>比如，<code>case 1 ... 5</code> 就表示值如果在 <code>1~5</code> 的范围内则满足条件。
+<!doctype html><html lang=zh-cn><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=robots content="noodp"><title>代码技巧 - Zero.D.Saber</title><meta name=Description content="代码技巧"><meta property="og:title" content="代码技巧"><meta property="og:description" content="代码技巧"><meta property="og:type" content="article"><meta property="og:url" content="https://faimin.github.io/codetips/"><meta property="og:image" content="https://faimin.github.io/logo/avatar.gif"><meta property="article:section" content="posts"><meta property="article:published_time" content="2018-07-11T15:14:00+08:00"><meta property="article:modified_time" content="2022-09-02T20:21:22+08:00"><meta property="og:site_name" content="Zero.D.Saber的小屋"><meta name=twitter:card content="summary_large_image"><meta name=twitter:image content="https://faimin.github.io/logo/avatar.gif"><meta name=twitter:title content="代码技巧"><meta name=twitter:description content="代码技巧"><meta name=application-name content="LoveIt"><meta name=apple-mobile-web-app-title content="LoveIt"><meta name=theme-color content="#ffffff"><meta name=msapplication-TileColor content="#da532c"><link rel=icon href=/logo/avatar.gif><link rel=apple-touch-icon sizes=180x180 href=/apple-touch-icon.png><link rel=mask-icon href=/safari-pinned-tab.svg color=#5bbad5><link rel=manifest href=/site.webmanifest><link rel=canonical href=https://faimin.github.io/codetips/><link rel=prev href=https://faimin.github.io/cocoapods_tips/><link rel=next href=https://faimin.github.io/block%E6%8D%95%E8%8E%B7%E5%8E%9F%E7%90%86%E6%8E%A2%E7%A9%B6/><link rel=stylesheet href=/css/style.min.css><link rel=preload href=https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css as=style onload='this.onload=null,this.rel="stylesheet"'><noscript><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css></noscript><link rel=preload href=https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css as=style onload='this.onload=null,this.rel="stylesheet"'><noscript><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css></noscript><script type=application/ld+json>{"@context":"http://schema.org","@type":"BlogPosting","headline":"代码技巧","inLanguage":"zh-CN","mainEntityOfPage":{"@type":"WebPage","@id":"https:\/\/faimin.github.io\/codetips\/"},"image":["https:\/\/faimin.github.io\/images\/Apple-Devices-Preview.png"],"genre":"posts","keywords":"iOS, tips","wordcount":2136,"url":"https:\/\/faimin.github.io\/codetips\/","datePublished":"2018-07-11T15:14:00+08:00","dateModified":"2022-09-02T20:21:22+08:00","license":"This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher":{"@type":"Organization","name":"Zero.D.Saber","logo":"https:\/\/faimin.github.io\/images\/avatar.png"},"author":{"@type":"Person","name":"Zero.D.Saber"},"description":"代码技巧"}</script></head><body data-header-desktop=fixed data-header-mobile=auto><script type=text/javascript>(window.localStorage&&localStorage.getItem("theme")?localStorage.getItem("theme")==="dark":"auto"==="auto"?window.matchMedia("(prefers-color-scheme: dark)").matches:"auto"==="dark")&&document.body.setAttribute("theme","dark")</script><div id=mask></div><div class=wrapper><header class=desktop id=header-desktop><div class=header-wrapper><div class=header-title><a href=/ title=Zero.D.Saber>Zero.D.Saber's Notes</a></div><div class=menu><div class=menu-inner><a class=menu-item href=/posts/>所有文章 </a><a class=menu-item href=/tags/>标签 </a><a class=menu-item href=/categories/>分类 </a><a class=menu-item href=/categories/documentation/>文档 </a><a class=menu-item href=/about/whoami>关于 </a><a class=menu-item href=https://github.com/faimin title=GitHub rel="noopener noreffer" target=_blank><i class='fab fa-github fa-fw' aria-hidden=true></i> </a><span class="menu-item delimiter"></span><span class="menu-item search" id=search-desktop>
+<input type=text placeholder=搜索文章标题或内容... id=search-input-desktop>
+<a href=javascript:void(0); class="search-button search-toggle" id=search-toggle-desktop title=搜索><i class="fas fa-search fa-fw" aria-hidden=true></i></a>
+<a href=javascript:void(0); class="search-button search-clear" id=search-clear-desktop title=清空><i class="fas fa-times-circle fa-fw" aria-hidden=true></i></a>
+<span class="search-button search-loading" id=search-loading-desktop><i class="fas fa-spinner fa-fw fa-spin" aria-hidden=true></i></span>
+</span><a href=javascript:void(0); class="menu-item theme-switch" title=切换主题><i class="fas fa-adjust fa-fw" aria-hidden=true></i>
+</a><a href=javascript:void(0); class="menu-item language" title=选择语言><i class="fa fa-globe" aria-hidden=true></i>
+<select class=language-select id=language-select-desktop onchange="location=this.value"><option value=/codetips/ selected>简体中文</option></select></a></div></div></div></header><header class=mobile id=header-mobile><div class=header-container><div class=header-wrapper><div class=header-title><a href=/ title=Zero.D.Saber>Zero.D.Saber's Notes</a></div><div class=menu-toggle id=menu-toggle-mobile><span></span><span></span><span></span></div></div><div class=menu id=menu-mobile><div class=search-wrapper><div class="search mobile" id=search-mobile><input type=text placeholder=搜索文章标题或内容... id=search-input-mobile>
+<a href=javascript:void(0); class="search-button search-toggle" id=search-toggle-mobile title=搜索><i class="fas fa-search fa-fw" aria-hidden=true></i></a>
+<a href=javascript:void(0); class="search-button search-clear" id=search-clear-mobile title=清空><i class="fas fa-times-circle fa-fw" aria-hidden=true></i></a>
+<span class="search-button search-loading" id=search-loading-mobile><i class="fas fa-spinner fa-fw fa-spin" aria-hidden=true></i></span></div><a href=javascript:void(0); class=search-cancel id=search-cancel-mobile>取消</a></div><a class=menu-item href=/posts/ title>所有文章</a><a class=menu-item href=/tags/ title>标签</a><a class=menu-item href=/categories/ title>分类</a><a class=menu-item href=/categories/documentation/ title>文档</a><a class=menu-item href=/about/whoami title>关于</a><a class=menu-item href=https://github.com/faimin title=GitHub rel="noopener noreffer" target=_blank><i class='fab fa-github fa-fw' aria-hidden=true></i></a><a href=javascript:void(0); class="menu-item theme-switch" title=切换主题>
+<i class="fas fa-adjust fa-fw" aria-hidden=true></i>
+</a><a href=javascript:void(0); class=menu-item title=选择语言><i class="fa fa-globe fa-fw" aria-hidden=true></i>
+<select class=language-select onchange="location=this.value"><option value=/codetips/ selected>简体中文</option></select></a></div></div></header><div class="search-dropdown desktop"><div id=search-dropdown-desktop></div></div><div class="search-dropdown mobile"><div id=search-dropdown-mobile></div></div><main class=main><div class=container><div class=toc id=toc-auto><h2 class=toc-title>目录</h2><div class=toc-content id=toc-content-auto></div></div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">代码技巧</h1><div class=post-meta><div class=post-meta-line><span class=post-author><a href=https://github.com/faimin title=Author target=_blank rel="noopener noreffer author" class=author><i class="fas fa-user-circle fa-fw" aria-hidden=true></i>Zero.D.Saber</a></span>&nbsp;<span class=post-category>收录于 <a href=/categories/tips/><i class="far fa-folder fa-fw" aria-hidden=true></i>Tips</a></span></div><div class=post-meta-line><i class="far fa-calendar-alt fa-fw" aria-hidden=true></i>&nbsp;<time datetime=2018-07-11>2018-07-11</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden=true></i>&nbsp;约 2136 字&nbsp;
+<i class="far fa-clock fa-fw" aria-hidden=true></i>&nbsp;预计阅读 5 分钟&nbsp;<span id=/codetips/ class=leancloud_visitors data-flag-title=代码技巧>
+<i class="far fa-eye fa-fw" aria-hidden=true></i>&nbsp;<span class=leancloud-visitors-count></span>&nbsp;次阅读
+</span>&nbsp;</div></div><div class="details toc" id=toc-static data-kept><div class="details-summary toc-title"><span>目录</span>
+<span><i class="details-icon fas fa-angle-right" aria-hidden=true></i></span></div><div class="details-content toc-content" id=toc-content-static><nav id=TableOfContents><ul><li><a href=#1-gnu-c的赋值扩展>1. <code>GNU-C</code>的赋值扩展</a></li><li><a href=#2-case语句中使用范围表达式>2. <code>case</code>语句中使用范围表达式</a></li><li><a href=#3-__auto_type>3. <code>__auto_type</code></a></li><li><a href=#4-结构体的初始化>4. 结构体的初始化</a></li><li><a href=#5-数组的下标初始化>5. 数组的下标初始化</a></li><li><a href=#6-自带提示的keypath宏>6. 自带提示的<code>keypath</code>宏</a></li><li><a href=#7-逗号表达式>7. 逗号表达式</a></li><li><a href=#8-c函数重载标示符>8. <code>C</code>函数重载标示符</a></li><li><a href=#9-参数个数>9. 参数个数</a></li><li><a href=#10-同名全局变量或者全局函数共存>10. 同名全局变量或者全局函数共存</a></li><li><a href=#11-偷梁换柱>11. 偷梁换柱</a></li><li><a href=#12-移花接木>12. 移花接木</a></li><li><a href=#13-swift类名解析>13. Swift类名解析</a></li><li><a href=#14-队列校验>14. 队列校验</a></li><li><a href=#15-assert>15. Assert</a></li><li><a href=#16-保证对象的生命周期>16. 保证对象的生命周期</a></li><li><a href=#17-区间判断>17. 区间判断</a><ul><li><a href=#参考>参考</a></li></ul></li></ul></nav></div></div><div class=content id=content><h2 id=1-gnu-c的赋值扩展>1. <code>GNU-C</code>的赋值扩展</h2><p>即使用<code>({...})</code>的形式。这种形式的语句可以类似很多脚本语言，在顺次执行之后，会将最后一次的表达式的值作为返回值。</p><blockquote><p>注意：这个不是懒加载</p></blockquote><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-c data-lang=c><span class=line><span class=cl><span class=n>RETURN_VALUE_RECEIVER</span> <span class=o>=</span> <span class=p>{(</span>
+</span></span><span class=line><span class=cl>     <span class=c1>// do whatever you want
+</span></span></span><span class=line><span class=cl><span class=c1></span>     <span class=p>...</span>
+</span></span><span class=line><span class=cl>     <span class=n>RETURN_VALUE</span><span class=p>;</span> <span class=c1>// 返回值
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=p>)};</span>
+</span></span></code></pre></td></tr></table></div></div><p><a href=https://github.com/romaonthego/REMenu target=_blank rel="noopener noreffer">REMenu</a> 这个开源库中就使用了这种语法，如下：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span><span class=lnt>9
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-objectivec data-lang=objectivec><span class=line><span class=cl><span class=n>_titleLabel</span> <span class=o>=</span> <span class=p>({</span>
+</span></span><span class=line><span class=cl>   <span class=n>UILabel</span> <span class=o>*</span><span class=n>label</span> <span class=o>=</span> <span class=p>[[</span><span class=n>UILabel</span> <span class=n>alloc</span><span class=p>]</span> <span class=nl>initWithFrame</span><span class=p>:</span><span class=n>titleFrame</span><span class=p>];</span>
+</span></span><span class=line><span class=cl>   <span class=n>label</span><span class=p>.</span><span class=n>isAccessibilityElement</span> <span class=o>=</span> <span class=nb>NO</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>   <span class=n>label</span><span class=p>.</span><span class=n>contentMode</span> <span class=o>=</span> <span class=n>UIViewContentModeCenter</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>   <span class=n>label</span><span class=p>.</span><span class=n>textAlignment</span> <span class=o>=</span> <span class=p>(</span><span class=n>NSInteger</span><span class=p>)</span><span class=nb>self</span><span class=p>.</span><span class=n>item</span><span class=p>.</span><span class=n>textAlignment</span> <span class=o>==</span> <span class=o>-</span><span class=mi>1</span> <span class=o>?</span> <span class=nb>self</span><span class=p>.</span><span class=n>menu</span><span class=p>.</span><span class=nl>textAlignment</span> <span class=p>:</span> <span class=nb>self</span><span class=p>.</span><span class=n>item</span><span class=p>.</span><span class=n>subtitleTextAlignment</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>   <span class=n>label</span><span class=p>.</span><span class=n>backgroundColor</span> <span class=o>=</span> <span class=p>[</span><span class=n>UIColor</span> <span class=n>clearColor</span><span class=p>];</span>
+</span></span><span class=line><span class=cl>   <span class=n>label</span><span class=p>.</span><span class=n>autoresizingMask</span> <span class=o>=</span> <span class=n>UIViewAutoresizingFlexibleWidth</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>   <span class=n>label</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>});</span>
+</span></span></code></pre></td></tr></table></div></div><p>使用这种语法的其中一个优点是结构鲜明紧凑，而且由于不用担心块里面的变量名污染外面变量名的问题。</p><h2 id=2-case语句中使用范围表达式>2. <code>case</code>语句中使用范围表达式</h2><blockquote><p><code>GCC</code>对<code>C11</code>标准的语法扩展</p></blockquote><p>比如，<code>case 1 ... 5</code> 就表示值如果在 <code>1~5</code> 的范围内则满足条件。
 这里，省略号 <code>...</code> 就作为一个范围操作符，<strong>其左右两个操作数之间至少要用一个空白符进行分割</strong>，如果写成 <code>1...5</code> 这种形式会引发词法解析错误。范围操作符的操作数可以是任一整数类型，包括字符类型。
-另外，范围操作符的做操作数的值应该小于或等于右操作数，否则该范围表达式就会是一个空条件范围，永远不成立。</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span><span class="lnt">11
-</span><span class="lnt">12
-</span><span class="lnt">13
-</span><span class="lnt">14
-</span><span class="lnt">15
-</span><span class="lnt">16
-</span><span class="lnt">17
-</span><span class="lnt">18
-</span><span class="lnt">19
-</span><span class="lnt">20
-</span><span class="lnt">21
-</span><span class="lnt">22
-</span><span class="lnt">23
-</span><span class="lnt">24
-</span><span class="lnt">25
-</span><span class="lnt">26
-</span><span class="lnt">27
-</span><span class="lnt">28
-</span><span class="lnt">29
-</span><span class="lnt">30
-</span><span class="lnt">31
-</span><span class="lnt">32
-</span><span class="lnt">33
-</span><span class="lnt">34
-</span><span class="lnt">35
-</span><span class="lnt">36
-</span><span class="lnt">37
-</span><span class="lnt">38
-</span><span class="lnt">39
-</span><span class="lnt">40
-</span><span class="lnt">41
-</span><span class="lnt">42
-</span><span class="lnt">43
-</span><span class="lnt">44
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;stdio.h&gt;</span><span class="cp">
-</span></span></span><span class="line"><span class="cl"><span class="cp"></span>
-</span></span><span class="line"><span class="cl"><span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="k">const</span> <span class="kt">char</span> <span class="o">*</span> <span class="n">argv</span><span class="p">[])</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">    <span class="kt">int</span> <span class="n">a</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> 
-</span></span><span class="line"><span class="cl">    <span class="k">const</span> <span class="kt">int</span> <span class="n">c</span> <span class="o">=</span> <span class="mi">10</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">    <span class="k">switch</span><span class="p">(</span><span class="n">a</span><span class="p">)</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">        <span class="c1">// 这条case语句是合法的，并且与case 1等效 
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="k">case</span> <span class="mi">1</span> <span class="p">...</span> <span class="mi">1</span><span class="o">:</span>
-</span></span><span class="line"><span class="cl">            <span class="n">printf</span><span class="p">(</span><span class="s">&#34;a = %d</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">,</span> <span class="n">a</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">            <span class="k">break</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">        <span class="c1">// 这条case语句中的范围操作符的左操作数⼤于右操作数， 
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="c1">// 因此它是⼀个空条件范围，这条case语句下的逻辑永远不会被执⾏ 
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="k">case</span> <span class="mi">2</span> <span class="p">...</span> <span class="mi">1</span><span class="o">:</span>
-</span></span><span class="line"><span class="cl">            <span class="n">puts</span><span class="p">(</span><span class="s">&#34;Hello, world!&#34;</span><span class="p">);</span> 
-</span></span><span class="line"><span class="cl">            <span class="k">break</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">        <span class="c1">// 使⽤const修饰的对象也可作为范围操作符的操作数 
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="k">case</span> <span class="mi">8</span> <span class="p">...</span> <span class="nl">c</span><span class="p">:</span>
-</span></span><span class="line"><span class="cl">            <span class="n">puts</span><span class="p">(</span><span class="s">&#34;Wow!&#34;</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">            <span class="k">break</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">        <span class="k">default</span><span class="o">:</span> 
-</span></span><span class="line"><span class="cl">            <span class="k">break</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">    <span class="p">}</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">    <span class="kt">char</span> <span class="n">ch</span> <span class="o">=</span> <span class="sc">&#39;A&#39;</span><span class="p">;</span> 
-</span></span><span class="line"><span class="cl">    <span class="k">switch</span><span class="p">(</span><span class="n">ch</span><span class="p">)</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">        <span class="c1">// 从&#39;A&#39;到&#39;Z&#39;的ASCII码范围 
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="k">case</span> <span class="sc">&#39;A&#39;</span> <span class="p">...</span> <span class="sc">&#39;Z&#39;</span><span class="o">:</span>
-</span></span><span class="line"><span class="cl">            <span class="n">printf</span><span class="p">(</span><span class="s">&#34;The letter is: %c</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">,</span> <span class="n">ch</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">            <span class="k">break</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">        <span class="c1">// 从&#39;0&#39;到&#39;9&#39;的ASCII码范围 
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="k">case</span> <span class="sc">&#39;0&#39;</span> <span class="p">...</span> <span class="sc">&#39;9&#39;</span><span class="o">:</span>
-</span></span><span class="line"><span class="cl">            <span class="n">printf</span><span class="p">(</span><span class="s">&#34;The digit is: %c</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">,</span> <span class="n">ch</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">            <span class="k">break</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">        <span class="k">default</span><span class="o">:</span>
-</span></span><span class="line"><span class="cl">            <span class="k">break</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">    <span class="p">}</span>
-</span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span></code></pre></td></tr></table>
-</div>
-</div><h2 id="3-__auto_type">3. <code>__auto_type</code></h2>
-<blockquote>
-<p><code>GCC</code>对<code>C11</code>标准的语法扩展</p>
-</blockquote>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span><span class="lnt">4
-</span><span class="lnt">5
-</span><span class="lnt">6
-</span><span class="lnt">7
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="cp">#if defined(__cplusplus)
-</span></span></span><span class="line"><span class="cl"><span class="cp">#define var auto
-</span></span></span><span class="line"><span class="cl"><span class="cp">#define let auto const
-</span></span></span><span class="line"><span class="cl"><span class="cp">#else
-</span></span></span><span class="line"><span class="cl"><span class="cp">#define var __auto_type
-</span></span></span><span class="line"><span class="cl"><span class="cp">#define let const __auto_type
-</span></span></span><span class="line"><span class="cl"><span class="cp">#endif
-</span></span></span></code></pre></td></tr></table>
-</div>
-</div><p>例如：</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span><span class="lnt">4
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-objectivec" data-lang="objectivec"><span class="line"><span class="cl"> <span class="n">let</span> <span class="n">block</span> <span class="o">=</span> <span class="o">^</span><span class="n">NSString</span> <span class="o">*</span><span class="p">(</span><span class="n">NSString</span> <span class="o">*</span><span class="n">name</span><span class="p">,</span> <span class="n">NSUInteger</span> <span class="n">age</span><span class="p">)</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">     <span class="k">return</span> <span class="p">[</span><span class="n">NSString</span> <span class="nl">stringWithFormat</span><span class="p">:</span><span class="s">@&#34;%@ + %ld&#34;</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">age</span><span class="p">];</span>
-</span></span><span class="line"><span class="cl"> <span class="p">};</span>
-</span></span><span class="line"><span class="cl"> <span class="n">let</span> <span class="n">result</span> <span class="o">=</span> <span class="n">block</span><span class="p">(</span><span class="s">@&#34;foo&#34;</span><span class="p">,</span> <span class="mi">100</span><span class="p">);</span>  <span class="c1">// no warning
-</span></span></span></code></pre></td></tr></table>
-</div>
-</div><h2 id="4-结构体的初始化">4. 结构体的初始化</h2>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span><span class="lnt">4
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-objectivec" data-lang="objectivec"><span class="line"><span class="cl"> <span class="c1">// 不加(CGRect)强转也不会warning
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span> <span class="n">GRect</span> <span class="n">rect1</span> <span class="o">=</span> <span class="p">{</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">};</span>
-</span></span><span class="line"><span class="cl"> <span class="n">CGRect</span> <span class="n">rect2</span> <span class="o">=</span> <span class="p">{.</span><span class="n">origin</span><span class="p">.</span><span class="n">x</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="p">.</span><span class="n">size</span><span class="o">=</span><span class="p">{</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">}};</span> <span class="c1">// {5, 0, 10, 10}
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span> <span class="n">CGRect</span> <span class="n">rect3</span> <span class="o">=</span> <span class="p">{</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">};</span> <span class="c1">// {1, 2, 0, 0}
-</span></span></span></code></pre></td></tr></table>
-</div>
-</div><h2 id="5-数组的下标初始化">5. 数组的下标初始化</h2>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span><span class="lnt">4
-</span><span class="lnt">5
-</span><span class="lnt">6
-</span><span class="lnt">7
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-objectivec" data-lang="objectivec"><span class="line"><span class="cl"> <span class="k">const</span> <span class="kt">int</span> <span class="n">numbers</span><span class="p">[]</span> <span class="o">=</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">     <span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mi">3</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">     <span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">     <span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">     <span class="p">[</span><span class="mi">5</span><span class="p">]</span> <span class="o">=</span> <span class="mi">12306</span>
-</span></span><span class="line"><span class="cl"> <span class="p">};</span>
-</span></span><span class="line"><span class="cl"> <span class="c1">// {0, 3, 2, 1, 0, 12306}
-</span></span></span></code></pre></td></tr></table>
-</div>
-</div><p><strong>这个特性可以用来做枚举值和字符串的映射</strong></p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span><span class="lnt">4
-</span><span class="lnt">5
-</span><span class="lnt">6
-</span><span class="lnt">7
-</span><span class="lnt">8
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-objectivec" data-lang="objectivec"><span class="line"><span class="cl"> <span class="k">typedef</span> <span class="nf">NS_ENUM</span><span class="p">(</span><span class="n">NSInteger</span><span class="p">,</span> <span class="n">Type</span><span class="p">){</span>
-</span></span><span class="line"><span class="cl">     <span class="n">Type1</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">     <span class="n">Type2</span>
-</span></span><span class="line"><span class="cl"> <span class="p">};</span>
-</span></span><span class="line"><span class="cl"> <span class="k">const</span> <span class="n">NSString</span> <span class="o">*</span><span class="n">TypeNameMapping</span><span class="p">[]</span> <span class="o">=</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">     <span class="p">[</span><span class="n">Type1</span><span class="p">]</span> <span class="o">=</span> <span class="s">@&#34;Type1&#34;</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">     <span class="p">[</span><span class="n">Type2</span><span class="p">]</span> <span class="o">=</span> <span class="s">@&#34;Type2&#34;</span>
-</span></span><span class="line"><span class="cl"> <span class="p">};</span>
-</span></span></code></pre></td></tr></table>
-</div>
-</div><p>又如 <code>UITableView+FDIndexPathHeightCache</code>中的例子：</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span><span class="lnt">11
-</span><span class="lnt">12
-</span><span class="lnt">13
-</span><span class="lnt">14
-</span><span class="lnt">15
-</span><span class="lnt">16
-</span><span class="lnt">17
-</span><span class="lnt">18
-</span><span class="lnt">19
-</span><span class="lnt">20
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-objectivec" data-lang="objectivec"><span class="line"><span class="cl"> <span class="c1">// All methods that trigger height cache&#39;s invalidation
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span> <span class="kt">SEL</span> <span class="n">selectors</span><span class="p">[]</span> <span class="o">=</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">     <span class="k">@selector</span><span class="p">(</span><span class="n">reloadData</span><span class="p">),</span>
-</span></span><span class="line"><span class="cl">     <span class="k">@selector</span><span class="p">(</span><span class="nl">insertSections</span><span class="p">:</span><span class="nl">withRowAnimation</span><span class="p">:),</span>
-</span></span><span class="line"><span class="cl">     <span class="k">@selector</span><span class="p">(</span><span class="nl">deleteSections</span><span class="p">:</span><span class="nl">withRowAnimation</span><span class="p">:),</span>
-</span></span><span class="line"><span class="cl">     <span class="k">@selector</span><span class="p">(</span><span class="nl">reloadSections</span><span class="p">:</span><span class="nl">withRowAnimation</span><span class="p">:),</span>
-</span></span><span class="line"><span class="cl">     <span class="k">@selector</span><span class="p">(</span><span class="nl">moveSection</span><span class="p">:</span><span class="nl">toSection</span><span class="p">:),</span>
-</span></span><span class="line"><span class="cl">     <span class="k">@selector</span><span class="p">(</span><span class="nl">insertRowsAtIndexPaths</span><span class="p">:</span><span class="nl">withRowAnimation</span><span class="p">:),</span>
-</span></span><span class="line"><span class="cl">     <span class="k">@selector</span><span class="p">(</span><span class="nl">deleteRowsAtIndexPaths</span><span class="p">:</span><span class="nl">withRowAnimation</span><span class="p">:),</span>
-</span></span><span class="line"><span class="cl">     <span class="k">@selector</span><span class="p">(</span><span class="nl">reloadRowsAtIndexPaths</span><span class="p">:</span><span class="nl">withRowAnimation</span><span class="p">:),</span>
-</span></span><span class="line"><span class="cl">     <span class="k">@selector</span><span class="p">(</span><span class="nl">moveRowAtIndexPath</span><span class="p">:</span><span class="nl">toIndexPath</span><span class="p">:)</span>
-</span></span><span class="line"><span class="cl"> <span class="p">};</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"> <span class="k">for</span> <span class="p">(</span><span class="n">NSUInteger</span> <span class="n">index</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">index</span> <span class="o">&lt;</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">selectors</span><span class="p">)</span> <span class="o">/</span> <span class="k">sizeof</span><span class="p">(</span><span class="kt">SEL</span><span class="p">);</span> <span class="o">++</span><span class="n">index</span><span class="p">)</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">     <span class="kt">SEL</span> <span class="n">originalSelector</span> <span class="o">=</span> <span class="n">selectors</span><span class="p">[</span><span class="n">index</span><span class="p">];</span>
-</span></span><span class="line"><span class="cl">     <span class="kt">SEL</span> <span class="n">swizzledSelector</span> <span class="o">=</span> <span class="n">NSSelectorFromString</span><span class="p">([</span><span class="s">@&#34;fd_&#34;</span> <span class="nl">stringByAppendingString</span><span class="p">:</span><span class="n">NSStringFromSelector</span><span class="p">(</span><span class="n">originalSelector</span><span class="p">)]);</span>
-</span></span><span class="line"><span class="cl">     <span class="n">Method</span> <span class="n">originalMethod</span> <span class="o">=</span> <span class="n">class_getInstanceMethod</span><span class="p">(</span><span class="nb">self</span><span class="p">,</span> <span class="n">originalSelector</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">     <span class="n">Method</span> <span class="n">swizzledMethod</span> <span class="o">=</span> <span class="n">class_getInstanceMethod</span><span class="p">(</span><span class="nb">self</span><span class="p">,</span> <span class="n">swizzledSelector</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">     <span class="n">method_exchangeImplementations</span><span class="p">(</span><span class="n">originalMethod</span><span class="p">,</span> <span class="n">swizzledMethod</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl"> <span class="p">}</span>
-</span></span></code></pre></td></tr></table>
-</div>
-</div><h2 id="6-自带提示的keypath宏">6. 自带提示的<code>keypath</code>宏</h2>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-objectivec" data-lang="objectivec"><span class="line"><span class="cl"><span class="cp">#define keypath2(OBJ, PATH) \
-</span></span></span><span class="line"><span class="cl"><span class="cp"> (((void)(NO &amp;&amp; ((void)OBJ.PATH, NO)), # PATH))
-</span></span></span></code></pre></td></tr></table>
-</div>
-</div><h2 id="7-逗号表达式">7. 逗号表达式</h2>
-<p>逗号表达式取后值，但前值的表达式参与运算，可用<code>void</code>忽略编译器警告</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-objectivec" data-lang="objectivec"><span class="line"><span class="cl"> <span class="kt">int</span> <span class="n">a</span> <span class="o">=</span> <span class="p">((</span><span class="kt">void</span><span class="p">)(</span><span class="mi">1</span><span class="o">+</span><span class="mi">2</span><span class="p">),</span> <span class="mi">2</span><span class="p">);</span> <span class="c1">// a == 2
-</span></span></span></code></pre></td></tr></table>
-</div>
-</div><p>于是上面的<code>keypath</code>宏的输出结果是<code>#PATH</code>也就是一个<code>c</code>字符串</p>
-<h2 id="8-c函数重载标示符">8. <code>C</code>函数重载标示符</h2>
-<blockquote>
-<p><a href="https://github.com/rickytan/RTRootNavigationController/blob/master/RTRootNavigationController/Classes/RTRootNavigationController.m" target="_blank" rel="noopener noreffer ">RTRootNavigationController</a> 中有用到这个技巧</p>
-</blockquote>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span><span class="lnt">4
-</span><span class="lnt">5
-</span><span class="lnt">6
-</span><span class="lnt">7
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-objectivec" data-lang="objectivec"><span class="line"><span class="cl"> <span class="n">__attribute</span><span class="p">((</span><span class="n">overloadable</span><span class="p">))</span> <span class="n">NSInteger</span> <span class="n">ZD_SumFunc</span><span class="p">(</span><span class="n">NSInteger</span> <span class="n">a</span><span class="p">,</span> <span class="n">NSInteger</span> <span class="n">b</span><span class="p">)</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">     <span class="k">return</span> <span class="n">a</span> <span class="o">+</span> <span class="n">b</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl"> <span class="p">}</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"> <span class="n">__attribute</span><span class="p">((</span><span class="n">overloadable</span><span class="p">))</span> <span class="n">NSInteger</span> <span class="n">ZD_SumFunc</span><span class="p">(</span><span class="n">NSInteger</span> <span class="n">a</span><span class="p">,</span> <span class="n">NSInteger</span> <span class="n">b</span><span class="p">,</span> <span class="n">NSInteger</span> <span class="n">c</span><span class="p">)</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">     <span class="k">return</span> <span class="n">a</span> <span class="o">+</span> <span class="n">b</span> <span class="o">+</span> <span class="n">c</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl"> <span class="p">}</span>
-</span></span></code></pre></td></tr></table>
-</div>
-</div><h2 id="9-参数个数">9. 参数个数</h2>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span><span class="lnt">4
-</span><span class="lnt">5
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="c1">// 最多支持10个参数
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="cp">#define COUNT_PARMS2(_a1, _a2, _a3, _a4, _a5, _a6, _a7, _a8, _a9, _a10, RESULT, ...) RESULT
-</span></span></span><span class="line"><span class="cl"><span class="cp">#define COUNT_PARMS(...) COUNT_PARMS2(__VA_ARGS__, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1)
-</span></span></span><span class="line"><span class="cl"><span class="cp"></span>
-</span></span><span class="line"><span class="cl"><span class="kt">int</span> <span class="n">count</span> <span class="o">=</span> <span class="n">COUNT_PARMS</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">6</span><span class="p">);</span> <span class="c1">// 预处理时count == 6
-</span></span></span></code></pre></td></tr></table>
-</div>
-</div><h2 id="10-同名全局变量或者全局函数共存">10. 同名全局变量或者全局函数共存</h2>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span><span class="lnt">4
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-objectivec" data-lang="objectivec"><span class="line"><span class="cl"> <span class="c1">// 下面二者可以并存
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span> <span class="n">NSDictionary</span> <span class="o">*</span><span class="n">ZDInfoDict</span> <span class="o">=</span> <span class="nb">nil</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"> <span class="n">__attribute__</span><span class="p">((</span><span class="k">weak</span><span class="p">))</span> <span class="n">NSDictionary</span> <span class="o">*</span><span class="n">ZDInfoDict</span> <span class="o">=</span> <span class="nb">nil</span><span class="p">;</span>
-</span></span></code></pre></td></tr></table>
-</div>
-</div><h2 id="11-偷梁换柱">11. 偷梁换柱</h2>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span><span class="lnt">11
-</span><span class="lnt">12
-</span><span class="lnt">13
-</span><span class="lnt">14
-</span><span class="lnt">15
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-swift" data-lang="swift"><span class="line"><span class="cl"><span class="kd">class</span> <span class="nc">Test</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">    <span class="kr">dynamic</span> <span class="kd">func</span> <span class="nf">foo</span><span class="p">()</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">        <span class="bp">print</span><span class="p">(</span><span class="s">&#34;bar&#34;</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">    <span class="p">}</span>
-</span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="kd">extension</span> <span class="nc">Test</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">    <span class="p">@</span><span class="n">_dynamicReplacement</span><span class="p">(</span><span class="k">for</span><span class="p">:</span> <span class="n">foo</span><span class="p">())</span>
-</span></span><span class="line"><span class="cl">    <span class="kd">func</span> <span class="nf">new_foo</span><span class="p">()</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">        <span class="bp">print</span><span class="p">(</span><span class="s">&#34;bar new&#34;</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">        <span class="n">foo</span><span class="p">()</span>  <span class="c1">// calls previous implementation</span>
-</span></span><span class="line"><span class="cl">    <span class="p">}</span>
-</span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="n">Test</span><span class="p">().</span><span class="n">foo</span><span class="p">()</span> <span class="c1">// bar new</span>
-</span></span></code></pre></td></tr></table>
-</div>
-</div><blockquote>
-<p>有2点需要说明：</p>
-<ol>
-<li>标注<code>dynamic</code>关键字</li>
-<li>在工程中运行，<code>playground</code>不支持</li>
-</ol>
-</blockquote>
-<h2 id="12-移花接木">12. 移花接木</h2>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span><span class="lnt">11
-</span><span class="lnt">12
-</span><span class="lnt">13
-</span><span class="lnt">14
-</span><span class="lnt">15
-</span><span class="lnt">16
-</span><span class="lnt">17
-</span><span class="lnt">18
-</span><span class="lnt">19
-</span><span class="lnt">20
-</span><span class="lnt">21
-</span><span class="lnt">22
-</span><span class="lnt">23
-</span><span class="lnt">24
-</span><span class="lnt">25
-</span><span class="lnt">26
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-swift" data-lang="swift"><span class="line"><span class="cl"><span class="p">@</span><span class="n">_silgen_name</span><span class="p">(</span><span class="s">&#34;backtrace&#34;</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl"><span class="kd">internal</span> <span class="kd">func</span> <span class="nf">swift_backtrace</span><span class="p">(</span><span class="kc">_</span> <span class="n">callstacks</span><span class="p">:</span> <span class="n">UnsafeMutableRawPointer</span><span class="p">,</span> <span class="kc">_</span> <span class="n">counts</span><span class="p">:</span> <span class="nb">Int</span><span class="p">)</span> <span class="p">-&gt;</span> <span class="nb">Int</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="p">@</span><span class="n">_silgen_name</span><span class="p">(</span><span class="s">&#34;backtrace_symbols&#34;</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl"><span class="kd">internal</span> <span class="kd">func</span> <span class="nf">swift_backtrace_symbols</span><span class="p">(</span><span class="kc">_</span> <span class="n">callstacks</span><span class="p">:</span> <span class="n">UnsafeRawPointer</span><span class="p">,</span> <span class="kc">_</span> <span class="n">counts</span><span class="p">:</span> <span class="nb">Int</span><span class="p">)</span> <span class="p">-&gt;</span> <span class="nb">UnsafeMutablePointer</span><span class="p">&lt;</span><span class="nb">UnsafePointer</span><span class="p">&lt;</span><span class="nb">CChar</span><span class="p">&gt;</span><span class="o">&gt;?</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="c1">//------------------------------------------------</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="kd">static</span> <span class="kd">func</span> <span class="nf">callstack</span><span class="p">()</span> <span class="p">-&gt;</span> <span class="p">[</span><span class="nb">String</span><span class="p">]</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">    <span class="kd">var</span> <span class="nv">callstack</span> <span class="p">=</span> <span class="p">[</span><span class="n">UnsafeMutableRawPointer</span><span class="p">?](</span><span class="n">repeating</span><span class="p">:</span> <span class="kc">nil</span><span class="p">,</span> <span class="bp">count</span><span class="p">:</span> <span class="mi">128</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">    <span class="kd">let</span> <span class="nv">frames</span> <span class="p">=</span> <span class="n">swift_backtrace</span><span class="p">(&amp;</span><span class="n">callstack</span><span class="p">,</span> <span class="n">callstack</span><span class="p">.</span><span class="bp">count</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">    <span class="kd">var</span> <span class="nv">callstackArr</span><span class="p">:</span> <span class="p">[</span><span class="nb">String</span><span class="p">]</span> <span class="p">=</span> <span class="p">[]</span>
-</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="kd">let</span> <span class="nv">symbols</span> <span class="p">=</span> <span class="n">swift_backtrace_symbols</span><span class="p">(&amp;</span><span class="n">callstack</span><span class="p">,</span> <span class="n">frames</span><span class="p">)</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">        <span class="k">for</span> <span class="n">frame</span> <span class="k">in</span> <span class="mf">0.</span><span class="p">.&lt;</span><span class="n">frames</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">            <span class="kd">let</span> <span class="nv">symbol</span> <span class="p">=</span> <span class="nb">String</span><span class="p">(</span><span class="n">cString</span><span class="p">:</span> <span class="n">symbols</span><span class="p">[</span><span class="n">frame</span><span class="p">])</span>
-</span></span><span class="line"><span class="cl">            <span class="n">callstackArr</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">symbol</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">        <span class="p">}</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">        <span class="n">free</span><span class="p">(</span><span class="n">symbols</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">        <span class="n">os_log</span><span class="p">(</span><span class="s">&#34;堆栈信息 =&gt; %@&#34;</span><span class="p">,</span> <span class="n">log</span><span class="p">:</span> <span class="p">.</span><span class="n">apmLog</span><span class="p">,</span> <span class="n">type</span><span class="p">:</span> <span class="p">.</span><span class="n">info</span><span class="p">,</span> <span class="n">callstackArr</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">    <span class="p">}</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">callstackArr</span>
-</span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span></code></pre></td></tr></table>
-</div>
-</div><h2 id="13-swift类名解析">13. Swift类名解析</h2>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl"><span class="c1"># xcrun swift-demangle _TtC11NewWolfKill22WKRoomControlMenuModel</span>
-</span></span><span class="line"><span class="cl">$ xcrun swift-demangle &lt;your-mangled-symbol&gt;
-</span></span></code></pre></td></tr></table>
-</div>
-</div><h2 id="14-队列校验">14. 队列校验</h2>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span><span class="lnt">4
-</span><span class="lnt">5
-</span><span class="lnt">6
-</span><span class="lnt">7
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-swift" data-lang="swift"><span class="line"><span class="cl"><span class="n">methodThatCallsBackOnMain</span><span class="p">(</span><span class="n">completion</span><span class="p">:</span> <span class="p">{</span> <span class="n">result</span> <span class="k">in</span>
-</span></span><span class="line"><span class="cl">    <span class="c1">// 确保在主队列中调用</span>
-</span></span><span class="line"><span class="cl">    <span class="n">dispatchPrecondition</span><span class="p">(.</span><span class="n">onQueue</span><span class="p">(.</span><span class="n">main</span><span class="p">))</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">    <span class="c1">// process `result`</span>
-</span></span><span class="line"><span class="cl">    <span class="c1">// ...</span>
-</span></span><span class="line"><span class="cl"><span class="p">})</span>
-</span></span></code></pre></td></tr></table>
-</div>
-</div><h2 id="15-assert">15. Assert</h2>
-<p><code>assert</code>会导致程序退出，下面这种方式不会使程序退出而只是让<code>IDE</code>断在指定位置，类似于打断点那种效果</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="c1">// 适用于所有架构
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">__builtin_debugtrap</span><span class="p">()</span>
-</span></span></code></pre></td></tr></table>
-</div>
-</div><p>如果是模拟器，可以使用内联汇编的方式</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="k">asm</span><span class="p">(</span><span class="s">&#34;int3&#34;</span><span class="p">)</span>
-</span></span></code></pre></td></tr></table>
-</div>
-</div><p>如果是win平台，可以用</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="n">__debugbreak</span><span class="p">()</span>
-</span></span></code></pre></td></tr></table>
-</div>
-</div><p>贴段样例：</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span><span class="lnt">11
-</span><span class="lnt">12
-</span><span class="lnt">13
-</span><span class="lnt">14
-</span><span class="lnt">15
-</span><span class="lnt">16
-</span><span class="lnt">17
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-objectivec" data-lang="objectivec"><span class="line"><span class="cl"><span class="c1">// MARK: - ZDAssert
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="cp">#if DEBUG
-</span></span></span><span class="line"><span class="cl"><span class="cp">#ifndef ZDAssert
-</span></span></span><span class="line"><span class="cl"><span class="cp">#define ZDAssert(condition, format, ...) do { \
-</span></span></span><span class="line"><span class="cl"><span class="cp">    _Pragma(&#34;clang diagnostic push&#34;) \
-</span></span></span><span class="line"><span class="cl"><span class="cp">    _Pragma(&#34;clang diagnostic ignored \&#34;-Wobjc-literal-conversion\&#34;&#34;) \
-</span></span></span><span class="line"><span class="cl"><span class="cp">    if (condition) break; \
-</span></span></span><span class="line"><span class="cl"><span class="cp">    if (format) printf(&#34;\n%s\n\n&#34;, [[NSString stringWithFormat:format, ##__VA_ARGS__] UTF8String]); \
-</span></span></span><span class="line"><span class="cl"><span class="cp">    _Pragma(&#34;clang diagnostic pop&#34;) \
-</span></span></span><span class="line"><span class="cl"><span class="cp">    __builtin_debugtrap(); \
-</span></span></span><span class="line"><span class="cl"><span class="cp">} while(0);
-</span></span></span><span class="line"><span class="cl"><span class="cp">#endif
-</span></span></span><span class="line"><span class="cl"><span class="cp">#else
-</span></span></span><span class="line"><span class="cl"><span class="cp">#ifndef ZDAssert
-</span></span></span><span class="line"><span class="cl"><span class="cp">#define ZDAssert(condition, format, ...)
-</span></span></span><span class="line"><span class="cl"><span class="cp">#endif
-</span></span></span><span class="line"><span class="cl"><span class="cp">#endif
-</span></span></span></code></pre></td></tr></table>
-</div>
-</div><blockquote>
-<p>这里建议加上一个条件&ndash;只在调试期间起作用，因为在非调试阶段执行到这个<code>trap</code>程序会挂掉，代码如下：</p>
-</blockquote>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span><span class="lnt">11
-</span><span class="lnt">12
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-swift" data-lang="swift"><span class="line"><span class="cl"><span class="kd">import</span> <span class="nc">Darwin</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="c1">// See http://developer.apple.com/library/mac/#qa/qa1361/_index.html</span>
-</span></span><span class="line"><span class="cl"><span class="kr">@objc</span> <span class="kd">public</span> <span class="kd">class</span> <span class="nc">func</span> <span class="n">isDebuggerAttached</span><span class="p">()</span> <span class="p">-&gt;</span> <span class="nb">Bool</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">    <span class="kd">var</span> <span class="nv">info</span> <span class="p">=</span> <span class="n">kinfo_proc</span><span class="p">()</span>
-</span></span><span class="line"><span class="cl">    <span class="kd">var</span> <span class="nv">mib</span> <span class="p">=</span> <span class="p">[</span><span class="n">CTL_KERN</span><span class="p">,</span> <span class="n">KERN_PROC</span><span class="p">,</span> <span class="n">KERN_PROC_PID</span><span class="p">,</span> <span class="n">getpid</span><span class="p">()]</span>
-</span></span><span class="line"><span class="cl">    <span class="kd">var</span> <span class="nv">size</span> <span class="p">=</span> <span class="n">MemoryLayout</span><span class="p">&lt;</span><span class="n">kinfo_proc</span><span class="p">&gt;.</span><span class="bp">stride</span>
-</span></span><span class="line"><span class="cl">    <span class="kd">let</span> <span class="nv">junk</span> <span class="p">=</span> <span class="n">sysctl</span><span class="p">(&amp;</span><span class="n">mib</span><span class="p">,</span> <span class="n">u_int</span><span class="p">(</span><span class="n">mib</span><span class="p">.</span><span class="bp">count</span><span class="p">),</span> <span class="p">&amp;</span><span class="n">info</span><span class="p">,</span> <span class="p">&amp;</span><span class="n">size</span><span class="p">,</span> <span class="kc">nil</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">    <span class="bp">assert</span><span class="p">(</span><span class="n">junk</span> <span class="p">==</span> <span class="mi">0</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">    <span class="kd">let</span> <span class="nv">isDebuggerAttaced</span> <span class="p">=</span> <span class="n">info</span><span class="p">.</span><span class="n">kp_proc</span><span class="p">.</span><span class="n">p_flag</span> <span class="o">&amp;</span> <span class="n">P_TRACED</span> <span class="o">!=</span> <span class="mi">0</span>
-</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">isDebuggerAttaced</span>
-</span></span><span class="line"><span class="cl"><span class="p">}</span>        
-</span></span></code></pre></td></tr></table>
-</div>
-</div><h2 id="16-保证对象的生命周期">16. 保证对象的生命周期</h2>
-<ol>
-<li>
-<p>Swift</p>
-<p><a href="https://github.com/apple/swift/blob/541f7725e1b0f4ac2cfc1f1b71a90c5a5c813c1d/stdlib/public/core/Unmanaged.swift#L145" target="_blank" rel="noopener noreffer ">withExtendedLifetime()</a></p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span><span class="lnt">4
-</span><span class="lnt">5
-</span><span class="lnt">6
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-swift" data-lang="swift"><span class="line"><span class="cl"><span class="kd">var</span> <span class="nv">owningReference</span> <span class="p">=</span> <span class="n">Instance</span><span class="p">()</span>
-</span></span><span class="line"><span class="cl"><span class="p">...</span>
-</span></span><span class="line"><span class="cl"><span class="bp">withExtendedLifetime</span><span class="p">(</span><span class="n">owningReference</span><span class="p">)</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">    <span class="n">dosomething</span><span class="p">(...)</span>
-</span></span><span class="line"><span class="cl"><span class="p">}</span>  <span class="c1">// Assuming: No stores to owned occur for the dynamic lifetime of</span>
-</span></span><span class="line"><span class="cl">   <span class="c1">//         the withExtendedLifetime invocation.</span>
-</span></span></code></pre></td></tr></table>
-</div>
-</div></li>
-<li>
-<p>Objective-C</p>
-<p>在 Objective-C ARC 中你可以使用 <code>__attribute__((objc_precise_lifetime))</code> 或者 <code>NS_VALID_UNTIL_END_OF_SCOPE</code> 来标注变量以达到类似的效果。</p>
-</li>
-</ol>
-<h2 id="17-区间判断">17. 区间判断</h2>
-<p>    判断某一个值<code>x</code>是否在区间<code>[min, max]</code>内    </p>
-<p>    </p>
-<blockquote>
-<p>第一个 (x - minx) 如果 x &lt; minx 的话，得到的结果 &lt; 0 ，即高位为 1，第二个判断同理，如果超过范围，高位也为 1，两个条件进行比特或运算以后，只有两个高位都是 0 ，最终才为真</p>
-</blockquote>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="k">if</span> <span class="p">((</span> <span class="p">(</span><span class="n">x</span> <span class="o">-</span> <span class="n">minx</span><span class="p">)</span> <span class="o">|</span> <span class="p">(</span><span class="n">maxx</span> <span class="o">-</span> <span class="n">x</span><span class="p">)</span> <span class="p">)</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">)</span> <span class="p">...</span>
-</span></span></code></pre></td></tr></table>
-</div>
-</div><hr>
-<h3 id="参考">参考</h3>
-<ul>
-<li>
-<p><a href="http://blog.sunnyxx.com/2014/08/02/objc-weird-code/" target="_blank" rel="noopener noreffer ">objc非主流代码技巧</a></p>
-</li>
-<li>
-<p><a href="https://pspdfkit.com/blog/2017/even-swiftier-objective-c/" target="_blank" rel="noopener noreffer ">Even Swiftier Objective-C</a></p>
-</li>
-<li>
-<p><a href="http://www.jb51.net/books/620682.html" target="_blank" rel="noopener noreffer ">《C语言编程魔法书》</a></p>
-</li>
-<li>
-<p><a href="https://www.cnblogs.com/kernel_hcy/archive/2010/01/27/1657411.html" target="_blank" rel="noopener noreffer ">GCC中的弱符号与强符号</a></p>
-</li>
-<li>
-<p><a href="https://github.com/apple/swift/blob/main/docs/SIL.rst" target="_blank" rel="noopener noreffer ">swift: SIL</a></p>
-</li>
-<li>
-<p><a href="https://www.fadel.io/blog/posts/30-tips-to-make-you-a-better-ios-developer" target="_blank" rel="noopener noreffer ">30-tips-to-make-you-a-better-ios-developer</a></p>
-</li>
-<li>
-<p><a href="https://www.bilibili.com/read/cv1165694" target="_blank" rel="noopener noreffer ">C/C++调试技巧-debugbreak</a></p>
-</li>
-<li>
-<p><a href="https://mp.weixin.qq.com/s/ZJ3gVI-jzDcKpRKa0IMi0A" target="_blank" rel="noopener noreffer ">Swift 中的 ARC 机制: 从基础到进阶</a></p>
-</li>
-<li>
-<p><a href="https://www.zhihu.com/question/27417946" target="_blank" rel="noopener noreffer ">C语言有什么奇淫技巧</a></p>
-</li>
-</ul></div><div class="post-footer" id="post-footer">
-    <div class="post-info">
-        <div class="post-info-line">
-            <div class="post-info-mod">
-                <span>更新于 2022-09-02&nbsp;<a class="git-hash" href="https://github.com/faimin/commit/b62c58a781ad9dbd2054bfcdaab12f789a5b499a" target="_blank" title="commit by faimin(fuxianchao@gmail.com) b62c58a781ad9dbd2054bfcdaab12f789a5b499a: update runtime and swift">
-                                    <i class="fas fa-hashtag fa-fw" aria-hidden="true"></i>b62c58a</a></span>
-            </div></div>
-        <div class="post-info-line">
-            <div class="post-info-md"><span>
-                            <a class="link-to-markdown" href="/codetips/index.md" target="_blank">阅读原始文档</a>
-                        </span></div>
-            <div class="post-info-share">
-                <span><a href="javascript:void(0);" title="分享到 Twitter" data-sharer="twitter" data-url="https://faimin.github.io/codetips/" data-title="代码技巧" data-hashtags="iOS,tips"><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="分享到 Facebook" data-sharer="facebook" data-url="https://faimin.github.io/codetips/" data-hashtag="iOS"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="分享到 Hacker News" data-sharer="hackernews" data-url="https://faimin.github.io/codetips/" data-title="代码技巧"><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="分享到 Line" data-sharer="line" data-url="https://faimin.github.io/codetips/" data-title="代码技巧"><i data-svg-src="https://cdn.jsdelivr.net/npm/simple-icons@7.3.0/icons/line.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="分享到 微博" data-sharer="weibo" data-url="https://faimin.github.io/codetips/" data-title="代码技巧" data-ralateuid="1655766025"><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
-            </div>
-        </div>
-    </div>
-
-    <div class="post-info-more">
-        <section class="post-tags"><i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/tags/ios/">iOS</a>,&nbsp;<a href="/tags/tips/">tips</a></section>
-        <section>
-            <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
-        </section>
-    </div>
-
-    <div class="post-nav"><a href="/cocoapods_tips/" class="prev" rel="prev" title="CocoaPods笔记"><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i>CocoaPods笔记</a>
-            <a href="/block%E6%8D%95%E8%8E%B7%E5%8E%9F%E7%90%86%E6%8E%A2%E7%A9%B6/" class="next" rel="next" title="Block捕获原理探究">Block捕获原理探究<i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
-</div>
-<div id="comments"><div id="valine" class="comment"></div><noscript>
-                Please enable JavaScript to view the comments powered by <a href="https://valine.js.org/">Valine</a>.
-            </noscript></div></article></div>
-            </main><footer class="footer">
-        <div class="footer-container"><div class="footer-line"><span id="busuanzi_container_site_uv">本站访客数<span id="busuanzi_value_site_uv"></span>人次</span> | <span id="busuanzi_container_site_pv">本站总访问量 <span id="busuanzi_value_site_pv"></span>次 </span></div><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.104.3">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.11"><i class="far fa-kiss-wink-heart fa-fw" aria-hidden="true"></i> LoveIt</a>
-                </div><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2018 - 2022</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="https://github.com/faimin" target="_blank">Zero.D.Saber</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
-        </div>
-    </footer></div>
-
-        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="回到顶部">
-                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
-            </a><a href="#" id="view-comments" class="fixed-button" title="查看评论">
-                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
-            </a>
-        </div><link rel="stylesheet" href="/lib/valine/valine.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@2.5.0/css/lightgallery-bundle.min.css"><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/valine@1.5.0/dist/Valine.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/autocomplete.js@0.38.1/dist/autocomplete.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/algoliasearch@4.13.1/dist/algoliasearch-lite.umd.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lazysizes@5.3.2/lazysizes.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lightgallery@2.5.0/lightgallery.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lightgallery@2.5.0/plugins/thumbnail/lg-thumbnail.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lightgallery@2.5.0/plugins/zoom/lg-zoom.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/clipboard@2.0.11/dist/clipboard.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/sharer.js@0.5.1/sharer.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":50},"comment":{"valine":{"appId":"QGzwQXOqs5JOhN4RGPOkR2mR-MdYXbMMI","appKey":"WBmoGyJtbqUswvfLh6L8iEBr","avatar":"mp","el":"#valine","emojiCDN":"https://cdn.jsdelivr.net/npm/emoji-datasource-google@14.0.0/img/google/64/","emojiMaps":{"100":"1f4af.png","alien":"1f47d.png","anger":"1f4a2.png","angry":"1f620.png","anguished":"1f627.png","astonished":"1f632.png","black_heart":"1f5a4.png","blue_heart":"1f499.png","blush":"1f60a.png","bomb":"1f4a3.png","boom":"1f4a5.png","broken_heart":"1f494.png","brown_heart":"1f90e.png","clown_face":"1f921.png","cold_face":"1f976.png","cold_sweat":"1f630.png","confounded":"1f616.png","confused":"1f615.png","cry":"1f622.png","crying_cat_face":"1f63f.png","cupid":"1f498.png","dash":"1f4a8.png","disappointed":"1f61e.png","disappointed_relieved":"1f625.png","dizzy":"1f4ab.png","dizzy_face":"1f635.png","drooling_face":"1f924.png","exploding_head":"1f92f.png","expressionless":"1f611.png","face_vomiting":"1f92e.png","face_with_cowboy_hat":"1f920.png","face_with_hand_over_mouth":"1f92d.png","face_with_head_bandage":"1f915.png","face_with_monocle":"1f9d0.png","face_with_raised_eyebrow":"1f928.png","face_with_rolling_eyes":"1f644.png","face_with_symbols_on_mouth":"1f92c.png","face_with_thermometer":"1f912.png","fearful":"1f628.png","flushed":"1f633.png","frowning":"1f626.png","ghost":"1f47b.png","gift_heart":"1f49d.png","green_heart":"1f49a.png","grimacing":"1f62c.png","grin":"1f601.png","grinning":"1f600.png","hankey":"1f4a9.png","hear_no_evil":"1f649.png","heart":"2764-fe0f.png","heart_decoration":"1f49f.png","heart_eyes":"1f60d.png","heart_eyes_cat":"1f63b.png","heartbeat":"1f493.png","heartpulse":"1f497.png","heavy_heart_exclamation_mark_ornament":"2763-fe0f.png","hole":"1f573-fe0f.png","hot_face":"1f975.png","hugging_face":"1f917.png","hushed":"1f62f.png","imp":"1f47f.png","innocent":"1f607.png","japanese_goblin":"1f47a.png","japanese_ogre":"1f479.png","joy":"1f602.png","joy_cat":"1f639.png","kiss":"1f48b.png","kissing":"1f617.png","kissing_cat":"1f63d.png","kissing_closed_eyes":"1f61a.png","kissing_heart":"1f618.png","kissing_smiling_eyes":"1f619.png","laughing":"1f606.png","left_speech_bubble":"1f5e8-fe0f.png","love_letter":"1f48c.png","lying_face":"1f925.png","mask":"1f637.png","money_mouth_face":"1f911.png","nauseated_face":"1f922.png","nerd_face":"1f913.png","neutral_face":"1f610.png","no_mouth":"1f636.png","open_mouth":"1f62e.png","orange_heart":"1f9e1.png","partying_face":"1f973.png","pensive":"1f614.png","persevere":"1f623.png","pleading_face":"1f97a.png","pouting_cat":"1f63e.png","purple_heart":"1f49c.png","rage":"1f621.png","relaxed":"263a-fe0f.png","relieved":"1f60c.png","revolving_hearts":"1f49e.png","right_anger_bubble":"1f5ef-fe0f.png","robot_face":"1f916.png","rolling_on_the_floor_laughing":"1f923.png","scream":"1f631.png","scream_cat":"1f640.png","see_no_evil":"1f648.png","shushing_face":"1f92b.png","skull":"1f480.png","skull_and_crossbones":"2620-fe0f.png","sleeping":"1f634.png","sleepy":"1f62a.png","slightly_frowning_face":"1f641.png","slightly_smiling_face":"1f642.png","smile":"1f604.png","smile_cat":"1f638.png","smiley":"1f603.png","smiley_cat":"1f63a.png","smiling_face_with_3_hearts":"1f970.png","smiling_imp":"1f608.png","smirk":"1f60f.png","smirk_cat":"1f63c.png","sneezing_face":"1f927.png","sob":"1f62d.png","space_invader":"1f47e.png","sparkling_heart":"1f496.png","speak_no_evil":"1f64a.png","speech_balloon":"1f4ac.png","star-struck":"1f929.png","stuck_out_tongue":"1f61b.png","stuck_out_tongue_closed_eyes":"1f61d.png","stuck_out_tongue_winking_eye":"1f61c.png","sunglasses":"1f60e.png","sweat":"1f613.png","sweat_drops":"1f4a6.png","sweat_smile":"1f605.png","thinking_face":"1f914.png","thought_balloon":"1f4ad.png","tired_face":"1f62b.png","triumph":"1f624.png","two_hearts":"1f495.png","unamused":"1f612.png","upside_down_face":"1f643.png","weary":"1f629.png","white_frowning_face":"2639-fe0f.png","white_heart":"1f90d.png","wink":"1f609.png","woozy_face":"1f974.png","worried":"1f61f.png","yawning_face":"1f971.png","yellow_heart":"1f49b.png","yum":"1f60b.png","zany_face":"1f92a.png","zipper_mouth_face":"1f910.png","zzz":"1f4a4.png"},"enableQQ":false,"highlight":true,"lang":"zh-CN","pageSize":10,"placeholder":"你的评论 ...","recordIP":true,"serverURLs":"https://leancloud.hugoloveit.com","visitor":true}},"lightgallery":true,"search":{"algoliaAppID":"PASDMWALPK","algoliaIndex":"index.zh-cn","algoliaSearchKey":"b42948e51daaa93df92381c8e2ac0f93","highlightTag":"em","maxResultLength":10,"noResultsFound":"没有找到结果","snippetLength":50,"type":"algolia"}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
-</html>
+另外，范围操作符的做操作数的值应该小于或等于右操作数，否则该范围表达式就会是一个空条件范围，永远不成立。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span><span class=lnt>38
+</span><span class=lnt>39
+</span><span class=lnt>40
+</span><span class=lnt>41
+</span><span class=lnt>42
+</span><span class=lnt>43
+</span><span class=lnt>44
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-c data-lang=c><span class=line><span class=cl><span class=cp>#include</span> <span class=cpf>&lt;stdio.h&gt;</span><span class=cp>
+</span></span></span><span class=line><span class=cl><span class=cp></span>
+</span></span><span class=line><span class=cl><span class=kt>int</span> <span class=nf>main</span><span class=p>(</span><span class=kt>int</span> <span class=n>argc</span><span class=p>,</span> <span class=k>const</span> <span class=kt>char</span> <span class=o>*</span> <span class=n>argv</span><span class=p>[])</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=kt>int</span> <span class=n>a</span> <span class=o>=</span> <span class=mi>1</span><span class=p>;</span> 
+</span></span><span class=line><span class=cl>    <span class=k>const</span> <span class=kt>int</span> <span class=n>c</span> <span class=o>=</span> <span class=mi>10</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=k>switch</span><span class=p>(</span><span class=n>a</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=c1>// 这条case语句是合法的，并且与case 1等效 
+</span></span></span><span class=line><span class=cl><span class=c1></span>        <span class=k>case</span> <span class=mi>1</span> <span class=p>...</span> <span class=mi>1</span><span class=o>:</span>
+</span></span><span class=line><span class=cl>            <span class=n>printf</span><span class=p>(</span><span class=s>&#34;a = %d</span><span class=se>\n</span><span class=s>&#34;</span><span class=p>,</span> <span class=n>a</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>            <span class=k>break</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>        <span class=c1>// 这条case语句中的范围操作符的左操作数⼤于右操作数， 
+</span></span></span><span class=line><span class=cl><span class=c1></span>        <span class=c1>// 因此它是⼀个空条件范围，这条case语句下的逻辑永远不会被执⾏ 
+</span></span></span><span class=line><span class=cl><span class=c1></span>        <span class=k>case</span> <span class=mi>2</span> <span class=p>...</span> <span class=mi>1</span><span class=o>:</span>
+</span></span><span class=line><span class=cl>            <span class=n>puts</span><span class=p>(</span><span class=s>&#34;Hello, world!&#34;</span><span class=p>);</span> 
+</span></span><span class=line><span class=cl>            <span class=k>break</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>        <span class=c1>// 使⽤const修饰的对象也可作为范围操作符的操作数 
+</span></span></span><span class=line><span class=cl><span class=c1></span>        <span class=k>case</span> <span class=mi>8</span> <span class=p>...</span> <span class=nl>c</span><span class=p>:</span>
+</span></span><span class=line><span class=cl>            <span class=n>puts</span><span class=p>(</span><span class=s>&#34;Wow!&#34;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>            <span class=k>break</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>        <span class=k>default</span><span class=o>:</span> 
+</span></span><span class=line><span class=cl>            <span class=k>break</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=kt>char</span> <span class=n>ch</span> <span class=o>=</span> <span class=sc>&#39;A&#39;</span><span class=p>;</span> 
+</span></span><span class=line><span class=cl>    <span class=k>switch</span><span class=p>(</span><span class=n>ch</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=c1>// 从&#39;A&#39;到&#39;Z&#39;的ASCII码范围 
+</span></span></span><span class=line><span class=cl><span class=c1></span>        <span class=k>case</span> <span class=sc>&#39;A&#39;</span> <span class=p>...</span> <span class=sc>&#39;Z&#39;</span><span class=o>:</span>
+</span></span><span class=line><span class=cl>            <span class=n>printf</span><span class=p>(</span><span class=s>&#34;The letter is: %c</span><span class=se>\n</span><span class=s>&#34;</span><span class=p>,</span> <span class=n>ch</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>            <span class=k>break</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>        <span class=c1>// 从&#39;0&#39;到&#39;9&#39;的ASCII码范围 
+</span></span></span><span class=line><span class=cl><span class=c1></span>        <span class=k>case</span> <span class=sc>&#39;0&#39;</span> <span class=p>...</span> <span class=sc>&#39;9&#39;</span><span class=o>:</span>
+</span></span><span class=line><span class=cl>            <span class=n>printf</span><span class=p>(</span><span class=s>&#34;The digit is: %c</span><span class=se>\n</span><span class=s>&#34;</span><span class=p>,</span> <span class=n>ch</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>            <span class=k>break</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>        <span class=k>default</span><span class=o>:</span>
+</span></span><span class=line><span class=cl>            <span class=k>break</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><h2 id=3-__auto_type>3. <code>__auto_type</code></h2><blockquote><p><code>GCC</code>对<code>C11</code>标准的语法扩展</p></blockquote><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-cpp data-lang=cpp><span class=line><span class=cl><span class=cp>#if defined(__cplusplus)
+</span></span></span><span class=line><span class=cl><span class=cp>#define var auto
+</span></span></span><span class=line><span class=cl><span class=cp>#define let auto const
+</span></span></span><span class=line><span class=cl><span class=cp>#else
+</span></span></span><span class=line><span class=cl><span class=cp>#define var __auto_type
+</span></span></span><span class=line><span class=cl><span class=cp>#define let const __auto_type
+</span></span></span><span class=line><span class=cl><span class=cp>#endif
+</span></span></span></code></pre></td></tr></table></div></div><p>例如：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-objectivec data-lang=objectivec><span class=line><span class=cl> <span class=n>let</span> <span class=n>block</span> <span class=o>=</span> <span class=o>^</span><span class=n>NSString</span> <span class=o>*</span><span class=p>(</span><span class=n>NSString</span> <span class=o>*</span><span class=n>name</span><span class=p>,</span> <span class=n>NSUInteger</span> <span class=n>age</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>     <span class=k>return</span> <span class=p>[</span><span class=n>NSString</span> <span class=nl>stringWithFormat</span><span class=p>:</span><span class=s>@&#34;%@ + %ld&#34;</span><span class=p>,</span> <span class=n>name</span><span class=p>,</span> <span class=n>age</span><span class=p>];</span>
+</span></span><span class=line><span class=cl> <span class=p>};</span>
+</span></span><span class=line><span class=cl> <span class=n>let</span> <span class=n>result</span> <span class=o>=</span> <span class=n>block</span><span class=p>(</span><span class=s>@&#34;foo&#34;</span><span class=p>,</span> <span class=mi>100</span><span class=p>);</span>  <span class=c1>// no warning
+</span></span></span></code></pre></td></tr></table></div></div><h2 id=4-结构体的初始化>4. 结构体的初始化</h2><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-objectivec data-lang=objectivec><span class=line><span class=cl> <span class=c1>// 不加(CGRect)强转也不会warning
+</span></span></span><span class=line><span class=cl><span class=c1></span> <span class=n>GRect</span> <span class=n>rect1</span> <span class=o>=</span> <span class=p>{</span><span class=mi>1</span><span class=p>,</span> <span class=mi>2</span><span class=p>,</span> <span class=mi>3</span><span class=p>,</span> <span class=mi>4</span><span class=p>};</span>
+</span></span><span class=line><span class=cl> <span class=n>CGRect</span> <span class=n>rect2</span> <span class=o>=</span> <span class=p>{.</span><span class=n>origin</span><span class=p>.</span><span class=n>x</span><span class=o>=</span><span class=mi>5</span><span class=p>,</span> <span class=p>.</span><span class=n>size</span><span class=o>=</span><span class=p>{</span><span class=mi>10</span><span class=p>,</span> <span class=mi>10</span><span class=p>}};</span> <span class=c1>// {5, 0, 10, 10}
+</span></span></span><span class=line><span class=cl><span class=c1></span> <span class=n>CGRect</span> <span class=n>rect3</span> <span class=o>=</span> <span class=p>{</span><span class=mi>1</span><span class=p>,</span> <span class=mi>2</span><span class=p>};</span> <span class=c1>// {1, 2, 0, 0}
+</span></span></span></code></pre></td></tr></table></div></div><h2 id=5-数组的下标初始化>5. 数组的下标初始化</h2><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-objectivec data-lang=objectivec><span class=line><span class=cl> <span class=k>const</span> <span class=kt>int</span> <span class=n>numbers</span><span class=p>[]</span> <span class=o>=</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>     <span class=p>[</span><span class=mi>1</span><span class=p>]</span> <span class=o>=</span> <span class=mi>3</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>     <span class=p>[</span><span class=mi>2</span><span class=p>]</span> <span class=o>=</span> <span class=mi>2</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>     <span class=p>[</span><span class=mi>3</span><span class=p>]</span> <span class=o>=</span> <span class=mi>1</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>     <span class=p>[</span><span class=mi>5</span><span class=p>]</span> <span class=o>=</span> <span class=mi>12306</span>
+</span></span><span class=line><span class=cl> <span class=p>};</span>
+</span></span><span class=line><span class=cl> <span class=c1>// {0, 3, 2, 1, 0, 12306}
+</span></span></span></code></pre></td></tr></table></div></div><p><strong>这个特性可以用来做枚举值和字符串的映射</strong></p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-objectivec data-lang=objectivec><span class=line><span class=cl> <span class=k>typedef</span> <span class=nf>NS_ENUM</span><span class=p>(</span><span class=n>NSInteger</span><span class=p>,</span> <span class=n>Type</span><span class=p>){</span>
+</span></span><span class=line><span class=cl>     <span class=n>Type1</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>     <span class=n>Type2</span>
+</span></span><span class=line><span class=cl> <span class=p>};</span>
+</span></span><span class=line><span class=cl> <span class=k>const</span> <span class=n>NSString</span> <span class=o>*</span><span class=n>TypeNameMapping</span><span class=p>[]</span> <span class=o>=</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>     <span class=p>[</span><span class=n>Type1</span><span class=p>]</span> <span class=o>=</span> <span class=s>@&#34;Type1&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>     <span class=p>[</span><span class=n>Type2</span><span class=p>]</span> <span class=o>=</span> <span class=s>@&#34;Type2&#34;</span>
+</span></span><span class=line><span class=cl> <span class=p>};</span>
+</span></span></code></pre></td></tr></table></div></div><p>又如 <code>UITableView+FDIndexPathHeightCache</code>中的例子：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-objectivec data-lang=objectivec><span class=line><span class=cl> <span class=c1>// All methods that trigger height cache&#39;s invalidation
+</span></span></span><span class=line><span class=cl><span class=c1></span> <span class=kt>SEL</span> <span class=n>selectors</span><span class=p>[]</span> <span class=o>=</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>     <span class=k>@selector</span><span class=p>(</span><span class=n>reloadData</span><span class=p>),</span>
+</span></span><span class=line><span class=cl>     <span class=k>@selector</span><span class=p>(</span><span class=nl>insertSections</span><span class=p>:</span><span class=nl>withRowAnimation</span><span class=p>:),</span>
+</span></span><span class=line><span class=cl>     <span class=k>@selector</span><span class=p>(</span><span class=nl>deleteSections</span><span class=p>:</span><span class=nl>withRowAnimation</span><span class=p>:),</span>
+</span></span><span class=line><span class=cl>     <span class=k>@selector</span><span class=p>(</span><span class=nl>reloadSections</span><span class=p>:</span><span class=nl>withRowAnimation</span><span class=p>:),</span>
+</span></span><span class=line><span class=cl>     <span class=k>@selector</span><span class=p>(</span><span class=nl>moveSection</span><span class=p>:</span><span class=nl>toSection</span><span class=p>:),</span>
+</span></span><span class=line><span class=cl>     <span class=k>@selector</span><span class=p>(</span><span class=nl>insertRowsAtIndexPaths</span><span class=p>:</span><span class=nl>withRowAnimation</span><span class=p>:),</span>
+</span></span><span class=line><span class=cl>     <span class=k>@selector</span><span class=p>(</span><span class=nl>deleteRowsAtIndexPaths</span><span class=p>:</span><span class=nl>withRowAnimation</span><span class=p>:),</span>
+</span></span><span class=line><span class=cl>     <span class=k>@selector</span><span class=p>(</span><span class=nl>reloadRowsAtIndexPaths</span><span class=p>:</span><span class=nl>withRowAnimation</span><span class=p>:),</span>
+</span></span><span class=line><span class=cl>     <span class=k>@selector</span><span class=p>(</span><span class=nl>moveRowAtIndexPath</span><span class=p>:</span><span class=nl>toIndexPath</span><span class=p>:)</span>
+</span></span><span class=line><span class=cl> <span class=p>};</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl> <span class=k>for</span> <span class=p>(</span><span class=n>NSUInteger</span> <span class=n>index</span> <span class=o>=</span> <span class=mi>0</span><span class=p>;</span> <span class=n>index</span> <span class=o>&lt;</span> <span class=k>sizeof</span><span class=p>(</span><span class=n>selectors</span><span class=p>)</span> <span class=o>/</span> <span class=k>sizeof</span><span class=p>(</span><span class=kt>SEL</span><span class=p>);</span> <span class=o>++</span><span class=n>index</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>     <span class=kt>SEL</span> <span class=n>originalSelector</span> <span class=o>=</span> <span class=n>selectors</span><span class=p>[</span><span class=n>index</span><span class=p>];</span>
+</span></span><span class=line><span class=cl>     <span class=kt>SEL</span> <span class=n>swizzledSelector</span> <span class=o>=</span> <span class=n>NSSelectorFromString</span><span class=p>([</span><span class=s>@&#34;fd_&#34;</span> <span class=nl>stringByAppendingString</span><span class=p>:</span><span class=n>NSStringFromSelector</span><span class=p>(</span><span class=n>originalSelector</span><span class=p>)]);</span>
+</span></span><span class=line><span class=cl>     <span class=n>Method</span> <span class=n>originalMethod</span> <span class=o>=</span> <span class=n>class_getInstanceMethod</span><span class=p>(</span><span class=nb>self</span><span class=p>,</span> <span class=n>originalSelector</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>     <span class=n>Method</span> <span class=n>swizzledMethod</span> <span class=o>=</span> <span class=n>class_getInstanceMethod</span><span class=p>(</span><span class=nb>self</span><span class=p>,</span> <span class=n>swizzledSelector</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>     <span class=n>method_exchangeImplementations</span><span class=p>(</span><span class=n>originalMethod</span><span class=p>,</span> <span class=n>swizzledMethod</span><span class=p>);</span>
+</span></span><span class=line><span class=cl> <span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><h2 id=6-自带提示的keypath宏>6. 自带提示的<code>keypath</code>宏</h2><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-objectivec data-lang=objectivec><span class=line><span class=cl><span class=cp>#define keypath2(OBJ, PATH) \
+</span></span></span><span class=line><span class=cl><span class=cp> (((void)(NO &amp;&amp; ((void)OBJ.PATH, NO)), # PATH))
+</span></span></span></code></pre></td></tr></table></div></div><h2 id=7-逗号表达式>7. 逗号表达式</h2><p>逗号表达式取后值，但前值的表达式参与运算，可用<code>void</code>忽略编译器警告</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-objectivec data-lang=objectivec><span class=line><span class=cl> <span class=kt>int</span> <span class=n>a</span> <span class=o>=</span> <span class=p>((</span><span class=kt>void</span><span class=p>)(</span><span class=mi>1</span><span class=o>+</span><span class=mi>2</span><span class=p>),</span> <span class=mi>2</span><span class=p>);</span> <span class=c1>// a == 2
+</span></span></span></code></pre></td></tr></table></div></div><p>于是上面的<code>keypath</code>宏的输出结果是<code>#PATH</code>也就是一个<code>c</code>字符串</p><h2 id=8-c函数重载标示符>8. <code>C</code>函数重载标示符</h2><blockquote><p><a href=https://github.com/rickytan/RTRootNavigationController/blob/master/RTRootNavigationController/Classes/RTRootNavigationController.m target=_blank rel="noopener noreffer">RTRootNavigationController</a> 中有用到这个技巧</p></blockquote><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-objectivec data-lang=objectivec><span class=line><span class=cl> <span class=n>__attribute</span><span class=p>((</span><span class=n>overloadable</span><span class=p>))</span> <span class=n>NSInteger</span> <span class=n>ZD_SumFunc</span><span class=p>(</span><span class=n>NSInteger</span> <span class=n>a</span><span class=p>,</span> <span class=n>NSInteger</span> <span class=n>b</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>     <span class=k>return</span> <span class=n>a</span> <span class=o>+</span> <span class=n>b</span><span class=p>;</span>
+</span></span><span class=line><span class=cl> <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl> <span class=n>__attribute</span><span class=p>((</span><span class=n>overloadable</span><span class=p>))</span> <span class=n>NSInteger</span> <span class=n>ZD_SumFunc</span><span class=p>(</span><span class=n>NSInteger</span> <span class=n>a</span><span class=p>,</span> <span class=n>NSInteger</span> <span class=n>b</span><span class=p>,</span> <span class=n>NSInteger</span> <span class=n>c</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>     <span class=k>return</span> <span class=n>a</span> <span class=o>+</span> <span class=n>b</span> <span class=o>+</span> <span class=n>c</span><span class=p>;</span>
+</span></span><span class=line><span class=cl> <span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><h2 id=9-参数个数>9. 参数个数</h2><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-cpp data-lang=cpp><span class=line><span class=cl><span class=c1>// 最多支持10个参数
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=cp>#define COUNT_PARMS2(_a1, _a2, _a3, _a4, _a5, _a6, _a7, _a8, _a9, _a10, RESULT, ...) RESULT
+</span></span></span><span class=line><span class=cl><span class=cp>#define COUNT_PARMS(...) COUNT_PARMS2(__VA_ARGS__, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1)
+</span></span></span><span class=line><span class=cl><span class=cp></span>
+</span></span><span class=line><span class=cl><span class=kt>int</span> <span class=n>count</span> <span class=o>=</span> <span class=n>COUNT_PARMS</span><span class=p>(</span><span class=mi>1</span><span class=p>,</span><span class=mi>2</span><span class=p>,</span><span class=mi>3</span><span class=p>,</span><span class=mi>4</span><span class=p>,</span><span class=mi>5</span><span class=p>,</span><span class=mi>6</span><span class=p>);</span> <span class=c1>// 预处理时count == 6
+</span></span></span></code></pre></td></tr></table></div></div><h2 id=10-同名全局变量或者全局函数共存>10. 同名全局变量或者全局函数共存</h2><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-objectivec data-lang=objectivec><span class=line><span class=cl> <span class=c1>// 下面二者可以并存
+</span></span></span><span class=line><span class=cl><span class=c1></span> <span class=n>NSDictionary</span> <span class=o>*</span><span class=n>ZDInfoDict</span> <span class=o>=</span> <span class=nb>nil</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl> <span class=n>__attribute__</span><span class=p>((</span><span class=k>weak</span><span class=p>))</span> <span class=n>NSDictionary</span> <span class=o>*</span><span class=n>ZDInfoDict</span> <span class=o>=</span> <span class=nb>nil</span><span class=p>;</span>
+</span></span></code></pre></td></tr></table></div></div><h2 id=11-偷梁换柱>11. 偷梁换柱</h2><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-swift data-lang=swift><span class=line><span class=cl><span class=kd>class</span> <span class=nc>Test</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=kr>dynamic</span> <span class=kd>func</span> <span class=nf>foo</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=bp>print</span><span class=p>(</span><span class=s>&#34;bar&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kd>extension</span> <span class=nc>Test</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=p>@</span><span class=n>_dynamicReplacement</span><span class=p>(</span><span class=k>for</span><span class=p>:</span> <span class=n>foo</span><span class=p>())</span>
+</span></span><span class=line><span class=cl>    <span class=kd>func</span> <span class=nf>new_foo</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=bp>print</span><span class=p>(</span><span class=s>&#34;bar new&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>        <span class=n>foo</span><span class=p>()</span>  <span class=c1>// calls previous implementation</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>Test</span><span class=p>().</span><span class=n>foo</span><span class=p>()</span> <span class=c1>// bar new</span>
+</span></span></code></pre></td></tr></table></div></div><blockquote><p>有2点需要说明：</p><ol><li>标注<code>dynamic</code>关键字</li><li>在工程中运行，<code>playground</code>不支持</li></ol></blockquote><h2 id=12-移花接木>12. 移花接木</h2><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-swift data-lang=swift><span class=line><span class=cl><span class=p>@</span><span class=n>_silgen_name</span><span class=p>(</span><span class=s>&#34;backtrace&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=kd>internal</span> <span class=kd>func</span> <span class=nf>swift_backtrace</span><span class=p>(</span><span class=kc>_</span> <span class=n>callstacks</span><span class=p>:</span> <span class=n>UnsafeMutableRawPointer</span><span class=p>,</span> <span class=kc>_</span> <span class=n>counts</span><span class=p>:</span> <span class=nb>Int</span><span class=p>)</span> <span class=p>-&gt;</span> <span class=nb>Int</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=p>@</span><span class=n>_silgen_name</span><span class=p>(</span><span class=s>&#34;backtrace_symbols&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=kd>internal</span> <span class=kd>func</span> <span class=nf>swift_backtrace_symbols</span><span class=p>(</span><span class=kc>_</span> <span class=n>callstacks</span><span class=p>:</span> <span class=n>UnsafeRawPointer</span><span class=p>,</span> <span class=kc>_</span> <span class=n>counts</span><span class=p>:</span> <span class=nb>Int</span><span class=p>)</span> <span class=p>-&gt;</span> <span class=nb>UnsafeMutablePointer</span><span class=p>&lt;</span><span class=nb>UnsafePointer</span><span class=p>&lt;</span><span class=nb>CChar</span><span class=p>&gt;</span><span class=o>&gt;?</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1>//------------------------------------------------</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kd>static</span> <span class=kd>func</span> <span class=nf>callstack</span><span class=p>()</span> <span class=p>-&gt;</span> <span class=p>[</span><span class=nb>String</span><span class=p>]</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=kd>var</span> <span class=nv>callstack</span> <span class=p>=</span> <span class=p>[</span><span class=n>UnsafeMutableRawPointer</span><span class=p>?](</span><span class=n>repeating</span><span class=p>:</span> <span class=kc>nil</span><span class=p>,</span> <span class=bp>count</span><span class=p>:</span> <span class=mi>128</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=kd>let</span> <span class=nv>frames</span> <span class=p>=</span> <span class=n>swift_backtrace</span><span class=p>(&amp;</span><span class=n>callstack</span><span class=p>,</span> <span class=n>callstack</span><span class=p>.</span><span class=bp>count</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=kd>var</span> <span class=nv>callstackArr</span><span class=p>:</span> <span class=p>[</span><span class=nb>String</span><span class=p>]</span> <span class=p>=</span> <span class=p>[]</span>
+</span></span><span class=line><span class=cl>    <span class=k>if</span> <span class=kd>let</span> <span class=nv>symbols</span> <span class=p>=</span> <span class=n>swift_backtrace_symbols</span><span class=p>(&amp;</span><span class=n>callstack</span><span class=p>,</span> <span class=n>frames</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=k>for</span> <span class=n>frame</span> <span class=k>in</span> <span class=mf>0.</span><span class=p>.&lt;</span><span class=n>frames</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>            <span class=kd>let</span> <span class=nv>symbol</span> <span class=p>=</span> <span class=nb>String</span><span class=p>(</span><span class=n>cString</span><span class=p>:</span> <span class=n>symbols</span><span class=p>[</span><span class=n>frame</span><span class=p>])</span>
+</span></span><span class=line><span class=cl>            <span class=n>callstackArr</span><span class=p>.</span><span class=n>append</span><span class=p>(</span><span class=n>symbol</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>        <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>        <span class=n>free</span><span class=p>(</span><span class=n>symbols</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>        <span class=n>os_log</span><span class=p>(</span><span class=s>&#34;堆栈信息 =&gt; %@&#34;</span><span class=p>,</span> <span class=n>log</span><span class=p>:</span> <span class=p>.</span><span class=n>apmLog</span><span class=p>,</span> <span class=n>type</span><span class=p>:</span> <span class=p>.</span><span class=n>info</span><span class=p>,</span> <span class=n>callstackArr</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=n>callstackArr</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><h2 id=13-swift类名解析>13. Swift类名解析</h2><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl><span class=c1># xcrun swift-demangle _TtC11NewWolfKill22WKRoomControlMenuModel</span>
+</span></span><span class=line><span class=cl>$ xcrun swift-demangle &lt;your-mangled-symbol&gt;
+</span></span></code></pre></td></tr></table></div></div><h2 id=14-队列校验>14. 队列校验</h2><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-swift data-lang=swift><span class=line><span class=cl><span class=n>methodThatCallsBackOnMain</span><span class=p>(</span><span class=n>completion</span><span class=p>:</span> <span class=p>{</span> <span class=n>result</span> <span class=k>in</span>
+</span></span><span class=line><span class=cl>    <span class=c1>// 确保在主队列中调用</span>
+</span></span><span class=line><span class=cl>    <span class=n>dispatchPrecondition</span><span class=p>(.</span><span class=n>onQueue</span><span class=p>(.</span><span class=n>main</span><span class=p>))</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=c1>// process `result`</span>
+</span></span><span class=line><span class=cl>    <span class=c1>// ...</span>
+</span></span><span class=line><span class=cl><span class=p>})</span>
+</span></span></code></pre></td></tr></table></div></div><h2 id=15-assert>15. Assert</h2><p><code>assert</code>会导致程序退出，下面这种方式不会使程序退出而只是让<code>IDE</code>断在指定位置，类似于打断点那种效果</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-c data-lang=c><span class=line><span class=cl><span class=c1>// 适用于所有架构
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=n>__builtin_debugtrap</span><span class=p>()</span>
+</span></span></code></pre></td></tr></table></div></div><p>如果是模拟器，可以使用内联汇编的方式</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-c data-lang=c><span class=line><span class=cl><span class=k>asm</span><span class=p>(</span><span class=s>&#34;int3&#34;</span><span class=p>)</span>
+</span></span></code></pre></td></tr></table></div></div><p>如果是win平台，可以用</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-cpp data-lang=cpp><span class=line><span class=cl><span class=n>__debugbreak</span><span class=p>()</span>
+</span></span></code></pre></td></tr></table></div></div><p>贴段样例：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-objectivec data-lang=objectivec><span class=line><span class=cl><span class=c1>// MARK: - ZDAssert
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=cp>#if DEBUG
+</span></span></span><span class=line><span class=cl><span class=cp>#ifndef ZDAssert
+</span></span></span><span class=line><span class=cl><span class=cp>#define ZDAssert(condition, format, ...) do { \
+</span></span></span><span class=line><span class=cl><span class=cp>    _Pragma(&#34;clang diagnostic push&#34;) \
+</span></span></span><span class=line><span class=cl><span class=cp>    _Pragma(&#34;clang diagnostic ignored \&#34;-Wobjc-literal-conversion\&#34;&#34;) \
+</span></span></span><span class=line><span class=cl><span class=cp>    if (condition) break; \
+</span></span></span><span class=line><span class=cl><span class=cp>    if (format) printf(&#34;\n%s\n\n&#34;, [[NSString stringWithFormat:format, ##__VA_ARGS__] UTF8String]); \
+</span></span></span><span class=line><span class=cl><span class=cp>    _Pragma(&#34;clang diagnostic pop&#34;) \
+</span></span></span><span class=line><span class=cl><span class=cp>    __builtin_debugtrap(); \
+</span></span></span><span class=line><span class=cl><span class=cp>} while(0);
+</span></span></span><span class=line><span class=cl><span class=cp>#endif
+</span></span></span><span class=line><span class=cl><span class=cp>#else
+</span></span></span><span class=line><span class=cl><span class=cp>#ifndef ZDAssert
+</span></span></span><span class=line><span class=cl><span class=cp>#define ZDAssert(condition, format, ...)
+</span></span></span><span class=line><span class=cl><span class=cp>#endif
+</span></span></span><span class=line><span class=cl><span class=cp>#endif
+</span></span></span></code></pre></td></tr></table></div></div><blockquote><p>这里建议加上一个条件&ndash;只在调试期间起作用，因为在非调试阶段执行到这个<code>trap</code>程序会挂掉，代码如下：</p></blockquote><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-swift data-lang=swift><span class=line><span class=cl><span class=kd>import</span> <span class=nc>Darwin</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1>// See http://developer.apple.com/library/mac/#qa/qa1361/_index.html</span>
+</span></span><span class=line><span class=cl><span class=kr>@objc</span> <span class=kd>public</span> <span class=kd>class</span> <span class=nc>func</span> <span class=n>isDebuggerAttached</span><span class=p>()</span> <span class=p>-&gt;</span> <span class=nb>Bool</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=kd>var</span> <span class=nv>info</span> <span class=p>=</span> <span class=n>kinfo_proc</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>    <span class=kd>var</span> <span class=nv>mib</span> <span class=p>=</span> <span class=p>[</span><span class=n>CTL_KERN</span><span class=p>,</span> <span class=n>KERN_PROC</span><span class=p>,</span> <span class=n>KERN_PROC_PID</span><span class=p>,</span> <span class=n>getpid</span><span class=p>()]</span>
+</span></span><span class=line><span class=cl>    <span class=kd>var</span> <span class=nv>size</span> <span class=p>=</span> <span class=n>MemoryLayout</span><span class=p>&lt;</span><span class=n>kinfo_proc</span><span class=p>&gt;.</span><span class=bp>stride</span>
+</span></span><span class=line><span class=cl>    <span class=kd>let</span> <span class=nv>junk</span> <span class=p>=</span> <span class=n>sysctl</span><span class=p>(&amp;</span><span class=n>mib</span><span class=p>,</span> <span class=n>u_int</span><span class=p>(</span><span class=n>mib</span><span class=p>.</span><span class=bp>count</span><span class=p>),</span> <span class=p>&amp;</span><span class=n>info</span><span class=p>,</span> <span class=p>&amp;</span><span class=n>size</span><span class=p>,</span> <span class=kc>nil</span><span class=p>,</span> <span class=mi>0</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=bp>assert</span><span class=p>(</span><span class=n>junk</span> <span class=p>==</span> <span class=mi>0</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=kd>let</span> <span class=nv>isDebuggerAttaced</span> <span class=p>=</span> <span class=n>info</span><span class=p>.</span><span class=n>kp_proc</span><span class=p>.</span><span class=n>p_flag</span> <span class=o>&amp;</span> <span class=n>P_TRACED</span> <span class=o>!=</span> <span class=mi>0</span>
+</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=n>isDebuggerAttaced</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>        
+</span></span></code></pre></td></tr></table></div></div><h2 id=16-保证对象的生命周期>16. 保证对象的生命周期</h2><ol><li><p>Swift</p><p><a href=https://github.com/apple/swift/blob/541f7725e1b0f4ac2cfc1f1b71a90c5a5c813c1d/stdlib/public/core/Unmanaged.swift#L145 target=_blank rel="noopener noreffer">withExtendedLifetime()</a></p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-swift data-lang=swift><span class=line><span class=cl><span class=kd>var</span> <span class=nv>owningReference</span> <span class=p>=</span> <span class=n>Instance</span><span class=p>()</span>
+</span></span><span class=line><span class=cl><span class=p>...</span>
+</span></span><span class=line><span class=cl><span class=bp>withExtendedLifetime</span><span class=p>(</span><span class=n>owningReference</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=n>dosomething</span><span class=p>(...)</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>  <span class=c1>// Assuming: No stores to owned occur for the dynamic lifetime of</span>
+</span></span><span class=line><span class=cl>   <span class=c1>//         the withExtendedLifetime invocation.</span>
+</span></span></code></pre></td></tr></table></div></div></li><li><p>Objective-C</p><p>在 Objective-C ARC 中你可以使用 <code>__attribute__((objc_precise_lifetime))</code> 或者 <code>NS_VALID_UNTIL_END_OF_SCOPE</code> 来标注变量以达到类似的效果。</p></li></ol><h2 id=17-区间判断>17. 区间判断</h2><p>    判断某一个值<code>x</code>是否在区间<code>[min, max]</code>内    </p><p>    </p><blockquote><p>第一个 (x - minx) 如果 x &lt; minx 的话，得到的结果 &lt; 0 ，即高位为 1，第二个判断同理，如果超过范围，高位也为 1，两个条件进行比特或运算以后，只有两个高位都是 0 ，最终才为真</p></blockquote><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-c data-lang=c><span class=line><span class=cl><span class=k>if</span> <span class=p>((</span> <span class=p>(</span><span class=n>x</span> <span class=o>-</span> <span class=n>minx</span><span class=p>)</span> <span class=o>|</span> <span class=p>(</span><span class=n>maxx</span> <span class=o>-</span> <span class=n>x</span><span class=p>)</span> <span class=p>)</span> <span class=o>&gt;=</span> <span class=mi>0</span><span class=p>)</span> <span class=p>...</span>
+</span></span></code></pre></td></tr></table></div></div><hr><h3 id=参考>参考</h3><ul><li><p><a href=http://blog.sunnyxx.com/2014/08/02/objc-weird-code/ target=_blank rel="noopener noreffer">objc非主流代码技巧</a></p></li><li><p><a href=https://pspdfkit.com/blog/2017/even-swiftier-objective-c/ target=_blank rel="noopener noreffer">Even Swiftier Objective-C</a></p></li><li><p><a href=http://www.jb51.net/books/620682.html target=_blank rel="noopener noreffer">《C语言编程魔法书》</a></p></li><li><p><a href=https://www.cnblogs.com/kernel_hcy/archive/2010/01/27/1657411.html target=_blank rel="noopener noreffer">GCC中的弱符号与强符号</a></p></li><li><p><a href=https://github.com/apple/swift/blob/main/docs/SIL.rst target=_blank rel="noopener noreffer">swift: SIL</a></p></li><li><p><a href=https://www.fadel.io/blog/posts/30-tips-to-make-you-a-better-ios-developer target=_blank rel="noopener noreffer">30-tips-to-make-you-a-better-ios-developer</a></p></li><li><p><a href=https://www.bilibili.com/read/cv1165694 target=_blank rel="noopener noreffer">C/C++调试技巧-debugbreak</a></p></li><li><p><a href=https://mp.weixin.qq.com/s/ZJ3gVI-jzDcKpRKa0IMi0A target=_blank rel="noopener noreffer">Swift 中的 ARC 机制: 从基础到进阶</a></p></li><li><p><a href=https://www.zhihu.com/question/27417946 target=_blank rel="noopener noreffer">C语言有什么奇淫技巧</a></p></li></ul></div><div class=post-footer id=post-footer><div class=post-info><div class=post-info-line><div class=post-info-mod><span>更新于 2022-09-02&nbsp;<a class=git-hash href=https://github.com/faimin/commit/b62c58a781ad9dbd2054bfcdaab12f789a5b499a target=_blank title="commit by faimin(fuxianchao@gmail.com) b62c58a781ad9dbd2054bfcdaab12f789a5b499a: update runtime and swift">
+<i class="fas fa-hashtag fa-fw" aria-hidden=true></i>b62c58a</a></span></div></div><div class=post-info-line><div class=post-info-md><span><a class=link-to-markdown href=/codetips/index.md target=_blank>阅读原始文档</a></span></div><div class=post-info-share><span><a href=javascript:void(0); title="分享到 Twitter" data-sharer=twitter data-url=https://faimin.github.io/codetips/ data-title=代码技巧 data-hashtags=iOS,tips><i class="fab fa-twitter fa-fw" aria-hidden=true></i></a><a href=javascript:void(0); title="分享到 Facebook" data-sharer=facebook data-url=https://faimin.github.io/codetips/ data-hashtag=iOS><i class="fab fa-facebook-square fa-fw" aria-hidden=true></i></a><a href=javascript:void(0); title="分享到 Hacker News" data-sharer=hackernews data-url=https://faimin.github.io/codetips/ data-title=代码技巧><i class="fab fa-hacker-news fa-fw" aria-hidden=true></i></a><a href=javascript:void(0); title="分享到 Line" data-sharer=line data-url=https://faimin.github.io/codetips/ data-title=代码技巧><i data-svg-src=https://cdn.jsdelivr.net/npm/simple-icons@7.3.0/icons/line.svg aria-hidden=true></i></a><a href=javascript:void(0); title="分享到 微博" data-sharer=weibo data-url=https://faimin.github.io/codetips/ data-title=代码技巧 data-ralateuid=1655766025><i class="fab fa-weibo fa-fw" aria-hidden=true></i></a></span></div></div></div><div class=post-info-more><section class=post-tags><i class="fas fa-tags fa-fw" aria-hidden=true></i>&nbsp;<a href=/tags/ios/>iOS</a>,&nbsp;<a href=/tags/tips/>tips</a></section><section><span><a href=javascript:void(0); onclick=window.history.back()>返回</a></span>&nbsp;|&nbsp;<span><a href=/>主页</a></span></section></div><div class=post-nav><a href=/cocoapods_tips/ class=prev rel=prev title=CocoaPods笔记><i class="fas fa-angle-left fa-fw" aria-hidden=true></i>CocoaPods笔记</a>
+<a href=/block%E6%8D%95%E8%8E%B7%E5%8E%9F%E7%90%86%E6%8E%A2%E7%A9%B6/ class=next rel=next title=Block捕获原理探究>Block捕获原理探究<i class="fas fa-angle-right fa-fw" aria-hidden=true></i></a></div></div><div id=comments><div id=valine class=comment></div><noscript>Please enable JavaScript to view the comments powered by <a href=https://valine.js.org/>Valine</a>.</noscript></div></article></div></main><footer class=footer><div class=footer-container><div class=footer-line><span id=busuanzi_container_site_uv>本站访客数<span id=busuanzi_value_site_uv></span>人次</span> | <span id=busuanzi_container_site_pv>本站总访问量 <span id=busuanzi_value_site_pv></span>次</span></div><div class=footer-line>由 <a href=https://gohugo.io/ target=_blank rel="noopener noreffer" title="Hugo 0.104.3">Hugo</a> 强力驱动 | 主题 - <a href=https://github.com/dillonzq/LoveIt target=_blank rel="noopener noreffer" title="LoveIt 0.2.11"><i class="far fa-kiss-wink-heart fa-fw" aria-hidden=true></i> LoveIt</a></div><div class=footer-line itemscope itemtype=http://schema.org/CreativeWork><i class="far fa-copyright fa-fw" aria-hidden=true></i><span itemprop=copyrightYear>2018 - 2022</span><span class=author itemprop=copyrightHolder>&nbsp;<a href=https://github.com/faimin target=_blank>Zero.D.Saber</a></span>&nbsp;|&nbsp;<span class=license><a rel="license external nofollow noopener noreffer" href=https://creativecommons.org/licenses/by-nc/4.0/ target=_blank>CC BY-NC 4.0</a></span></div></div></footer></div><div id=fixed-buttons><a href=# id=back-to-top class=fixed-button title=回到顶部><i class="fas fa-arrow-up fa-fw" aria-hidden=true></i>
+</a><a href=# id=view-comments class=fixed-button title=查看评论><i class="fas fa-comment fa-fw" aria-hidden=true></i></a></div><link rel=stylesheet href=/lib/valine/valine.min.css><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/lightgallery@2.5.0/css/lightgallery-bundle.min.css><script type=text/javascript src=https://cdn.jsdelivr.net/npm/valine@1.5.0/dist/Valine.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/autocomplete.js@0.38.1/dist/autocomplete.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/algoliasearch@4.13.1/dist/algoliasearch-lite.umd.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/lazysizes@5.3.2/lazysizes.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/lightgallery@2.5.0/lightgallery.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/lightgallery@2.5.0/plugins/thumbnail/lg-thumbnail.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/lightgallery@2.5.0/plugins/zoom/lg-zoom.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/clipboard@2.0.11/dist/clipboard.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/sharer.js@0.5.1/sharer.min.js></script><script type=text/javascript>window.config={code:{copyTitle:"复制到剪贴板",maxShownLines:50},comment:{valine:{appId:"QGzwQXOqs5JOhN4RGPOkR2mR-MdYXbMMI",appKey:"WBmoGyJtbqUswvfLh6L8iEBr",avatar:"mp",el:"#valine",emojiCDN:"https://cdn.jsdelivr.net/npm/emoji-datasource-google@14.0.0/img/google/64/",emojiMaps:{100:"1f4af.png",alien:"1f47d.png",anger:"1f4a2.png",angry:"1f620.png",anguished:"1f627.png",astonished:"1f632.png",black_heart:"1f5a4.png",blue_heart:"1f499.png",blush:"1f60a.png",bomb:"1f4a3.png",boom:"1f4a5.png",broken_heart:"1f494.png",brown_heart:"1f90e.png",clown_face:"1f921.png",cold_face:"1f976.png",cold_sweat:"1f630.png",confounded:"1f616.png",confused:"1f615.png",cry:"1f622.png",crying_cat_face:"1f63f.png",cupid:"1f498.png",dash:"1f4a8.png",disappointed:"1f61e.png",disappointed_relieved:"1f625.png",dizzy:"1f4ab.png",dizzy_face:"1f635.png",drooling_face:"1f924.png",exploding_head:"1f92f.png",expressionless:"1f611.png",face_vomiting:"1f92e.png",face_with_cowboy_hat:"1f920.png",face_with_hand_over_mouth:"1f92d.png",face_with_head_bandage:"1f915.png",face_with_monocle:"1f9d0.png",face_with_raised_eyebrow:"1f928.png",face_with_rolling_eyes:"1f644.png",face_with_symbols_on_mouth:"1f92c.png",face_with_thermometer:"1f912.png",fearful:"1f628.png",flushed:"1f633.png",frowning:"1f626.png",ghost:"1f47b.png",gift_heart:"1f49d.png",green_heart:"1f49a.png",grimacing:"1f62c.png",grin:"1f601.png",grinning:"1f600.png",hankey:"1f4a9.png",hear_no_evil:"1f649.png",heart:"2764-fe0f.png",heart_decoration:"1f49f.png",heart_eyes:"1f60d.png",heart_eyes_cat:"1f63b.png",heartbeat:"1f493.png",heartpulse:"1f497.png",heavy_heart_exclamation_mark_ornament:"2763-fe0f.png",hole:"1f573-fe0f.png",hot_face:"1f975.png",hugging_face:"1f917.png",hushed:"1f62f.png",imp:"1f47f.png",innocent:"1f607.png",japanese_goblin:"1f47a.png",japanese_ogre:"1f479.png",joy:"1f602.png",joy_cat:"1f639.png",kiss:"1f48b.png",kissing:"1f617.png",kissing_cat:"1f63d.png",kissing_closed_eyes:"1f61a.png",kissing_heart:"1f618.png",kissing_smiling_eyes:"1f619.png",laughing:"1f606.png",left_speech_bubble:"1f5e8-fe0f.png",love_letter:"1f48c.png",lying_face:"1f925.png",mask:"1f637.png",money_mouth_face:"1f911.png",nauseated_face:"1f922.png",nerd_face:"1f913.png",neutral_face:"1f610.png",no_mouth:"1f636.png",open_mouth:"1f62e.png",orange_heart:"1f9e1.png",partying_face:"1f973.png",pensive:"1f614.png",persevere:"1f623.png",pleading_face:"1f97a.png",pouting_cat:"1f63e.png",purple_heart:"1f49c.png",rage:"1f621.png",relaxed:"263a-fe0f.png",relieved:"1f60c.png",revolving_hearts:"1f49e.png",right_anger_bubble:"1f5ef-fe0f.png",robot_face:"1f916.png",rolling_on_the_floor_laughing:"1f923.png",scream:"1f631.png",scream_cat:"1f640.png",see_no_evil:"1f648.png",shushing_face:"1f92b.png",skull:"1f480.png",skull_and_crossbones:"2620-fe0f.png",sleeping:"1f634.png",sleepy:"1f62a.png",slightly_frowning_face:"1f641.png",slightly_smiling_face:"1f642.png",smile:"1f604.png",smile_cat:"1f638.png",smiley:"1f603.png",smiley_cat:"1f63a.png",smiling_face_with_3_hearts:"1f970.png",smiling_imp:"1f608.png",smirk:"1f60f.png",smirk_cat:"1f63c.png",sneezing_face:"1f927.png",sob:"1f62d.png",space_invader:"1f47e.png",sparkling_heart:"1f496.png",speak_no_evil:"1f64a.png",speech_balloon:"1f4ac.png","star-struck":"1f929.png",stuck_out_tongue:"1f61b.png",stuck_out_tongue_closed_eyes:"1f61d.png",stuck_out_tongue_winking_eye:"1f61c.png",sunglasses:"1f60e.png",sweat:"1f613.png",sweat_drops:"1f4a6.png",sweat_smile:"1f605.png",thinking_face:"1f914.png",thought_balloon:"1f4ad.png",tired_face:"1f62b.png",triumph:"1f624.png",two_hearts:"1f495.png",unamused:"1f612.png",upside_down_face:"1f643.png",weary:"1f629.png",white_frowning_face:"2639-fe0f.png",white_heart:"1f90d.png",wink:"1f609.png",woozy_face:"1f974.png",worried:"1f61f.png",yawning_face:"1f971.png",yellow_heart:"1f49b.png",yum:"1f60b.png",zany_face:"1f92a.png",zipper_mouth_face:"1f910.png",zzz:"1f4a4.png"},enableQQ:!1,highlight:!0,lang:"zh-CN",pageSize:10,placeholder:"你的评论 ...",recordIP:!0,serverURLs:"https://leancloud.hugoloveit.com",visitor:!0}},lightgallery:!0,search:{algoliaAppID:"PASDMWALPK",algoliaIndex:"index.zh-cn",algoliaSearchKey:"b42948e51daaa93df92381c8e2ac0f93",highlightTag:"em",maxResultLength:10,noResultsFound:"没有找到结果",snippetLength:50,type:"algolia"}}</script><script type=text/javascript src=/js/theme.min.js></script></body></html>

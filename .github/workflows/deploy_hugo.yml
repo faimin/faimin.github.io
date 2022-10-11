@@ -26,7 +26,7 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v3
         with:
-          node-version: '14'
+          node-version: '18'  # 指定node版本，默认v12已经废弃，网站展示会有问题
 
       - name: Setup Hugo
         uses: peaceiris/actions-hugo@v2	
@@ -43,4 +43,5 @@ jobs:
         with:
           github_token: ${{ secrets.ACCESS_TOKEN }}
           publish_dir: ./docs
+          cname: faimin.com
 

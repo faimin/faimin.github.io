@@ -1,900 +1,430 @@
-<!DOCTYPE html>
-<html lang="zh-CN">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="robots" content="noodp" />
-        <title>iOS源码阅读笔记 - Zero.D.Saber</title><meta name="Description" content="Hugo theme - LoveIt"><meta property="og:title" content="iOS源码阅读笔记" />
-<meta property="og:description" content="Runtime AutoreleasePoolPage 、SideTableMap、AssociationsManager 是在map_images-&gt;map_images_nolock-" />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="https://faimin.github.io/ios%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/" /><meta property="og:image" content="https://faimin.github.io/logo/avatar.gif"/><meta property="article:section" content="posts" />
-<meta property="article:published_time" content="2022-06-09T17:06:35+08:00" />
-<meta property="article:modified_time" content="2022-10-10T20:47:00+08:00" /><meta property="og:site_name" content="Zero.D.Saber的小屋" />
-
-<meta name="twitter:card" content="summary_large_image"/>
-<meta name="twitter:image" content="https://faimin.github.io/logo/avatar.gif"/>
-
-<meta name="twitter:title" content="iOS源码阅读笔记"/>
-<meta name="twitter:description" content="Runtime AutoreleasePoolPage 、SideTableMap、AssociationsManager 是在map_images-&gt;map_images_nolock-"/>
-<meta name="application-name" content="LoveIt">
-<meta name="apple-mobile-web-app-title" content="LoveIt"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="icon" href="/logo/avatar.gif"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://faimin.github.io/ios%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/" /><link rel="prev" href="https://faimin.github.io/%E7%A8%8B%E5%BA%8F%E5%91%98%E7%9A%84%E8%87%AA%E6%88%91%E4%BF%AE%E5%85%BB%E7%AC%94%E8%AE%B0/" /><link rel="next" href="https://faimin.github.io/swift%E8%A7%A3%E6%83%91/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-        <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css"></noscript><link rel="preload" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-        <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css"></noscript><script type="application/ld+json">
-    {
-        "@context": "http://schema.org",
-        "@type": "BlogPosting",
-        "headline": "iOS源码阅读笔记",
-        "inLanguage": "zh-CN",
-        "mainEntityOfPage": {
-            "@type": "WebPage",
-            "@id": "https:\/\/faimin.github.io\/ios%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0\/"
-        },"image": ["https:\/\/faimin.github.io\/images\/Apple-Devices-Preview.png"],"genre": "posts","keywords": "iOS, runtime","wordcount":  9281 ,
-        "url": "https:\/\/faimin.github.io\/ios%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0\/","datePublished": "2022-06-09T17:06:35+08:00","dateModified": "2022-10-10T20:47:00+08:00","license": "This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher": {
-            "@type": "Organization",
-            "name": "Zero.D.Saber","logo": "https:\/\/faimin.github.io\/images\/avatar.png"},"author": {
-                "@type": "Person",
-                "name": "Zero.D.Saber"
-            },"description": ""
-    }
-    </script></head>
-    <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
-
-        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
-    <div class="header-wrapper">
-        <div class="header-title">
-            <a href="/" title="Zero.D.Saber">Zero.D.Saber&#39;s Notes</a>
-        </div>
-        <div class="menu">
-            <div class="menu-inner"><a class="menu-item" href="/posts/"> 所有文章 </a><a class="menu-item" href="/tags/"> 标签 </a><a class="menu-item" href="/categories/"> 分类 </a><a class="menu-item" href="/categories/documentation/"> 文档 </a><a class="menu-item" href="/about/whoami"> 关于 </a><a class="menu-item" href="https://github.com/faimin" title="GitHub" rel="noopener noreffer" target="_blank"><i class='fab fa-github fa-fw' aria-hidden='true'></i>  </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
-                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-desktop">
-                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
-                            <i class="fas fa-search fa-fw" aria-hidden="true"></i>
-                        </a>
-                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
-                            <i class="fas fa-times-circle fa-fw" aria-hidden="true"></i>
-                        </a>
-                        <span class="search-button search-loading" id="search-loading-desktop">
-                            <i class="fas fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
-                        </span>
-                    </span><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
-                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
-                </a><a href="javascript:void(0);" class="menu-item language" title="选择语言">
-                    <i class="fa fa-globe" aria-hidden="true"></i>                      
-                    <select class="language-select" id="language-select-desktop" onchange="location = this.value;"><option value="/ios%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/" selected>简体中文</option></select>
-                </a></div>
-        </div>
-    </div>
-</header><header class="mobile" id="header-mobile">
-    <div class="header-container">
-        <div class="header-wrapper">
-            <div class="header-title">
-                <a href="/" title="Zero.D.Saber">Zero.D.Saber&#39;s Notes</a>
-            </div>
-            <div class="menu-toggle" id="menu-toggle-mobile">
-                <span></span><span></span><span></span>
-            </div>
-        </div>
-        <div class="menu" id="menu-mobile"><div class="search-wrapper">
-                    <div class="search mobile" id="search-mobile">
-                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-mobile">
-                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
-                            <i class="fas fa-search fa-fw" aria-hidden="true"></i>
-                        </a>
-                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
-                            <i class="fas fa-times-circle fa-fw" aria-hidden="true"></i>
-                        </a>
-                        <span class="search-button search-loading" id="search-loading-mobile">
-                            <i class="fas fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
-                        </span>
-                    </div>
-                    <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
-                        取消
-                    </a>
-                </div><a class="menu-item" href="/posts/" title="">所有文章</a><a class="menu-item" href="/tags/" title="">标签</a><a class="menu-item" href="/categories/" title="">分类</a><a class="menu-item" href="/categories/documentation/" title="">文档</a><a class="menu-item" href="/about/whoami" title="">关于</a><a class="menu-item" href="https://github.com/faimin" title="GitHub" rel="noopener noreffer" target="_blank"><i class='fab fa-github fa-fw' aria-hidden='true'></i></a><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
-                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
-            </a><a href="javascript:void(0);" class="menu-item" title="选择语言">
-                    <i class="fa fa-globe fa-fw" aria-hidden="true"></i>
-                    <select class="language-select" onchange="location = this.value;"><option value="/ios%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/" selected>简体中文</option></select>
-                </a></div>
-    </div>
-</header><div class="search-dropdown desktop">
-        <div id="search-dropdown-desktop"></div>
-    </div>
-    <div class="search-dropdown mobile">
-        <div id="search-dropdown-mobile"></div>
-    </div><main class="main">
-                <div class="container"><div class="toc" id="toc-auto">
-            <h2 class="toc-title">目录</h2>
-            <div class="toc-content" id="toc-content-auto"></div>
-        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">iOS源码阅读笔记</h1><div class="post-meta">
-            <div class="post-meta-line"><span class="post-author"><a href="https://github.com/faimin" title="Author" target="_blank" rel="noopener noreffer author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Zero.D.Saber</a></span>&nbsp;<span class="post-category">收录于 <a href="/categories/%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>实现原理</a></span></div>
-            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2022-06-09">2022-06-09</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;约 9281 字&nbsp;
-                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;预计阅读 19 分钟&nbsp;<span id="/ios%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/" class="leancloud_visitors" data-flag-title="iOS源码阅读笔记">
-                        <i class="far fa-eye fa-fw" aria-hidden="true"></i>&nbsp;<span class=leancloud-visitors-count></span>&nbsp;次阅读
-                    </span>&nbsp;</div>
-        </div><div class="details toc" id="toc-static"  data-kept="">
-                <div class="details-summary toc-title">
-                    <span>目录</span>
-                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
-                </div>
-                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
-  <ul>
-    <li><a href="#runtime">Runtime</a>
-      <ul>
-        <li><a href="#dyld加载流程">dyld加载流程</a>
-          <ul>
-            <li>
-              <ul>
-                <li><a href="#叙述一下">叙述一下：</a></li>
-              </ul>
-            </li>
-          </ul>
-        </li>
-        <li><a href="#类的加载">类的加载</a>
-          <ul>
-            <li><a href="#为什么category会覆盖原来的方法">为什么<code>category</code>会覆盖原来的方法？</a></li>
-            <li><a href="#类和category实现load对加载的影响">类和<code>category</code>实现<code>load</code>对加载的影响</a></li>
-            <li><a href="#为什么会有cleanmemory和dirtymemory呢">为什么会有CleanMemory和DirtyMemory呢？</a></li>
-            <li><a href="#为什么执行load方法时没有触发initialize">为什么执行<code>load</code>方法时没有触发<code>initialize</code>？</a></li>
-            <li><a href="#什么在对象释放过程中通过weak变量获取不到这个对象">什么在对象释放过程中通过<code>weak</code>变量获取不到这个对象？</a></li>
-          </ul>
-        </li>
-        <li><a href="#对象释放流程">对象释放流程</a></li>
-      </ul>
-    </li>
-    <li><a href="#weak">Weak</a></li>
-    <li><a href="#synchronized原理">@synchronized原理</a></li>
-    <li><a href="#associate-原理">Associate 原理</a></li>
-    <li><a href="#gcd">GCD</a>
-      <ul>
-        <li>
-          <ul>
-            <li><a href="#dispatch_sync">dispatch_sync</a></li>
-            <li><a href="#dispatch_async">dispatch_async</a></li>
-            <li><a href="#dispatch_barrier_async">dispatch_barrier_async</a></li>
-            <li><a href="#dispatch_group">dispatch_group</a></li>
-            <li><a href="#dispatch_semaphore_t">dispatch_semaphore_t</a></li>
-            <li><a href="#dispatch_group_async">dispatch_group_async</a></li>
-            <li><a href="#线程池复用原理">线程池复用原理</a></li>
-            <li><a href="#dispatch_once">dispatch_once</a></li>
-            <li><a href="#dispatch_source_merge_data">dispatch_source_merge_data</a></li>
-          </ul>
-        </li>
-      </ul>
-    </li>
-    <li><a href="#nstimer">NSTimer</a>
-      <ul>
-        <li>
-          <ul>
-            <li><a href="#timer添加到runloop的过程">timer添加到runloop的过程：</a></li>
-            <li><a href="#nstimer-不准时问题">NSTimer 不准时问题</a></li>
-          </ul>
-        </li>
-      </ul>
-    </li>
-    <li><a href="#推荐文章">推荐文章</a></li>
-  </ul>
-</nav></div>
-            </div><div class="content" id="content"><h2 id="runtime">Runtime</h2>
-<p><code>AutoreleasePoolPage</code> 、<code>SideTableMap</code>、<code>AssociationsManager</code> 是在<code>map_images-&gt;map_images_nolock-&gt;arr_init()</code> 函数中初始化的；</p>
-<p>一个类最多能添加<code>64</code>个分类；</p>
-<h3 id="dyld加载流程">dyld加载流程</h3>
-<blockquote>
-<p>引自飘云的<a href="https://www.dllhook.com/post/238.html" target="_blank" rel="noopener noreffer ">dyld详解</a></p>
-</blockquote>
-<ul>
-<li>第一步：设置运行环境</li>
-<li>第二步：加载共享缓存</li>
-<li>第三步：实例化主程序</li>
-<li>第四步：加载插入的动态库</li>
-<li>第五步：链接主程序</li>
-<li>第六步：链接插入的动态库</li>
-<li>第七步：执行弱符号绑定</li>
-<li>第八步：执行初始化方法（runtime和类的加载是在这一步）</li>
-<li>第九步：查找入口点并返回</li>
-</ul>
-<h5 id="叙述一下">叙述一下：</h5>
-<ol>
-<li>配置环境变量，开启共享缓存，接下来把主程序的可执行文件（<code>macho</code>）加载进内存，检测<code>macho</code>内的<code>magic</code>、<code>cpu</code>等属性以及兼容性，如果通过则创建一个<code>imageLoader</code>，然后插入动态库，链接主程序（加载进所有依赖库，然后<code>rebase</code>修正偏移、<code>rebind</code>绑定符号地址）和插入的动态库，然后弱符号绑定，接下来就是进入真正的初始化方法，如下图，当<code>dyld</code>加载到开始链接主程序的时候，递归调用<code>recursiveInitialization</code>函数；</li>
-</ol>
-<p><figure><a class="lightgallery" href="/images/opensource/ios/Runtime_objc_init.png" title="/images/opensource/ios/Runtime_objc_init.png" data-thumbnail="/images/opensource/ios/Runtime_objc_init.png" data-sub-html="<h2>_objc_init</h2>">
-        <img
-            class="lazyload"
-            src="/svg/loading.min.svg"
-            data-src="/images/opensource/ios/Runtime_objc_init.png"
-            data-srcset="/images/opensource/ios/Runtime_objc_init.png, /images/opensource/ios/Runtime_objc_init.png 1.5x, /images/opensource/ios/Runtime_objc_init.png 2x"
-            data-sizes="auto"
-            alt="/images/opensource/ios/Runtime_objc_init.png" />
-    </a><figcaption class="image-caption">_objc_init</figcaption>
-    </figure>
-<figure><a class="lightgallery" href="/images/opensource/ios/Runtime_recursiveInitialization.png" title="/images/opensource/ios/Runtime_recursiveInitialization.png" data-thumbnail="/images/opensource/ios/Runtime_recursiveInitialization.png" data-sub-html="<h2>recursiveInitialization</h2>">
-        <img
-            class="lazyload"
-            src="/svg/loading.min.svg"
-            data-src="/images/opensource/ios/Runtime_recursiveInitialization.png"
-            data-srcset="/images/opensource/ios/Runtime_recursiveInitialization.png, /images/opensource/ios/Runtime_recursiveInitialization.png 1.5x, /images/opensource/ios/Runtime_recursiveInitialization.png 2x"
-            data-sizes="auto"
-            alt="/images/opensource/ios/Runtime_recursiveInitialization.png" />
-    </a><figcaption class="image-caption">recursiveInitialization</figcaption>
-    </figure></p>
-<ol start="2">
-<li>这个函数第一次执行，会走到 <code>doInitialization</code> -&gt; <code>doModInitFunctions</code> -&gt; l<code>ibSystemInitialized</code>，进行<code>libsystem</code>的初始化；</li>
-<li><code>libsystem</code> 的初始化，它会调用起 <code>libdispatch_init</code>，<code>libdispatch</code> 的 <code>init</code> 会调用 <code>_os_object_init</code>，这个函数里面调用了 <code>_objc_init</code>；</li>
-<li>_objc_init 中注册并保存了<code>map_images</code>、<code>load_images</code>、<code>unmap_image</code>函数地址；</li>
-<li>注册完毕继续回到 <code>recursiveInitialization</code> 递归下一次调用，例如 <code>libobjc</code>，当 <code>libobjc</code> 来到 <code>recursiveInitialization</code> 调用时会触发<code>libsystem</code>，调用到<code>_objc_init</code>里注册好的回调函数进行调用，就来到了<code>libobjc</code>，调用<code>load_images</code>。</li>
-</ol>
-<h3 id="类的加载">类的加载</h3>
-<ol>
-<li>
-<p><code>read_image</code>： 初始化<code>gdb_objc_realized_classes</code>表，容量是类总数量的 <code>4/3</code> 倍，这个表用来存放不在共享缓存中并且非懒加载类。接下来从<code>mach-o</code>中读取非懒加载类，把从<code>mach-o</code>中读取的类指针转换成类名，变成可识别的类（地址 -&gt; 类名），然后加入前面创建的<code>gdb_objc_realized_classes</code> map表中（这个表的作用是在后面处理类有没有被正确的处理），同时也会加入 <code>allocatedClasses</code> 这个<code>set</code>表中（这个表是在 <code>_objc_init</code> 中的 <code>runtime_init</code> 函数中初始化的，存储的是已经初始化过的类）；总的来说，这一步就是把类读取到内存；</p>
-</li>
-<li>
-<p>接下来就是重点方法<code>realizeClassWithoutSwift</code>：创建<code>rw</code>，把<code>ro</code>放到<code>rw</code>中（方法列表是在后面放的），递归执行<code>realizeClassWithoutSwift</code>，即递归设置<code>rw</code>；</p>
-</li>
-<li>
-<p>设置类、父类和元类，其实就是生成一个双向链表；</p>
-</li>
-<li>
-<p><code>methodizeClass</code> ： 获取<code>class</code>的<code>ro</code>中的<code>baseMethods</code>，通过<code>prepareMethodLists</code>函数进行方法升序排序，然后 <code>unttachedCategories::attachToClass</code> ，这里是重头戏， <code>attachToClass</code>中会执行<code>attachCategories</code>，在这里面会初始化<code>rwe</code>，在这过程中会把<code>ro</code>中的方法列表、属性列表、协议列表都复制到<code>rwe</code>中，然后接着会把<code>category</code>中的方法列表、属性列表、协议列表也会吸纳进去，此时类才算加载完成；</p>
-</li>
-<li>
-<p>方法排序的这里有几个细节：在<code>methodizeClass</code>中首次从<code>class_ro_w</code>中拿到<code>basemethods</code>后就立即做了升序排序处理，而分类中的方法排序发生在<code>attachCategory</code>方法中，也就是说他们是分开各自独立排序的（疑问：没有整合到一起后再排序，那怎么用的二分查找？）。</p>
-<blockquote>
-<p>解答：</p>
-<p>只有类和分类都实现<code>load</code>方法，才会存在<code>load_image</code>阶段分类方法整合到所属类的方法列表中的操作，也就是说只有类或者分类中实现<code>load</code>方法的情况，类的方法列表和分类方法都是直接在编译期存放在<code>class_ro_t</code>中的<code>baseMethods</code>中的；那这种情况怎么能保证分类方法在原始类方法前面的？这应该是编译器自己在编译期做的处理，让分类方法地址比原始类的方法地址要低。而对于二分查找，其实整合后的方法列表其实是个二维数组，内部存的是排好序的一维方法列表（<code>methodizeClass</code>阶段<code>preparemethod</code>进行方法排序），方法查找先是顺序遍历二维数组，再在有序的一维方法列表中进行二分查找。</p>
-</blockquote>
-</li>
-<li>
-<p>方法添加顺序：新建个数组，先把类中<code>class_ro_w</code> <code>basemethods</code>放到数组的后面，然后把分类方法放到数组前面</p>
-</li>
-</ol>
-<h4 id="为什么category会覆盖原来的方法">为什么<code>category</code>会覆盖原来的方法？</h4>
-<p>在<code>map_images</code>方法的 <code>attachCategories -&gt; attachLists</code> 分类附加到原来的类的方法列表时，会先重新开辟一个新的数组，把原来的方法列表倒序遍历添加到新数组的后面，接着再正序遍历，把分类的方法添加到新数组的前面（方法列表的顺序与原来的顺序一致）；</p>
-<p><figure><a class="lightgallery" href="/images/opensource/ios/Runtime_AttackMethodLists.png" title="methodLists" data-thumbnail="/images/opensource/ios/Runtime_AttackMethodLists.png" data-sub-html="<h2>methodLists</h2><p>methodLists</p>">
-        <img
-            class="lazyload"
-            src="/svg/loading.min.svg"
-            data-src="/images/opensource/ios/Runtime_AttackMethodLists.png"
-            data-srcset="/images/opensource/ios/Runtime_AttackMethodLists.png, /images/opensource/ios/Runtime_AttackMethodLists.png 1.5x, /images/opensource/ios/Runtime_AttackMethodLists.png 2x"
-            data-sizes="auto"
-            alt="/images/opensource/ios/Runtime_AttackMethodLists.png" />
-    </a><figcaption class="image-caption">methodLists</figcaption>
-    </figure></p>
-<h4 id="类和category实现load对加载的影响">类和<code>category</code>实现<code>load</code>对加载的影响</h4>
-<p>只有类和分类都实现<code>load</code>方法，才会发生在<code>load_image</code>阶段分类方法整合到所属类的方法列表中的操作; 只有类或者分类中实现<code>load</code>的时候，类的方法和分类方法都是直接在编译期存放到<code>class_ro_t</code>中的<code>baseMethods</code>中的。那这种情况怎么能保证分类方法在原始类方法前面的？这应该是编译器自己在编译期做的处理，让分类方法地址比原始类的方法地址要低（方法排序用的是升序排序）。</p>
-<p>而对于类和分类都实现<code>load</code>的场景，即在<code>load_image</code>阶段把分类方法整合到类的方法列表中的情况是如何进行二分查找的呢？其实整合后的方法列表是个二维数组，内部存的是排好序的一维方法列表（<code>methodizeClass</code>阶段<code>preparemethod</code>进行的方法升序排序），方法查找时先是顺序遍历二维数组，再在有序的一维方法列表中进行二分查找。</p>
-<p>综上所述，不要在类和分类中同时实现<code>load</code>方法也是提升启动速度的一个点，当然，不用<code>load</code>最好了。</p>
-<h4 id="为什么会有cleanmemory和dirtymemory呢">为什么会有CleanMemory和DirtyMemory呢？</h4>
-<ul>
-<li><code>iOS</code>运行过程中会涉及对内存进行增删改查，为了防止对原始数据的修改，所以把原来的<code>CleanMemory</code> <code>copy</code>一份到<code>rw</code>中。</li>
-<li>有了<code>rw</code>为什么还要<code>rwe</code>（脏内存）？因为不是所有的类加载进内存时需要进行动态的插入、删除，当我们添加一个属性、一个方法会对内存改动很大，对内存的消耗有一定影响，所以只要我们对类进行动态处理了（比如把<code>category</code>的方法、属性、协议合并到类中），就会生成一个<code>rwe</code>。</li>
-</ul>
-<h4 id="为什么执行load方法时没有触发initialize">为什么执行<code>load</code>方法时没有触发<code>initialize</code>？</h4>
-<p>一定明确<code>initialize</code>是在首次发消息时才会触发，而<code>load</code>的执行是通过函数指针的方式调用的，没有走消息发送机制，所以不会触发<code>initialize</code>。</p>
-<h4 id="什么在对象释放过程中通过weak变量获取不到这个对象">什么在对象释放过程中通过<code>weak</code>变量获取不到这个对象？</h4>
-<p>在关联的场景中，比如<code>A</code>关联<code>B</code>，<code>B</code>弱持有<code>A</code>，<code>A</code>释放时会释放其关联的<code>B</code>，导致<code>B</code>的<code>dealloc</code>执行，然后我们在<code>B</code>的<code>dealloc</code>方法中通过<code>weak</code>变量读取<code>A</code>，却发现获取到的是<code>nil</code>（根据释放流程此时A还没有free掉），这是为什么？</p>
-<p>分析如下：</p>
-<p>读取<code>weak</code>变量时执行的是<code>objc_loadWeak</code>函数，内部执行大概流程为：<code>objc_loadWeak</code> -&gt; <code>objc_loadWeakRetained</code> -&gt; <code>obj-&gt;rootTryRetain()</code> -&gt; <code>rootRetain(true, RRVariant::Fast)</code> ，在<code>rootRetain</code>中如果当前对象正在处于释放流程中，则返回<code>nil</code>。具体代码如下：</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">  1
-</span><span class="lnt">  2
-</span><span class="lnt">  3
-</span><span class="lnt">  4
-</span><span class="lnt">  5
-</span><span class="lnt">  6
-</span><span class="lnt">  7
-</span><span class="lnt">  8
-</span><span class="lnt">  9
-</span><span class="lnt"> 10
-</span><span class="lnt"> 11
-</span><span class="lnt"> 12
-</span><span class="lnt"> 13
-</span><span class="lnt"> 14
-</span><span class="lnt"> 15
-</span><span class="lnt"> 16
-</span><span class="lnt"> 17
-</span><span class="lnt"> 18
-</span><span class="lnt"> 19
-</span><span class="lnt"> 20
-</span><span class="lnt"> 21
-</span><span class="lnt"> 22
-</span><span class="lnt"> 23
-</span><span class="lnt"> 24
-</span><span class="lnt"> 25
-</span><span class="lnt"> 26
-</span><span class="lnt"> 27
-</span><span class="lnt"> 28
-</span><span class="lnt"> 29
-</span><span class="lnt"> 30
-</span><span class="lnt"> 31
-</span><span class="lnt"> 32
-</span><span class="lnt"> 33
-</span><span class="lnt"> 34
-</span><span class="lnt"> 35
-</span><span class="lnt"> 36
-</span><span class="lnt"> 37
-</span><span class="lnt"> 38
-</span><span class="lnt"> 39
-</span><span class="lnt"> 40
-</span><span class="lnt"> 41
-</span><span class="lnt"> 42
-</span><span class="lnt"> 43
-</span><span class="lnt"> 44
-</span><span class="lnt"> 45
-</span><span class="lnt"> 46
-</span><span class="lnt"> 47
-</span><span class="lnt"> 48
-</span><span class="lnt"> 49
-</span><span class="lnt"> 50
-</span><span class="lnt"> 51
-</span><span class="lnt"> 52
-</span><span class="lnt"> 53
-</span><span class="lnt"> 54
-</span><span class="lnt"> 55
-</span><span class="lnt"> 56
-</span><span class="lnt"> 57
-</span><span class="lnt"> 58
-</span><span class="lnt"> 59
-</span><span class="lnt"> 60
-</span><span class="lnt"> 61
-</span><span class="lnt"> 62
-</span><span class="lnt"> 63
-</span><span class="lnt"> 64
-</span><span class="lnt"> 65
-</span><span class="lnt"> 66
-</span><span class="lnt"> 67
-</span><span class="lnt"> 68
-</span><span class="lnt"> 69
-</span><span class="lnt"> 70
-</span><span class="lnt"> 71
-</span><span class="lnt"> 72
-</span><span class="lnt"> 73
-</span><span class="lnt"> 74
-</span><span class="lnt"> 75
-</span><span class="lnt"> 76
-</span><span class="lnt"> 77
-</span><span class="lnt"> 78
-</span><span class="lnt"> 79
-</span><span class="lnt"> 80
-</span><span class="lnt"> 81
-</span><span class="lnt"> 82
-</span><span class="lnt"> 83
-</span><span class="lnt"> 84
-</span><span class="lnt"> 85
-</span><span class="lnt"> 86
-</span><span class="lnt"> 87
-</span><span class="lnt"> 88
-</span><span class="lnt"> 89
-</span><span class="lnt"> 90
-</span><span class="lnt"> 91
-</span><span class="lnt"> 92
-</span><span class="lnt"> 93
-</span><span class="lnt"> 94
-</span><span class="lnt"> 95
-</span><span class="lnt"> 96
-</span><span class="lnt"> 97
-</span><span class="lnt"> 98
-</span><span class="lnt"> 99
-</span><span class="lnt">100
-</span><span class="lnt">101
-</span><span class="lnt">102
-</span><span class="lnt">103
-</span><span class="lnt">104
-</span><span class="lnt">105
-</span><span class="lnt">106
-</span><span class="lnt">107
-</span><span class="lnt">108
-</span><span class="lnt">109
-</span><span class="lnt">110
-</span><span class="lnt">111
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="n">id</span>
-</span></span><span class="line"><span class="cl"><span class="nf">objc_loadWeakRetained</span><span class="p">(</span><span class="n">id</span> <span class="o">*</span><span class="n">location</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl"><span class="p">{</span>
-</span></span><span class="line"><span class="cl">    <span class="n">id</span> <span class="n">obj</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">    <span class="n">id</span> <span class="n">result</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">    <span class="n">Class</span> <span class="n">cls</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">    <span class="n">SideTable</span> <span class="o">*</span><span class="n">table</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">    
-</span></span><span class="line"><span class="cl"> <span class="nl">retry</span><span class="p">:</span>
-</span></span><span class="line"><span class="cl">    <span class="n">obj</span> <span class="o">=</span> <span class="o">*</span><span class="n">location</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="n">_objc_isTaggedPointerOrNil</span><span class="p">(</span><span class="n">obj</span><span class="p">))</span> <span class="k">return</span> <span class="n">obj</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">    
-</span></span><span class="line"><span class="cl">    <span class="n">table</span> <span class="o">=</span> <span class="o">&amp;</span><span class="n">SideTables</span><span class="p">()[</span><span class="n">obj</span><span class="p">];</span>
-</span></span><span class="line"><span class="cl">    
-</span></span><span class="line"><span class="cl">    <span class="n">table</span><span class="o">-&gt;</span><span class="n">lock</span><span class="p">();</span>
-</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="o">*</span><span class="n">location</span> <span class="o">!=</span> <span class="n">obj</span><span class="p">)</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">        <span class="n">table</span><span class="o">-&gt;</span><span class="n">unlock</span><span class="p">();</span>
-</span></span><span class="line"><span class="cl">        <span class="k">goto</span> <span class="n">retry</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">    <span class="p">}</span>
-</span></span><span class="line"><span class="cl">    
-</span></span><span class="line"><span class="cl">    <span class="n">result</span> <span class="o">=</span> <span class="n">obj</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">    <span class="n">cls</span> <span class="o">=</span> <span class="n">obj</span><span class="o">-&gt;</span><span class="n">ISA</span><span class="p">();</span>
-</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="o">!</span> <span class="n">cls</span><span class="o">-&gt;</span><span class="n">hasCustomRR</span><span class="p">())</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">        <span class="c1">// 执行此逻辑
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="k">if</span> <span class="p">(</span><span class="o">!</span> <span class="n">obj</span><span class="o">-&gt;</span><span class="n">rootTryRetain</span><span class="p">())</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">            <span class="n">result</span> <span class="o">=</span> <span class="n">nil</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">        <span class="p">}</span>
-</span></span><span class="line"><span class="cl">    <span class="p">}</span>
-</span></span><span class="line"><span class="cl">    <span class="k">else</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">        <span class="c1">// 执行不到的逻辑，删掉
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="p">}</span>
-</span></span><span class="line"><span class="cl">        
-</span></span><span class="line"><span class="cl">    <span class="n">table</span><span class="o">-&gt;</span><span class="n">unlock</span><span class="p">();</span>
-</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">result</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="n">ALWAYS_INLINE</span> <span class="kt">bool</span> 
-</span></span><span class="line"><span class="cl"><span class="n">objc_object</span><span class="o">::</span><span class="n">rootTryRetain</span><span class="p">()</span>
-</span></span><span class="line"><span class="cl"><span class="p">{</span>
-</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="nf">rootRetain</span><span class="p">(</span><span class="nb">true</span><span class="p">,</span> <span class="n">RRVariant</span><span class="o">::</span><span class="n">Fast</span><span class="p">)</span> <span class="o">?</span> <span class="nb">true</span> <span class="o">:</span> <span class="nb">false</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="n">ALWAYS_INLINE</span> <span class="n">id</span>
-</span></span><span class="line"><span class="cl"><span class="n">objc_object</span><span class="o">::</span><span class="n">rootRetain</span><span class="p">(</span><span class="kt">bool</span> <span class="n">tryRetain</span><span class="p">,</span> <span class="n">objc_object</span><span class="o">::</span><span class="n">RRVariant</span> <span class="n">variant</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl"><span class="p">{</span>
-</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="n">slowpath</span><span class="p">(</span><span class="n">isTaggedPointer</span><span class="p">()))</span> <span class="k">return</span> <span class="p">(</span><span class="n">id</span><span class="p">)</span><span class="k">this</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">    <span class="kt">bool</span> <span class="n">sideTableLocked</span> <span class="o">=</span> <span class="nb">false</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">    <span class="kt">bool</span> <span class="n">transcribeToSideTable</span> <span class="o">=</span> <span class="nb">false</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">    <span class="n">isa_t</span> <span class="n">oldisa</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">    <span class="n">isa_t</span> <span class="n">newisa</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">    <span class="n">oldisa</span> <span class="o">=</span> <span class="n">LoadExclusive</span><span class="p">(</span><span class="o">&amp;</span><span class="n">isa</span><span class="p">().</span><span class="n">bits</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">    <span class="c1">// ...
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
-</span></span><span class="line"><span class="cl">    <span class="k">do</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">        <span class="n">transcribeToSideTable</span> <span class="o">=</span> <span class="nb">false</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">        <span class="n">newisa</span> <span class="o">=</span> <span class="n">oldisa</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">        <span class="c1">// 关键逻辑：
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="c1">// 如果正在释放中，并且tryRetain=true，则返回nil
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="c1">// don&#39;t check newisa.fast_rr; we already called any RR overrides
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="k">if</span> <span class="p">(</span><span class="n">slowpath</span><span class="p">(</span><span class="n">newisa</span><span class="p">.</span><span class="n">isDeallocating</span><span class="p">()))</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">            <span class="n">ClearExclusive</span><span class="p">(</span><span class="o">&amp;</span><span class="n">isa</span><span class="p">().</span><span class="n">bits</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">            <span class="k">if</span> <span class="p">(</span><span class="n">sideTableLocked</span><span class="p">)</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">                <span class="n">ASSERT</span><span class="p">(</span><span class="n">variant</span> <span class="o">==</span> <span class="n">RRVariant</span><span class="o">::</span><span class="n">Full</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">                <span class="n">sidetable_unlock</span><span class="p">();</span>
-</span></span><span class="line"><span class="cl">            <span class="p">}</span>
-</span></span><span class="line"><span class="cl">            <span class="k">if</span> <span class="p">(</span><span class="n">slowpath</span><span class="p">(</span><span class="n">tryRetain</span><span class="p">))</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">                <span class="k">return</span> <span class="n">nil</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">            <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">                <span class="k">return</span> <span class="p">(</span><span class="n">id</span><span class="p">)</span><span class="k">this</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">            <span class="p">}</span>
-</span></span><span class="line"><span class="cl">        <span class="p">}</span>
-</span></span><span class="line"><span class="cl">        <span class="n">uintptr_t</span> <span class="n">carry</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">        <span class="n">newisa</span><span class="p">.</span><span class="n">bits</span> <span class="o">=</span> <span class="n">addc</span><span class="p">(</span><span class="n">newisa</span><span class="p">.</span><span class="n">bits</span><span class="p">,</span> <span class="n">RC_ONE</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">carry</span><span class="p">);</span>  <span class="c1">// extra_rc++
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
-</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="p">(</span><span class="n">slowpath</span><span class="p">(</span><span class="n">carry</span><span class="p">))</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">            <span class="c1">// newisa.extra_rc++ overflowed
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>            <span class="k">if</span> <span class="p">(</span><span class="n">variant</span> <span class="o">!=</span> <span class="n">RRVariant</span><span class="o">::</span><span class="n">Full</span><span class="p">)</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">                <span class="n">ClearExclusive</span><span class="p">(</span><span class="o">&amp;</span><span class="n">isa</span><span class="p">().</span><span class="n">bits</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">                <span class="k">return</span> <span class="nf">rootRetain_overflow</span><span class="p">(</span><span class="n">tryRetain</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">            <span class="p">}</span>
-</span></span><span class="line"><span class="cl">            <span class="c1">// Leave half of the retain counts inline and 
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>            <span class="c1">// prepare to copy the other half to the side table.
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>            <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">tryRetain</span> <span class="o">&amp;&amp;</span> <span class="o">!</span><span class="n">sideTableLocked</span><span class="p">)</span> <span class="n">sidetable_lock</span><span class="p">();</span>
-</span></span><span class="line"><span class="cl">            <span class="n">sideTableLocked</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">            <span class="n">transcribeToSideTable</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">            <span class="n">newisa</span><span class="p">.</span><span class="n">extra_rc</span> <span class="o">=</span> <span class="n">RC_HALF</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">            <span class="n">newisa</span><span class="p">.</span><span class="n">has_sidetable_rc</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">        <span class="p">}</span>
-</span></span><span class="line"><span class="cl">    <span class="p">}</span> <span class="k">while</span> <span class="p">(</span><span class="n">slowpath</span><span class="p">(</span><span class="o">!</span><span class="n">StoreExclusive</span><span class="p">(</span><span class="o">&amp;</span><span class="n">isa</span><span class="p">().</span><span class="n">bits</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">oldisa</span><span class="p">.</span><span class="n">bits</span><span class="p">,</span> <span class="n">newisa</span><span class="p">.</span><span class="n">bits</span><span class="p">)));</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="n">variant</span> <span class="o">==</span> <span class="n">RRVariant</span><span class="o">::</span><span class="n">Full</span><span class="p">)</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="p">(</span><span class="n">slowpath</span><span class="p">(</span><span class="n">transcribeToSideTable</span><span class="p">))</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">            <span class="c1">// Copy the other half of the retain counts to the side table.
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>            <span class="n">sidetable_addExtraRC_nolock</span><span class="p">(</span><span class="n">RC_HALF</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">        <span class="p">}</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="p">(</span><span class="n">slowpath</span><span class="p">(</span><span class="o">!</span><span class="n">tryRetain</span> <span class="o">&amp;&amp;</span> <span class="n">sideTableLocked</span><span class="p">))</span> <span class="n">sidetable_unlock</span><span class="p">();</span>
-</span></span><span class="line"><span class="cl">    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">        <span class="n">ASSERT</span><span class="p">(</span><span class="o">!</span><span class="n">transcribeToSideTable</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">        <span class="n">ASSERT</span><span class="p">(</span><span class="o">!</span><span class="n">sideTableLocked</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">    <span class="p">}</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="p">(</span><span class="n">id</span><span class="p">)</span><span class="k">this</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span></code></pre></td></tr></table>
-</div>
-</div><p>既然没释放，那我们怎么拿到这个对象呢？通过<code>unsafe_unretained</code>或者<code>assign</code>标记就可以获取到了。</p>
-<h3 id="对象释放流程">对象释放流程</h3>
-<p>调用<code>release</code> -&gt; <code>rootRelease</code>，引用计数<code>-1</code>，当引用计数变为<code>0</code>时，就会通过<code>objc_msgSend</code>调用<code>Objective-C</code>对象的<code>dealloc</code>方法，然后进入到<code>objc_object::rootDealloc()</code>函数，函数内部会读取当前对象的<code>isa</code>中存储的信息，包括是否是非指针、有没有弱引用、成员变量、关联对象、<code>has_sidetable_rc</code>，如果都没有会直接释放（<code>free</code>），否则会执行<code>objc_destructInstance(obj)</code>，这个函数的逻辑为先释放成员变量，接着移除关联对象，再移除弱引用，把弱引用指针置为<code>nil</code>，最后再从<code>SideTable</code>的<code>RefcountMap refcnts</code>成员变量中 把存储当前对象引用计数的记录（<code>key-value</code>）从引用计数表中移除，类似于从字典中把这条<code>key-value</code>都删除（疑问：此时引用计数已经是0了，那最后这个引用计数表的处理是不是多余的，什么情况下会执行进来？？？）。</p>
-<p>在<code>dealloc</code>方法中如果有对<code>self</code>的引用，比如<code>- (void)dealloc { id obj = self; }</code>，是不会发生引用计数<code>+1</code>的，<code>runtime</code>处理如下：</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span><span class="lnt">11
-</span><span class="lnt">12
-</span><span class="lnt">13
-</span><span class="lnt">14
-</span><span class="lnt">15
-</span><span class="lnt">16
-</span><span class="lnt">17
-</span><span class="lnt">18
-</span><span class="lnt">19
-</span><span class="lnt">20
-</span><span class="lnt">21
-</span><span class="lnt">22
-</span><span class="lnt">23
-</span><span class="lnt">24
-</span><span class="lnt">25
-</span><span class="lnt">26
-</span><span class="lnt">27
-</span><span class="lnt">28
-</span><span class="lnt">29
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="c1">// 是否正在释放
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kt">bool</span> <span class="nf">isDeallocating</span><span class="p">()</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">extra_rc</span> <span class="o">==</span> <span class="mi">0</span> <span class="o">&amp;&amp;</span> <span class="n">has_sidetable_rc</span> <span class="o">==</span> <span class="mi">0</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="c1">// retain最终执行的函数
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">ALWAYS_INLINE</span> <span class="n">id</span>
-</span></span><span class="line"><span class="cl"><span class="n">objc_object</span><span class="o">::</span><span class="n">rootRetain</span><span class="p">(</span><span class="kt">bool</span> <span class="n">tryRetain</span><span class="p">,</span> <span class="n">objc_object</span><span class="o">::</span><span class="n">RRVariant</span> <span class="n">variant</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl"><span class="p">{</span>
-</span></span><span class="line"><span class="cl">    <span class="c1">// 省略代码
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="p">...</span> 
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">    <span class="c1">// 在dealloc中这里的执行结果是true
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="k">if</span> <span class="p">(</span><span class="n">slowpath</span><span class="p">(</span><span class="n">newisa</span><span class="p">.</span><span class="n">isDeallocating</span><span class="p">()))</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">        <span class="n">ClearExclusive</span><span class="p">(</span><span class="o">&amp;</span><span class="n">isa</span><span class="p">.</span><span class="n">bits</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="p">(</span><span class="n">sideTableLocked</span><span class="p">)</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">            <span class="n">ASSERT</span><span class="p">(</span><span class="n">variant</span> <span class="o">==</span> <span class="n">RRVariant</span><span class="o">::</span><span class="n">Full</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">            <span class="n">sidetable_unlock</span><span class="p">();</span>
-</span></span><span class="line"><span class="cl">        <span class="p">}</span>
-</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="p">(</span><span class="n">slowpath</span><span class="p">(</span><span class="n">tryRetain</span><span class="p">))</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">            <span class="k">return</span> <span class="n">nil</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">        <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">            <span class="k">return</span> <span class="p">(</span><span class="n">id</span><span class="p">)</span><span class="k">this</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">        <span class="p">}</span>
-</span></span><span class="line"><span class="cl">    <span class="p">}</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">    <span class="c1">// 省略代码
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="p">...</span>
-</span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span></code></pre></td></tr></table>
-</div>
-</div><h2 id="weak">Weak</h2>
-<p><code>weak_table_t</code> 是全局保存弱引用的哈希表，它是通过对<code>object</code>地址做<code>hash</code>计算，然后从<code>8</code>个<code>SideTable</code>数组中取出其中一张，然后再从<code>SideTable</code>中读取到<code>weak_table</code>。<code>weak_table_t</code> 是以 <code>object</code> 地址为 <code>key</code>，以 <code>weak_entry_t</code> 为 <code>value</code>。</p>
-<p><code>weak_entry_t</code> 是用来存储所有指向某个对象的弱引用变量的地址的，里面有个<code>weak_referrer_t</code>数组，它存储的其实是弱引用的指针，即指针的指针，这么做的目的是可以把弱引用置为<code>nil</code>。</p>
-<p><code>weak_entry_t</code> 中有<code>2</code>种结构，当存储的弱引用数量<code>&lt;= 4</code>个的时候用的其实是个定长数组，<code>&gt; 4</code>的时候才会转为哈希数组。（这里使用哈希数组的原因应该是为了处理B弱引用A，然后B先释放了，这时那个弱引用可能也要置为nil，用hash数组的话查询速度会比较快）。往<code>weak_entry_t</code> 中添加弱引用变量时，即更新<code>weak_referrer_t</code>采用的是定向寻址法；</p>
-<p>往<code>weak_table</code> 中插入<code>weak_entry_t</code>时，先是对<code>object</code>地址取<code>hash</code>作为它的<code>index</code>，如果这个<code>index</code>下的位置不为空，则通过一个算法（<code>index = (index+1) &amp; weak_table-&gt;mask</code>）重新计算生成一个新的<code>index</code>再读取对应的位置，直到找到一个空位置，然后把<code>weak_entry_t</code>放进去，同时更新元素数量。这种插入方式其实也是定向寻址法。</p>
-<blockquote>
-<p>hash 函数，与 mask 做与操作，防止 index 越界;</p>
-</blockquote>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="n">size_t</span> <span class="n">begin</span> <span class="o">=</span> <span class="n">hash_pointer</span><span class="p">(</span><span class="n">referent</span><span class="p">)</span> <span class="o">&amp;</span> <span class="n">weak_table</span><span class="o">-&gt;</span><span class="n">mask</span><span class="p">;</span>
-</span></span></code></pre></td></tr></table>
-</div>
-</div><p><figure><a class="lightgallery" href="/images/opensource/ios/Runtime_WeakHashInsert.png" title="weak_hash_insert" data-thumbnail="/images/opensource/ios/Runtime_WeakHashInsert.png" data-sub-html="<h2>weak_hash_insert</h2><p>weak_hash_insert</p>">
-        <img
-            class="lazyload"
-            src="/svg/loading.min.svg"
-            data-src="/images/opensource/ios/Runtime_WeakHashInsert.png"
-            data-srcset="/images/opensource/ios/Runtime_WeakHashInsert.png, /images/opensource/ios/Runtime_WeakHashInsert.png 1.5x, /images/opensource/ios/Runtime_WeakHashInsert.png 2x"
-            data-sizes="auto"
-            alt="/images/opensource/ios/Runtime_WeakHashInsert.png" />
-    </a><figcaption class="image-caption">weak_hash_insert</figcaption>
-    </figure></p>
-<p><code>weak_table_t</code> 还有一个扩容和缩容的处理，当前使用容量占到总容量（<code>mask + 1</code>)的 3/4<code> 的时候会进行扩容处理，扩大到现有总容量的</code>2<code>倍。 当总容量超过</code>1024<code>，而实际使用的空间低于总空间的 </code>1/16<code> 时则会进行容量压缩，缩到现有总容量的</code>1/8<code> （为什么是八分之一？是为了保证总容量是现有使用容量的</code>2`倍）。</p>
-<h2 id="synchronized原理">@synchronized原理</h2>
-<ol>
-<li>
-<p>先从当前线程的<code>TLS</code>中尝试获取<code>SyncData</code>（本身是个单向链表），如果存在并且<code>SyncData</code>中的<code>object</code>与传进来的<code>object</code>相同，则说明找到对应的<code>SyncData</code>了。更新锁数量（<code>lockCount</code>），并返回<code>SyncData</code>。</p>
-<p>（注意：一条线程的<code>TLS</code>中只能存唯一一个<code>SyncData</code>，假如已经存在了但是<code>object</code>并不与自己传进来的一致，则创建新的<code>SyncData</code>后并不会更新到<code>TLS</code>中，而是保存到 <code>pthread_data</code> 中，有点先入为主的意思）</p>
-</li>
-<li>
-<p>从<code>pthread_data</code>中获取<code>SyncCache</code>（里面存着一个<code>SyncCacheItem</code>数组，<code>SyncCacheItem</code>存的是<code>SyncData</code>），如果存在则遍历<code>SyncCacheItem</code>数组，如果<code>cacheItem</code>中的<code>syncData</code>中的<code>object</code>与传进来的<code>object</code>相同，则更新 <code>item-&gt;lockCount</code> ，然后返回<code>SyncData</code>。</p>
-</li>
-<li>
-<p>走到这里就说明没有从<code>thread cache</code>中找到合适的<code>SyncData</code>。这时就会从全局<code>StripMap&lt;SyncList&gt; sDataLists</code> 表中读取，先通过对象<code>object</code>的<code>hash</code>值取出一个<code>SyncList</code>，接着拿到<code>SyncList</code>中的<code>SyncData</code>链表，然后遍历整个链表。</p>
-<p>a. 如果发现与<code>object</code>匹配的<code>SyncData</code>则更新<code>SyncData</code>中的<code>threadCount</code>数量，然后把找到的这个<code>SyncData</code>保存到<code>TLS</code>或者<code>pthread_data</code>中的<code>SyncCache</code>里面；</p>
-<p>b. 如果遍历到最后也没发现匹配的，则找到链表中第一个未使用（<code>SyncData</code>中的<code>threadCount = 0</code>）的<code>SyncData</code>，进行复用。这个<code>SyncData</code>也会和上面一样进行缓存；</p>
-<p>c. 如果没找到匹配的，也没找到未使用的，则创建一个新的<code>SyncData</code>。这个新的<code>SyncData</code>会先保存到<code>SyncList</code>中，然后也会和上面一样保存到<code>TLS</code>或者<code>pthread_data</code>中一份，即新创建的有2份缓存。</p>
-<p><figure><a class="lightgallery" href="/images/opensource/ios/Runtime_Synchronized.png" title="@synchronized关系图" data-thumbnail="/images/opensource/ios/Runtime_Synchronized.png" data-sub-html="<h2>synchronized</h2><p>@synchronized关系图</p>">
-        <img
-            class="lazyload"
-            src="/svg/loading.min.svg"
-            data-src="/images/opensource/ios/Runtime_Synchronized.png"
-            data-srcset="/images/opensource/ios/Runtime_Synchronized.png, /images/opensource/ios/Runtime_Synchronized.png 1.5x, /images/opensource/ios/Runtime_Synchronized.png 2x"
-            data-sizes="auto"
-            alt="/images/opensource/ios/Runtime_Synchronized.png" />
-    </a><figcaption class="image-caption">synchronized</figcaption>
-    </figure></p>
-</li>
-</ol>
-<h2 id="associate-原理">Associate 原理</h2>
-<p>所有的关联对象都是由<code>AssociationsManager</code>管理的，<code>AssociationsManager</code>里面是由一个静态<code>AssociationsHashMap</code>来存储所有的关联对象。这相当于把所有对象的关联对象都存在一个全局<code>hashMap</code>里面，<code>hashMap</code>的<code>key</code>是这个对象的<code>指针地址</code>（任意两个不同对象的指针地址一定是不同的），而这个<code>hashMap</code>的<code>value</code>又是一个<code>ObjectAssociationsMap</code>，里面保存了关联对象的<code>key</code>和对应的<code>value</code>值。<code>runtime</code>的销毁对象函数<code>objc_destructInstance</code>里面会判断这个对象有没有关联对象，如果有会调用<code>_object_remove_assocations</code>做关联对象的清理工作。</p>
-<p>在<code>set</code>和<code>get</code>时，即对内部的<code>map</code>进行操作时都会用<code>manager</code>中的<code>spinlock</code>（底层其实还是<code>unfair_lock</code>），所以<code>set</code>、<code>get</code>时一般情况下是线程安全的。但是可能是为了追求性能，<code>set</code>时把旧对象的释放放到了锁外，<code>atomic get</code>时为了保证线程安全，会<code>retain</code>一下访问对象，在锁外又<code>autorelease</code>了一下，如果不执行<code>retain</code>操作可能会出现数据竞争。可以参考下这篇文章: <a href="https://juejin.cn/post/7124943924308738061" target="_blank" rel="noopener noreffer ">AssociatedObject 源码分析：如何实现线程安全？</a></p>
-<p><figure><a class="lightgallery" href="/images/opensource/ios/Runtime_Associate.png" title="Associate" data-thumbnail="/images/opensource/ios/Runtime_Associate.png" data-sub-html="<h2>Associate</h2><p>Associate</p>">
-        <img
-            class="lazyload"
-            src="/svg/loading.min.svg"
-            data-src="/images/opensource/ios/Runtime_Associate.png"
-            data-srcset="/images/opensource/ios/Runtime_Associate.png, /images/opensource/ios/Runtime_Associate.png 1.5x, /images/opensource/ios/Runtime_Associate.png 2x"
-            data-sizes="auto"
-            alt="/images/opensource/ios/Runtime_Associate.png" />
-    </a><figcaption class="image-caption">Associate</figcaption>
-    </figure></p>
-<hr>
-<h2 id="gcd">GCD</h2>
-<p>可创建的最大线程数是 <code>255</code></p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="n">thread_pool_size</span> <span class="o">=</span> <span class="n">DISPATCH_WORKQ_MAX_PTHREAD_COUNT</span>     <span class="mi">255</span> 
-</span></span></code></pre></td></tr></table>
-</div>
-</div><ol>
-<li>
-<p>自定义串行队列是<code>overcommit</code>的，并行队列不是<code>overcommit</code>的</p>
-</li>
-<li>
-<p>自定义队列的目标队列在初始化时传参为<code>NULL</code>，然后会为其从<code>_dispatch_root_queues</code> 中获取一个根目标队列；当 <code>tq</code> 为 <code>NULL</code>，即入参目标队列为 <code>DISPATCH_TARGET_QUEUE_DEFAULT</code>（值是<code> NULL</code>） 时， 根据 <code>qos</code> 和 <code>overcommit</code> 从 <code>_dispatch_root_queues</code> 全局的根队列数组中获取一个根队列作为新队列的目标队列</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">tq</span><span class="p">)</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">    <span class="n">tq</span> <span class="o">=</span> <span class="n">_dispatch_get_root_queue</span><span class="p">(</span>
-</span></span><span class="line"><span class="cl">            <span class="n">qos</span> <span class="o">==</span> <span class="n">DISPATCH_QOS_UNSPECIFIED</span> <span class="o">?</span> <span class="nl">DISPATCH_QOS_DEFAULT</span> <span class="p">:</span> <span class="n">qos</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">            <span class="n">overcommit</span> <span class="o">==</span> <span class="n">_dispatch_queue_attr_overcommit_enabled</span><span class="p">)</span><span class="o">-&gt;</span><span class="n">_as_dq</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="n">unlikely</span><span class="p">(</span><span class="o">!</span><span class="n">tq</span><span class="p">))</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">        <span class="c1">// 如果未取得目标队列则 crash
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="n">DISPATCH_CLIENT_CRASH</span><span class="p">(</span><span class="n">qos</span><span class="p">,</span> <span class="s">&#34;Invalid queue attribute&#34;</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">    <span class="p">}</span>
-</span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span></code></pre></td></tr></table>
-</div>
-</div></li>
-</ol>
-<hr>
-<h4 id="dispatch_sync">dispatch_sync</h4>
-<p>a. 首先将任务加入队列</p>
-<p>b. 执行任务<code>block</code></p>
-<p>c. 将任务移出队列</p>
-<p>d. <code>sync</code>里面的处理最终执行的是<code>barrier</code>的内部函数</p>
-<p>e. 会死锁的原因：执行时会检查当前线程的状态（是否正在等待），然后与当前的线程的<code>ID</code>（<code>_dispatch_tid_self()</code>）做比较，相等的话则判定为死锁。（相关处理在 <code>__DISPATCH_WAIT_FOR_QUEUE__</code> 函数中）</p>
-<hr>
-<h4 id="dispatch_async">dispatch_async</h4>
-<p>a. 将异步任务（<code>dispatch_queue 、 block</code>）封装为 <code>dispatch_continuation_t</code> 类型</p>
-<p>b. 然后执行 <code>_dispatch_continuation_async -&gt; dx_push</code>递归重定向到根队列，然后执行<code>_dispatch_root_queue_poke</code>进行出队操作，通过创建线程执行 <code>dx_invoke</code> 执行<code>block</code>回调；</p>
-<hr>
-<h4 id="dispatch_barrier_async">dispatch_barrier_async</h4>
-<p>a. 和<code>dispatch_async</code> 流程一样，只是里面有一个<code>while</code>循环，等队列中的<code>barrier</code>前面的任务执行完，才执行后面的；</p>
-<p>b. 这里有个优化是：封装成 <code>dispatch_continuation_s</code> 结构时，会先从当前线程的<code>TLS</code>中获取一下，获取不到再从堆上创建新的</p>
-<hr>
-<h4 id="dispatch_group">dispatch_group</h4>
-<p>a. <code>dispatch_group</code>内部维护着一个数值，初始值为<code>0</code>，<code>enter</code>时减<code>4</code>，<code>leave</code>时加<code>4</code>   <a href="https://juejin.cn/post/6902346229868019719#heading-4" target="_blank" rel="noopener noreffer ">https://juejin.cn/post/6902346229868019719#heading-4</a></p>
-<p>b. 等待用的是<code>while</code>循环，而不是信号量</p>
-<hr>
-<h4 id="dispatch_semaphore_t">dispatch_semaphore_t</h4>
-<p>a. <code>dispatch_semaphore_wait</code> 时里面其实是起了一个<code>do-while</code> 循环，不断的去查询原子变量的值，不满足条件时会一直循环，借此阻塞流程的进行。有点像<code>dispatch_once</code></p>
-<hr>
-<h4 id="dispatch_group_async">dispatch_group_async</h4>
-<p>内部其实是对<code>dispatch_async</code> 和 <code>dispatch_group_enter / dispatch_group_leave</code> 的封装</p>
-<hr>
-<h4 id="线程池复用原理">线程池复用原理</h4>
-<p>线程创建后从队列里取出任务执行，任务执行后使用信号量使其等待<code>5</code>秒钟，如果在这期间再有<code>GCD</code>任务过来，会先尝试唤醒线程，让它继续工作，否则等待超时后线程会自动结束，被系统销毁。（不是<code>tableview</code>中的复用池机制）</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span><span class="lnt">11
-</span><span class="lnt">12
-</span><span class="lnt">13
-</span><span class="lnt">14
-</span><span class="lnt">15
-</span><span class="lnt">16
-</span><span class="lnt">17
-</span><span class="lnt">18
-</span><span class="lnt">19
-</span><span class="lnt">20
-</span><span class="lnt">21
-</span><span class="lnt">22
-</span><span class="lnt">23
-</span><span class="lnt">24
-</span><span class="lnt">25
-</span><span class="lnt">26
-</span><span class="lnt">27
-</span><span class="lnt">28
-</span><span class="lnt">29
-</span><span class="lnt">30
-</span><span class="lnt">31
-</span><span class="lnt">32
-</span><span class="lnt">33
-</span><span class="lnt">34
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="k">static</span> <span class="kt">void</span> <span class="o">*</span>
-</span></span><span class="line"><span class="cl"><span class="nf">_dispatch_worker_thread</span><span class="p">(</span><span class="kt">void</span> <span class="o">*</span><span class="n">context</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl"><span class="p">{</span>
-</span></span><span class="line"><span class="cl">    <span class="c1">//////////////////////////////////
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="c1">// 删减了部分代码
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="c1">//////////////////////////////////
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
-</span></span><span class="line"><span class="cl">	<span class="n">dispatch_queue_global_t</span> <span class="n">dq</span> <span class="o">=</span> <span class="n">context</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">	<span class="n">dispatch_pthread_root_queue_context_t</span> <span class="n">pqc</span> <span class="o">=</span> <span class="n">dq</span><span class="o">-&gt;</span><span class="n">do_ctxt</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">    <span class="kt">int</span> <span class="n">pending</span> <span class="o">=</span> <span class="n">os_atomic_dec2o</span><span class="p">(</span><span class="n">dq</span><span class="p">,</span> <span class="n">dgq_pending</span><span class="p">,</span> <span class="n">relaxed</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">    <span class="c1">// 线程存活5秒钟
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="k">const</span> <span class="kt">int64_t</span> <span class="n">timeout</span> <span class="o">=</span> <span class="mi">5ull</span> <span class="o">*</span> <span class="n">NSEC_PER_SEC</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">	<span class="n">pthread_priority_t</span> <span class="n">pp</span> <span class="o">=</span> <span class="n">_dispatch_get_priority</span><span class="p">();</span>
-</span></span><span class="line"><span class="cl">	<span class="n">dispatch_priority_t</span> <span class="n">pri</span> <span class="o">=</span> <span class="n">dq</span><span class="o">-&gt;</span><span class="n">dq_priority</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">    <span class="c1">// 从队列中取出任务执行，执行完后等待5秒钟
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="c1">// 如果5秒后没有被唤醒则进入超时逻辑，队列释放，线程退出
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="k">do</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">        <span class="c1">// 任务执行
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>		<span class="n">_dispatch_root_queue_drain</span><span class="p">(</span><span class="n">dq</span><span class="p">,</span> <span class="n">pri</span><span class="p">,</span> <span class="n">DISPATCH_INVOKE_REDIRECTING_DRAIN</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">		<span class="n">_dispatch_reset_priority_and_voucher</span><span class="p">(</span><span class="n">pp</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">	<span class="p">}</span> <span class="k">while</span> <span class="p">(</span><span class="n">dispatch_semaphore_wait</span><span class="p">(</span><span class="o">&amp;</span><span class="n">pqc</span><span class="o">-&gt;</span><span class="n">dpq_thread_mediator</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">			<span class="n">dispatch_time</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">timeout</span><span class="p">))</span> <span class="o">==</span> <span class="mi">0</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="cp">#if DISPATCH_USE_INTERNAL_WORKQUEUE
-</span></span></span><span class="line"><span class="cl"><span class="cp"></span>	<span class="k">if</span> <span class="p">(</span><span class="n">monitored</span><span class="p">)</span> <span class="n">_dispatch_workq_worker_unregister</span><span class="p">(</span><span class="n">dq</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl"><span class="cp">#endif
-</span></span></span><span class="line"><span class="cl"><span class="cp"></span>	<span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">os_atomic_inc2o</span><span class="p">(</span><span class="n">dq</span><span class="p">,</span> <span class="n">dgq_thread_pool_size</span><span class="p">,</span> <span class="n">release</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">	<span class="n">_dispatch_root_queue_poke</span><span class="p">(</span><span class="n">dq</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">	<span class="n">_dispatch_release</span><span class="p">(</span><span class="n">dq</span><span class="p">);</span> <span class="c1">// retained in _dispatch_root_queue_poke_slow
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="k">return</span> <span class="nb">NULL</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span></code></pre></td></tr></table>
-</div>
-</div><hr>
-<h4 id="dispatch_once">dispatch_once</h4>
-<p><code>dispatch_once</code>函数中的<code>token</code> (<code>dispatch_once_t</code>) 会被强转为<code>dispatch_once_gate_t</code>类型，而<code>dispatch_once_gate_t</code>里面是个<code>union</code>联合体类型，其中<code>dgo_once</code>用来记录当前<code>block</code>的执行状态，执行完后状态会被标记为<code>DLOCK_ONCE_DONE</code>。</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span><span class="lnt">4
-</span><span class="lnt">5
-</span><span class="lnt">6
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="k">typedef</span> <span class="k">struct</span> <span class="nc">dispatch_once_gate_s</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">	<span class="k">union</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">		<span class="n">dispatch_gate_s</span> <span class="n">dgo_gate</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">		<span class="n">uintptr_t</span> <span class="n">dgo_once</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">	<span class="p">};</span>
-</span></span><span class="line"><span class="cl"><span class="p">}</span> <span class="n">dispatch_once_gate_s</span><span class="p">,</span> <span class="o">*</span><span class="n">dispatch_once_gate_t</span><span class="p">;</span>
-</span></span></code></pre></td></tr></table>
-</div>
-</div><p>我们首先获取<code>dgo_once</code>变量的值，如果是<code>DLOCK_ONCE_DONE</code>，则表示已经执行过了，直接return掉；
+<!doctype html><html lang=zh-cn><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=robots content="noodp"><title>iOS源码阅读笔记 - Zero.D.Saber</title><meta name=Description content="Hugo theme - LoveIt"><meta property="og:title" content="iOS源码阅读笔记"><meta property="og:description" content="Runtime AutoreleasePoolPage 、SideTableMap、AssociationsManager 是在map_images->map_images_nolock-"><meta property="og:type" content="article"><meta property="og:url" content="https://faimin.github.io/ios%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/"><meta property="og:image" content="https://faimin.github.io/logo/avatar.gif"><meta property="article:section" content="posts"><meta property="article:published_time" content="2022-06-09T17:06:35+08:00"><meta property="article:modified_time" content="2022-10-10T20:47:00+08:00"><meta property="og:site_name" content="Zero.D.Saber的小屋"><meta name=twitter:card content="summary_large_image"><meta name=twitter:image content="https://faimin.github.io/logo/avatar.gif"><meta name=twitter:title content="iOS源码阅读笔记"><meta name=twitter:description content="Runtime AutoreleasePoolPage 、SideTableMap、AssociationsManager 是在map_images->map_images_nolock-"><meta name=application-name content="LoveIt"><meta name=apple-mobile-web-app-title content="LoveIt"><meta name=theme-color content="#ffffff"><meta name=msapplication-TileColor content="#da532c"><link rel=icon href=/logo/avatar.gif><link rel=apple-touch-icon sizes=180x180 href=/apple-touch-icon.png><link rel=mask-icon href=/safari-pinned-tab.svg color=#5bbad5><link rel=manifest href=/site.webmanifest><link rel=canonical href=https://faimin.github.io/ios%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/><link rel=prev href=https://faimin.github.io/%E7%A8%8B%E5%BA%8F%E5%91%98%E7%9A%84%E8%87%AA%E6%88%91%E4%BF%AE%E5%85%BB%E7%AC%94%E8%AE%B0/><link rel=next href=https://faimin.github.io/swift%E8%A7%A3%E6%83%91/><link rel=stylesheet href=/css/style.min.css><link rel=preload href=https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css as=style onload='this.onload=null,this.rel="stylesheet"'><noscript><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css></noscript><link rel=preload href=https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css as=style onload='this.onload=null,this.rel="stylesheet"'><noscript><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css></noscript><script type=application/ld+json>{"@context":"http://schema.org","@type":"BlogPosting","headline":"iOS源码阅读笔记","inLanguage":"zh-CN","mainEntityOfPage":{"@type":"WebPage","@id":"https:\/\/faimin.github.io\/ios%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0\/"},"image":["https:\/\/faimin.github.io\/images\/Apple-Devices-Preview.png"],"genre":"posts","keywords":"iOS, runtime","wordcount":9281,"url":"https:\/\/faimin.github.io\/ios%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0\/","datePublished":"2022-06-09T17:06:35+08:00","dateModified":"2022-10-10T20:47:00+08:00","license":"This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher":{"@type":"Organization","name":"Zero.D.Saber","logo":"https:\/\/faimin.github.io\/images\/avatar.png"},"author":{"@type":"Person","name":"Zero.D.Saber"},"description":""}</script></head><body data-header-desktop=fixed data-header-mobile=auto><script type=text/javascript>(window.localStorage&&localStorage.getItem("theme")?localStorage.getItem("theme")==="dark":"auto"==="auto"?window.matchMedia("(prefers-color-scheme: dark)").matches:"auto"==="dark")&&document.body.setAttribute("theme","dark")</script><div id=mask></div><div class=wrapper><header class=desktop id=header-desktop><div class=header-wrapper><div class=header-title><a href=/ title=Zero.D.Saber>Zero.D.Saber's Notes</a></div><div class=menu><div class=menu-inner><a class=menu-item href=/posts/>所有文章 </a><a class=menu-item href=/tags/>标签 </a><a class=menu-item href=/categories/>分类 </a><a class=menu-item href=/categories/documentation/>文档 </a><a class=menu-item href=/about/whoami>关于 </a><a class=menu-item href=https://github.com/faimin title=GitHub rel="noopener noreffer" target=_blank><i class='fab fa-github fa-fw' aria-hidden=true></i> </a><span class="menu-item delimiter"></span><span class="menu-item search" id=search-desktop>
+<input type=text placeholder=搜索文章标题或内容... id=search-input-desktop>
+<a href=javascript:void(0); class="search-button search-toggle" id=search-toggle-desktop title=搜索><i class="fas fa-search fa-fw" aria-hidden=true></i></a>
+<a href=javascript:void(0); class="search-button search-clear" id=search-clear-desktop title=清空><i class="fas fa-times-circle fa-fw" aria-hidden=true></i></a>
+<span class="search-button search-loading" id=search-loading-desktop><i class="fas fa-spinner fa-fw fa-spin" aria-hidden=true></i></span>
+</span><a href=javascript:void(0); class="menu-item theme-switch" title=切换主题><i class="fas fa-adjust fa-fw" aria-hidden=true></i>
+</a><a href=javascript:void(0); class="menu-item language" title=选择语言><i class="fa fa-globe" aria-hidden=true></i>
+<select class=language-select id=language-select-desktop onchange="location=this.value"><option value=/ios%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/ selected>简体中文</option></select></a></div></div></div></header><header class=mobile id=header-mobile><div class=header-container><div class=header-wrapper><div class=header-title><a href=/ title=Zero.D.Saber>Zero.D.Saber's Notes</a></div><div class=menu-toggle id=menu-toggle-mobile><span></span><span></span><span></span></div></div><div class=menu id=menu-mobile><div class=search-wrapper><div class="search mobile" id=search-mobile><input type=text placeholder=搜索文章标题或内容... id=search-input-mobile>
+<a href=javascript:void(0); class="search-button search-toggle" id=search-toggle-mobile title=搜索><i class="fas fa-search fa-fw" aria-hidden=true></i></a>
+<a href=javascript:void(0); class="search-button search-clear" id=search-clear-mobile title=清空><i class="fas fa-times-circle fa-fw" aria-hidden=true></i></a>
+<span class="search-button search-loading" id=search-loading-mobile><i class="fas fa-spinner fa-fw fa-spin" aria-hidden=true></i></span></div><a href=javascript:void(0); class=search-cancel id=search-cancel-mobile>取消</a></div><a class=menu-item href=/posts/ title>所有文章</a><a class=menu-item href=/tags/ title>标签</a><a class=menu-item href=/categories/ title>分类</a><a class=menu-item href=/categories/documentation/ title>文档</a><a class=menu-item href=/about/whoami title>关于</a><a class=menu-item href=https://github.com/faimin title=GitHub rel="noopener noreffer" target=_blank><i class='fab fa-github fa-fw' aria-hidden=true></i></a><a href=javascript:void(0); class="menu-item theme-switch" title=切换主题>
+<i class="fas fa-adjust fa-fw" aria-hidden=true></i>
+</a><a href=javascript:void(0); class=menu-item title=选择语言><i class="fa fa-globe fa-fw" aria-hidden=true></i>
+<select class=language-select onchange="location=this.value"><option value=/ios%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/ selected>简体中文</option></select></a></div></div></header><div class="search-dropdown desktop"><div id=search-dropdown-desktop></div></div><div class="search-dropdown mobile"><div id=search-dropdown-mobile></div></div><main class=main><div class=container><div class=toc id=toc-auto><h2 class=toc-title>目录</h2><div class=toc-content id=toc-content-auto></div></div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">iOS源码阅读笔记</h1><div class=post-meta><div class=post-meta-line><span class=post-author><a href=https://github.com/faimin title=Author target=_blank rel="noopener noreffer author" class=author><i class="fas fa-user-circle fa-fw" aria-hidden=true></i>Zero.D.Saber</a></span>&nbsp;<span class=post-category>收录于 <a href=/categories/%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/><i class="far fa-folder fa-fw" aria-hidden=true></i>实现原理</a></span></div><div class=post-meta-line><i class="far fa-calendar-alt fa-fw" aria-hidden=true></i>&nbsp;<time datetime=2022-06-09>2022-06-09</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden=true></i>&nbsp;约 9281 字&nbsp;
+<i class="far fa-clock fa-fw" aria-hidden=true></i>&nbsp;预计阅读 19 分钟&nbsp;<span id=/ios%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/ class=leancloud_visitors data-flag-title=iOS源码阅读笔记>
+<i class="far fa-eye fa-fw" aria-hidden=true></i>&nbsp;<span class=leancloud-visitors-count></span>&nbsp;次阅读
+</span>&nbsp;</div></div><div class="details toc" id=toc-static data-kept><div class="details-summary toc-title"><span>目录</span>
+<span><i class="details-icon fas fa-angle-right" aria-hidden=true></i></span></div><div class="details-content toc-content" id=toc-content-static><nav id=TableOfContents><ul><li><a href=#runtime>Runtime</a><ul><li><a href=#dyld加载流程>dyld加载流程</a><ul><li><ul><li><a href=#叙述一下>叙述一下：</a></li></ul></li></ul></li><li><a href=#类的加载>类的加载</a><ul><li><a href=#为什么category会覆盖原来的方法>为什么<code>category</code>会覆盖原来的方法？</a></li><li><a href=#类和category实现load对加载的影响>类和<code>category</code>实现<code>load</code>对加载的影响</a></li><li><a href=#为什么会有cleanmemory和dirtymemory呢>为什么会有CleanMemory和DirtyMemory呢？</a></li><li><a href=#为什么执行load方法时没有触发initialize>为什么执行<code>load</code>方法时没有触发<code>initialize</code>？</a></li><li><a href=#什么在对象释放过程中通过weak变量获取不到这个对象>什么在对象释放过程中通过<code>weak</code>变量获取不到这个对象？</a></li></ul></li><li><a href=#对象释放流程>对象释放流程</a></li></ul></li><li><a href=#weak>Weak</a></li><li><a href=#synchronized原理>@synchronized原理</a></li><li><a href=#associate-原理>Associate 原理</a></li><li><a href=#gcd>GCD</a><ul><li><ul><li><a href=#dispatch_sync>dispatch_sync</a></li><li><a href=#dispatch_async>dispatch_async</a></li><li><a href=#dispatch_barrier_async>dispatch_barrier_async</a></li><li><a href=#dispatch_group>dispatch_group</a></li><li><a href=#dispatch_semaphore_t>dispatch_semaphore_t</a></li><li><a href=#dispatch_group_async>dispatch_group_async</a></li><li><a href=#线程池复用原理>线程池复用原理</a></li><li><a href=#dispatch_once>dispatch_once</a></li><li><a href=#dispatch_source_merge_data>dispatch_source_merge_data</a></li></ul></li></ul></li><li><a href=#nstimer>NSTimer</a><ul><li><ul><li><a href=#timer添加到runloop的过程>timer添加到runloop的过程：</a></li><li><a href=#nstimer-不准时问题>NSTimer 不准时问题</a></li></ul></li></ul></li><li><a href=#推荐文章>推荐文章</a></li></ul></nav></div></div><div class=content id=content><h2 id=runtime>Runtime</h2><p><code>AutoreleasePoolPage</code> 、<code>SideTableMap</code>、<code>AssociationsManager</code> 是在<code>map_images->map_images_nolock->arr_init()</code> 函数中初始化的；</p><p>一个类最多能添加<code>64</code>个分类；</p><h3 id=dyld加载流程>dyld加载流程</h3><blockquote><p>引自飘云的<a href=https://www.dllhook.com/post/238.html target=_blank rel="noopener noreffer">dyld详解</a></p></blockquote><ul><li>第一步：设置运行环境</li><li>第二步：加载共享缓存</li><li>第三步：实例化主程序</li><li>第四步：加载插入的动态库</li><li>第五步：链接主程序</li><li>第六步：链接插入的动态库</li><li>第七步：执行弱符号绑定</li><li>第八步：执行初始化方法（runtime和类的加载是在这一步）</li><li>第九步：查找入口点并返回</li></ul><h5 id=叙述一下>叙述一下：</h5><ol><li>配置环境变量，开启共享缓存，接下来把主程序的可执行文件（<code>macho</code>）加载进内存，检测<code>macho</code>内的<code>magic</code>、<code>cpu</code>等属性以及兼容性，如果通过则创建一个<code>imageLoader</code>，然后插入动态库，链接主程序（加载进所有依赖库，然后<code>rebase</code>修正偏移、<code>rebind</code>绑定符号地址）和插入的动态库，然后弱符号绑定，接下来就是进入真正的初始化方法，如下图，当<code>dyld</code>加载到开始链接主程序的时候，递归调用<code>recursiveInitialization</code>函数；</li></ol><p><figure><a class=lightgallery href=/images/opensource/ios/Runtime_objc_init.png title=/images/opensource/ios/Runtime_objc_init.png data-thumbnail=/images/opensource/ios/Runtime_objc_init.png data-sub-html="<h2>_objc_init</h2>"><img class=lazyload src=/svg/loading.min.svg data-src=/images/opensource/ios/Runtime_objc_init.png data-srcset="/images/opensource/ios/Runtime_objc_init.png, /images/opensource/ios/Runtime_objc_init.png 1.5x, /images/opensource/ios/Runtime_objc_init.png 2x" data-sizes=auto alt=/images/opensource/ios/Runtime_objc_init.png></a><figcaption class=image-caption>_objc_init</figcaption></figure><figure><a class=lightgallery href=/images/opensource/ios/Runtime_recursiveInitialization.png title=/images/opensource/ios/Runtime_recursiveInitialization.png data-thumbnail=/images/opensource/ios/Runtime_recursiveInitialization.png data-sub-html="<h2>recursiveInitialization</h2>"><img class=lazyload src=/svg/loading.min.svg data-src=/images/opensource/ios/Runtime_recursiveInitialization.png data-srcset="/images/opensource/ios/Runtime_recursiveInitialization.png, /images/opensource/ios/Runtime_recursiveInitialization.png 1.5x, /images/opensource/ios/Runtime_recursiveInitialization.png 2x" data-sizes=auto alt=/images/opensource/ios/Runtime_recursiveInitialization.png></a><figcaption class=image-caption>recursiveInitialization</figcaption></figure></p><ol start=2><li>这个函数第一次执行，会走到 <code>doInitialization</code> -> <code>doModInitFunctions</code> -> l<code>ibSystemInitialized</code>，进行<code>libsystem</code>的初始化；</li><li><code>libsystem</code> 的初始化，它会调用起 <code>libdispatch_init</code>，<code>libdispatch</code> 的 <code>init</code> 会调用 <code>_os_object_init</code>，这个函数里面调用了 <code>_objc_init</code>；</li><li>_objc_init 中注册并保存了<code>map_images</code>、<code>load_images</code>、<code>unmap_image</code>函数地址；</li><li>注册完毕继续回到 <code>recursiveInitialization</code> 递归下一次调用，例如 <code>libobjc</code>，当 <code>libobjc</code> 来到 <code>recursiveInitialization</code> 调用时会触发<code>libsystem</code>，调用到<code>_objc_init</code>里注册好的回调函数进行调用，就来到了<code>libobjc</code>，调用<code>load_images</code>。</li></ol><h3 id=类的加载>类的加载</h3><ol><li><p><code>read_image</code>： 初始化<code>gdb_objc_realized_classes</code>表，容量是类总数量的 <code>4/3</code> 倍，这个表用来存放不在共享缓存中并且非懒加载类。接下来从<code>mach-o</code>中读取非懒加载类，把从<code>mach-o</code>中读取的类指针转换成类名，变成可识别的类（地址 -> 类名），然后加入前面创建的<code>gdb_objc_realized_classes</code> map表中（这个表的作用是在后面处理类有没有被正确的处理），同时也会加入 <code>allocatedClasses</code> 这个<code>set</code>表中（这个表是在 <code>_objc_init</code> 中的 <code>runtime_init</code> 函数中初始化的，存储的是已经初始化过的类）；总的来说，这一步就是把类读取到内存；</p></li><li><p>接下来就是重点方法<code>realizeClassWithoutSwift</code>：创建<code>rw</code>，把<code>ro</code>放到<code>rw</code>中（方法列表是在后面放的），递归执行<code>realizeClassWithoutSwift</code>，即递归设置<code>rw</code>；</p></li><li><p>设置类、父类和元类，其实就是生成一个双向链表；</p></li><li><p><code>methodizeClass</code> ： 获取<code>class</code>的<code>ro</code>中的<code>baseMethods</code>，通过<code>prepareMethodLists</code>函数进行方法升序排序，然后 <code>unttachedCategories::attachToClass</code> ，这里是重头戏， <code>attachToClass</code>中会执行<code>attachCategories</code>，在这里面会初始化<code>rwe</code>，在这过程中会把<code>ro</code>中的方法列表、属性列表、协议列表都复制到<code>rwe</code>中，然后接着会把<code>category</code>中的方法列表、属性列表、协议列表也会吸纳进去，此时类才算加载完成；</p></li><li><p>方法排序的这里有几个细节：在<code>methodizeClass</code>中首次从<code>class_ro_w</code>中拿到<code>basemethods</code>后就立即做了升序排序处理，而分类中的方法排序发生在<code>attachCategory</code>方法中，也就是说他们是分开各自独立排序的（疑问：没有整合到一起后再排序，那怎么用的二分查找？）。</p><blockquote><p>解答：</p><p>只有类和分类都实现<code>load</code>方法，才会存在<code>load_image</code>阶段分类方法整合到所属类的方法列表中的操作，也就是说只有类或者分类中实现<code>load</code>方法的情况，类的方法列表和分类方法都是直接在编译期存放在<code>class_ro_t</code>中的<code>baseMethods</code>中的；那这种情况怎么能保证分类方法在原始类方法前面的？这应该是编译器自己在编译期做的处理，让分类方法地址比原始类的方法地址要低。而对于二分查找，其实整合后的方法列表其实是个二维数组，内部存的是排好序的一维方法列表（<code>methodizeClass</code>阶段<code>preparemethod</code>进行方法排序），方法查找先是顺序遍历二维数组，再在有序的一维方法列表中进行二分查找。</p></blockquote></li><li><p>方法添加顺序：新建个数组，先把类中<code>class_ro_w</code> <code>basemethods</code>放到数组的后面，然后把分类方法放到数组前面</p></li></ol><h4 id=为什么category会覆盖原来的方法>为什么<code>category</code>会覆盖原来的方法？</h4><p>在<code>map_images</code>方法的 <code>attachCategories -> attachLists</code> 分类附加到原来的类的方法列表时，会先重新开辟一个新的数组，把原来的方法列表倒序遍历添加到新数组的后面，接着再正序遍历，把分类的方法添加到新数组的前面（方法列表的顺序与原来的顺序一致）；</p><p><figure><a class=lightgallery href=/images/opensource/ios/Runtime_AttackMethodLists.png title=methodLists data-thumbnail=/images/opensource/ios/Runtime_AttackMethodLists.png data-sub-html="<h2>methodLists</h2><p>methodLists</p>"><img class=lazyload src=/svg/loading.min.svg data-src=/images/opensource/ios/Runtime_AttackMethodLists.png data-srcset="/images/opensource/ios/Runtime_AttackMethodLists.png, /images/opensource/ios/Runtime_AttackMethodLists.png 1.5x, /images/opensource/ios/Runtime_AttackMethodLists.png 2x" data-sizes=auto alt=/images/opensource/ios/Runtime_AttackMethodLists.png></a><figcaption class=image-caption>methodLists</figcaption></figure></p><h4 id=类和category实现load对加载的影响>类和<code>category</code>实现<code>load</code>对加载的影响</h4><p>只有类和分类都实现<code>load</code>方法，才会发生在<code>load_image</code>阶段分类方法整合到所属类的方法列表中的操作; 只有类或者分类中实现<code>load</code>的时候，类的方法和分类方法都是直接在编译期存放到<code>class_ro_t</code>中的<code>baseMethods</code>中的。那这种情况怎么能保证分类方法在原始类方法前面的？这应该是编译器自己在编译期做的处理，让分类方法地址比原始类的方法地址要低（方法排序用的是升序排序）。</p><p>而对于类和分类都实现<code>load</code>的场景，即在<code>load_image</code>阶段把分类方法整合到类的方法列表中的情况是如何进行二分查找的呢？其实整合后的方法列表是个二维数组，内部存的是排好序的一维方法列表（<code>methodizeClass</code>阶段<code>preparemethod</code>进行的方法升序排序），方法查找时先是顺序遍历二维数组，再在有序的一维方法列表中进行二分查找。</p><p>综上所述，不要在类和分类中同时实现<code>load</code>方法也是提升启动速度的一个点，当然，不用<code>load</code>最好了。</p><h4 id=为什么会有cleanmemory和dirtymemory呢>为什么会有CleanMemory和DirtyMemory呢？</h4><ul><li><code>iOS</code>运行过程中会涉及对内存进行增删改查，为了防止对原始数据的修改，所以把原来的<code>CleanMemory</code> <code>copy</code>一份到<code>rw</code>中。</li><li>有了<code>rw</code>为什么还要<code>rwe</code>（脏内存）？因为不是所有的类加载进内存时需要进行动态的插入、删除，当我们添加一个属性、一个方法会对内存改动很大，对内存的消耗有一定影响，所以只要我们对类进行动态处理了（比如把<code>category</code>的方法、属性、协议合并到类中），就会生成一个<code>rwe</code>。</li></ul><h4 id=为什么执行load方法时没有触发initialize>为什么执行<code>load</code>方法时没有触发<code>initialize</code>？</h4><p>一定明确<code>initialize</code>是在首次发消息时才会触发，而<code>load</code>的执行是通过函数指针的方式调用的，没有走消息发送机制，所以不会触发<code>initialize</code>。</p><h4 id=什么在对象释放过程中通过weak变量获取不到这个对象>什么在对象释放过程中通过<code>weak</code>变量获取不到这个对象？</h4><p>在关联的场景中，比如<code>A</code>关联<code>B</code>，<code>B</code>弱持有<code>A</code>，<code>A</code>释放时会释放其关联的<code>B</code>，导致<code>B</code>的<code>dealloc</code>执行，然后我们在<code>B</code>的<code>dealloc</code>方法中通过<code>weak</code>变量读取<code>A</code>，却发现获取到的是<code>nil</code>（根据释放流程此时A还没有free掉），这是为什么？</p><p>分析如下：</p><p>读取<code>weak</code>变量时执行的是<code>objc_loadWeak</code>函数，内部执行大概流程为：<code>objc_loadWeak</code> -> <code>objc_loadWeakRetained</code> -> <code>obj->rootTryRetain()</code> -> <code>rootRetain(true, RRVariant::Fast)</code> ，在<code>rootRetain</code>中如果当前对象正在处于释放流程中，则返回<code>nil</code>。具体代码如下：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>  1
+</span><span class=lnt>  2
+</span><span class=lnt>  3
+</span><span class=lnt>  4
+</span><span class=lnt>  5
+</span><span class=lnt>  6
+</span><span class=lnt>  7
+</span><span class=lnt>  8
+</span><span class=lnt>  9
+</span><span class=lnt> 10
+</span><span class=lnt> 11
+</span><span class=lnt> 12
+</span><span class=lnt> 13
+</span><span class=lnt> 14
+</span><span class=lnt> 15
+</span><span class=lnt> 16
+</span><span class=lnt> 17
+</span><span class=lnt> 18
+</span><span class=lnt> 19
+</span><span class=lnt> 20
+</span><span class=lnt> 21
+</span><span class=lnt> 22
+</span><span class=lnt> 23
+</span><span class=lnt> 24
+</span><span class=lnt> 25
+</span><span class=lnt> 26
+</span><span class=lnt> 27
+</span><span class=lnt> 28
+</span><span class=lnt> 29
+</span><span class=lnt> 30
+</span><span class=lnt> 31
+</span><span class=lnt> 32
+</span><span class=lnt> 33
+</span><span class=lnt> 34
+</span><span class=lnt> 35
+</span><span class=lnt> 36
+</span><span class=lnt> 37
+</span><span class=lnt> 38
+</span><span class=lnt> 39
+</span><span class=lnt> 40
+</span><span class=lnt> 41
+</span><span class=lnt> 42
+</span><span class=lnt> 43
+</span><span class=lnt> 44
+</span><span class=lnt> 45
+</span><span class=lnt> 46
+</span><span class=lnt> 47
+</span><span class=lnt> 48
+</span><span class=lnt> 49
+</span><span class=lnt> 50
+</span><span class=lnt> 51
+</span><span class=lnt> 52
+</span><span class=lnt> 53
+</span><span class=lnt> 54
+</span><span class=lnt> 55
+</span><span class=lnt> 56
+</span><span class=lnt> 57
+</span><span class=lnt> 58
+</span><span class=lnt> 59
+</span><span class=lnt> 60
+</span><span class=lnt> 61
+</span><span class=lnt> 62
+</span><span class=lnt> 63
+</span><span class=lnt> 64
+</span><span class=lnt> 65
+</span><span class=lnt> 66
+</span><span class=lnt> 67
+</span><span class=lnt> 68
+</span><span class=lnt> 69
+</span><span class=lnt> 70
+</span><span class=lnt> 71
+</span><span class=lnt> 72
+</span><span class=lnt> 73
+</span><span class=lnt> 74
+</span><span class=lnt> 75
+</span><span class=lnt> 76
+</span><span class=lnt> 77
+</span><span class=lnt> 78
+</span><span class=lnt> 79
+</span><span class=lnt> 80
+</span><span class=lnt> 81
+</span><span class=lnt> 82
+</span><span class=lnt> 83
+</span><span class=lnt> 84
+</span><span class=lnt> 85
+</span><span class=lnt> 86
+</span><span class=lnt> 87
+</span><span class=lnt> 88
+</span><span class=lnt> 89
+</span><span class=lnt> 90
+</span><span class=lnt> 91
+</span><span class=lnt> 92
+</span><span class=lnt> 93
+</span><span class=lnt> 94
+</span><span class=lnt> 95
+</span><span class=lnt> 96
+</span><span class=lnt> 97
+</span><span class=lnt> 98
+</span><span class=lnt> 99
+</span><span class=lnt>100
+</span><span class=lnt>101
+</span><span class=lnt>102
+</span><span class=lnt>103
+</span><span class=lnt>104
+</span><span class=lnt>105
+</span><span class=lnt>106
+</span><span class=lnt>107
+</span><span class=lnt>108
+</span><span class=lnt>109
+</span><span class=lnt>110
+</span><span class=lnt>111
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-cpp data-lang=cpp><span class=line><span class=cl><span class=n>id</span>
+</span></span><span class=line><span class=cl><span class=nf>objc_loadWeakRetained</span><span class=p>(</span><span class=n>id</span> <span class=o>*</span><span class=n>location</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=n>id</span> <span class=n>obj</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=n>id</span> <span class=n>result</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=n>Class</span> <span class=n>cls</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=n>SideTable</span> <span class=o>*</span><span class=n>table</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    
+</span></span><span class=line><span class=cl> <span class=nl>retry</span><span class=p>:</span>
+</span></span><span class=line><span class=cl>    <span class=n>obj</span> <span class=o>=</span> <span class=o>*</span><span class=n>location</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=k>if</span> <span class=p>(</span><span class=n>_objc_isTaggedPointerOrNil</span><span class=p>(</span><span class=n>obj</span><span class=p>))</span> <span class=k>return</span> <span class=n>obj</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    
+</span></span><span class=line><span class=cl>    <span class=n>table</span> <span class=o>=</span> <span class=o>&amp;</span><span class=n>SideTables</span><span class=p>()[</span><span class=n>obj</span><span class=p>];</span>
+</span></span><span class=line><span class=cl>    
+</span></span><span class=line><span class=cl>    <span class=n>table</span><span class=o>-&gt;</span><span class=n>lock</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>    <span class=k>if</span> <span class=p>(</span><span class=o>*</span><span class=n>location</span> <span class=o>!=</span> <span class=n>obj</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=n>table</span><span class=o>-&gt;</span><span class=n>unlock</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>        <span class=k>goto</span> <span class=n>retry</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>    
+</span></span><span class=line><span class=cl>    <span class=n>result</span> <span class=o>=</span> <span class=n>obj</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=n>cls</span> <span class=o>=</span> <span class=n>obj</span><span class=o>-&gt;</span><span class=n>ISA</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>    <span class=k>if</span> <span class=p>(</span><span class=o>!</span> <span class=n>cls</span><span class=o>-&gt;</span><span class=n>hasCustomRR</span><span class=p>())</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=c1>// 执行此逻辑
+</span></span></span><span class=line><span class=cl><span class=c1></span>        <span class=k>if</span> <span class=p>(</span><span class=o>!</span> <span class=n>obj</span><span class=o>-&gt;</span><span class=n>rootTryRetain</span><span class=p>())</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>            <span class=n>result</span> <span class=o>=</span> <span class=n>nil</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>        <span class=p>}</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>    <span class=k>else</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=c1>// 执行不到的逻辑，删掉
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>        
+</span></span><span class=line><span class=cl>    <span class=n>table</span><span class=o>-&gt;</span><span class=n>unlock</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=n>result</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>ALWAYS_INLINE</span> <span class=kt>bool</span> 
+</span></span><span class=line><span class=cl><span class=n>objc_object</span><span class=o>::</span><span class=n>rootTryRetain</span><span class=p>()</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=nf>rootRetain</span><span class=p>(</span><span class=nb>true</span><span class=p>,</span> <span class=n>RRVariant</span><span class=o>::</span><span class=n>Fast</span><span class=p>)</span> <span class=o>?</span> <span class=nb>true</span> <span class=o>:</span> <span class=nb>false</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>ALWAYS_INLINE</span> <span class=n>id</span>
+</span></span><span class=line><span class=cl><span class=n>objc_object</span><span class=o>::</span><span class=n>rootRetain</span><span class=p>(</span><span class=kt>bool</span> <span class=n>tryRetain</span><span class=p>,</span> <span class=n>objc_object</span><span class=o>::</span><span class=n>RRVariant</span> <span class=n>variant</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>if</span> <span class=p>(</span><span class=n>slowpath</span><span class=p>(</span><span class=n>isTaggedPointer</span><span class=p>()))</span> <span class=k>return</span> <span class=p>(</span><span class=n>id</span><span class=p>)</span><span class=k>this</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=kt>bool</span> <span class=n>sideTableLocked</span> <span class=o>=</span> <span class=nb>false</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=kt>bool</span> <span class=n>transcribeToSideTable</span> <span class=o>=</span> <span class=nb>false</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=n>isa_t</span> <span class=n>oldisa</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=n>isa_t</span> <span class=n>newisa</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=n>oldisa</span> <span class=o>=</span> <span class=n>LoadExclusive</span><span class=p>(</span><span class=o>&amp;</span><span class=n>isa</span><span class=p>().</span><span class=n>bits</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=c1>// ...
+</span></span></span><span class=line><span class=cl><span class=c1></span>
+</span></span><span class=line><span class=cl>    <span class=k>do</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=n>transcribeToSideTable</span> <span class=o>=</span> <span class=nb>false</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>        <span class=n>newisa</span> <span class=o>=</span> <span class=n>oldisa</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>        <span class=c1>// 关键逻辑：
+</span></span></span><span class=line><span class=cl><span class=c1></span>        <span class=c1>// 如果正在释放中，并且tryRetain=true，则返回nil
+</span></span></span><span class=line><span class=cl><span class=c1></span>        <span class=c1>// don&#39;t check newisa.fast_rr; we already called any RR overrides
+</span></span></span><span class=line><span class=cl><span class=c1></span>        <span class=k>if</span> <span class=p>(</span><span class=n>slowpath</span><span class=p>(</span><span class=n>newisa</span><span class=p>.</span><span class=n>isDeallocating</span><span class=p>()))</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>            <span class=n>ClearExclusive</span><span class=p>(</span><span class=o>&amp;</span><span class=n>isa</span><span class=p>().</span><span class=n>bits</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>            <span class=k>if</span> <span class=p>(</span><span class=n>sideTableLocked</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>                <span class=n>ASSERT</span><span class=p>(</span><span class=n>variant</span> <span class=o>==</span> <span class=n>RRVariant</span><span class=o>::</span><span class=n>Full</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>                <span class=n>sidetable_unlock</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>            <span class=p>}</span>
+</span></span><span class=line><span class=cl>            <span class=k>if</span> <span class=p>(</span><span class=n>slowpath</span><span class=p>(</span><span class=n>tryRetain</span><span class=p>))</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>                <span class=k>return</span> <span class=n>nil</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>            <span class=p>}</span> <span class=k>else</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>                <span class=k>return</span> <span class=p>(</span><span class=n>id</span><span class=p>)</span><span class=k>this</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>            <span class=p>}</span>
+</span></span><span class=line><span class=cl>        <span class=p>}</span>
+</span></span><span class=line><span class=cl>        <span class=n>uintptr_t</span> <span class=n>carry</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>        <span class=n>newisa</span><span class=p>.</span><span class=n>bits</span> <span class=o>=</span> <span class=n>addc</span><span class=p>(</span><span class=n>newisa</span><span class=p>.</span><span class=n>bits</span><span class=p>,</span> <span class=n>RC_ONE</span><span class=p>,</span> <span class=mi>0</span><span class=p>,</span> <span class=o>&amp;</span><span class=n>carry</span><span class=p>);</span>  <span class=c1>// extra_rc++
+</span></span></span><span class=line><span class=cl><span class=c1></span>
+</span></span><span class=line><span class=cl>        <span class=k>if</span> <span class=p>(</span><span class=n>slowpath</span><span class=p>(</span><span class=n>carry</span><span class=p>))</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>            <span class=c1>// newisa.extra_rc++ overflowed
+</span></span></span><span class=line><span class=cl><span class=c1></span>            <span class=k>if</span> <span class=p>(</span><span class=n>variant</span> <span class=o>!=</span> <span class=n>RRVariant</span><span class=o>::</span><span class=n>Full</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>                <span class=n>ClearExclusive</span><span class=p>(</span><span class=o>&amp;</span><span class=n>isa</span><span class=p>().</span><span class=n>bits</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>                <span class=k>return</span> <span class=nf>rootRetain_overflow</span><span class=p>(</span><span class=n>tryRetain</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>            <span class=p>}</span>
+</span></span><span class=line><span class=cl>            <span class=c1>// Leave half of the retain counts inline and 
+</span></span></span><span class=line><span class=cl><span class=c1></span>            <span class=c1>// prepare to copy the other half to the side table.
+</span></span></span><span class=line><span class=cl><span class=c1></span>            <span class=k>if</span> <span class=p>(</span><span class=o>!</span><span class=n>tryRetain</span> <span class=o>&amp;&amp;</span> <span class=o>!</span><span class=n>sideTableLocked</span><span class=p>)</span> <span class=n>sidetable_lock</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>            <span class=n>sideTableLocked</span> <span class=o>=</span> <span class=nb>true</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>            <span class=n>transcribeToSideTable</span> <span class=o>=</span> <span class=nb>true</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>            <span class=n>newisa</span><span class=p>.</span><span class=n>extra_rc</span> <span class=o>=</span> <span class=n>RC_HALF</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>            <span class=n>newisa</span><span class=p>.</span><span class=n>has_sidetable_rc</span> <span class=o>=</span> <span class=nb>true</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>        <span class=p>}</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span> <span class=k>while</span> <span class=p>(</span><span class=n>slowpath</span><span class=p>(</span><span class=o>!</span><span class=n>StoreExclusive</span><span class=p>(</span><span class=o>&amp;</span><span class=n>isa</span><span class=p>().</span><span class=n>bits</span><span class=p>,</span> <span class=o>&amp;</span><span class=n>oldisa</span><span class=p>.</span><span class=n>bits</span><span class=p>,</span> <span class=n>newisa</span><span class=p>.</span><span class=n>bits</span><span class=p>)));</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=k>if</span> <span class=p>(</span><span class=n>variant</span> <span class=o>==</span> <span class=n>RRVariant</span><span class=o>::</span><span class=n>Full</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=k>if</span> <span class=p>(</span><span class=n>slowpath</span><span class=p>(</span><span class=n>transcribeToSideTable</span><span class=p>))</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>            <span class=c1>// Copy the other half of the retain counts to the side table.
+</span></span></span><span class=line><span class=cl><span class=c1></span>            <span class=n>sidetable_addExtraRC_nolock</span><span class=p>(</span><span class=n>RC_HALF</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>        <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>        <span class=k>if</span> <span class=p>(</span><span class=n>slowpath</span><span class=p>(</span><span class=o>!</span><span class=n>tryRetain</span> <span class=o>&amp;&amp;</span> <span class=n>sideTableLocked</span><span class=p>))</span> <span class=n>sidetable_unlock</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span> <span class=k>else</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=n>ASSERT</span><span class=p>(</span><span class=o>!</span><span class=n>transcribeToSideTable</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>        <span class=n>ASSERT</span><span class=p>(</span><span class=o>!</span><span class=n>sideTableLocked</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=p>(</span><span class=n>id</span><span class=p>)</span><span class=k>this</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>既然没释放，那我们怎么拿到这个对象呢？通过<code>unsafe_unretained</code>或者<code>assign</code>标记就可以获取到了。</p><h3 id=对象释放流程>对象释放流程</h3><p>调用<code>release</code> -> <code>rootRelease</code>，引用计数<code>-1</code>，当引用计数变为<code>0</code>时，就会通过<code>objc_msgSend</code>调用<code>Objective-C</code>对象的<code>dealloc</code>方法，然后进入到<code>objc_object::rootDealloc()</code>函数，函数内部会读取当前对象的<code>isa</code>中存储的信息，包括是否是非指针、有没有弱引用、成员变量、关联对象、<code>has_sidetable_rc</code>，如果都没有会直接释放（<code>free</code>），否则会执行<code>objc_destructInstance(obj)</code>，这个函数的逻辑为先释放成员变量，接着移除关联对象，再移除弱引用，把弱引用指针置为<code>nil</code>，最后再从<code>SideTable</code>的<code>RefcountMap refcnts</code>成员变量中 把存储当前对象引用计数的记录（<code>key-value</code>）从引用计数表中移除，类似于从字典中把这条<code>key-value</code>都删除（疑问：此时引用计数已经是0了，那最后这个引用计数表的处理是不是多余的，什么情况下会执行进来？？？）。</p><p>在<code>dealloc</code>方法中如果有对<code>self</code>的引用，比如<code>- (void)dealloc { id obj = self; }</code>，是不会发生引用计数<code>+1</code>的，<code>runtime</code>处理如下：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-cpp data-lang=cpp><span class=line><span class=cl><span class=c1>// 是否正在释放
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=kt>bool</span> <span class=nf>isDeallocating</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=n>extra_rc</span> <span class=o>==</span> <span class=mi>0</span> <span class=o>&amp;&amp;</span> <span class=n>has_sidetable_rc</span> <span class=o>==</span> <span class=mi>0</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1>// retain最终执行的函数
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=n>ALWAYS_INLINE</span> <span class=n>id</span>
+</span></span><span class=line><span class=cl><span class=n>objc_object</span><span class=o>::</span><span class=n>rootRetain</span><span class=p>(</span><span class=kt>bool</span> <span class=n>tryRetain</span><span class=p>,</span> <span class=n>objc_object</span><span class=o>::</span><span class=n>RRVariant</span> <span class=n>variant</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=c1>// 省略代码
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=p>...</span> 
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=c1>// 在dealloc中这里的执行结果是true
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=k>if</span> <span class=p>(</span><span class=n>slowpath</span><span class=p>(</span><span class=n>newisa</span><span class=p>.</span><span class=n>isDeallocating</span><span class=p>()))</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=n>ClearExclusive</span><span class=p>(</span><span class=o>&amp;</span><span class=n>isa</span><span class=p>.</span><span class=n>bits</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>        <span class=k>if</span> <span class=p>(</span><span class=n>sideTableLocked</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>            <span class=n>ASSERT</span><span class=p>(</span><span class=n>variant</span> <span class=o>==</span> <span class=n>RRVariant</span><span class=o>::</span><span class=n>Full</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>            <span class=n>sidetable_unlock</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>        <span class=p>}</span>
+</span></span><span class=line><span class=cl>        <span class=k>if</span> <span class=p>(</span><span class=n>slowpath</span><span class=p>(</span><span class=n>tryRetain</span><span class=p>))</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>            <span class=k>return</span> <span class=n>nil</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>        <span class=p>}</span> <span class=k>else</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>            <span class=k>return</span> <span class=p>(</span><span class=n>id</span><span class=p>)</span><span class=k>this</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>        <span class=p>}</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=c1>// 省略代码
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=p>...</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><h2 id=weak>Weak</h2><p><code>weak_table_t</code> 是全局保存弱引用的哈希表，它是通过对<code>object</code>地址做<code>hash</code>计算，然后从<code>8</code>个<code>SideTable</code>数组中取出其中一张，然后再从<code>SideTable</code>中读取到<code>weak_table</code>。<code>weak_table_t</code> 是以 <code>object</code> 地址为 <code>key</code>，以 <code>weak_entry_t</code> 为 <code>value</code>。</p><p><code>weak_entry_t</code> 是用来存储所有指向某个对象的弱引用变量的地址的，里面有个<code>weak_referrer_t</code>数组，它存储的其实是弱引用的指针，即指针的指针，这么做的目的是可以把弱引用置为<code>nil</code>。</p><p><code>weak_entry_t</code> 中有<code>2</code>种结构，当存储的弱引用数量<code>&lt;= 4</code>个的时候用的其实是个定长数组，<code>> 4</code>的时候才会转为哈希数组。（这里使用哈希数组的原因应该是为了处理B弱引用A，然后B先释放了，这时那个弱引用可能也要置为nil，用hash数组的话查询速度会比较快）。往<code>weak_entry_t</code> 中添加弱引用变量时，即更新<code>weak_referrer_t</code>采用的是定向寻址法；</p><p>往<code>weak_table</code> 中插入<code>weak_entry_t</code>时，先是对<code>object</code>地址取<code>hash</code>作为它的<code>index</code>，如果这个<code>index</code>下的位置不为空，则通过一个算法（<code>index = (index+1) & weak_table->mask</code>）重新计算生成一个新的<code>index</code>再读取对应的位置，直到找到一个空位置，然后把<code>weak_entry_t</code>放进去，同时更新元素数量。这种插入方式其实也是定向寻址法。</p><blockquote><p>hash 函数，与 mask 做与操作，防止 index 越界;</p></blockquote><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-c data-lang=c><span class=line><span class=cl><span class=n>size_t</span> <span class=n>begin</span> <span class=o>=</span> <span class=n>hash_pointer</span><span class=p>(</span><span class=n>referent</span><span class=p>)</span> <span class=o>&amp;</span> <span class=n>weak_table</span><span class=o>-&gt;</span><span class=n>mask</span><span class=p>;</span>
+</span></span></code></pre></td></tr></table></div></div><p><figure><a class=lightgallery href=/images/opensource/ios/Runtime_WeakHashInsert.png title=weak_hash_insert data-thumbnail=/images/opensource/ios/Runtime_WeakHashInsert.png data-sub-html="<h2>weak_hash_insert</h2><p>weak_hash_insert</p>"><img class=lazyload src=/svg/loading.min.svg data-src=/images/opensource/ios/Runtime_WeakHashInsert.png data-srcset="/images/opensource/ios/Runtime_WeakHashInsert.png, /images/opensource/ios/Runtime_WeakHashInsert.png 1.5x, /images/opensource/ios/Runtime_WeakHashInsert.png 2x" data-sizes=auto alt=/images/opensource/ios/Runtime_WeakHashInsert.png></a><figcaption class=image-caption>weak_hash_insert</figcaption></figure></p><p><code>weak_table_t</code> 还有一个扩容和缩容的处理，当前使用容量占到总容量（<code>mask + 1</code>)的 3/4<code> 的时候会进行扩容处理，扩大到现有总容量的</code>2<code>倍。 当总容量超过</code>1024<code>，而实际使用的空间低于总空间的 </code>1/16<code> 时则会进行容量压缩，缩到现有总容量的</code>1/8<code> （为什么是八分之一？是为了保证总容量是现有使用容量的</code>2`倍）。</p><h2 id=synchronized原理>@synchronized原理</h2><ol><li><p>先从当前线程的<code>TLS</code>中尝试获取<code>SyncData</code>（本身是个单向链表），如果存在并且<code>SyncData</code>中的<code>object</code>与传进来的<code>object</code>相同，则说明找到对应的<code>SyncData</code>了。更新锁数量（<code>lockCount</code>），并返回<code>SyncData</code>。</p><p>（注意：一条线程的<code>TLS</code>中只能存唯一一个<code>SyncData</code>，假如已经存在了但是<code>object</code>并不与自己传进来的一致，则创建新的<code>SyncData</code>后并不会更新到<code>TLS</code>中，而是保存到 <code>pthread_data</code> 中，有点先入为主的意思）</p></li><li><p>从<code>pthread_data</code>中获取<code>SyncCache</code>（里面存着一个<code>SyncCacheItem</code>数组，<code>SyncCacheItem</code>存的是<code>SyncData</code>），如果存在则遍历<code>SyncCacheItem</code>数组，如果<code>cacheItem</code>中的<code>syncData</code>中的<code>object</code>与传进来的<code>object</code>相同，则更新 <code>item->lockCount</code> ，然后返回<code>SyncData</code>。</p></li><li><p>走到这里就说明没有从<code>thread cache</code>中找到合适的<code>SyncData</code>。这时就会从全局<code>StripMap&lt;SyncList> sDataLists</code> 表中读取，先通过对象<code>object</code>的<code>hash</code>值取出一个<code>SyncList</code>，接着拿到<code>SyncList</code>中的<code>SyncData</code>链表，然后遍历整个链表。</p><p>a. 如果发现与<code>object</code>匹配的<code>SyncData</code>则更新<code>SyncData</code>中的<code>threadCount</code>数量，然后把找到的这个<code>SyncData</code>保存到<code>TLS</code>或者<code>pthread_data</code>中的<code>SyncCache</code>里面；</p><p>b. 如果遍历到最后也没发现匹配的，则找到链表中第一个未使用（<code>SyncData</code>中的<code>threadCount = 0</code>）的<code>SyncData</code>，进行复用。这个<code>SyncData</code>也会和上面一样进行缓存；</p><p>c. 如果没找到匹配的，也没找到未使用的，则创建一个新的<code>SyncData</code>。这个新的<code>SyncData</code>会先保存到<code>SyncList</code>中，然后也会和上面一样保存到<code>TLS</code>或者<code>pthread_data</code>中一份，即新创建的有2份缓存。</p><p><figure><a class=lightgallery href=/images/opensource/ios/Runtime_Synchronized.png title=@synchronized关系图 data-thumbnail=/images/opensource/ios/Runtime_Synchronized.png data-sub-html="<h2>synchronized</h2><p>@synchronized关系图</p>"><img class=lazyload src=/svg/loading.min.svg data-src=/images/opensource/ios/Runtime_Synchronized.png data-srcset="/images/opensource/ios/Runtime_Synchronized.png, /images/opensource/ios/Runtime_Synchronized.png 1.5x, /images/opensource/ios/Runtime_Synchronized.png 2x" data-sizes=auto alt=/images/opensource/ios/Runtime_Synchronized.png></a><figcaption class=image-caption>synchronized</figcaption></figure></p></li></ol><h2 id=associate-原理>Associate 原理</h2><p>所有的关联对象都是由<code>AssociationsManager</code>管理的，<code>AssociationsManager</code>里面是由一个静态<code>AssociationsHashMap</code>来存储所有的关联对象。这相当于把所有对象的关联对象都存在一个全局<code>hashMap</code>里面，<code>hashMap</code>的<code>key</code>是这个对象的<code>指针地址</code>（任意两个不同对象的指针地址一定是不同的），而这个<code>hashMap</code>的<code>value</code>又是一个<code>ObjectAssociationsMap</code>，里面保存了关联对象的<code>key</code>和对应的<code>value</code>值。<code>runtime</code>的销毁对象函数<code>objc_destructInstance</code>里面会判断这个对象有没有关联对象，如果有会调用<code>_object_remove_assocations</code>做关联对象的清理工作。</p><p>在<code>set</code>和<code>get</code>时，即对内部的<code>map</code>进行操作时都会用<code>manager</code>中的<code>spinlock</code>（底层其实还是<code>unfair_lock</code>），所以<code>set</code>、<code>get</code>时一般情况下是线程安全的。但是可能是为了追求性能，<code>set</code>时把旧对象的释放放到了锁外，<code>atomic get</code>时为了保证线程安全，会<code>retain</code>一下访问对象，在锁外又<code>autorelease</code>了一下，如果不执行<code>retain</code>操作可能会出现数据竞争。可以参考下这篇文章: <a href=https://juejin.cn/post/7124943924308738061 target=_blank rel="noopener noreffer">AssociatedObject 源码分析：如何实现线程安全？</a></p><p><figure><a class=lightgallery href=/images/opensource/ios/Runtime_Associate.png title=Associate data-thumbnail=/images/opensource/ios/Runtime_Associate.png data-sub-html="<h2>Associate</h2><p>Associate</p>"><img class=lazyload src=/svg/loading.min.svg data-src=/images/opensource/ios/Runtime_Associate.png data-srcset="/images/opensource/ios/Runtime_Associate.png, /images/opensource/ios/Runtime_Associate.png 1.5x, /images/opensource/ios/Runtime_Associate.png 2x" data-sizes=auto alt=/images/opensource/ios/Runtime_Associate.png></a><figcaption class=image-caption>Associate</figcaption></figure></p><hr><h2 id=gcd>GCD</h2><p>可创建的最大线程数是 <code>255</code></p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-c data-lang=c><span class=line><span class=cl><span class=n>thread_pool_size</span> <span class=o>=</span> <span class=n>DISPATCH_WORKQ_MAX_PTHREAD_COUNT</span>     <span class=mi>255</span> 
+</span></span></code></pre></td></tr></table></div></div><ol><li><p>自定义串行队列是<code>overcommit</code>的，并行队列不是<code>overcommit</code>的</p></li><li><p>自定义队列的目标队列在初始化时传参为<code>NULL</code>，然后会为其从<code>_dispatch_root_queues</code> 中获取一个根目标队列；当 <code>tq</code> 为 <code>NULL</code>，即入参目标队列为 <code>DISPATCH_TARGET_QUEUE_DEFAULT</code>（值是<code> NULL</code>） 时， 根据 <code>qos</code> 和 <code>overcommit</code> 从 <code>_dispatch_root_queues</code> 全局的根队列数组中获取一个根队列作为新队列的目标队列</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-cpp data-lang=cpp><span class=line><span class=cl><span class=k>if</span> <span class=p>(</span><span class=o>!</span><span class=n>tq</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=n>tq</span> <span class=o>=</span> <span class=n>_dispatch_get_root_queue</span><span class=p>(</span>
+</span></span><span class=line><span class=cl>            <span class=n>qos</span> <span class=o>==</span> <span class=n>DISPATCH_QOS_UNSPECIFIED</span> <span class=o>?</span> <span class=nl>DISPATCH_QOS_DEFAULT</span> <span class=p>:</span> <span class=n>qos</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>            <span class=n>overcommit</span> <span class=o>==</span> <span class=n>_dispatch_queue_attr_overcommit_enabled</span><span class=p>)</span><span class=o>-&gt;</span><span class=n>_as_dq</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=k>if</span> <span class=p>(</span><span class=n>unlikely</span><span class=p>(</span><span class=o>!</span><span class=n>tq</span><span class=p>))</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=c1>// 如果未取得目标队列则 crash
+</span></span></span><span class=line><span class=cl><span class=c1></span>        <span class=n>DISPATCH_CLIENT_CRASH</span><span class=p>(</span><span class=n>qos</span><span class=p>,</span> <span class=s>&#34;Invalid queue attribute&#34;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div></li></ol><hr><h4 id=dispatch_sync>dispatch_sync</h4><p>a. 首先将任务加入队列</p><p>b. 执行任务<code>block</code></p><p>c. 将任务移出队列</p><p>d. <code>sync</code>里面的处理最终执行的是<code>barrier</code>的内部函数</p><p>e. 会死锁的原因：执行时会检查当前线程的状态（是否正在等待），然后与当前的线程的<code>ID</code>（<code>_dispatch_tid_self()</code>）做比较，相等的话则判定为死锁。（相关处理在 <code>__DISPATCH_WAIT_FOR_QUEUE__</code> 函数中）</p><hr><h4 id=dispatch_async>dispatch_async</h4><p>a. 将异步任务（<code>dispatch_queue 、 block</code>）封装为 <code>dispatch_continuation_t</code> 类型</p><p>b. 然后执行 <code>_dispatch_continuation_async -> dx_push</code>递归重定向到根队列，然后执行<code>_dispatch_root_queue_poke</code>进行出队操作，通过创建线程执行 <code>dx_invoke</code> 执行<code>block</code>回调；</p><hr><h4 id=dispatch_barrier_async>dispatch_barrier_async</h4><p>a. 和<code>dispatch_async</code> 流程一样，只是里面有一个<code>while</code>循环，等队列中的<code>barrier</code>前面的任务执行完，才执行后面的；</p><p>b. 这里有个优化是：封装成 <code>dispatch_continuation_s</code> 结构时，会先从当前线程的<code>TLS</code>中获取一下，获取不到再从堆上创建新的</p><hr><h4 id=dispatch_group>dispatch_group</h4><p>a. <code>dispatch_group</code>内部维护着一个数值，初始值为<code>0</code>，<code>enter</code>时减<code>4</code>，<code>leave</code>时加<code>4</code> <a href=https://juejin.cn/post/6902346229868019719#heading-4 target=_blank rel="noopener noreffer">https://juejin.cn/post/6902346229868019719#heading-4</a></p><p>b. 等待用的是<code>while</code>循环，而不是信号量</p><hr><h4 id=dispatch_semaphore_t>dispatch_semaphore_t</h4><p>a. <code>dispatch_semaphore_wait</code> 时里面其实是起了一个<code>do-while</code> 循环，不断的去查询原子变量的值，不满足条件时会一直循环，借此阻塞流程的进行。有点像<code>dispatch_once</code></p><hr><h4 id=dispatch_group_async>dispatch_group_async</h4><p>内部其实是对<code>dispatch_async</code> 和 <code>dispatch_group_enter / dispatch_group_leave</code> 的封装</p><hr><h4 id=线程池复用原理>线程池复用原理</h4><p>线程创建后从队列里取出任务执行，任务执行后使用信号量使其等待<code>5</code>秒钟，如果在这期间再有<code>GCD</code>任务过来，会先尝试唤醒线程，让它继续工作，否则等待超时后线程会自动结束，被系统销毁。（不是<code>tableview</code>中的复用池机制）</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-cpp data-lang=cpp><span class=line><span class=cl><span class=k>static</span> <span class=kt>void</span> <span class=o>*</span>
+</span></span><span class=line><span class=cl><span class=nf>_dispatch_worker_thread</span><span class=p>(</span><span class=kt>void</span> <span class=o>*</span><span class=n>context</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=c1>//////////////////////////////////
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=c1>// 删减了部分代码
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=c1>//////////////////////////////////
+</span></span></span><span class=line><span class=cl><span class=c1></span>
+</span></span><span class=line><span class=cl>	<span class=n>dispatch_queue_global_t</span> <span class=n>dq</span> <span class=o>=</span> <span class=n>context</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>	<span class=n>dispatch_pthread_root_queue_context_t</span> <span class=n>pqc</span> <span class=o>=</span> <span class=n>dq</span><span class=o>-&gt;</span><span class=n>do_ctxt</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=kt>int</span> <span class=n>pending</span> <span class=o>=</span> <span class=n>os_atomic_dec2o</span><span class=p>(</span><span class=n>dq</span><span class=p>,</span> <span class=n>dgq_pending</span><span class=p>,</span> <span class=n>relaxed</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=c1>// 线程存活5秒钟
+</span></span></span><span class=line><span class=cl><span class=c1></span>	<span class=k>const</span> <span class=kt>int64_t</span> <span class=n>timeout</span> <span class=o>=</span> <span class=mi>5ull</span> <span class=o>*</span> <span class=n>NSEC_PER_SEC</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>	<span class=n>pthread_priority_t</span> <span class=n>pp</span> <span class=o>=</span> <span class=n>_dispatch_get_priority</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>	<span class=n>dispatch_priority_t</span> <span class=n>pri</span> <span class=o>=</span> <span class=n>dq</span><span class=o>-&gt;</span><span class=n>dq_priority</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=c1>// 从队列中取出任务执行，执行完后等待5秒钟
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=c1>// 如果5秒后没有被唤醒则进入超时逻辑，队列释放，线程退出
+</span></span></span><span class=line><span class=cl><span class=c1></span>	<span class=k>do</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=c1>// 任务执行
+</span></span></span><span class=line><span class=cl><span class=c1></span>		<span class=n>_dispatch_root_queue_drain</span><span class=p>(</span><span class=n>dq</span><span class=p>,</span> <span class=n>pri</span><span class=p>,</span> <span class=n>DISPATCH_INVOKE_REDIRECTING_DRAIN</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>		<span class=n>_dispatch_reset_priority_and_voucher</span><span class=p>(</span><span class=n>pp</span><span class=p>,</span> <span class=nb>NULL</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>	<span class=p>}</span> <span class=k>while</span> <span class=p>(</span><span class=n>dispatch_semaphore_wait</span><span class=p>(</span><span class=o>&amp;</span><span class=n>pqc</span><span class=o>-&gt;</span><span class=n>dpq_thread_mediator</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>			<span class=n>dispatch_time</span><span class=p>(</span><span class=mi>0</span><span class=p>,</span> <span class=n>timeout</span><span class=p>))</span> <span class=o>==</span> <span class=mi>0</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=cp>#if DISPATCH_USE_INTERNAL_WORKQUEUE
+</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=k>if</span> <span class=p>(</span><span class=n>monitored</span><span class=p>)</span> <span class=n>_dispatch_workq_worker_unregister</span><span class=p>(</span><span class=n>dq</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=cp>#endif
+</span></span></span><span class=line><span class=cl><span class=cp></span>	<span class=p>(</span><span class=kt>void</span><span class=p>)</span><span class=n>os_atomic_inc2o</span><span class=p>(</span><span class=n>dq</span><span class=p>,</span> <span class=n>dgq_thread_pool_size</span><span class=p>,</span> <span class=n>release</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>	<span class=n>_dispatch_root_queue_poke</span><span class=p>(</span><span class=n>dq</span><span class=p>,</span> <span class=mi>1</span><span class=p>,</span> <span class=mi>0</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>	<span class=n>_dispatch_release</span><span class=p>(</span><span class=n>dq</span><span class=p>);</span> <span class=c1>// retained in _dispatch_root_queue_poke_slow
+</span></span></span><span class=line><span class=cl><span class=c1></span>	<span class=k>return</span> <span class=nb>NULL</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><hr><h4 id=dispatch_once>dispatch_once</h4><p><code>dispatch_once</code>函数中的<code>token</code> (<code>dispatch_once_t</code>) 会被强转为<code>dispatch_once_gate_t</code>类型，而<code>dispatch_once_gate_t</code>里面是个<code>union</code>联合体类型，其中<code>dgo_once</code>用来记录当前<code>block</code>的执行状态，执行完后状态会被标记为<code>DLOCK_ONCE_DONE</code>。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-cpp data-lang=cpp><span class=line><span class=cl><span class=k>typedef</span> <span class=k>struct</span> <span class=nc>dispatch_once_gate_s</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>	<span class=k>union</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>		<span class=n>dispatch_gate_s</span> <span class=n>dgo_gate</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>		<span class=n>uintptr_t</span> <span class=n>dgo_once</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>	<span class=p>};</span>
+</span></span><span class=line><span class=cl><span class=p>}</span> <span class=n>dispatch_once_gate_s</span><span class=p>,</span> <span class=o>*</span><span class=n>dispatch_once_gate_t</span><span class=p>;</span>
+</span></span></code></pre></td></tr></table></div></div><p>我们首先获取<code>dgo_once</code>变量的值，如果是<code>DLOCK_ONCE_DONE</code>，则表示已经执行过了，直接return掉；
 如果是<code>DLOCK_ONCE_UNLOCKED</code>状态，则表示首次执行，然后会把当前的<code>线程id</code>存到<code>dgo_once</code>变量中，然后开始执行block任务，结束后会把<code>dgo_once</code>置为<code>DLOCK_ONCE_DONE</code>；
-如果有其他线程执行过来，根据<code>dgo_once</code>判断，发现正在执行中，则会进入等待流程，等待其实是启了个<code>for (;;)</code>无限循环，在循环中不断地通过原子操作查询<code>dgo_once</code>的状态，等发现变为<code>DLOCK_ONCE_DONE</code>后则退出循环。</p>
-<hr>
-<h4 id="dispatch_source_merge_data">dispatch_source_merge_data</h4>
-<p>对应的结构定义</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span><span class="lnt">11
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="c1">// 定义在 libdispatch 仓库中的 init.c 文件中
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">DISPATCH_VTABLE_INSTANCE</span><span class="p">(</span><span class="n">source</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">	<span class="p">.</span><span class="n">do_type</span>        <span class="o">=</span> <span class="n">DISPATCH_SOURCE_KEVENT_TYPE</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">	<span class="p">.</span><span class="n">do_dispose</span>     <span class="o">=</span> <span class="n">_dispatch_source_dispose</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">	<span class="p">.</span><span class="n">do_debug</span>       <span class="o">=</span> <span class="n">_dispatch_source_debug</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">	<span class="p">.</span><span class="n">do_invoke</span>      <span class="o">=</span> <span class="n">_dispatch_source_invoke</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">	<span class="p">.</span><span class="n">dq_activate</span>    <span class="o">=</span> <span class="n">_dispatch_source_activate</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">	<span class="p">.</span><span class="n">dq_wakeup</span>      <span class="o">=</span> <span class="n">_dispatch_source_wakeup</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">	<span class="p">.</span><span class="n">dq_push</span>        <span class="o">=</span> <span class="n">_dispatch_lane_push</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl"><span class="p">);</span>
-</span></span></code></pre></td></tr></table>
-</div>
-</div><p>把任务包装成<code>dispatch_continuation_t</code>对象，每次<code>dispatch_source_merge_data</code>时对内部变量进行原子性的<code>ADD、OR、REPLACE</code>等操作，并执行<code>dx_wakeup</code>函数，<code>dx_wakeup</code>是个宏定义，其实调用的是<code>_dispatch_source_wakeup</code>，wakeup这个函数其实是一个入队操作，但并不是每次都会进行入队（此处还未完全看明白 o(╯□╰)o ），接着会执行<code>_dispatch_main_queue_drain -&gt; _dispatch_continuation_pop_inline</code>出队操作，流程基本和<code>dispatch_async</code>一致。</p>
-<hr>
-<h2 id="nstimer">NSTimer</h2>
-<h4 id="timer添加到runloop的过程">timer添加到runloop的过程：</h4>
-<p>如果是<code>commonMode</code> ，会被添加到<code>runloop</code>持有的一个<code>_commonModeItems</code> 集合中， 然后调用 <code>__CFRunLoopAddItemToCommonModes</code> 函数，把<code>timer</code>添加到<code>runloopMode</code>对象持有的<code>_timers</code>数组中 ，同时也会把<code>modeName</code>添加到<code>runloopTimer</code>的 <code>_rlModes</code> 中，记录<code>runloopTimer</code>都能在哪种<code>runloop mode</code>下执行；</p>
-<p>如果是普通<code>mode</code>，则先获取这个<code>runloopMode</code>对象，把<code>runloopMode</code>的<code>name</code>添加到<code>runloopTimer</code>持有的 <code>_rlModes</code>集合中，然后调用 <code>__CFRepositionTimerInMode</code> 函数，把<code>runloopTimer</code>插入<code>runloopMode</code>持有的 <code>_timers</code> 数组中（如果数组中已经存在了，则先做移除操作）；</p>
-<p>上面添加完成后，会调用 <code>__CFRepositionTimerInMode</code> 函数，然后调用 <code>__CFArmNextTimerInMode</code>，再调用 <code>mk_timer_arm</code> 函数把 <code>CFRunLoopModeRef</code> 的 <code>_timerPort</code> 和一个时间点注册到系统中，等待着 <code>mach_msg</code> 发消息唤醒休眠中的 <code>runloop</code> 起来执行到达时间的计时器。（macOS 和 iOS 下都是使用 <code>mk_timer</code> 来唤醒 <code>runloop</code>）；</p>
-<p>每次计时器都会调用  <code>__CFArmNextTimerInMode</code> 函数注册计时器的下次回调，休眠中的<code>runloop</code> 通过当前<code>runloop mode</code>的 <code>_timerPort</code> 端口唤醒，然后在本次<code>runloop</code>循环中在 <code>_CFRunloopDoTimers</code> 函数中循环调用 <code>__CFRunLoopDoTimer</code> 函数，执行达到触发时间的<code>timer</code>的 <code>_callout</code> 函数。
-<code>__CFRUNLOOP_IS_CALLING_OUT_TO_A_TIMER_CALLBACK_FUNCTION__(rlt-&gt;_callout, rlt, context_info);</code> 是执行计时器的 <code>_callout</code> 函数。</p>
-<h4 id="nstimer-不准时问题">NSTimer 不准时问题</h4>
-<p>通过上面的 <code>NSTimer</code> 执行流程可看到计时器的触发回调完全依赖 <code>runloop</code> 的运行（macOS 和 iOS 下都是使用 <code>mk_timer</code> 来唤醒 <code>runloop</code>），使用 <code>NSTimer</code> 之前必须注册到 <code>run loop</code>，但是 <code>run loop</code> 为了节省资源并不会在非常准确的时间点调用计时器，如果一个任务执行时间较长（例如本次 <code>run loop</code> 循环中 <code>source0</code> 事件执行时间过长或者计时器自身回调执行时间过长，都会导致计时器下次正常时间点的回调被延后或者延后时间过长的话则直接忽略这次回调（计时器回调执行之前会判断当前的执行状态 <code>!__CFRunLoopTimerIsFiring(rlt)</code>，如果是计时器自身回调执行时间过长导致下次回调被忽略的情况大概与此标识有关 ）），那么当错过一个时间点后只能等到下一个时间点执行，并不会延后执行（<code>NSTimer</code> 提供了一个 <code>tolerance</code> 属性用于设置宽容度，即当前时间点已经过了计时器的本次触发点，但是超过的时间长度小于 <code>tolerance</code> 的话，那么本次计时器回调还可以正常执行，不过是不准时的延后执行。 tolerance 的值默认是 0，最大值的话是计时器间隔时间<code>_interval</code> 的一半，可以根据自身的情况酌情设置 <code>tolerance</code> 的值，（其实还是觉得如果自己的计时器不准时了还是应该从自己写的代码中找原因，自己去找该优化的点，或者是主线实在优化不动的话就把计时器放到子线程中去））。
- （<code>NSTimer</code> 不是一种实时机制，以 <code>main run loop</code> 来说它负责了所有的主线程事件，例如 <code>UI</code> 界面的操作，负责的运算使当前 <code>run loop</code> 持续的时间超过了计时器的间隔时间，那么计时器下一次回调就被延后，这样就造成<code> timer</code> 的不准时，计时器有个属性叫做 <code>tolerance</code> (宽容度)，标示了当时间点到后，容许有多少最大误差。如果延后时间过长的话会直接导致计时器本次回调被忽略。）</p>
-<h2 id="推荐文章">推荐文章</h2>
-<ul>
-<li><a href="http://cocoa-chen.github.io/2018/03/05/%E6%B7%B1%E5%85%A5%E6%B5%85%E5%87%BAGCD%E4%B9%8Bdispatch_queue/" target="_blank" rel="noopener noreffer ">深入浅出 GCD 之 dispatch_queue</a></li>
-<li><a href="https://juejin.cn/post/6936978891126865928#heading-40" target="_blank" rel="noopener noreffer ">iOS之武功秘籍⑧: 类和分类加载过程</a></li>
-</ul>
-</div><div class="post-footer" id="post-footer">
-    <div class="post-info">
-        <div class="post-info-line">
-            <div class="post-info-mod">
-                <span>更新于 2022-10-10</span>
-            </div></div>
-        <div class="post-info-line">
-            <div class="post-info-md"><span>
-                            <a class="link-to-markdown" href="/ios%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/index.md" target="_blank">阅读原始文档</a>
-                        </span></div>
-            <div class="post-info-share">
-                <span><a href="javascript:void(0);" title="分享到 Twitter" data-sharer="twitter" data-url="https://faimin.github.io/ios%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/" data-title="iOS源码阅读笔记" data-hashtags="iOS,runtime"><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="分享到 Facebook" data-sharer="facebook" data-url="https://faimin.github.io/ios%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/" data-hashtag="iOS"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="分享到 Hacker News" data-sharer="hackernews" data-url="https://faimin.github.io/ios%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/" data-title="iOS源码阅读笔记"><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="分享到 Line" data-sharer="line" data-url="https://faimin.github.io/ios%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/" data-title="iOS源码阅读笔记"><i data-svg-src="https://cdn.jsdelivr.net/npm/simple-icons@7.3.0/icons/line.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="分享到 微博" data-sharer="weibo" data-url="https://faimin.github.io/ios%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/" data-title="iOS源码阅读笔记" data-ralateuid="1655766025"><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
-            </div>
-        </div>
-    </div>
-
-    <div class="post-info-more">
-        <section class="post-tags"><i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/tags/ios/">iOS</a>,&nbsp;<a href="/tags/runtime/">runtime</a></section>
-        <section>
-            <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
-        </section>
-    </div>
-
-    <div class="post-nav"><a href="/%E7%A8%8B%E5%BA%8F%E5%91%98%E7%9A%84%E8%87%AA%E6%88%91%E4%BF%AE%E5%85%BB%E7%AC%94%E8%AE%B0/" class="prev" rel="prev" title="《程序员的自我修养》笔记"><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i>《程序员的自我修养》笔记</a>
-            <a href="/swift%E8%A7%A3%E6%83%91/" class="next" rel="next" title="Swift解惑">Swift解惑<i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
-</div>
-<div id="comments"><div id="valine" class="comment"></div><noscript>
-                Please enable JavaScript to view the comments powered by <a href="https://valine.js.org/">Valine</a>.
-            </noscript></div></article></div>
-            </main><footer class="footer">
-        <div class="footer-container"><div class="footer-line"><span id="busuanzi_container_site_uv">本站访客数<span id="busuanzi_value_site_uv"></span>人次</span> | <span id="busuanzi_container_site_pv">本站总访问量 <span id="busuanzi_value_site_pv"></span>次 </span></div><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.104.3">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.11"><i class="far fa-kiss-wink-heart fa-fw" aria-hidden="true"></i> LoveIt</a>
-                </div><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2018 - 2022</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="https://github.com/faimin" target="_blank">Zero.D.Saber</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
-        </div>
-    </footer></div>
-
-        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="回到顶部">
-                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
-            </a><a href="#" id="view-comments" class="fixed-button" title="查看评论">
-                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
-            </a>
-        </div><link rel="stylesheet" href="/lib/valine/valine.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@2.5.0/css/lightgallery-bundle.min.css"><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/valine@1.5.0/dist/Valine.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/autocomplete.js@0.38.1/dist/autocomplete.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/algoliasearch@4.13.1/dist/algoliasearch-lite.umd.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lazysizes@5.3.2/lazysizes.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lightgallery@2.5.0/lightgallery.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lightgallery@2.5.0/plugins/thumbnail/lg-thumbnail.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lightgallery@2.5.0/plugins/zoom/lg-zoom.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/clipboard@2.0.11/dist/clipboard.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/sharer.js@0.5.1/sharer.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":50},"comment":{"valine":{"appId":"QGzwQXOqs5JOhN4RGPOkR2mR-MdYXbMMI","appKey":"WBmoGyJtbqUswvfLh6L8iEBr","avatar":"mp","el":"#valine","emojiCDN":"https://cdn.jsdelivr.net/npm/emoji-datasource-google@14.0.0/img/google/64/","emojiMaps":{"100":"1f4af.png","alien":"1f47d.png","anger":"1f4a2.png","angry":"1f620.png","anguished":"1f627.png","astonished":"1f632.png","black_heart":"1f5a4.png","blue_heart":"1f499.png","blush":"1f60a.png","bomb":"1f4a3.png","boom":"1f4a5.png","broken_heart":"1f494.png","brown_heart":"1f90e.png","clown_face":"1f921.png","cold_face":"1f976.png","cold_sweat":"1f630.png","confounded":"1f616.png","confused":"1f615.png","cry":"1f622.png","crying_cat_face":"1f63f.png","cupid":"1f498.png","dash":"1f4a8.png","disappointed":"1f61e.png","disappointed_relieved":"1f625.png","dizzy":"1f4ab.png","dizzy_face":"1f635.png","drooling_face":"1f924.png","exploding_head":"1f92f.png","expressionless":"1f611.png","face_vomiting":"1f92e.png","face_with_cowboy_hat":"1f920.png","face_with_hand_over_mouth":"1f92d.png","face_with_head_bandage":"1f915.png","face_with_monocle":"1f9d0.png","face_with_raised_eyebrow":"1f928.png","face_with_rolling_eyes":"1f644.png","face_with_symbols_on_mouth":"1f92c.png","face_with_thermometer":"1f912.png","fearful":"1f628.png","flushed":"1f633.png","frowning":"1f626.png","ghost":"1f47b.png","gift_heart":"1f49d.png","green_heart":"1f49a.png","grimacing":"1f62c.png","grin":"1f601.png","grinning":"1f600.png","hankey":"1f4a9.png","hear_no_evil":"1f649.png","heart":"2764-fe0f.png","heart_decoration":"1f49f.png","heart_eyes":"1f60d.png","heart_eyes_cat":"1f63b.png","heartbeat":"1f493.png","heartpulse":"1f497.png","heavy_heart_exclamation_mark_ornament":"2763-fe0f.png","hole":"1f573-fe0f.png","hot_face":"1f975.png","hugging_face":"1f917.png","hushed":"1f62f.png","imp":"1f47f.png","innocent":"1f607.png","japanese_goblin":"1f47a.png","japanese_ogre":"1f479.png","joy":"1f602.png","joy_cat":"1f639.png","kiss":"1f48b.png","kissing":"1f617.png","kissing_cat":"1f63d.png","kissing_closed_eyes":"1f61a.png","kissing_heart":"1f618.png","kissing_smiling_eyes":"1f619.png","laughing":"1f606.png","left_speech_bubble":"1f5e8-fe0f.png","love_letter":"1f48c.png","lying_face":"1f925.png","mask":"1f637.png","money_mouth_face":"1f911.png","nauseated_face":"1f922.png","nerd_face":"1f913.png","neutral_face":"1f610.png","no_mouth":"1f636.png","open_mouth":"1f62e.png","orange_heart":"1f9e1.png","partying_face":"1f973.png","pensive":"1f614.png","persevere":"1f623.png","pleading_face":"1f97a.png","pouting_cat":"1f63e.png","purple_heart":"1f49c.png","rage":"1f621.png","relaxed":"263a-fe0f.png","relieved":"1f60c.png","revolving_hearts":"1f49e.png","right_anger_bubble":"1f5ef-fe0f.png","robot_face":"1f916.png","rolling_on_the_floor_laughing":"1f923.png","scream":"1f631.png","scream_cat":"1f640.png","see_no_evil":"1f648.png","shushing_face":"1f92b.png","skull":"1f480.png","skull_and_crossbones":"2620-fe0f.png","sleeping":"1f634.png","sleepy":"1f62a.png","slightly_frowning_face":"1f641.png","slightly_smiling_face":"1f642.png","smile":"1f604.png","smile_cat":"1f638.png","smiley":"1f603.png","smiley_cat":"1f63a.png","smiling_face_with_3_hearts":"1f970.png","smiling_imp":"1f608.png","smirk":"1f60f.png","smirk_cat":"1f63c.png","sneezing_face":"1f927.png","sob":"1f62d.png","space_invader":"1f47e.png","sparkling_heart":"1f496.png","speak_no_evil":"1f64a.png","speech_balloon":"1f4ac.png","star-struck":"1f929.png","stuck_out_tongue":"1f61b.png","stuck_out_tongue_closed_eyes":"1f61d.png","stuck_out_tongue_winking_eye":"1f61c.png","sunglasses":"1f60e.png","sweat":"1f613.png","sweat_drops":"1f4a6.png","sweat_smile":"1f605.png","thinking_face":"1f914.png","thought_balloon":"1f4ad.png","tired_face":"1f62b.png","triumph":"1f624.png","two_hearts":"1f495.png","unamused":"1f612.png","upside_down_face":"1f643.png","weary":"1f629.png","white_frowning_face":"2639-fe0f.png","white_heart":"1f90d.png","wink":"1f609.png","woozy_face":"1f974.png","worried":"1f61f.png","yawning_face":"1f971.png","yellow_heart":"1f49b.png","yum":"1f60b.png","zany_face":"1f92a.png","zipper_mouth_face":"1f910.png","zzz":"1f4a4.png"},"enableQQ":false,"highlight":true,"lang":"zh-CN","pageSize":10,"placeholder":"你的评论 ...","recordIP":true,"serverURLs":"https://leancloud.hugoloveit.com","visitor":true}},"lightgallery":true,"search":{"algoliaAppID":"PASDMWALPK","algoliaIndex":"index.zh-cn","algoliaSearchKey":"b42948e51daaa93df92381c8e2ac0f93","highlightTag":"em","maxResultLength":10,"noResultsFound":"没有找到结果","snippetLength":50,"type":"algolia"}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
-</html>
+如果有其他线程执行过来，根据<code>dgo_once</code>判断，发现正在执行中，则会进入等待流程，等待其实是启了个<code>for (;;)</code>无限循环，在循环中不断地通过原子操作查询<code>dgo_once</code>的状态，等发现变为<code>DLOCK_ONCE_DONE</code>后则退出循环。</p><hr><h4 id=dispatch_source_merge_data>dispatch_source_merge_data</h4><p>对应的结构定义</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-cpp data-lang=cpp><span class=line><span class=cl><span class=c1>// 定义在 libdispatch 仓库中的 init.c 文件中
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=n>DISPATCH_VTABLE_INSTANCE</span><span class=p>(</span><span class=n>source</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>	<span class=p>.</span><span class=n>do_type</span>        <span class=o>=</span> <span class=n>DISPATCH_SOURCE_KEVENT_TYPE</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>	<span class=p>.</span><span class=n>do_dispose</span>     <span class=o>=</span> <span class=n>_dispatch_source_dispose</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>	<span class=p>.</span><span class=n>do_debug</span>       <span class=o>=</span> <span class=n>_dispatch_source_debug</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>	<span class=p>.</span><span class=n>do_invoke</span>      <span class=o>=</span> <span class=n>_dispatch_source_invoke</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=p>.</span><span class=n>dq_activate</span>    <span class=o>=</span> <span class=n>_dispatch_source_activate</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>	<span class=p>.</span><span class=n>dq_wakeup</span>      <span class=o>=</span> <span class=n>_dispatch_source_wakeup</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>	<span class=p>.</span><span class=n>dq_push</span>        <span class=o>=</span> <span class=n>_dispatch_lane_push</span><span class=p>,</span>
+</span></span><span class=line><span class=cl><span class=p>);</span>
+</span></span></code></pre></td></tr></table></div></div><p>把任务包装成<code>dispatch_continuation_t</code>对象，每次<code>dispatch_source_merge_data</code>时对内部变量进行原子性的<code>ADD、OR、REPLACE</code>等操作，并执行<code>dx_wakeup</code>函数，<code>dx_wakeup</code>是个宏定义，其实调用的是<code>_dispatch_source_wakeup</code>，wakeup这个函数其实是一个入队操作，但并不是每次都会进行入队（此处还未完全看明白 o(╯□╰)o ），接着会执行<code>_dispatch_main_queue_drain -> _dispatch_continuation_pop_inline</code>出队操作，流程基本和<code>dispatch_async</code>一致。</p><hr><h2 id=nstimer>NSTimer</h2><h4 id=timer添加到runloop的过程>timer添加到runloop的过程：</h4><p>如果是<code>commonMode</code> ，会被添加到<code>runloop</code>持有的一个<code>_commonModeItems</code> 集合中， 然后调用 <code>__CFRunLoopAddItemToCommonModes</code> 函数，把<code>timer</code>添加到<code>runloopMode</code>对象持有的<code>_timers</code>数组中 ，同时也会把<code>modeName</code>添加到<code>runloopTimer</code>的 <code>_rlModes</code> 中，记录<code>runloopTimer</code>都能在哪种<code>runloop mode</code>下执行；</p><p>如果是普通<code>mode</code>，则先获取这个<code>runloopMode</code>对象，把<code>runloopMode</code>的<code>name</code>添加到<code>runloopTimer</code>持有的 <code>_rlModes</code>集合中，然后调用 <code>__CFRepositionTimerInMode</code> 函数，把<code>runloopTimer</code>插入<code>runloopMode</code>持有的 <code>_timers</code> 数组中（如果数组中已经存在了，则先做移除操作）；</p><p>上面添加完成后，会调用 <code>__CFRepositionTimerInMode</code> 函数，然后调用 <code>__CFArmNextTimerInMode</code>，再调用 <code>mk_timer_arm</code> 函数把 <code>CFRunLoopModeRef</code> 的 <code>_timerPort</code> 和一个时间点注册到系统中，等待着 <code>mach_msg</code> 发消息唤醒休眠中的 <code>runloop</code> 起来执行到达时间的计时器。（macOS 和 iOS 下都是使用 <code>mk_timer</code> 来唤醒 <code>runloop</code>）；</p><p>每次计时器都会调用 <code>__CFArmNextTimerInMode</code> 函数注册计时器的下次回调，休眠中的<code>runloop</code> 通过当前<code>runloop mode</code>的 <code>_timerPort</code> 端口唤醒，然后在本次<code>runloop</code>循环中在 <code>_CFRunloopDoTimers</code> 函数中循环调用 <code>__CFRunLoopDoTimer</code> 函数，执行达到触发时间的<code>timer</code>的 <code>_callout</code> 函数。
+<code>__CFRUNLOOP_IS_CALLING_OUT_TO_A_TIMER_CALLBACK_FUNCTION__(rlt->_callout, rlt, context_info);</code> 是执行计时器的 <code>_callout</code> 函数。</p><h4 id=nstimer-不准时问题>NSTimer 不准时问题</h4><p>通过上面的 <code>NSTimer</code> 执行流程可看到计时器的触发回调完全依赖 <code>runloop</code> 的运行（macOS 和 iOS 下都是使用 <code>mk_timer</code> 来唤醒 <code>runloop</code>），使用 <code>NSTimer</code> 之前必须注册到 <code>run loop</code>，但是 <code>run loop</code> 为了节省资源并不会在非常准确的时间点调用计时器，如果一个任务执行时间较长（例如本次 <code>run loop</code> 循环中 <code>source0</code> 事件执行时间过长或者计时器自身回调执行时间过长，都会导致计时器下次正常时间点的回调被延后或者延后时间过长的话则直接忽略这次回调（计时器回调执行之前会判断当前的执行状态 <code>!__CFRunLoopTimerIsFiring(rlt)</code>，如果是计时器自身回调执行时间过长导致下次回调被忽略的情况大概与此标识有关 ）），那么当错过一个时间点后只能等到下一个时间点执行，并不会延后执行（<code>NSTimer</code> 提供了一个 <code>tolerance</code> 属性用于设置宽容度，即当前时间点已经过了计时器的本次触发点，但是超过的时间长度小于 <code>tolerance</code> 的话，那么本次计时器回调还可以正常执行，不过是不准时的延后执行。 tolerance 的值默认是 0，最大值的话是计时器间隔时间<code>_interval</code> 的一半，可以根据自身的情况酌情设置 <code>tolerance</code> 的值，（其实还是觉得如果自己的计时器不准时了还是应该从自己写的代码中找原因，自己去找该优化的点，或者是主线实在优化不动的话就把计时器放到子线程中去））。
+ （<code>NSTimer</code> 不是一种实时机制，以 <code>main run loop</code> 来说它负责了所有的主线程事件，例如 <code>UI</code> 界面的操作，负责的运算使当前 <code>run loop</code> 持续的时间超过了计时器的间隔时间，那么计时器下一次回调就被延后，这样就造成<code> timer</code> 的不准时，计时器有个属性叫做 <code>tolerance</code> (宽容度)，标示了当时间点到后，容许有多少最大误差。如果延后时间过长的话会直接导致计时器本次回调被忽略。）</p><h2 id=推荐文章>推荐文章</h2><ul><li><a href=http://cocoa-chen.github.io/2018/03/05/%E6%B7%B1%E5%85%A5%E6%B5%85%E5%87%BAGCD%E4%B9%8Bdispatch_queue/ target=_blank rel="noopener noreffer">深入浅出 GCD 之 dispatch_queue</a></li><li><a href=https://juejin.cn/post/6936978891126865928#heading-40 target=_blank rel="noopener noreffer">iOS之武功秘籍⑧: 类和分类加载过程</a></li></ul></div><div class=post-footer id=post-footer><div class=post-info><div class=post-info-line><div class=post-info-mod><span>更新于 2022-10-10</span></div></div><div class=post-info-line><div class=post-info-md><span><a class=link-to-markdown href=/ios%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/index.md target=_blank>阅读原始文档</a></span></div><div class=post-info-share><span><a href=javascript:void(0); title="分享到 Twitter" data-sharer=twitter data-url=https://faimin.github.io/ios%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/ data-title=iOS源码阅读笔记 data-hashtags=iOS,runtime><i class="fab fa-twitter fa-fw" aria-hidden=true></i></a><a href=javascript:void(0); title="分享到 Facebook" data-sharer=facebook data-url=https://faimin.github.io/ios%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/ data-hashtag=iOS><i class="fab fa-facebook-square fa-fw" aria-hidden=true></i></a><a href=javascript:void(0); title="分享到 Hacker News" data-sharer=hackernews data-url=https://faimin.github.io/ios%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/ data-title=iOS源码阅读笔记><i class="fab fa-hacker-news fa-fw" aria-hidden=true></i></a><a href=javascript:void(0); title="分享到 Line" data-sharer=line data-url=https://faimin.github.io/ios%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/ data-title=iOS源码阅读笔记><i data-svg-src=https://cdn.jsdelivr.net/npm/simple-icons@7.3.0/icons/line.svg aria-hidden=true></i></a><a href=javascript:void(0); title="分享到 微博" data-sharer=weibo data-url=https://faimin.github.io/ios%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/ data-title=iOS源码阅读笔记 data-ralateuid=1655766025><i class="fab fa-weibo fa-fw" aria-hidden=true></i></a></span></div></div></div><div class=post-info-more><section class=post-tags><i class="fas fa-tags fa-fw" aria-hidden=true></i>&nbsp;<a href=/tags/ios/>iOS</a>,&nbsp;<a href=/tags/runtime/>runtime</a></section><section><span><a href=javascript:void(0); onclick=window.history.back()>返回</a></span>&nbsp;|&nbsp;<span><a href=/>主页</a></span></section></div><div class=post-nav><a href=/%E7%A8%8B%E5%BA%8F%E5%91%98%E7%9A%84%E8%87%AA%E6%88%91%E4%BF%AE%E5%85%BB%E7%AC%94%E8%AE%B0/ class=prev rel=prev title=《程序员的自我修养》笔记><i class="fas fa-angle-left fa-fw" aria-hidden=true></i>《程序员的自我修养》笔记</a>
+<a href=/swift%E8%A7%A3%E6%83%91/ class=next rel=next title=Swift解惑>Swift解惑<i class="fas fa-angle-right fa-fw" aria-hidden=true></i></a></div></div><div id=comments><div id=valine class=comment></div><noscript>Please enable JavaScript to view the comments powered by <a href=https://valine.js.org/>Valine</a>.</noscript></div></article></div></main><footer class=footer><div class=footer-container><div class=footer-line><span id=busuanzi_container_site_uv>本站访客数<span id=busuanzi_value_site_uv></span>人次</span> | <span id=busuanzi_container_site_pv>本站总访问量 <span id=busuanzi_value_site_pv></span>次</span></div><div class=footer-line>由 <a href=https://gohugo.io/ target=_blank rel="noopener noreffer" title="Hugo 0.104.3">Hugo</a> 强力驱动 | 主题 - <a href=https://github.com/dillonzq/LoveIt target=_blank rel="noopener noreffer" title="LoveIt 0.2.11"><i class="far fa-kiss-wink-heart fa-fw" aria-hidden=true></i> LoveIt</a></div><div class=footer-line itemscope itemtype=http://schema.org/CreativeWork><i class="far fa-copyright fa-fw" aria-hidden=true></i><span itemprop=copyrightYear>2018 - 2022</span><span class=author itemprop=copyrightHolder>&nbsp;<a href=https://github.com/faimin target=_blank>Zero.D.Saber</a></span>&nbsp;|&nbsp;<span class=license><a rel="license external nofollow noopener noreffer" href=https://creativecommons.org/licenses/by-nc/4.0/ target=_blank>CC BY-NC 4.0</a></span></div></div></footer></div><div id=fixed-buttons><a href=# id=back-to-top class=fixed-button title=回到顶部><i class="fas fa-arrow-up fa-fw" aria-hidden=true></i>
+</a><a href=# id=view-comments class=fixed-button title=查看评论><i class="fas fa-comment fa-fw" aria-hidden=true></i></a></div><link rel=stylesheet href=/lib/valine/valine.min.css><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/lightgallery@2.5.0/css/lightgallery-bundle.min.css><script type=text/javascript src=https://cdn.jsdelivr.net/npm/valine@1.5.0/dist/Valine.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/autocomplete.js@0.38.1/dist/autocomplete.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/algoliasearch@4.13.1/dist/algoliasearch-lite.umd.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/lazysizes@5.3.2/lazysizes.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/lightgallery@2.5.0/lightgallery.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/lightgallery@2.5.0/plugins/thumbnail/lg-thumbnail.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/lightgallery@2.5.0/plugins/zoom/lg-zoom.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/clipboard@2.0.11/dist/clipboard.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/sharer.js@0.5.1/sharer.min.js></script><script type=text/javascript>window.config={code:{copyTitle:"复制到剪贴板",maxShownLines:50},comment:{valine:{appId:"QGzwQXOqs5JOhN4RGPOkR2mR-MdYXbMMI",appKey:"WBmoGyJtbqUswvfLh6L8iEBr",avatar:"mp",el:"#valine",emojiCDN:"https://cdn.jsdelivr.net/npm/emoji-datasource-google@14.0.0/img/google/64/",emojiMaps:{100:"1f4af.png",alien:"1f47d.png",anger:"1f4a2.png",angry:"1f620.png",anguished:"1f627.png",astonished:"1f632.png",black_heart:"1f5a4.png",blue_heart:"1f499.png",blush:"1f60a.png",bomb:"1f4a3.png",boom:"1f4a5.png",broken_heart:"1f494.png",brown_heart:"1f90e.png",clown_face:"1f921.png",cold_face:"1f976.png",cold_sweat:"1f630.png",confounded:"1f616.png",confused:"1f615.png",cry:"1f622.png",crying_cat_face:"1f63f.png",cupid:"1f498.png",dash:"1f4a8.png",disappointed:"1f61e.png",disappointed_relieved:"1f625.png",dizzy:"1f4ab.png",dizzy_face:"1f635.png",drooling_face:"1f924.png",exploding_head:"1f92f.png",expressionless:"1f611.png",face_vomiting:"1f92e.png",face_with_cowboy_hat:"1f920.png",face_with_hand_over_mouth:"1f92d.png",face_with_head_bandage:"1f915.png",face_with_monocle:"1f9d0.png",face_with_raised_eyebrow:"1f928.png",face_with_rolling_eyes:"1f644.png",face_with_symbols_on_mouth:"1f92c.png",face_with_thermometer:"1f912.png",fearful:"1f628.png",flushed:"1f633.png",frowning:"1f626.png",ghost:"1f47b.png",gift_heart:"1f49d.png",green_heart:"1f49a.png",grimacing:"1f62c.png",grin:"1f601.png",grinning:"1f600.png",hankey:"1f4a9.png",hear_no_evil:"1f649.png",heart:"2764-fe0f.png",heart_decoration:"1f49f.png",heart_eyes:"1f60d.png",heart_eyes_cat:"1f63b.png",heartbeat:"1f493.png",heartpulse:"1f497.png",heavy_heart_exclamation_mark_ornament:"2763-fe0f.png",hole:"1f573-fe0f.png",hot_face:"1f975.png",hugging_face:"1f917.png",hushed:"1f62f.png",imp:"1f47f.png",innocent:"1f607.png",japanese_goblin:"1f47a.png",japanese_ogre:"1f479.png",joy:"1f602.png",joy_cat:"1f639.png",kiss:"1f48b.png",kissing:"1f617.png",kissing_cat:"1f63d.png",kissing_closed_eyes:"1f61a.png",kissing_heart:"1f618.png",kissing_smiling_eyes:"1f619.png",laughing:"1f606.png",left_speech_bubble:"1f5e8-fe0f.png",love_letter:"1f48c.png",lying_face:"1f925.png",mask:"1f637.png",money_mouth_face:"1f911.png",nauseated_face:"1f922.png",nerd_face:"1f913.png",neutral_face:"1f610.png",no_mouth:"1f636.png",open_mouth:"1f62e.png",orange_heart:"1f9e1.png",partying_face:"1f973.png",pensive:"1f614.png",persevere:"1f623.png",pleading_face:"1f97a.png",pouting_cat:"1f63e.png",purple_heart:"1f49c.png",rage:"1f621.png",relaxed:"263a-fe0f.png",relieved:"1f60c.png",revolving_hearts:"1f49e.png",right_anger_bubble:"1f5ef-fe0f.png",robot_face:"1f916.png",rolling_on_the_floor_laughing:"1f923.png",scream:"1f631.png",scream_cat:"1f640.png",see_no_evil:"1f648.png",shushing_face:"1f92b.png",skull:"1f480.png",skull_and_crossbones:"2620-fe0f.png",sleeping:"1f634.png",sleepy:"1f62a.png",slightly_frowning_face:"1f641.png",slightly_smiling_face:"1f642.png",smile:"1f604.png",smile_cat:"1f638.png",smiley:"1f603.png",smiley_cat:"1f63a.png",smiling_face_with_3_hearts:"1f970.png",smiling_imp:"1f608.png",smirk:"1f60f.png",smirk_cat:"1f63c.png",sneezing_face:"1f927.png",sob:"1f62d.png",space_invader:"1f47e.png",sparkling_heart:"1f496.png",speak_no_evil:"1f64a.png",speech_balloon:"1f4ac.png","star-struck":"1f929.png",stuck_out_tongue:"1f61b.png",stuck_out_tongue_closed_eyes:"1f61d.png",stuck_out_tongue_winking_eye:"1f61c.png",sunglasses:"1f60e.png",sweat:"1f613.png",sweat_drops:"1f4a6.png",sweat_smile:"1f605.png",thinking_face:"1f914.png",thought_balloon:"1f4ad.png",tired_face:"1f62b.png",triumph:"1f624.png",two_hearts:"1f495.png",unamused:"1f612.png",upside_down_face:"1f643.png",weary:"1f629.png",white_frowning_face:"2639-fe0f.png",white_heart:"1f90d.png",wink:"1f609.png",woozy_face:"1f974.png",worried:"1f61f.png",yawning_face:"1f971.png",yellow_heart:"1f49b.png",yum:"1f60b.png",zany_face:"1f92a.png",zipper_mouth_face:"1f910.png",zzz:"1f4a4.png"},enableQQ:!1,highlight:!0,lang:"zh-CN",pageSize:10,placeholder:"你的评论 ...",recordIP:!0,serverURLs:"https://leancloud.hugoloveit.com",visitor:!0}},lightgallery:!0,search:{algoliaAppID:"PASDMWALPK",algoliaIndex:"index.zh-cn",algoliaSearchKey:"b42948e51daaa93df92381c8e2ac0f93",highlightTag:"em",maxResultLength:10,noResultsFound:"没有找到结果",snippetLength:50,type:"algolia"}}</script><script type=text/javascript src=/js/theme.min.js></script></body></html>

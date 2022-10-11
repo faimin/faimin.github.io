@@ -1,598 +1,188 @@
-<!DOCTYPE html>
-<html lang="zh-CN">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="robots" content="noodp" />
-        <title>Swift与Objective-C混编 - Zero.D.Saber</title><meta name="Description" content="CocoaPods组件中Swift与Objective-C混编"><meta property="og:title" content="Swift与Objective-C混编" />
-<meta property="og:description" content="CocoaPods组件中Swift与Objective-C混编" />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="https://faimin.github.io/swift%E4%B8%8Eobjective-c%E6%B7%B7%E7%BC%96/" /><meta property="og:image" content="https://faimin.github.io/logo/avatar.gif"/><meta property="article:section" content="posts" />
-<meta property="article:published_time" content="2020-11-04T18:21:55+08:00" />
-<meta property="article:modified_time" content="2022-09-07T19:40:00+08:00" /><meta property="og:site_name" content="Zero.D.Saber的小屋" />
-
-<meta name="twitter:card" content="summary_large_image"/>
-<meta name="twitter:image" content="https://faimin.github.io/logo/avatar.gif"/>
-
-<meta name="twitter:title" content="Swift与Objective-C混编"/>
-<meta name="twitter:description" content="CocoaPods组件中Swift与Objective-C混编"/>
-<meta name="application-name" content="LoveIt">
-<meta name="apple-mobile-web-app-title" content="LoveIt"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="icon" href="/logo/avatar.gif"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://faimin.github.io/swift%E4%B8%8Eobjective-c%E6%B7%B7%E7%BC%96/" /><link rel="prev" href="https://faimin.github.io/jenkins_note/" /><link rel="next" href="https://faimin.github.io/nextresponder/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-        <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css"></noscript><link rel="preload" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-        <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css"></noscript><script type="application/ld+json">
-    {
-        "@context": "http://schema.org",
-        "@type": "BlogPosting",
-        "headline": "Swift与Objective-C混编",
-        "inLanguage": "zh-CN",
-        "mainEntityOfPage": {
-            "@type": "WebPage",
-            "@id": "https:\/\/faimin.github.io\/swift%E4%B8%8Eobjective-c%E6%B7%B7%E7%BC%96\/"
-        },"image": ["https:\/\/faimin.github.io\/images\/Apple-Devices-Preview.png"],"genre": "posts","keywords": "iOS, swift","wordcount":  4132 ,
-        "url": "https:\/\/faimin.github.io\/swift%E4%B8%8Eobjective-c%E6%B7%B7%E7%BC%96\/","datePublished": "2020-11-04T18:21:55+08:00","dateModified": "2022-09-07T19:40:00+08:00","license": "This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher": {
-            "@type": "Organization",
-            "name": "Zero.D.Saber","logo": "https:\/\/faimin.github.io\/images\/avatar.png"},"author": {
-                "@type": "Person",
-                "name": "Zero.D.Saber"
-            },"description": "CocoaPods组件中Swift与Objective-C混编"
-    }
-    </script></head>
-    <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
-
-        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
-    <div class="header-wrapper">
-        <div class="header-title">
-            <a href="/" title="Zero.D.Saber">Zero.D.Saber&#39;s Notes</a>
-        </div>
-        <div class="menu">
-            <div class="menu-inner"><a class="menu-item" href="/posts/"> 所有文章 </a><a class="menu-item" href="/tags/"> 标签 </a><a class="menu-item" href="/categories/"> 分类 </a><a class="menu-item" href="/categories/documentation/"> 文档 </a><a class="menu-item" href="/about/whoami"> 关于 </a><a class="menu-item" href="https://github.com/faimin" title="GitHub" rel="noopener noreffer" target="_blank"><i class='fab fa-github fa-fw' aria-hidden='true'></i>  </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
-                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-desktop">
-                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
-                            <i class="fas fa-search fa-fw" aria-hidden="true"></i>
-                        </a>
-                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
-                            <i class="fas fa-times-circle fa-fw" aria-hidden="true"></i>
-                        </a>
-                        <span class="search-button search-loading" id="search-loading-desktop">
-                            <i class="fas fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
-                        </span>
-                    </span><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
-                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
-                </a><a href="javascript:void(0);" class="menu-item language" title="选择语言">
-                    <i class="fa fa-globe" aria-hidden="true"></i>                      
-                    <select class="language-select" id="language-select-desktop" onchange="location = this.value;"><option value="/swift%E4%B8%8Eobjective-c%E6%B7%B7%E7%BC%96/" selected>简体中文</option></select>
-                </a></div>
-        </div>
-    </div>
-</header><header class="mobile" id="header-mobile">
-    <div class="header-container">
-        <div class="header-wrapper">
-            <div class="header-title">
-                <a href="/" title="Zero.D.Saber">Zero.D.Saber&#39;s Notes</a>
-            </div>
-            <div class="menu-toggle" id="menu-toggle-mobile">
-                <span></span><span></span><span></span>
-            </div>
-        </div>
-        <div class="menu" id="menu-mobile"><div class="search-wrapper">
-                    <div class="search mobile" id="search-mobile">
-                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-mobile">
-                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
-                            <i class="fas fa-search fa-fw" aria-hidden="true"></i>
-                        </a>
-                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
-                            <i class="fas fa-times-circle fa-fw" aria-hidden="true"></i>
-                        </a>
-                        <span class="search-button search-loading" id="search-loading-mobile">
-                            <i class="fas fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
-                        </span>
-                    </div>
-                    <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
-                        取消
-                    </a>
-                </div><a class="menu-item" href="/posts/" title="">所有文章</a><a class="menu-item" href="/tags/" title="">标签</a><a class="menu-item" href="/categories/" title="">分类</a><a class="menu-item" href="/categories/documentation/" title="">文档</a><a class="menu-item" href="/about/whoami" title="">关于</a><a class="menu-item" href="https://github.com/faimin" title="GitHub" rel="noopener noreffer" target="_blank"><i class='fab fa-github fa-fw' aria-hidden='true'></i></a><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
-                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
-            </a><a href="javascript:void(0);" class="menu-item" title="选择语言">
-                    <i class="fa fa-globe fa-fw" aria-hidden="true"></i>
-                    <select class="language-select" onchange="location = this.value;"><option value="/swift%E4%B8%8Eobjective-c%E6%B7%B7%E7%BC%96/" selected>简体中文</option></select>
-                </a></div>
-    </div>
-</header><div class="search-dropdown desktop">
-        <div id="search-dropdown-desktop"></div>
-    </div>
-    <div class="search-dropdown mobile">
-        <div id="search-dropdown-mobile"></div>
-    </div><main class="main">
-                <div class="container"><div class="toc" id="toc-auto">
-            <h2 class="toc-title">目录</h2>
-            <div class="toc-content" id="toc-content-auto"></div>
-        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">Swift与Objective-C混编</h1><div class="post-meta">
-            <div class="post-meta-line"><span class="post-author"><a href="https://github.com/faimin" title="Author" target="_blank" rel="noopener noreffer author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Zero.D.Saber</a></span>&nbsp;<span class="post-category">收录于 <a href="/categories/%E6%B7%B7%E7%BC%96/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>混编</a></span></div>
-            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2020-11-04">2020-11-04</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;约 4132 字&nbsp;
-                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;预计阅读 9 分钟&nbsp;<span id="/swift%E4%B8%8Eobjective-c%E6%B7%B7%E7%BC%96/" class="leancloud_visitors" data-flag-title="Swift与Objective-C混编">
-                        <i class="far fa-eye fa-fw" aria-hidden="true"></i>&nbsp;<span class=leancloud-visitors-count></span>&nbsp;次阅读
-                    </span>&nbsp;</div>
-        </div><div class="details toc" id="toc-static"  data-kept="">
-                <div class="details-summary toc-title">
-                    <span>目录</span>
-                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
-                </div>
-                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
-  <ul>
-    <li><a href="#前言">前言</a></li>
-    <li><a href="#前期方案">前期方案</a></li>
-    <li><a href="#踩坑记录">踩坑记录</a></li>
-    <li><a href="#同一混编pod内oc调用swift">同一混编pod内OC调用Swift</a></li>
-    <li><a href="#同一混编pod内swift调用oc">同一混编pod内Swift调用OC</a></li>
-    <li><a href="#解惑">解惑</a>
-      <ul>
-        <li>
-          <ul>
-            <li><a href="#为什么能够混编">为什么能够混编？</a></li>
-            <li><a href="#1-xcode9--cocopoads-15-之后不是已经支持把swift编译为静态库了吗为什么会报错呢">1. XCode9 &amp; Cocopoads 1.5 之后，不是已经支持把Swift编译为静态库了吗，为什么会报错呢？</a></li>
-            <li><a href="#2-为什么改为动态库就可以正常编译通过了">2. 为什么改为动态库就可以正常编译通过了？</a></li>
-            <li><a href="#3-为什么设置-header_dir-编译就不报错了">3. 为什么设置 header_dir 编译就不报错了？</a></li>
-            <li><a href="#4-pod中没有bridging-header为什么swift还能引用objective-c类">4. <code>pod</code>中没有<code>bridging-header</code>为什么<code>Swift</code>还能引用<code>Objective-C</code>类？</a></li>
-            <li><a href="#5-为什么xcode生成的hmap对我们的项目并没起到什么作用">5. 为什么<code>Xcode</code>生成的<code>hmap</code>对我们的项目并没起到什么作用？</a></li>
-            <li><a href="#6-publicprivateproject区别">6. <code>public</code>、<code>private</code>、<code>project</code>区别</a></li>
-          </ul>
-        </li>
-      </ul>
-    </li>
-    <li><a href="#推荐设置">推荐设置</a></li>
-    <li><a href="#参考">参考</a></li>
-  </ul>
-</nav></div>
-            </div><div class="content" id="content"><h2 id="前言">前言</h2>
-<blockquote>
-<p>本文是笔者在解决混编时的一些记录，有些东西可能已经发生了变化。而且由于只是随手记录，写的比较乱，各位看官见谅~~~</p>
-<p>笔者负责的业务是以<code>pod模块</code>的形式存在于工程中的，所以以下调研的方案只针对于<code>pod</code>中的混编场景，在MM主工程混编几乎是无缝，没什么可说的。。。</p>
-<p>推荐大家浏览下 <code>CocoaPods（podfile &amp; podspec）</code> 的 <code>API</code>，没几个，花费不了几分钟，但是却能帮助大家少踩很多的坑，一本万利~</p>
-</blockquote>
-<h2 id="前期方案">前期方案</h2>
-<p>暂时采用折中方案，把<code>Swift</code>独立成一个<code>pod</code>，然后业务<code>pod</code>再引用<code>Swift pod</code>。目的是减少依赖，避免引用不规范的<code>repo</code>。</p>
-<blockquote>
-<p>如果打算在同一<code>pod</code>中混编，只要把你依赖的库都支持<code>module</code>即可，而且需要修改一下你们引用外部<code>repo</code>头文件的形式，比如 <code>#import &quot;SDWebImage.h&quot;</code> 改为 <code>#import &lt;SDWebImage/SDWebImage.h&gt;</code></p>
-</blockquote>
-<ol>
-<li>
-<p>在MM主工程中创建个新的<code>Swift</code>文件（空文件即可），让<code>Xcode</code>自动生成一个<code>bridge-header</code>，目的是营造一个<code>Swift</code>环境（之前一直想不修改主工程而只在pod中营造，但是很遗憾，最后以失败告终）；</p>
-</li>
-<li>
-<p>由于混编<code>pod</code>中依赖的<code>repo</code>需要支持<code>module</code>，但是MM中的<code>pod</code>水平参差不齐，大部分都没有支持<code>module</code>，这就限制我们在业务<code>pod</code>中混编时编译失败。而让<code>pod</code>一下子都支持<code>module</code>是一个不太现实的要求，所以我们暂时采用了一种折中的方案；</p>
-</li>
-<li>
-<p>把<code>Swift</code>单独放一个<code>pod</code>中去，让<code>Swift</code>尽量少的依赖其他<code>repo</code>，然后业务<code>pod</code>再依赖<code>Swift repo</code>来调用<code>Swift</code>代码；</p>
-</li>
-</ol>
-<h2 id="踩坑记录">踩坑记录</h2>
-<ul>
-<li><code>pod</code>中不支持<code>bridging-header</code>，所以混编<code>pod</code>中要想引用<code>OC</code>类，<code>pod</code>需要支持<code>module</code></li>
-<li><del>混编的<code>Swift</code>库需要打成<code>framework</code>形式才可以编译成功，比如<code>RxCocoa</code>、<code>PromiseKit</code></del></li>
-<li>限于苹果本身机制和现有二进制方案实现问题，不支持 <code>:modular_headers =&gt; true</code>，所以使用<code>:modular_headers =&gt; true</code> 时临时需要添加参数<code>:use_source_code =&gt; true</code>，切换为代码编译；</li>
-<li><del><code>Swift</code>与<code>OC</code>混编的<code>pod</code>所依赖的库需要改为动态库，比如<code>ZDFlexLayout</code>内部为Swift与OC混编的，依赖了<code>Yoga</code>，需要把<code>Yoga</code>编为动态库。</del> 报错如下图</li>
-</ul>
-<p><figure><a class="lightgallery" href="/images/swiftocmix/undefine_symbol.png" title="undefine_symbol" data-thumbnail="/images/swiftocmix/undefine_symbol.png" data-sub-html="<h2>undefine_symbol</h2><p>undefine_symbol</p>">
-        <img
-            class="lazyload"
-            src="/svg/loading.min.svg"
-            data-src="/images/swiftocmix/undefine_symbol.png"
-            data-srcset="/images/swiftocmix/undefine_symbol.png, /images/swiftocmix/undefine_symbol.png 1.5x, /images/swiftocmix/undefine_symbol.png 2x"
-            data-sizes="auto"
-            alt="/images/swiftocmix/undefine_symbol.png" />
-    </a><figcaption class="image-caption">undefine_symbol</figcaption>
-    </figure></p>
-<blockquote>
-<p>实际操作</p>
-</blockquote>
-<ol>
-<li>
-<p>跨模块引用时需要把要暴露给外部的类或者函数的访问权限设置为 <code>public</code>，并标记为 <code>@objc</code>，同时需要继承自<code>NSObject</code>类</p>
-</li>
-<li>
-<p><code>pod</code> 中引用其他<code>pod</code>都是通过 <code>@import</code> 语法</p>
-</li>
-<li>
-<p><code>Swift</code>依赖的<code>repo</code>需要<code>module</code>化，</p>
-<blockquote>
-<p>有3种方式：</p>
-<p>i: 在<code>podfile</code>中让所有的<code>repo</code>开启<code>modular</code>: <code>use_modular_headers!</code></p>
-<p>ii: 只给某几个repo开启modular，举个例子：<code>pod 'SDWebImage', :modular_headers =&gt; true</code></p>
-<p>iii: 让repo自己开启module支持，需要在podspec中修改下设置：<code>spec.pod_target_xcconfig = { 'DEFINES_MODULE' =&gt; 'YES' }</code> , 这个设置不管你开不开启<code>modular</code>开关，都会自动创建<code>module</code></p>
-</blockquote>
-</li>
-<li>
-<p>如果<code>podspec</code>中不设置<code>DEFINES_MODULE=true</code>，默认是不会生成<code>module</code>的，哪怕你在<code>podspec</code>中设置了<code>module_map</code>也不行，除非你在<code>podfile</code>中手动开启<code>modular_hear</code>你自己的<code>modulemap</code>才会生效</p>
-</li>
-<li>
-<p>如果你手动创建了<code>modulemap</code>就不要设置<code>DEFINES_MODULE=true</code>了，因为笔者发现开启<code>DEFINES_MODULE</code>后它还会自己再生成一份<code>xxx-umbraller</code>文件。</p>
-<blockquote>
-<p>推荐让<code>CocoaPods</code>帮我们创建<code>modulemap</code>，如非你特别懂<code>modulemap</code>，不建议自己手动创建。</p>
-</blockquote>
-</li>
-<li>
-<p>只需要把<code>Swift</code>用到的<code>OC</code>类放到<code>umbrella</code>中（后面说控制方法）</p>
-</li>
-</ol>
-<h2 id="同一混编pod内oc调用swift">同一混编pod内OC调用Swift</h2>
-<p>在头文件中引入 <code>#import &lt;module-name&gt;-Swift.h&quot;</code>，然后就可以调用<code>Swift</code>类了</p>
-<p><figure><a class="lightgallery" href="/images/swiftocmix/oc_import_swift.png" title="image.png" data-thumbnail="/images/swiftocmix/oc_import_swift.png" data-sub-html="<h2>oc_import_swift</h2><p>image.png</p>">
-        <img
-            class="lazyload"
-            src="/svg/loading.min.svg"
-            data-src="/images/swiftocmix/oc_import_swift.png"
-            data-srcset="/images/swiftocmix/oc_import_swift.png, /images/swiftocmix/oc_import_swift.png 1.5x, /images/swiftocmix/oc_import_swift.png 2x"
-            data-sizes="auto"
-            alt="/images/swiftocmix/oc_import_swift.png" />
-    </a><figcaption class="image-caption">oc_import_swift</figcaption>
-    </figure></p>
-<h2 id="同一混编pod内swift调用oc">同一混编pod内Swift调用OC</h2>
-<p>同一<code>pod</code>中，把<code>oc</code>类引用放入<code>umbrella</code>中（默认就有了），然后需要这个文件能被找到。</p>
-<ol>
-<li>
-<p>一种方式是修改此文件的<code>membership</code>为<code>public</code>，目的是为了把它移到<code>public header</code>中去（静态库形式<code>pod</code>中的文件默认都是<code>project</code>的，动态库形式的<code>pod</code>才会区分<code>public</code>、<code>private</code>、<code>project</code>）</p>
-<blockquote>
-<p>修改起来成本比较高，不推荐</p>
-</blockquote>
-<p><figure><a class="lightgallery" href="/images/swiftocmix/member_ship.png" title="image.png" data-thumbnail="/images/swiftocmix/member_ship.png" data-sub-html="<h2>member_ship</h2><p>image.png</p>">
-        <img
-            class="lazyload"
-            src="/svg/loading.min.svg"
-            data-src="/images/swiftocmix/member_ship.png"
-            data-srcset="/images/swiftocmix/member_ship.png, /images/swiftocmix/member_ship.png 1.5x, /images/swiftocmix/member_ship.png 2x"
-            data-sizes="auto"
-            alt="/images/swiftocmix/member_ship.png" />
-    </a><figcaption class="image-caption">member_ship</figcaption>
-    </figure></p>
-<p><figure><a class="lightgallery" href="/images/swiftocmix/header.png" title="image.png" data-thumbnail="/images/swiftocmix/header.png" data-sub-html="<h2>header</h2><p>image.png</p>">
-        <img
-            class="lazyload"
-            src="/svg/loading.min.svg"
-            data-src="/images/swiftocmix/header.png"
-            data-srcset="/images/swiftocmix/header.png, /images/swiftocmix/header.png 1.5x, /images/swiftocmix/header.png 2x"
-            data-sizes="auto"
-            alt="/images/swiftocmix/header.png" />
-    </a><figcaption class="image-caption">header</figcaption>
-    </figure></p>
-</li>
-<li>
-<p>第二种方式是把这个文件的路径包含搜索路径中，可以通过设置<code>podspec</code>中的 <code>spec.header_dir</code>参数</p>
-<blockquote>
-<p><code>header_dir</code> 可以是任意名字, 笔者一般会设置为<code>./</code>，即当前文件夹</p>
-<hr>
-<p><strong>这个选项也不是万能的，你会发现就算设置了这个选项，也会出现报错的问题。建议业务方的pod如无必要，把类都放到<code>private_header_files</code> 中，减少<code>umbrella</code> 中的头文件数量。</strong></p>
-</blockquote>
-<p>如下设置</p>
-<p><figure><a class="lightgallery" href="/images/swiftocmix/header_dir_set.png" title="image.png" data-thumbnail="/images/swiftocmix/header_dir_set.png" data-sub-html="<h2>header_dir_set</h2><p>image.png</p>">
-        <img
-            class="lazyload"
-            src="/svg/loading.min.svg"
-            data-src="/images/swiftocmix/header_dir_set.png"
-            data-srcset="/images/swiftocmix/header_dir_set.png, /images/swiftocmix/header_dir_set.png 1.5x, /images/swiftocmix/header_dir_set.png 2x"
-            data-sizes="auto"
-            alt="/images/swiftocmix/header_dir_set.png" />
-    </a><figcaption class="image-caption">header_dir_set</figcaption>
-    </figure></p>
-</li>
-</ol>
-<blockquote>
-<p>静态库中的<code>import</code>需要是全路径的，而动态库中的搜索路径会被<code>flatten</code>，所以动态库不会出现此问题</p>
-</blockquote>
-<p><strong>不过这里有点需要注意的是，设置 <code>header_dir</code> 后需要同时设置 <code>module_name</code>，否则 <code>modulename</code> 默认会取 <code>header_dir</code> 的值。。。</strong></p>
-<p>其实官方文档上都有提到，惭愧</p>
-<p><figure><a class="lightgallery" href="/images/swiftocmix/module_name.png" title="image.png" data-thumbnail="/images/swiftocmix/module_name.png" data-sub-html="<h2>module_name</h2><p>image.png</p>">
-        <img
-            class="lazyload"
-            src="/svg/loading.min.svg"
-            data-src="/images/swiftocmix/module_name.png"
-            data-srcset="/images/swiftocmix/module_name.png, /images/swiftocmix/module_name.png 1.5x, /images/swiftocmix/module_name.png 2x"
-            data-sizes="auto"
-            alt="/images/swiftocmix/module_name.png" />
-    </a><figcaption class="image-caption">module_name</figcaption>
-    </figure></p>
-<h2 id="解惑">解惑</h2>
-<h4 id="为什么能够混编">为什么能够混编？</h4>
-<blockquote>
-<p>能够互相调用的类都需要继承<code>NSObject</code></p>
-<p><code>Swift</code>中的类和<code>Objective-C</code>中的类底层元数据（<code>class metadata</code>）是共用的</p>
-</blockquote>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span><span class="lnt">11
-</span><span class="lnt">12
-</span><span class="lnt">13
-</span><span class="lnt">14
-</span><span class="lnt">15
-</span><span class="lnt">16
-</span><span class="lnt">17
-</span><span class="lnt">18
-</span><span class="lnt">19
-</span><span class="lnt">20
-</span><span class="lnt">21
-</span><span class="lnt">22
-</span><span class="lnt">23
-</span><span class="lnt">24
-</span><span class="lnt">25
-</span><span class="lnt">26
-</span><span class="lnt">27
-</span><span class="lnt">28
-</span><span class="lnt">29
-</span><span class="lnt">30
-</span><span class="lnt">31
-</span><span class="lnt">32
-</span><span class="lnt">33
-</span><span class="lnt">34
-</span><span class="lnt">35
-</span><span class="lnt">36
-</span><span class="lnt">37
-</span><span class="lnt">38
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="c1">// objc4-818.2
-</span></span></span><span class="line"><span class="cl"><span class="c1">// objc-runtime-new.h
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
-</span></span><span class="line"><span class="cl"><span class="k">typedef</span> <span class="k">struct</span> <span class="nc">objc_class</span> <span class="o">*</span><span class="n">Class</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl"><span class="k">typedef</span> <span class="k">struct</span> <span class="nc">objc_object</span> <span class="o">*</span><span class="n">id</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="k">struct</span> <span class="nc">objc_object</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl"><span class="k">private</span><span class="o">:</span>
-</span></span><span class="line"><span class="cl">    <span class="n">isa_t</span> <span class="n">isa</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">    <span class="c1">// ...
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">};</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="k">struct</span> <span class="nc">objc_class</span> <span class="o">:</span> <span class="n">objc_object</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">    <span class="c1">// Class ISA;
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">Class</span> <span class="n">superclass</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">    <span class="n">cache_t</span> <span class="n">cache</span><span class="p">;</span>             <span class="c1">// formerly cache pointer and vtable
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">class_data_bits_t</span> <span class="n">bits</span><span class="p">;</span>    <span class="c1">// class_rw_t * plus custom rr/alloc flags
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
-</span></span><span class="line"><span class="cl">    <span class="c1">// ...
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">};</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="k">struct</span> <span class="nc">swift_class_t</span> <span class="o">:</span> <span class="n">objc_class</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">    <span class="kt">uint32_t</span> <span class="n">flags</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">    <span class="kt">uint32_t</span> <span class="n">instanceAddressOffset</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">    <span class="kt">uint32_t</span> <span class="n">instanceSize</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">    <span class="kt">uint16_t</span> <span class="n">instanceAlignMask</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">    <span class="kt">uint16_t</span> <span class="n">reserved</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">    <span class="kt">uint32_t</span> <span class="n">classSize</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">    <span class="kt">uint32_t</span> <span class="n">classAddressOffset</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">    <span class="kt">void</span> <span class="o">*</span><span class="n">description</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">    <span class="c1">// ...
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
-</span></span><span class="line"><span class="cl">    <span class="kt">void</span> <span class="o">*</span><span class="nf">baseAddress</span><span class="p">()</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="p">(</span><span class="kt">void</span> <span class="o">*</span><span class="p">)((</span><span class="kt">uint8_t</span> <span class="o">*</span><span class="p">)</span><span class="k">this</span> <span class="o">-</span> <span class="n">classAddressOffset</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">    <span class="p">}</span>
-</span></span><span class="line"><span class="cl"><span class="p">};</span>
-</span></span></code></pre></td></tr></table>
-</div>
-</div><h4 id="1-xcode9--cocopoads-15-之后不是已经支持把swift编译为静态库了吗为什么会报错呢">1. XCode9 &amp; Cocopoads 1.5 之后，不是已经支持把Swift编译为静态库了吗，为什么会报错呢？</h4>
-<p>第三方库对于把混编pod编译为静态库支持的不好，这不是苹果的锅，而是三方库未进行及时的适配，<del>像<code>Kingfisher</code>、<code>RxCocoa</code>都有问题</del></p>
-<blockquote>
-<p>这两个库笔者已经提了<code>pr</code> 来解决这个问题，现已合入主分支，从 <code>RxCocoa 6.1.0</code>、<code>Kingfisher 6.1.0</code> 开始都已支持编译为静态库;</p>
-<ul>
-<li><a href="https://github.com/ReactiveX/RxSwift/pull/2281" target="_blank" rel="noopener noreffer ">RxCocoa #2281</a></li>
-<li><a href="https://github.com/onevcat/Kingfisher/pull/1608" target="_blank" rel="noopener noreffer ">Kingfisher #1608</a></li>
-</ul>
-</blockquote>
-<h4 id="2-为什么改为动态库就可以正常编译通过了">2. 为什么改为动态库就可以正常编译通过了？</h4>
-<p>静态库需要使用绝对路径引用，而动态库强制把头文件平铺了，所以动态库能引到，静态库引不到</p>
-<p>可以自己验证一下，改成 <code>#import &quot;&lt;module-name&gt;/xxxx.h&quot;</code> 之后你再编译一下</p>
-<h4 id="3-为什么设置-header_dir-编译就不报错了">3. 为什么设置 header_dir 编译就不报错了？</h4>
-<p>默认情况下使用的是普通的<code>header</code> ，设置<code>header_dir</code>之后，<code>pod</code>会以<code>header_dir</code>为名称创建一个文件夹，然后把所有<code>public</code>出来的头文件引用放里面，<code>umbrella</code>引用头文件的时候其实指向的都是这里；</p>
-<blockquote>
-<p>见源码</p>
-</blockquote>
-<p><figure><a class="lightgallery" href="/images/swiftocmix/header_dir_code.png" title="image.png" data-thumbnail="/images/swiftocmix/header_dir_code.png" data-sub-html="<h2>header_dir_code</h2><p>image.png</p>">
-        <img
-            class="lazyload"
-            src="/svg/loading.min.svg"
-            data-src="/images/swiftocmix/header_dir_code.png"
-            data-srcset="/images/swiftocmix/header_dir_code.png, /images/swiftocmix/header_dir_code.png 1.5x, /images/swiftocmix/header_dir_code.png 2x"
-            data-sizes="auto"
-            alt="/images/swiftocmix/header_dir_code.png" />
-    </a><figcaption class="image-caption">header_dir_code</figcaption>
-    </figure></p>
-<h4 id="4-pod中没有bridging-header为什么swift还能引用objective-c类">4. <code>pod</code>中没有<code>bridging-header</code>为什么<code>Swift</code>还能引用<code>Objective-C</code>类？</h4>
-<p><code>pod</code>中<code>umbrella</code>文件其实就相当于是主工程中的<code>bridging-header</code>。</p>
-<h4 id="5-为什么xcode生成的hmap对我们的项目并没起到什么作用">5. 为什么<code>Xcode</code>生成的<code>hmap</code>对我们的项目并没起到什么作用？</h4>
-<p>上面已经提到静态库的形式下我们的类文件的<code>membership</code>是<code>project</code>，<code>hmap</code>生成的是<code>#import &quot;xx.h&quot;</code>形式的引用路径的<code>cache</code>，而我们通常引用库文件的方式为<code>#import &lt;A/B.h&gt;</code>，这就导致我们的引用根本就没办法命中<code>hmap</code>中的映射缓存（<code>pcm</code>），所以最终还是会走<code>search_path</code>的查找逻辑。而且由于<code>Xcode</code>中的<code>USE_HEADERMAP</code>设置默认是开启的，<code>Xcode</code>在编译期还会自动创建对我们用处不大的<code>hmap</code>，而这个过程间接拖慢了我们的编译速度。</p>
-<h4 id="6-publicprivateproject区别">6. <code>public</code>、<code>private</code>、<code>project</code>区别</h4>
-<ul>
-<li>
-<p><strong>Public</strong>: The interface is finalized and meant to be used by your product’s clients. A public header is included in the product as readable source code without restriction.</p>
-</li>
-<li>
-<p><strong>Private</strong>: The interface isn’t intended for your clients or it’s in early stages of development. A private header is included in the product, but it’s marked “private”. Thus the symbols are visible to all clients, but clients should understand that they’re not supposed to use them.</p>
-</li>
-<li>
-<p><strong>Project</strong>: The interface is for use only by implementation files in the current project. A project header is not included in the target, except in object code. The symbols are not visible to clients at all, only to you.</p>
-</li>
-</ul>
-<p><code>Project</code>和<code>Private</code>的权限或者说是作用基本一致，都是私有化的一种方式，只是<code>Project</code>权限的<strong>头文件</strong>是不会放到编译产物中的，<strong>注意说的是头文件</strong>，而<code>Private</code>头文件会放到编译产物中，只是告诉编译器不要暴漏给外界。<code>CocoaPods</code>是通过<code>Pods-&gt;Headers-&gt;Public/Private</code>目录管理头文件的引用，来控制对某一文件的访问权限的。</p>
-<h2 id="推荐设置">推荐设置</h2>
-<p><code>podspec</code>中在不指定<code>private_header_files</code>或<code>project_header_files</code>的时候<code>source_files</code>路径下的文件默认全都是<code>public</code>的，而<code>public</code>的头文件默认都会放到<code>umbrella</code>中，这样很容易导致<code>umbrella</code>中头文件爆炸，尤其是业务<code>pod</code>（比如我们的直播业务有2300多个头文件），特别影响编译速度。</p>
-<p>解决办法：把那些暴露给<code>swift</code>的头文件放到<code>public_header_files</code>中，其他的头文件则默认变成<code>project</code>类型。或者是把全部头文件默认指定为<code>private_header_files</code>或<code>project_header_files</code>，然后把需要公开的放到<code>public_header_files</code>中，尽量减少<code>umbrella</code>中头文件的数量。</p>
-<p>贴一下供参考的<code>Swift podspec</code>，请按需修改</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span><span class="lnt">11
-</span><span class="lnt">12
-</span><span class="lnt">13
-</span><span class="lnt">14
-</span><span class="lnt">15
-</span><span class="lnt">16
-</span><span class="lnt">17
-</span><span class="lnt">18
-</span><span class="lnt">19
-</span><span class="lnt">20
-</span><span class="lnt">21
-</span><span class="lnt">22
-</span><span class="lnt">23
-</span><span class="lnt">24
-</span><span class="lnt">25
-</span><span class="lnt">26
-</span><span class="lnt">27
-</span><span class="lnt">28
-</span><span class="lnt">29
-</span><span class="lnt">30
-</span><span class="lnt">31
-</span><span class="lnt">32
-</span><span class="lnt">33
-</span><span class="lnt">34
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-ruby" data-lang="ruby"><span class="line"><span class="cl"><span class="no">Pod</span><span class="o">::</span><span class="no">Spec</span><span class="o">.</span><span class="n">new</span> <span class="k">do</span> <span class="o">|</span><span class="n">spec</span><span class="o">|</span>
-</span></span><span class="line"><span class="cl">  <span class="n">spec</span><span class="o">.</span><span class="n">name</span>         <span class="o">=</span> <span class="s2">&#34;foo&#34;</span>
-</span></span><span class="line"><span class="cl">  <span class="n">spec</span><span class="o">.</span><span class="n">version</span>      <span class="o">=</span> <span class="s2">&#34;0.0.1&#34;</span>
-</span></span><span class="line"><span class="cl">  <span class="n">spec</span><span class="o">.</span><span class="n">summary</span>      <span class="o">=</span> <span class="s2">&#34;foo&#34;</span>
-</span></span><span class="line"><span class="cl">  <span class="n">spec</span><span class="o">.</span><span class="n">description</span>  <span class="o">=</span> <span class="s">&lt;&lt;-DESC
-</span></span></span><span class="line"><span class="cl"><span class="s"></span>    <span class="err">我是一只小柯基</span>
-</span></span><span class="line"><span class="cl">                   <span class="no">DESC</span>
-</span></span><span class="line"><span class="cl">  <span class="n">spec</span><span class="o">.</span><span class="n">homepage</span>     <span class="o">=</span> <span class="s2">&#34;https://foo/bar/abc&#34;</span>
-</span></span><span class="line"><span class="cl">  <span class="n">spec</span><span class="o">.</span><span class="n">license</span>      <span class="o">=</span> <span class="s2">&#34;MIT&#34;</span>
-</span></span><span class="line"><span class="cl">  <span class="n">spec</span><span class="o">.</span><span class="n">platform</span>     <span class="o">=</span> <span class="ss">:ios</span><span class="p">,</span> <span class="s2">&#34;12.0&#34;</span>
-</span></span><span class="line"><span class="cl">  <span class="n">spec</span><span class="o">.</span><span class="n">source</span>       <span class="o">=</span> <span class="p">{</span> 
-</span></span><span class="line"><span class="cl">    <span class="ss">:git</span> <span class="o">=&gt;</span> <span class="s2">&#34;https://foo/bar/abc.git&#34;</span><span class="p">,</span> 
-</span></span><span class="line"><span class="cl">    <span class="ss">:tag</span> <span class="o">=&gt;</span> <span class="s2">&#34;</span><span class="si">#{</span><span class="n">spec</span><span class="o">.</span><span class="n">version</span><span class="si">}</span><span class="s2">&#34;</span> 
-</span></span><span class="line"><span class="cl">  <span class="p">}</span>
-</span></span><span class="line"><span class="cl">  <span class="n">spec</span><span class="o">.</span><span class="n">swift_versions</span> <span class="o">=</span> <span class="o">[</span><span class="s1">&#39;5.1&#39;</span><span class="o">]</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">  <span class="n">publicHeaders</span> <span class="o">=</span> <span class="no">Dir</span><span class="o">[</span><span class="s2">&#34;Source/Room/PublicHeaders/*.h&#34;</span><span class="o">]</span>
-</span></span><span class="line"><span class="cl">  <span class="n">privateHeaders</span> <span class="o">=</span> <span class="no">Dir</span><span class="o">[</span><span class="s2">&#34;Source/Room/**/*.{h}&#34;</span><span class="o">]</span> <span class="o">-</span> <span class="n">publicHeaders</span>
-</span></span><span class="line"><span class="cl">  <span class="n">spec</span><span class="o">.</span><span class="n">source_files</span> <span class="o">=</span> <span class="s1">&#39;Source/Room/**/*.{h,m,swift}&#39;</span>
-</span></span><span class="line"><span class="cl">  <span class="n">spec</span><span class="o">.</span><span class="n">public_header_files</span> <span class="o">=</span> <span class="n">publicHeaders</span>
-</span></span><span class="line"><span class="cl">  <span class="c1"># 下面这行可有可无，设置的话会放到private中，不设置则等价于 `spec.project_header_files = privateHeaders`，会放到project中</span>
-</span></span><span class="line"><span class="cl">  <span class="c1"># spec.private_header_files = privateHeaders</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">  <span class="n">spec</span><span class="o">.</span><span class="n">module_name</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">name</span>
-</span></span><span class="line"><span class="cl">  <span class="n">spec</span><span class="o">.</span><span class="n">header_dir</span> <span class="o">=</span> <span class="s2">&#34;./&#34;</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">  <span class="n">spec</span><span class="o">.</span><span class="n">pod_target_xcconfig</span> <span class="o">=</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">    <span class="s1">&#39;DEFINES_MODULE&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;YES&#39;</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">  <span class="p">}</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">  <span class="n">spec</span><span class="o">.</span><span class="n">dependency</span> <span class="s1">&#39;RxCocoa&#39;</span>
-</span></span><span class="line"><span class="cl">  <span class="n">spec</span><span class="o">.</span><span class="n">dependency</span> <span class="s1">&#39;Cartography&#39;</span><span class="p">,</span> <span class="s1">&#39;~&gt; 4.0.0&#39;</span>
-</span></span><span class="line"><span class="cl">  <span class="n">spec</span><span class="o">.</span><span class="n">dependency</span> <span class="s1">&#39;ZDFlexLayoutKit&#39;</span>
-</span></span><span class="line"><span class="cl"><span class="k">end</span>
-</span></span></code></pre></td></tr></table>
-</div>
-</div><blockquote>
-<p>CocoaPods 骚操作：</p>
-</blockquote>
-<p>用踩坑中提到的<code>RxCocoa</code>做例子，为了编译成功，我们需要把它指定为动态库，而其他的保持不变，这种需求我们可以在 <code>pre_install</code> 阶段动态修改编译模式：把<code>dynamic_framework</code>数组中的<code>repo</code>编译为<code>framework</code>，其他未指定的默认还是静态库。</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span><span class="lnt">11
-</span><span class="lnt">12
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-ruby" data-lang="ruby"><span class="line"><span class="cl"><span class="n">pre_install</span> <span class="k">do</span> <span class="o">|</span><span class="n">installer</span><span class="o">|</span>    
-</span></span><span class="line"><span class="cl">    <span class="c1">#以framework形式存在的pod</span>
-</span></span><span class="line"><span class="cl">    <span class="n">dynamic_frameworks</span> <span class="o">=</span> <span class="o">[</span><span class="s1">&#39;RxSwift&#39;</span><span class="p">,</span> <span class="s1">&#39;RxCocoa&#39;</span><span class="p">,</span> <span class="s1">&#39;RxRelay&#39;</span><span class="o">]</span> 
-</span></span><span class="line"><span class="cl">    <span class="no">Pod</span><span class="o">::</span><span class="no">Installer</span><span class="o">::</span><span class="no">Xcode</span><span class="o">::</span><span class="no">TargetValidator</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="ss">:define_method</span><span class="p">,</span> <span class="ss">:verify_no_static_framework_transitive_dependencies</span><span class="p">)</span> <span class="p">{}</span>
-</span></span><span class="line"><span class="cl">    <span class="n">installer</span><span class="o">.</span><span class="n">pod_targets</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">pod</span><span class="o">|</span>
-</span></span><span class="line"><span class="cl">      <span class="k">if</span> <span class="n">dynamic_frameworks</span><span class="o">.</span><span class="n">include?</span><span class="p">(</span><span class="n">pod</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">        <span class="k">def</span> <span class="nc">pod</span><span class="o">.</span><span class="nf">build_type</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">          <span class="no">Pod</span><span class="o">::</span><span class="no">BuildType</span><span class="o">.</span><span class="n">dynamic_framework</span>
-</span></span><span class="line"><span class="cl">        <span class="k">end</span>
-</span></span><span class="line"><span class="cl">      <span class="k">end</span>
-</span></span><span class="line"><span class="cl">    <span class="k">end</span>
-</span></span><span class="line"><span class="cl"><span class="k">end</span>
-</span></span></code></pre></td></tr></table>
-</div>
-</div><h2 id="参考">参考</h2>
-<ul>
-<li>
-<p><a href="https://developer.apple.com/documentation/swift/imported_c_and_objective-c_apis/importing_objective-c_into_swift" target="_blank" rel="noopener noreffer ">importing_objective-c_into_swift</a></p>
-</li>
-<li>
-<p><a href="https://developer.apple.com/documentation/swift/imported_c_and_objective-c_apis/importing_swift_into_objective-c" target="_blank" rel="noopener noreffer ">importing_swift_into_objective-c</a></p>
-</li>
-<li>
-<p><a href="https://www.rubydoc.info/gems/cocoapods-core/Pod/BuildType" target="_blank" rel="noopener noreffer ">https://www.rubydoc.info/gems/cocoapods-core/Pod/BuildType</a></p>
-</li>
-<li>
-<p><a href="https://github.com/CocoaPods/CocoaPods/pull/7724" target="_blank" rel="noopener noreffer ">https://github.com/CocoaPods/CocoaPods/pull/7724</a></p>
-</li>
-<li>
-<p><a href="https://github.com/mxcl/PromiseKit/blob/6.15.3/PromiseKit.podspec" target="_blank" rel="noopener noreffer ">PromiseKit.podspec 6.15.3</a></p>
-</li>
-<li>
-<p><a href="https://tech.meituan.com/2021/02/25/swift-objective-c.html" target="_blank" rel="noopener noreffer ">从预编译的角度理解Swift与Objective-C及混编机制</a></p>
-</li>
-</ul></div><div class="post-footer" id="post-footer">
-    <div class="post-info">
-        <div class="post-info-line">
-            <div class="post-info-mod">
-                <span>更新于 2022-09-07</span>
-            </div></div>
-        <div class="post-info-line">
-            <div class="post-info-md"><span>
-                            <a class="link-to-markdown" href="/swift%E4%B8%8Eobjective-c%E6%B7%B7%E7%BC%96/index.md" target="_blank">阅读原始文档</a>
-                        </span></div>
-            <div class="post-info-share">
-                <span><a href="javascript:void(0);" title="分享到 Twitter" data-sharer="twitter" data-url="https://faimin.github.io/swift%E4%B8%8Eobjective-c%E6%B7%B7%E7%BC%96/" data-title="Swift与Objective-C混编" data-hashtags="iOS,swift"><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="分享到 Facebook" data-sharer="facebook" data-url="https://faimin.github.io/swift%E4%B8%8Eobjective-c%E6%B7%B7%E7%BC%96/" data-hashtag="iOS"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="分享到 Hacker News" data-sharer="hackernews" data-url="https://faimin.github.io/swift%E4%B8%8Eobjective-c%E6%B7%B7%E7%BC%96/" data-title="Swift与Objective-C混编"><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="分享到 Line" data-sharer="line" data-url="https://faimin.github.io/swift%E4%B8%8Eobjective-c%E6%B7%B7%E7%BC%96/" data-title="Swift与Objective-C混编"><i data-svg-src="https://cdn.jsdelivr.net/npm/simple-icons@7.3.0/icons/line.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="分享到 微博" data-sharer="weibo" data-url="https://faimin.github.io/swift%E4%B8%8Eobjective-c%E6%B7%B7%E7%BC%96/" data-title="Swift与Objective-C混编" data-ralateuid="1655766025"><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
-            </div>
-        </div>
-    </div>
-
-    <div class="post-info-more">
-        <section class="post-tags"><i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/tags/ios/">iOS</a>,&nbsp;<a href="/tags/swift/">swift</a></section>
-        <section>
-            <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
-        </section>
-    </div>
-
-    <div class="post-nav"><a href="/jenkins_note/" class="prev" rel="prev" title="Jenkins笔记"><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i>Jenkins笔记</a>
-            <a href="/nextresponder/" class="next" rel="next" title="NextResponder">NextResponder<i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
-</div>
-<div id="comments"><div id="valine" class="comment"></div><noscript>
-                Please enable JavaScript to view the comments powered by <a href="https://valine.js.org/">Valine</a>.
-            </noscript></div></article></div>
-            </main><footer class="footer">
-        <div class="footer-container"><div class="footer-line"><span id="busuanzi_container_site_uv">本站访客数<span id="busuanzi_value_site_uv"></span>人次</span> | <span id="busuanzi_container_site_pv">本站总访问量 <span id="busuanzi_value_site_pv"></span>次 </span></div><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.104.3">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.11"><i class="far fa-kiss-wink-heart fa-fw" aria-hidden="true"></i> LoveIt</a>
-                </div><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2018 - 2022</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="https://github.com/faimin" target="_blank">Zero.D.Saber</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
-        </div>
-    </footer></div>
-
-        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="回到顶部">
-                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
-            </a><a href="#" id="view-comments" class="fixed-button" title="查看评论">
-                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
-            </a>
-        </div><link rel="stylesheet" href="/lib/valine/valine.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@2.5.0/css/lightgallery-bundle.min.css"><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/valine@1.5.0/dist/Valine.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/autocomplete.js@0.38.1/dist/autocomplete.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/algoliasearch@4.13.1/dist/algoliasearch-lite.umd.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lazysizes@5.3.2/lazysizes.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lightgallery@2.5.0/lightgallery.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lightgallery@2.5.0/plugins/thumbnail/lg-thumbnail.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lightgallery@2.5.0/plugins/zoom/lg-zoom.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/clipboard@2.0.11/dist/clipboard.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/sharer.js@0.5.1/sharer.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":50},"comment":{"valine":{"appId":"QGzwQXOqs5JOhN4RGPOkR2mR-MdYXbMMI","appKey":"WBmoGyJtbqUswvfLh6L8iEBr","avatar":"mp","el":"#valine","emojiCDN":"https://cdn.jsdelivr.net/npm/emoji-datasource-google@14.0.0/img/google/64/","emojiMaps":{"100":"1f4af.png","alien":"1f47d.png","anger":"1f4a2.png","angry":"1f620.png","anguished":"1f627.png","astonished":"1f632.png","black_heart":"1f5a4.png","blue_heart":"1f499.png","blush":"1f60a.png","bomb":"1f4a3.png","boom":"1f4a5.png","broken_heart":"1f494.png","brown_heart":"1f90e.png","clown_face":"1f921.png","cold_face":"1f976.png","cold_sweat":"1f630.png","confounded":"1f616.png","confused":"1f615.png","cry":"1f622.png","crying_cat_face":"1f63f.png","cupid":"1f498.png","dash":"1f4a8.png","disappointed":"1f61e.png","disappointed_relieved":"1f625.png","dizzy":"1f4ab.png","dizzy_face":"1f635.png","drooling_face":"1f924.png","exploding_head":"1f92f.png","expressionless":"1f611.png","face_vomiting":"1f92e.png","face_with_cowboy_hat":"1f920.png","face_with_hand_over_mouth":"1f92d.png","face_with_head_bandage":"1f915.png","face_with_monocle":"1f9d0.png","face_with_raised_eyebrow":"1f928.png","face_with_rolling_eyes":"1f644.png","face_with_symbols_on_mouth":"1f92c.png","face_with_thermometer":"1f912.png","fearful":"1f628.png","flushed":"1f633.png","frowning":"1f626.png","ghost":"1f47b.png","gift_heart":"1f49d.png","green_heart":"1f49a.png","grimacing":"1f62c.png","grin":"1f601.png","grinning":"1f600.png","hankey":"1f4a9.png","hear_no_evil":"1f649.png","heart":"2764-fe0f.png","heart_decoration":"1f49f.png","heart_eyes":"1f60d.png","heart_eyes_cat":"1f63b.png","heartbeat":"1f493.png","heartpulse":"1f497.png","heavy_heart_exclamation_mark_ornament":"2763-fe0f.png","hole":"1f573-fe0f.png","hot_face":"1f975.png","hugging_face":"1f917.png","hushed":"1f62f.png","imp":"1f47f.png","innocent":"1f607.png","japanese_goblin":"1f47a.png","japanese_ogre":"1f479.png","joy":"1f602.png","joy_cat":"1f639.png","kiss":"1f48b.png","kissing":"1f617.png","kissing_cat":"1f63d.png","kissing_closed_eyes":"1f61a.png","kissing_heart":"1f618.png","kissing_smiling_eyes":"1f619.png","laughing":"1f606.png","left_speech_bubble":"1f5e8-fe0f.png","love_letter":"1f48c.png","lying_face":"1f925.png","mask":"1f637.png","money_mouth_face":"1f911.png","nauseated_face":"1f922.png","nerd_face":"1f913.png","neutral_face":"1f610.png","no_mouth":"1f636.png","open_mouth":"1f62e.png","orange_heart":"1f9e1.png","partying_face":"1f973.png","pensive":"1f614.png","persevere":"1f623.png","pleading_face":"1f97a.png","pouting_cat":"1f63e.png","purple_heart":"1f49c.png","rage":"1f621.png","relaxed":"263a-fe0f.png","relieved":"1f60c.png","revolving_hearts":"1f49e.png","right_anger_bubble":"1f5ef-fe0f.png","robot_face":"1f916.png","rolling_on_the_floor_laughing":"1f923.png","scream":"1f631.png","scream_cat":"1f640.png","see_no_evil":"1f648.png","shushing_face":"1f92b.png","skull":"1f480.png","skull_and_crossbones":"2620-fe0f.png","sleeping":"1f634.png","sleepy":"1f62a.png","slightly_frowning_face":"1f641.png","slightly_smiling_face":"1f642.png","smile":"1f604.png","smile_cat":"1f638.png","smiley":"1f603.png","smiley_cat":"1f63a.png","smiling_face_with_3_hearts":"1f970.png","smiling_imp":"1f608.png","smirk":"1f60f.png","smirk_cat":"1f63c.png","sneezing_face":"1f927.png","sob":"1f62d.png","space_invader":"1f47e.png","sparkling_heart":"1f496.png","speak_no_evil":"1f64a.png","speech_balloon":"1f4ac.png","star-struck":"1f929.png","stuck_out_tongue":"1f61b.png","stuck_out_tongue_closed_eyes":"1f61d.png","stuck_out_tongue_winking_eye":"1f61c.png","sunglasses":"1f60e.png","sweat":"1f613.png","sweat_drops":"1f4a6.png","sweat_smile":"1f605.png","thinking_face":"1f914.png","thought_balloon":"1f4ad.png","tired_face":"1f62b.png","triumph":"1f624.png","two_hearts":"1f495.png","unamused":"1f612.png","upside_down_face":"1f643.png","weary":"1f629.png","white_frowning_face":"2639-fe0f.png","white_heart":"1f90d.png","wink":"1f609.png","woozy_face":"1f974.png","worried":"1f61f.png","yawning_face":"1f971.png","yellow_heart":"1f49b.png","yum":"1f60b.png","zany_face":"1f92a.png","zipper_mouth_face":"1f910.png","zzz":"1f4a4.png"},"enableQQ":false,"highlight":true,"lang":"zh-CN","pageSize":10,"placeholder":"你的评论 ...","recordIP":true,"serverURLs":"https://leancloud.hugoloveit.com","visitor":true}},"lightgallery":true,"search":{"algoliaAppID":"PASDMWALPK","algoliaIndex":"index.zh-cn","algoliaSearchKey":"b42948e51daaa93df92381c8e2ac0f93","highlightTag":"em","maxResultLength":10,"noResultsFound":"没有找到结果","snippetLength":50,"type":"algolia"}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
-</html>
+<!doctype html><html lang=zh-cn><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=robots content="noodp"><title>Swift与Objective-C混编 - Zero.D.Saber</title><meta name=Description content="CocoaPods组件中Swift与Objective-C混编"><meta property="og:title" content="Swift与Objective-C混编"><meta property="og:description" content="CocoaPods组件中Swift与Objective-C混编"><meta property="og:type" content="article"><meta property="og:url" content="https://faimin.github.io/swift%E4%B8%8Eobjective-c%E6%B7%B7%E7%BC%96/"><meta property="og:image" content="https://faimin.github.io/logo/avatar.gif"><meta property="article:section" content="posts"><meta property="article:published_time" content="2020-11-04T18:21:55+08:00"><meta property="article:modified_time" content="2022-09-07T19:40:00+08:00"><meta property="og:site_name" content="Zero.D.Saber的小屋"><meta name=twitter:card content="summary_large_image"><meta name=twitter:image content="https://faimin.github.io/logo/avatar.gif"><meta name=twitter:title content="Swift与Objective-C混编"><meta name=twitter:description content="CocoaPods组件中Swift与Objective-C混编"><meta name=application-name content="LoveIt"><meta name=apple-mobile-web-app-title content="LoveIt"><meta name=theme-color content="#ffffff"><meta name=msapplication-TileColor content="#da532c"><link rel=icon href=/logo/avatar.gif><link rel=apple-touch-icon sizes=180x180 href=/apple-touch-icon.png><link rel=mask-icon href=/safari-pinned-tab.svg color=#5bbad5><link rel=manifest href=/site.webmanifest><link rel=canonical href=https://faimin.github.io/swift%E4%B8%8Eobjective-c%E6%B7%B7%E7%BC%96/><link rel=prev href=https://faimin.github.io/jenkins_note/><link rel=next href=https://faimin.github.io/nextresponder/><link rel=stylesheet href=/css/style.min.css><link rel=preload href=https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css as=style onload='this.onload=null,this.rel="stylesheet"'><noscript><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css></noscript><link rel=preload href=https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css as=style onload='this.onload=null,this.rel="stylesheet"'><noscript><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css></noscript><script type=application/ld+json>{"@context":"http://schema.org","@type":"BlogPosting","headline":"Swift与Objective-C混编","inLanguage":"zh-CN","mainEntityOfPage":{"@type":"WebPage","@id":"https:\/\/faimin.github.io\/swift%E4%B8%8Eobjective-c%E6%B7%B7%E7%BC%96\/"},"image":["https:\/\/faimin.github.io\/images\/Apple-Devices-Preview.png"],"genre":"posts","keywords":"iOS, swift","wordcount":4132,"url":"https:\/\/faimin.github.io\/swift%E4%B8%8Eobjective-c%E6%B7%B7%E7%BC%96\/","datePublished":"2020-11-04T18:21:55+08:00","dateModified":"2022-09-07T19:40:00+08:00","license":"This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher":{"@type":"Organization","name":"Zero.D.Saber","logo":"https:\/\/faimin.github.io\/images\/avatar.png"},"author":{"@type":"Person","name":"Zero.D.Saber"},"description":"CocoaPods组件中Swift与Objective-C混编"}</script></head><body data-header-desktop=fixed data-header-mobile=auto><script type=text/javascript>(window.localStorage&&localStorage.getItem("theme")?localStorage.getItem("theme")==="dark":"auto"==="auto"?window.matchMedia("(prefers-color-scheme: dark)").matches:"auto"==="dark")&&document.body.setAttribute("theme","dark")</script><div id=mask></div><div class=wrapper><header class=desktop id=header-desktop><div class=header-wrapper><div class=header-title><a href=/ title=Zero.D.Saber>Zero.D.Saber's Notes</a></div><div class=menu><div class=menu-inner><a class=menu-item href=/posts/>所有文章 </a><a class=menu-item href=/tags/>标签 </a><a class=menu-item href=/categories/>分类 </a><a class=menu-item href=/categories/documentation/>文档 </a><a class=menu-item href=/about/whoami>关于 </a><a class=menu-item href=https://github.com/faimin title=GitHub rel="noopener noreffer" target=_blank><i class='fab fa-github fa-fw' aria-hidden=true></i> </a><span class="menu-item delimiter"></span><span class="menu-item search" id=search-desktop>
+<input type=text placeholder=搜索文章标题或内容... id=search-input-desktop>
+<a href=javascript:void(0); class="search-button search-toggle" id=search-toggle-desktop title=搜索><i class="fas fa-search fa-fw" aria-hidden=true></i></a>
+<a href=javascript:void(0); class="search-button search-clear" id=search-clear-desktop title=清空><i class="fas fa-times-circle fa-fw" aria-hidden=true></i></a>
+<span class="search-button search-loading" id=search-loading-desktop><i class="fas fa-spinner fa-fw fa-spin" aria-hidden=true></i></span>
+</span><a href=javascript:void(0); class="menu-item theme-switch" title=切换主题><i class="fas fa-adjust fa-fw" aria-hidden=true></i>
+</a><a href=javascript:void(0); class="menu-item language" title=选择语言><i class="fa fa-globe" aria-hidden=true></i>
+<select class=language-select id=language-select-desktop onchange="location=this.value"><option value=/swift%E4%B8%8Eobjective-c%E6%B7%B7%E7%BC%96/ selected>简体中文</option></select></a></div></div></div></header><header class=mobile id=header-mobile><div class=header-container><div class=header-wrapper><div class=header-title><a href=/ title=Zero.D.Saber>Zero.D.Saber's Notes</a></div><div class=menu-toggle id=menu-toggle-mobile><span></span><span></span><span></span></div></div><div class=menu id=menu-mobile><div class=search-wrapper><div class="search mobile" id=search-mobile><input type=text placeholder=搜索文章标题或内容... id=search-input-mobile>
+<a href=javascript:void(0); class="search-button search-toggle" id=search-toggle-mobile title=搜索><i class="fas fa-search fa-fw" aria-hidden=true></i></a>
+<a href=javascript:void(0); class="search-button search-clear" id=search-clear-mobile title=清空><i class="fas fa-times-circle fa-fw" aria-hidden=true></i></a>
+<span class="search-button search-loading" id=search-loading-mobile><i class="fas fa-spinner fa-fw fa-spin" aria-hidden=true></i></span></div><a href=javascript:void(0); class=search-cancel id=search-cancel-mobile>取消</a></div><a class=menu-item href=/posts/ title>所有文章</a><a class=menu-item href=/tags/ title>标签</a><a class=menu-item href=/categories/ title>分类</a><a class=menu-item href=/categories/documentation/ title>文档</a><a class=menu-item href=/about/whoami title>关于</a><a class=menu-item href=https://github.com/faimin title=GitHub rel="noopener noreffer" target=_blank><i class='fab fa-github fa-fw' aria-hidden=true></i></a><a href=javascript:void(0); class="menu-item theme-switch" title=切换主题>
+<i class="fas fa-adjust fa-fw" aria-hidden=true></i>
+</a><a href=javascript:void(0); class=menu-item title=选择语言><i class="fa fa-globe fa-fw" aria-hidden=true></i>
+<select class=language-select onchange="location=this.value"><option value=/swift%E4%B8%8Eobjective-c%E6%B7%B7%E7%BC%96/ selected>简体中文</option></select></a></div></div></header><div class="search-dropdown desktop"><div id=search-dropdown-desktop></div></div><div class="search-dropdown mobile"><div id=search-dropdown-mobile></div></div><main class=main><div class=container><div class=toc id=toc-auto><h2 class=toc-title>目录</h2><div class=toc-content id=toc-content-auto></div></div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">Swift与Objective-C混编</h1><div class=post-meta><div class=post-meta-line><span class=post-author><a href=https://github.com/faimin title=Author target=_blank rel="noopener noreffer author" class=author><i class="fas fa-user-circle fa-fw" aria-hidden=true></i>Zero.D.Saber</a></span>&nbsp;<span class=post-category>收录于 <a href=/categories/%E6%B7%B7%E7%BC%96/><i class="far fa-folder fa-fw" aria-hidden=true></i>混编</a></span></div><div class=post-meta-line><i class="far fa-calendar-alt fa-fw" aria-hidden=true></i>&nbsp;<time datetime=2020-11-04>2020-11-04</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden=true></i>&nbsp;约 4132 字&nbsp;
+<i class="far fa-clock fa-fw" aria-hidden=true></i>&nbsp;预计阅读 9 分钟&nbsp;<span id=/swift%E4%B8%8Eobjective-c%E6%B7%B7%E7%BC%96/ class=leancloud_visitors data-flag-title=Swift与Objective-C混编>
+<i class="far fa-eye fa-fw" aria-hidden=true></i>&nbsp;<span class=leancloud-visitors-count></span>&nbsp;次阅读
+</span>&nbsp;</div></div><div class="details toc" id=toc-static data-kept><div class="details-summary toc-title"><span>目录</span>
+<span><i class="details-icon fas fa-angle-right" aria-hidden=true></i></span></div><div class="details-content toc-content" id=toc-content-static><nav id=TableOfContents><ul><li><a href=#前言>前言</a></li><li><a href=#前期方案>前期方案</a></li><li><a href=#踩坑记录>踩坑记录</a></li><li><a href=#同一混编pod内oc调用swift>同一混编pod内OC调用Swift</a></li><li><a href=#同一混编pod内swift调用oc>同一混编pod内Swift调用OC</a></li><li><a href=#解惑>解惑</a><ul><li><ul><li><a href=#为什么能够混编>为什么能够混编？</a></li><li><a href=#1-xcode9--cocopoads-15-之后不是已经支持把swift编译为静态库了吗为什么会报错呢>1. XCode9 & Cocopoads 1.5 之后，不是已经支持把Swift编译为静态库了吗，为什么会报错呢？</a></li><li><a href=#2-为什么改为动态库就可以正常编译通过了>2. 为什么改为动态库就可以正常编译通过了？</a></li><li><a href=#3-为什么设置-header_dir-编译就不报错了>3. 为什么设置 header_dir 编译就不报错了？</a></li><li><a href=#4-pod中没有bridging-header为什么swift还能引用objective-c类>4. <code>pod</code>中没有<code>bridging-header</code>为什么<code>Swift</code>还能引用<code>Objective-C</code>类？</a></li><li><a href=#5-为什么xcode生成的hmap对我们的项目并没起到什么作用>5. 为什么<code>Xcode</code>生成的<code>hmap</code>对我们的项目并没起到什么作用？</a></li><li><a href=#6-publicprivateproject区别>6. <code>public</code>、<code>private</code>、<code>project</code>区别</a></li></ul></li></ul></li><li><a href=#推荐设置>推荐设置</a></li><li><a href=#参考>参考</a></li></ul></nav></div></div><div class=content id=content><h2 id=前言>前言</h2><blockquote><p>本文是笔者在解决混编时的一些记录，有些东西可能已经发生了变化。而且由于只是随手记录，写的比较乱，各位看官见谅~~~</p><p>笔者负责的业务是以<code>pod模块</code>的形式存在于工程中的，所以以下调研的方案只针对于<code>pod</code>中的混编场景，在MM主工程混编几乎是无缝，没什么可说的。。。</p><p>推荐大家浏览下 <code>CocoaPods（podfile & podspec）</code> 的 <code>API</code>，没几个，花费不了几分钟，但是却能帮助大家少踩很多的坑，一本万利~</p></blockquote><h2 id=前期方案>前期方案</h2><p>暂时采用折中方案，把<code>Swift</code>独立成一个<code>pod</code>，然后业务<code>pod</code>再引用<code>Swift pod</code>。目的是减少依赖，避免引用不规范的<code>repo</code>。</p><blockquote><p>如果打算在同一<code>pod</code>中混编，只要把你依赖的库都支持<code>module</code>即可，而且需要修改一下你们引用外部<code>repo</code>头文件的形式，比如 <code>#import "SDWebImage.h"</code> 改为 <code>#import &lt;SDWebImage/SDWebImage.h></code></p></blockquote><ol><li><p>在MM主工程中创建个新的<code>Swift</code>文件（空文件即可），让<code>Xcode</code>自动生成一个<code>bridge-header</code>，目的是营造一个<code>Swift</code>环境（之前一直想不修改主工程而只在pod中营造，但是很遗憾，最后以失败告终）；</p></li><li><p>由于混编<code>pod</code>中依赖的<code>repo</code>需要支持<code>module</code>，但是MM中的<code>pod</code>水平参差不齐，大部分都没有支持<code>module</code>，这就限制我们在业务<code>pod</code>中混编时编译失败。而让<code>pod</code>一下子都支持<code>module</code>是一个不太现实的要求，所以我们暂时采用了一种折中的方案；</p></li><li><p>把<code>Swift</code>单独放一个<code>pod</code>中去，让<code>Swift</code>尽量少的依赖其他<code>repo</code>，然后业务<code>pod</code>再依赖<code>Swift repo</code>来调用<code>Swift</code>代码；</p></li></ol><h2 id=踩坑记录>踩坑记录</h2><ul><li><code>pod</code>中不支持<code>bridging-header</code>，所以混编<code>pod</code>中要想引用<code>OC</code>类，<code>pod</code>需要支持<code>module</code></li><li><del>混编的<code>Swift</code>库需要打成<code>framework</code>形式才可以编译成功，比如<code>RxCocoa</code>、<code>PromiseKit</code></del></li><li>限于苹果本身机制和现有二进制方案实现问题，不支持 <code>:modular_headers => true</code>，所以使用<code>:modular_headers => true</code> 时临时需要添加参数<code>:use_source_code => true</code>，切换为代码编译；</li><li><del><code>Swift</code>与<code>OC</code>混编的<code>pod</code>所依赖的库需要改为动态库，比如<code>ZDFlexLayout</code>内部为Swift与OC混编的，依赖了<code>Yoga</code>，需要把<code>Yoga</code>编为动态库。</del> 报错如下图</li></ul><p><figure><a class=lightgallery href=/images/swiftocmix/undefine_symbol.png title=undefine_symbol data-thumbnail=/images/swiftocmix/undefine_symbol.png data-sub-html="<h2>undefine_symbol</h2><p>undefine_symbol</p>"><img class=lazyload src=/svg/loading.min.svg data-src=/images/swiftocmix/undefine_symbol.png data-srcset="/images/swiftocmix/undefine_symbol.png, /images/swiftocmix/undefine_symbol.png 1.5x, /images/swiftocmix/undefine_symbol.png 2x" data-sizes=auto alt=/images/swiftocmix/undefine_symbol.png></a><figcaption class=image-caption>undefine_symbol</figcaption></figure></p><blockquote><p>实际操作</p></blockquote><ol><li><p>跨模块引用时需要把要暴露给外部的类或者函数的访问权限设置为 <code>public</code>，并标记为 <code>@objc</code>，同时需要继承自<code>NSObject</code>类</p></li><li><p><code>pod</code> 中引用其他<code>pod</code>都是通过 <code>@import</code> 语法</p></li><li><p><code>Swift</code>依赖的<code>repo</code>需要<code>module</code>化，</p><blockquote><p>有3种方式：</p><p>i: 在<code>podfile</code>中让所有的<code>repo</code>开启<code>modular</code>: <code>use_modular_headers!</code></p><p>ii: 只给某几个repo开启modular，举个例子：<code>pod 'SDWebImage', :modular_headers => true</code></p><p>iii: 让repo自己开启module支持，需要在podspec中修改下设置：<code>spec.pod_target_xcconfig = { 'DEFINES_MODULE' => 'YES' }</code> , 这个设置不管你开不开启<code>modular</code>开关，都会自动创建<code>module</code></p></blockquote></li><li><p>如果<code>podspec</code>中不设置<code>DEFINES_MODULE=true</code>，默认是不会生成<code>module</code>的，哪怕你在<code>podspec</code>中设置了<code>module_map</code>也不行，除非你在<code>podfile</code>中手动开启<code>modular_hear</code>你自己的<code>modulemap</code>才会生效</p></li><li><p>如果你手动创建了<code>modulemap</code>就不要设置<code>DEFINES_MODULE=true</code>了，因为笔者发现开启<code>DEFINES_MODULE</code>后它还会自己再生成一份<code>xxx-umbraller</code>文件。</p><blockquote><p>推荐让<code>CocoaPods</code>帮我们创建<code>modulemap</code>，如非你特别懂<code>modulemap</code>，不建议自己手动创建。</p></blockquote></li><li><p>只需要把<code>Swift</code>用到的<code>OC</code>类放到<code>umbrella</code>中（后面说控制方法）</p></li></ol><h2 id=同一混编pod内oc调用swift>同一混编pod内OC调用Swift</h2><p>在头文件中引入 <code>#import &lt;module-name>-Swift.h"</code>，然后就可以调用<code>Swift</code>类了</p><p><figure><a class=lightgallery href=/images/swiftocmix/oc_import_swift.png title=image.png data-thumbnail=/images/swiftocmix/oc_import_swift.png data-sub-html="<h2>oc_import_swift</h2><p>image.png</p>"><img class=lazyload src=/svg/loading.min.svg data-src=/images/swiftocmix/oc_import_swift.png data-srcset="/images/swiftocmix/oc_import_swift.png, /images/swiftocmix/oc_import_swift.png 1.5x, /images/swiftocmix/oc_import_swift.png 2x" data-sizes=auto alt=/images/swiftocmix/oc_import_swift.png></a><figcaption class=image-caption>oc_import_swift</figcaption></figure></p><h2 id=同一混编pod内swift调用oc>同一混编pod内Swift调用OC</h2><p>同一<code>pod</code>中，把<code>oc</code>类引用放入<code>umbrella</code>中（默认就有了），然后需要这个文件能被找到。</p><ol><li><p>一种方式是修改此文件的<code>membership</code>为<code>public</code>，目的是为了把它移到<code>public header</code>中去（静态库形式<code>pod</code>中的文件默认都是<code>project</code>的，动态库形式的<code>pod</code>才会区分<code>public</code>、<code>private</code>、<code>project</code>）</p><blockquote><p>修改起来成本比较高，不推荐</p></blockquote><p><figure><a class=lightgallery href=/images/swiftocmix/member_ship.png title=image.png data-thumbnail=/images/swiftocmix/member_ship.png data-sub-html="<h2>member_ship</h2><p>image.png</p>"><img class=lazyload src=/svg/loading.min.svg data-src=/images/swiftocmix/member_ship.png data-srcset="/images/swiftocmix/member_ship.png, /images/swiftocmix/member_ship.png 1.5x, /images/swiftocmix/member_ship.png 2x" data-sizes=auto alt=/images/swiftocmix/member_ship.png></a><figcaption class=image-caption>member_ship</figcaption></figure></p><p><figure><a class=lightgallery href=/images/swiftocmix/header.png title=image.png data-thumbnail=/images/swiftocmix/header.png data-sub-html="<h2>header</h2><p>image.png</p>"><img class=lazyload src=/svg/loading.min.svg data-src=/images/swiftocmix/header.png data-srcset="/images/swiftocmix/header.png, /images/swiftocmix/header.png 1.5x, /images/swiftocmix/header.png 2x" data-sizes=auto alt=/images/swiftocmix/header.png></a><figcaption class=image-caption>header</figcaption></figure></p></li><li><p>第二种方式是把这个文件的路径包含搜索路径中，可以通过设置<code>podspec</code>中的 <code>spec.header_dir</code>参数</p><blockquote><p><code>header_dir</code> 可以是任意名字, 笔者一般会设置为<code>./</code>，即当前文件夹</p><hr><p><strong>这个选项也不是万能的，你会发现就算设置了这个选项，也会出现报错的问题。建议业务方的pod如无必要，把类都放到<code>private_header_files</code> 中，减少<code>umbrella</code> 中的头文件数量。</strong></p></blockquote><p>如下设置</p><p><figure><a class=lightgallery href=/images/swiftocmix/header_dir_set.png title=image.png data-thumbnail=/images/swiftocmix/header_dir_set.png data-sub-html="<h2>header_dir_set</h2><p>image.png</p>"><img class=lazyload src=/svg/loading.min.svg data-src=/images/swiftocmix/header_dir_set.png data-srcset="/images/swiftocmix/header_dir_set.png, /images/swiftocmix/header_dir_set.png 1.5x, /images/swiftocmix/header_dir_set.png 2x" data-sizes=auto alt=/images/swiftocmix/header_dir_set.png></a><figcaption class=image-caption>header_dir_set</figcaption></figure></p></li></ol><blockquote><p>静态库中的<code>import</code>需要是全路径的，而动态库中的搜索路径会被<code>flatten</code>，所以动态库不会出现此问题</p></blockquote><p><strong>不过这里有点需要注意的是，设置 <code>header_dir</code> 后需要同时设置 <code>module_name</code>，否则 <code>modulename</code> 默认会取 <code>header_dir</code> 的值。。。</strong></p><p>其实官方文档上都有提到，惭愧</p><p><figure><a class=lightgallery href=/images/swiftocmix/module_name.png title=image.png data-thumbnail=/images/swiftocmix/module_name.png data-sub-html="<h2>module_name</h2><p>image.png</p>"><img class=lazyload src=/svg/loading.min.svg data-src=/images/swiftocmix/module_name.png data-srcset="/images/swiftocmix/module_name.png, /images/swiftocmix/module_name.png 1.5x, /images/swiftocmix/module_name.png 2x" data-sizes=auto alt=/images/swiftocmix/module_name.png></a><figcaption class=image-caption>module_name</figcaption></figure></p><h2 id=解惑>解惑</h2><h4 id=为什么能够混编>为什么能够混编？</h4><blockquote><p>能够互相调用的类都需要继承<code>NSObject</code></p><p><code>Swift</code>中的类和<code>Objective-C</code>中的类底层元数据（<code>class metadata</code>）是共用的</p></blockquote><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span><span class=lnt>38
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-cpp data-lang=cpp><span class=line><span class=cl><span class=c1>// objc4-818.2
+</span></span></span><span class=line><span class=cl><span class=c1>// objc-runtime-new.h
+</span></span></span><span class=line><span class=cl><span class=c1></span>
+</span></span><span class=line><span class=cl><span class=k>typedef</span> <span class=k>struct</span> <span class=nc>objc_class</span> <span class=o>*</span><span class=n>Class</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=k>typedef</span> <span class=k>struct</span> <span class=nc>objc_object</span> <span class=o>*</span><span class=n>id</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>struct</span> <span class=nc>objc_object</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl><span class=k>private</span><span class=o>:</span>
+</span></span><span class=line><span class=cl>    <span class=n>isa_t</span> <span class=n>isa</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=c1>// ...
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=p>};</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>struct</span> <span class=nc>objc_class</span> <span class=o>:</span> <span class=n>objc_object</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=c1>// Class ISA;
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=n>Class</span> <span class=n>superclass</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=n>cache_t</span> <span class=n>cache</span><span class=p>;</span>             <span class=c1>// formerly cache pointer and vtable
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=n>class_data_bits_t</span> <span class=n>bits</span><span class=p>;</span>    <span class=c1>// class_rw_t * plus custom rr/alloc flags
+</span></span></span><span class=line><span class=cl><span class=c1></span>
+</span></span><span class=line><span class=cl>    <span class=c1>// ...
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=p>};</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>struct</span> <span class=nc>swift_class_t</span> <span class=o>:</span> <span class=n>objc_class</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=kt>uint32_t</span> <span class=n>flags</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=kt>uint32_t</span> <span class=n>instanceAddressOffset</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=kt>uint32_t</span> <span class=n>instanceSize</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=kt>uint16_t</span> <span class=n>instanceAlignMask</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=kt>uint16_t</span> <span class=n>reserved</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=kt>uint32_t</span> <span class=n>classSize</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=kt>uint32_t</span> <span class=n>classAddressOffset</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=kt>void</span> <span class=o>*</span><span class=n>description</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=c1>// ...
+</span></span></span><span class=line><span class=cl><span class=c1></span>
+</span></span><span class=line><span class=cl>    <span class=kt>void</span> <span class=o>*</span><span class=nf>baseAddress</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=k>return</span> <span class=p>(</span><span class=kt>void</span> <span class=o>*</span><span class=p>)((</span><span class=kt>uint8_t</span> <span class=o>*</span><span class=p>)</span><span class=k>this</span> <span class=o>-</span> <span class=n>classAddressOffset</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>};</span>
+</span></span></code></pre></td></tr></table></div></div><h4 id=1-xcode9--cocopoads-15-之后不是已经支持把swift编译为静态库了吗为什么会报错呢>1. XCode9 & Cocopoads 1.5 之后，不是已经支持把Swift编译为静态库了吗，为什么会报错呢？</h4><p>第三方库对于把混编pod编译为静态库支持的不好，这不是苹果的锅，而是三方库未进行及时的适配，<del>像<code>Kingfisher</code>、<code>RxCocoa</code>都有问题</del></p><blockquote><p>这两个库笔者已经提了<code>pr</code> 来解决这个问题，现已合入主分支，从 <code>RxCocoa 6.1.0</code>、<code>Kingfisher 6.1.0</code> 开始都已支持编译为静态库;</p><ul><li><a href=https://github.com/ReactiveX/RxSwift/pull/2281 target=_blank rel="noopener noreffer">RxCocoa #2281</a></li><li><a href=https://github.com/onevcat/Kingfisher/pull/1608 target=_blank rel="noopener noreffer">Kingfisher #1608</a></li></ul></blockquote><h4 id=2-为什么改为动态库就可以正常编译通过了>2. 为什么改为动态库就可以正常编译通过了？</h4><p>静态库需要使用绝对路径引用，而动态库强制把头文件平铺了，所以动态库能引到，静态库引不到</p><p>可以自己验证一下，改成 <code>#import "&lt;module-name>/xxxx.h"</code> 之后你再编译一下</p><h4 id=3-为什么设置-header_dir-编译就不报错了>3. 为什么设置 header_dir 编译就不报错了？</h4><p>默认情况下使用的是普通的<code>header</code> ，设置<code>header_dir</code>之后，<code>pod</code>会以<code>header_dir</code>为名称创建一个文件夹，然后把所有<code>public</code>出来的头文件引用放里面，<code>umbrella</code>引用头文件的时候其实指向的都是这里；</p><blockquote><p>见源码</p></blockquote><p><figure><a class=lightgallery href=/images/swiftocmix/header_dir_code.png title=image.png data-thumbnail=/images/swiftocmix/header_dir_code.png data-sub-html="<h2>header_dir_code</h2><p>image.png</p>"><img class=lazyload src=/svg/loading.min.svg data-src=/images/swiftocmix/header_dir_code.png data-srcset="/images/swiftocmix/header_dir_code.png, /images/swiftocmix/header_dir_code.png 1.5x, /images/swiftocmix/header_dir_code.png 2x" data-sizes=auto alt=/images/swiftocmix/header_dir_code.png></a><figcaption class=image-caption>header_dir_code</figcaption></figure></p><h4 id=4-pod中没有bridging-header为什么swift还能引用objective-c类>4. <code>pod</code>中没有<code>bridging-header</code>为什么<code>Swift</code>还能引用<code>Objective-C</code>类？</h4><p><code>pod</code>中<code>umbrella</code>文件其实就相当于是主工程中的<code>bridging-header</code>。</p><h4 id=5-为什么xcode生成的hmap对我们的项目并没起到什么作用>5. 为什么<code>Xcode</code>生成的<code>hmap</code>对我们的项目并没起到什么作用？</h4><p>上面已经提到静态库的形式下我们的类文件的<code>membership</code>是<code>project</code>，<code>hmap</code>生成的是<code>#import "xx.h"</code>形式的引用路径的<code>cache</code>，而我们通常引用库文件的方式为<code>#import &lt;A/B.h></code>，这就导致我们的引用根本就没办法命中<code>hmap</code>中的映射缓存（<code>pcm</code>），所以最终还是会走<code>search_path</code>的查找逻辑。而且由于<code>Xcode</code>中的<code>USE_HEADERMAP</code>设置默认是开启的，<code>Xcode</code>在编译期还会自动创建对我们用处不大的<code>hmap</code>，而这个过程间接拖慢了我们的编译速度。</p><h4 id=6-publicprivateproject区别>6. <code>public</code>、<code>private</code>、<code>project</code>区别</h4><ul><li><p><strong>Public</strong>: The interface is finalized and meant to be used by your product’s clients. A public header is included in the product as readable source code without restriction.</p></li><li><p><strong>Private</strong>: The interface isn’t intended for your clients or it’s in early stages of development. A private header is included in the product, but it’s marked “private”. Thus the symbols are visible to all clients, but clients should understand that they’re not supposed to use them.</p></li><li><p><strong>Project</strong>: The interface is for use only by implementation files in the current project. A project header is not included in the target, except in object code. The symbols are not visible to clients at all, only to you.</p></li></ul><p><code>Project</code>和<code>Private</code>的权限或者说是作用基本一致，都是私有化的一种方式，只是<code>Project</code>权限的<strong>头文件</strong>是不会放到编译产物中的，<strong>注意说的是头文件</strong>，而<code>Private</code>头文件会放到编译产物中，只是告诉编译器不要暴漏给外界。<code>CocoaPods</code>是通过<code>Pods->Headers->Public/Private</code>目录管理头文件的引用，来控制对某一文件的访问权限的。</p><h2 id=推荐设置>推荐设置</h2><p><code>podspec</code>中在不指定<code>private_header_files</code>或<code>project_header_files</code>的时候<code>source_files</code>路径下的文件默认全都是<code>public</code>的，而<code>public</code>的头文件默认都会放到<code>umbrella</code>中，这样很容易导致<code>umbrella</code>中头文件爆炸，尤其是业务<code>pod</code>（比如我们的直播业务有2300多个头文件），特别影响编译速度。</p><p>解决办法：把那些暴露给<code>swift</code>的头文件放到<code>public_header_files</code>中，其他的头文件则默认变成<code>project</code>类型。或者是把全部头文件默认指定为<code>private_header_files</code>或<code>project_header_files</code>，然后把需要公开的放到<code>public_header_files</code>中，尽量减少<code>umbrella</code>中头文件的数量。</p><p>贴一下供参考的<code>Swift podspec</code>，请按需修改</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-ruby data-lang=ruby><span class=line><span class=cl><span class=no>Pod</span><span class=o>::</span><span class=no>Spec</span><span class=o>.</span><span class=n>new</span> <span class=k>do</span> <span class=o>|</span><span class=n>spec</span><span class=o>|</span>
+</span></span><span class=line><span class=cl>  <span class=n>spec</span><span class=o>.</span><span class=n>name</span>         <span class=o>=</span> <span class=s2>&#34;foo&#34;</span>
+</span></span><span class=line><span class=cl>  <span class=n>spec</span><span class=o>.</span><span class=n>version</span>      <span class=o>=</span> <span class=s2>&#34;0.0.1&#34;</span>
+</span></span><span class=line><span class=cl>  <span class=n>spec</span><span class=o>.</span><span class=n>summary</span>      <span class=o>=</span> <span class=s2>&#34;foo&#34;</span>
+</span></span><span class=line><span class=cl>  <span class=n>spec</span><span class=o>.</span><span class=n>description</span>  <span class=o>=</span> <span class=s>&lt;&lt;-DESC
+</span></span></span><span class=line><span class=cl><span class=s></span>    <span class=err>我是一只小柯基</span>
+</span></span><span class=line><span class=cl>                   <span class=no>DESC</span>
+</span></span><span class=line><span class=cl>  <span class=n>spec</span><span class=o>.</span><span class=n>homepage</span>     <span class=o>=</span> <span class=s2>&#34;https://foo/bar/abc&#34;</span>
+</span></span><span class=line><span class=cl>  <span class=n>spec</span><span class=o>.</span><span class=n>license</span>      <span class=o>=</span> <span class=s2>&#34;MIT&#34;</span>
+</span></span><span class=line><span class=cl>  <span class=n>spec</span><span class=o>.</span><span class=n>platform</span>     <span class=o>=</span> <span class=ss>:ios</span><span class=p>,</span> <span class=s2>&#34;12.0&#34;</span>
+</span></span><span class=line><span class=cl>  <span class=n>spec</span><span class=o>.</span><span class=n>source</span>       <span class=o>=</span> <span class=p>{</span> 
+</span></span><span class=line><span class=cl>    <span class=ss>:git</span> <span class=o>=&gt;</span> <span class=s2>&#34;https://foo/bar/abc.git&#34;</span><span class=p>,</span> 
+</span></span><span class=line><span class=cl>    <span class=ss>:tag</span> <span class=o>=&gt;</span> <span class=s2>&#34;</span><span class=si>#{</span><span class=n>spec</span><span class=o>.</span><span class=n>version</span><span class=si>}</span><span class=s2>&#34;</span> 
+</span></span><span class=line><span class=cl>  <span class=p>}</span>
+</span></span><span class=line><span class=cl>  <span class=n>spec</span><span class=o>.</span><span class=n>swift_versions</span> <span class=o>=</span> <span class=o>[</span><span class=s1>&#39;5.1&#39;</span><span class=o>]</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>  <span class=n>publicHeaders</span> <span class=o>=</span> <span class=no>Dir</span><span class=o>[</span><span class=s2>&#34;Source/Room/PublicHeaders/*.h&#34;</span><span class=o>]</span>
+</span></span><span class=line><span class=cl>  <span class=n>privateHeaders</span> <span class=o>=</span> <span class=no>Dir</span><span class=o>[</span><span class=s2>&#34;Source/Room/**/*.{h}&#34;</span><span class=o>]</span> <span class=o>-</span> <span class=n>publicHeaders</span>
+</span></span><span class=line><span class=cl>  <span class=n>spec</span><span class=o>.</span><span class=n>source_files</span> <span class=o>=</span> <span class=s1>&#39;Source/Room/**/*.{h,m,swift}&#39;</span>
+</span></span><span class=line><span class=cl>  <span class=n>spec</span><span class=o>.</span><span class=n>public_header_files</span> <span class=o>=</span> <span class=n>publicHeaders</span>
+</span></span><span class=line><span class=cl>  <span class=c1># 下面这行可有可无，设置的话会放到private中，不设置则等价于 `spec.project_header_files = privateHeaders`，会放到project中</span>
+</span></span><span class=line><span class=cl>  <span class=c1># spec.private_header_files = privateHeaders</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>  <span class=n>spec</span><span class=o>.</span><span class=n>module_name</span> <span class=o>=</span> <span class=n>spec</span><span class=o>.</span><span class=n>name</span>
+</span></span><span class=line><span class=cl>  <span class=n>spec</span><span class=o>.</span><span class=n>header_dir</span> <span class=o>=</span> <span class=s2>&#34;./&#34;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>  <span class=n>spec</span><span class=o>.</span><span class=n>pod_target_xcconfig</span> <span class=o>=</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=s1>&#39;DEFINES_MODULE&#39;</span> <span class=o>=&gt;</span> <span class=s1>&#39;YES&#39;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>  <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>  <span class=n>spec</span><span class=o>.</span><span class=n>dependency</span> <span class=s1>&#39;RxCocoa&#39;</span>
+</span></span><span class=line><span class=cl>  <span class=n>spec</span><span class=o>.</span><span class=n>dependency</span> <span class=s1>&#39;Cartography&#39;</span><span class=p>,</span> <span class=s1>&#39;~&gt; 4.0.0&#39;</span>
+</span></span><span class=line><span class=cl>  <span class=n>spec</span><span class=o>.</span><span class=n>dependency</span> <span class=s1>&#39;ZDFlexLayoutKit&#39;</span>
+</span></span><span class=line><span class=cl><span class=k>end</span>
+</span></span></code></pre></td></tr></table></div></div><blockquote><p>CocoaPods 骚操作：</p></blockquote><p>用踩坑中提到的<code>RxCocoa</code>做例子，为了编译成功，我们需要把它指定为动态库，而其他的保持不变，这种需求我们可以在 <code>pre_install</code> 阶段动态修改编译模式：把<code>dynamic_framework</code>数组中的<code>repo</code>编译为<code>framework</code>，其他未指定的默认还是静态库。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-ruby data-lang=ruby><span class=line><span class=cl><span class=n>pre_install</span> <span class=k>do</span> <span class=o>|</span><span class=n>installer</span><span class=o>|</span>    
+</span></span><span class=line><span class=cl>    <span class=c1>#以framework形式存在的pod</span>
+</span></span><span class=line><span class=cl>    <span class=n>dynamic_frameworks</span> <span class=o>=</span> <span class=o>[</span><span class=s1>&#39;RxSwift&#39;</span><span class=p>,</span> <span class=s1>&#39;RxCocoa&#39;</span><span class=p>,</span> <span class=s1>&#39;RxRelay&#39;</span><span class=o>]</span> 
+</span></span><span class=line><span class=cl>    <span class=no>Pod</span><span class=o>::</span><span class=no>Installer</span><span class=o>::</span><span class=no>Xcode</span><span class=o>::</span><span class=no>TargetValidator</span><span class=o>.</span><span class=n>send</span><span class=p>(</span><span class=ss>:define_method</span><span class=p>,</span> <span class=ss>:verify_no_static_framework_transitive_dependencies</span><span class=p>)</span> <span class=p>{}</span>
+</span></span><span class=line><span class=cl>    <span class=n>installer</span><span class=o>.</span><span class=n>pod_targets</span><span class=o>.</span><span class=n>each</span> <span class=k>do</span> <span class=o>|</span><span class=n>pod</span><span class=o>|</span>
+</span></span><span class=line><span class=cl>      <span class=k>if</span> <span class=n>dynamic_frameworks</span><span class=o>.</span><span class=n>include?</span><span class=p>(</span><span class=n>pod</span><span class=o>.</span><span class=n>name</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>        <span class=k>def</span> <span class=nc>pod</span><span class=o>.</span><span class=nf>build_type</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>          <span class=no>Pod</span><span class=o>::</span><span class=no>BuildType</span><span class=o>.</span><span class=n>dynamic_framework</span>
+</span></span><span class=line><span class=cl>        <span class=k>end</span>
+</span></span><span class=line><span class=cl>      <span class=k>end</span>
+</span></span><span class=line><span class=cl>    <span class=k>end</span>
+</span></span><span class=line><span class=cl><span class=k>end</span>
+</span></span></code></pre></td></tr></table></div></div><h2 id=参考>参考</h2><ul><li><p><a href=https://developer.apple.com/documentation/swift/imported_c_and_objective-c_apis/importing_objective-c_into_swift target=_blank rel="noopener noreffer">importing_objective-c_into_swift</a></p></li><li><p><a href=https://developer.apple.com/documentation/swift/imported_c_and_objective-c_apis/importing_swift_into_objective-c target=_blank rel="noopener noreffer">importing_swift_into_objective-c</a></p></li><li><p><a href=https://www.rubydoc.info/gems/cocoapods-core/Pod/BuildType target=_blank rel="noopener noreffer">https://www.rubydoc.info/gems/cocoapods-core/Pod/BuildType</a></p></li><li><p><a href=https://github.com/CocoaPods/CocoaPods/pull/7724 target=_blank rel="noopener noreffer">https://github.com/CocoaPods/CocoaPods/pull/7724</a></p></li><li><p><a href=https://github.com/mxcl/PromiseKit/blob/6.15.3/PromiseKit.podspec target=_blank rel="noopener noreffer">PromiseKit.podspec 6.15.3</a></p></li><li><p><a href=https://tech.meituan.com/2021/02/25/swift-objective-c.html target=_blank rel="noopener noreffer">从预编译的角度理解Swift与Objective-C及混编机制</a></p></li></ul></div><div class=post-footer id=post-footer><div class=post-info><div class=post-info-line><div class=post-info-mod><span>更新于 2022-09-07</span></div></div><div class=post-info-line><div class=post-info-md><span><a class=link-to-markdown href=/swift%E4%B8%8Eobjective-c%E6%B7%B7%E7%BC%96/index.md target=_blank>阅读原始文档</a></span></div><div class=post-info-share><span><a href=javascript:void(0); title="分享到 Twitter" data-sharer=twitter data-url=https://faimin.github.io/swift%E4%B8%8Eobjective-c%E6%B7%B7%E7%BC%96/ data-title=Swift与Objective-C混编 data-hashtags=iOS,swift><i class="fab fa-twitter fa-fw" aria-hidden=true></i></a><a href=javascript:void(0); title="分享到 Facebook" data-sharer=facebook data-url=https://faimin.github.io/swift%E4%B8%8Eobjective-c%E6%B7%B7%E7%BC%96/ data-hashtag=iOS><i class="fab fa-facebook-square fa-fw" aria-hidden=true></i></a><a href=javascript:void(0); title="分享到 Hacker News" data-sharer=hackernews data-url=https://faimin.github.io/swift%E4%B8%8Eobjective-c%E6%B7%B7%E7%BC%96/ data-title=Swift与Objective-C混编><i class="fab fa-hacker-news fa-fw" aria-hidden=true></i></a><a href=javascript:void(0); title="分享到 Line" data-sharer=line data-url=https://faimin.github.io/swift%E4%B8%8Eobjective-c%E6%B7%B7%E7%BC%96/ data-title=Swift与Objective-C混编><i data-svg-src=https://cdn.jsdelivr.net/npm/simple-icons@7.3.0/icons/line.svg aria-hidden=true></i></a><a href=javascript:void(0); title="分享到 微博" data-sharer=weibo data-url=https://faimin.github.io/swift%E4%B8%8Eobjective-c%E6%B7%B7%E7%BC%96/ data-title=Swift与Objective-C混编 data-ralateuid=1655766025><i class="fab fa-weibo fa-fw" aria-hidden=true></i></a></span></div></div></div><div class=post-info-more><section class=post-tags><i class="fas fa-tags fa-fw" aria-hidden=true></i>&nbsp;<a href=/tags/ios/>iOS</a>,&nbsp;<a href=/tags/swift/>swift</a></section><section><span><a href=javascript:void(0); onclick=window.history.back()>返回</a></span>&nbsp;|&nbsp;<span><a href=/>主页</a></span></section></div><div class=post-nav><a href=/jenkins_note/ class=prev rel=prev title=Jenkins笔记><i class="fas fa-angle-left fa-fw" aria-hidden=true></i>Jenkins笔记</a>
+<a href=/nextresponder/ class=next rel=next title=NextResponder>NextResponder<i class="fas fa-angle-right fa-fw" aria-hidden=true></i></a></div></div><div id=comments><div id=valine class=comment></div><noscript>Please enable JavaScript to view the comments powered by <a href=https://valine.js.org/>Valine</a>.</noscript></div></article></div></main><footer class=footer><div class=footer-container><div class=footer-line><span id=busuanzi_container_site_uv>本站访客数<span id=busuanzi_value_site_uv></span>人次</span> | <span id=busuanzi_container_site_pv>本站总访问量 <span id=busuanzi_value_site_pv></span>次</span></div><div class=footer-line>由 <a href=https://gohugo.io/ target=_blank rel="noopener noreffer" title="Hugo 0.104.3">Hugo</a> 强力驱动 | 主题 - <a href=https://github.com/dillonzq/LoveIt target=_blank rel="noopener noreffer" title="LoveIt 0.2.11"><i class="far fa-kiss-wink-heart fa-fw" aria-hidden=true></i> LoveIt</a></div><div class=footer-line itemscope itemtype=http://schema.org/CreativeWork><i class="far fa-copyright fa-fw" aria-hidden=true></i><span itemprop=copyrightYear>2018 - 2022</span><span class=author itemprop=copyrightHolder>&nbsp;<a href=https://github.com/faimin target=_blank>Zero.D.Saber</a></span>&nbsp;|&nbsp;<span class=license><a rel="license external nofollow noopener noreffer" href=https://creativecommons.org/licenses/by-nc/4.0/ target=_blank>CC BY-NC 4.0</a></span></div></div></footer></div><div id=fixed-buttons><a href=# id=back-to-top class=fixed-button title=回到顶部><i class="fas fa-arrow-up fa-fw" aria-hidden=true></i>
+</a><a href=# id=view-comments class=fixed-button title=查看评论><i class="fas fa-comment fa-fw" aria-hidden=true></i></a></div><link rel=stylesheet href=/lib/valine/valine.min.css><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/lightgallery@2.5.0/css/lightgallery-bundle.min.css><script type=text/javascript src=https://cdn.jsdelivr.net/npm/valine@1.5.0/dist/Valine.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/autocomplete.js@0.38.1/dist/autocomplete.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/algoliasearch@4.13.1/dist/algoliasearch-lite.umd.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/lazysizes@5.3.2/lazysizes.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/lightgallery@2.5.0/lightgallery.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/lightgallery@2.5.0/plugins/thumbnail/lg-thumbnail.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/lightgallery@2.5.0/plugins/zoom/lg-zoom.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/clipboard@2.0.11/dist/clipboard.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/sharer.js@0.5.1/sharer.min.js></script><script type=text/javascript>window.config={code:{copyTitle:"复制到剪贴板",maxShownLines:50},comment:{valine:{appId:"QGzwQXOqs5JOhN4RGPOkR2mR-MdYXbMMI",appKey:"WBmoGyJtbqUswvfLh6L8iEBr",avatar:"mp",el:"#valine",emojiCDN:"https://cdn.jsdelivr.net/npm/emoji-datasource-google@14.0.0/img/google/64/",emojiMaps:{100:"1f4af.png",alien:"1f47d.png",anger:"1f4a2.png",angry:"1f620.png",anguished:"1f627.png",astonished:"1f632.png",black_heart:"1f5a4.png",blue_heart:"1f499.png",blush:"1f60a.png",bomb:"1f4a3.png",boom:"1f4a5.png",broken_heart:"1f494.png",brown_heart:"1f90e.png",clown_face:"1f921.png",cold_face:"1f976.png",cold_sweat:"1f630.png",confounded:"1f616.png",confused:"1f615.png",cry:"1f622.png",crying_cat_face:"1f63f.png",cupid:"1f498.png",dash:"1f4a8.png",disappointed:"1f61e.png",disappointed_relieved:"1f625.png",dizzy:"1f4ab.png",dizzy_face:"1f635.png",drooling_face:"1f924.png",exploding_head:"1f92f.png",expressionless:"1f611.png",face_vomiting:"1f92e.png",face_with_cowboy_hat:"1f920.png",face_with_hand_over_mouth:"1f92d.png",face_with_head_bandage:"1f915.png",face_with_monocle:"1f9d0.png",face_with_raised_eyebrow:"1f928.png",face_with_rolling_eyes:"1f644.png",face_with_symbols_on_mouth:"1f92c.png",face_with_thermometer:"1f912.png",fearful:"1f628.png",flushed:"1f633.png",frowning:"1f626.png",ghost:"1f47b.png",gift_heart:"1f49d.png",green_heart:"1f49a.png",grimacing:"1f62c.png",grin:"1f601.png",grinning:"1f600.png",hankey:"1f4a9.png",hear_no_evil:"1f649.png",heart:"2764-fe0f.png",heart_decoration:"1f49f.png",heart_eyes:"1f60d.png",heart_eyes_cat:"1f63b.png",heartbeat:"1f493.png",heartpulse:"1f497.png",heavy_heart_exclamation_mark_ornament:"2763-fe0f.png",hole:"1f573-fe0f.png",hot_face:"1f975.png",hugging_face:"1f917.png",hushed:"1f62f.png",imp:"1f47f.png",innocent:"1f607.png",japanese_goblin:"1f47a.png",japanese_ogre:"1f479.png",joy:"1f602.png",joy_cat:"1f639.png",kiss:"1f48b.png",kissing:"1f617.png",kissing_cat:"1f63d.png",kissing_closed_eyes:"1f61a.png",kissing_heart:"1f618.png",kissing_smiling_eyes:"1f619.png",laughing:"1f606.png",left_speech_bubble:"1f5e8-fe0f.png",love_letter:"1f48c.png",lying_face:"1f925.png",mask:"1f637.png",money_mouth_face:"1f911.png",nauseated_face:"1f922.png",nerd_face:"1f913.png",neutral_face:"1f610.png",no_mouth:"1f636.png",open_mouth:"1f62e.png",orange_heart:"1f9e1.png",partying_face:"1f973.png",pensive:"1f614.png",persevere:"1f623.png",pleading_face:"1f97a.png",pouting_cat:"1f63e.png",purple_heart:"1f49c.png",rage:"1f621.png",relaxed:"263a-fe0f.png",relieved:"1f60c.png",revolving_hearts:"1f49e.png",right_anger_bubble:"1f5ef-fe0f.png",robot_face:"1f916.png",rolling_on_the_floor_laughing:"1f923.png",scream:"1f631.png",scream_cat:"1f640.png",see_no_evil:"1f648.png",shushing_face:"1f92b.png",skull:"1f480.png",skull_and_crossbones:"2620-fe0f.png",sleeping:"1f634.png",sleepy:"1f62a.png",slightly_frowning_face:"1f641.png",slightly_smiling_face:"1f642.png",smile:"1f604.png",smile_cat:"1f638.png",smiley:"1f603.png",smiley_cat:"1f63a.png",smiling_face_with_3_hearts:"1f970.png",smiling_imp:"1f608.png",smirk:"1f60f.png",smirk_cat:"1f63c.png",sneezing_face:"1f927.png",sob:"1f62d.png",space_invader:"1f47e.png",sparkling_heart:"1f496.png",speak_no_evil:"1f64a.png",speech_balloon:"1f4ac.png","star-struck":"1f929.png",stuck_out_tongue:"1f61b.png",stuck_out_tongue_closed_eyes:"1f61d.png",stuck_out_tongue_winking_eye:"1f61c.png",sunglasses:"1f60e.png",sweat:"1f613.png",sweat_drops:"1f4a6.png",sweat_smile:"1f605.png",thinking_face:"1f914.png",thought_balloon:"1f4ad.png",tired_face:"1f62b.png",triumph:"1f624.png",two_hearts:"1f495.png",unamused:"1f612.png",upside_down_face:"1f643.png",weary:"1f629.png",white_frowning_face:"2639-fe0f.png",white_heart:"1f90d.png",wink:"1f609.png",woozy_face:"1f974.png",worried:"1f61f.png",yawning_face:"1f971.png",yellow_heart:"1f49b.png",yum:"1f60b.png",zany_face:"1f92a.png",zipper_mouth_face:"1f910.png",zzz:"1f4a4.png"},enableQQ:!1,highlight:!0,lang:"zh-CN",pageSize:10,placeholder:"你的评论 ...",recordIP:!0,serverURLs:"https://leancloud.hugoloveit.com",visitor:!0}},lightgallery:!0,search:{algoliaAppID:"PASDMWALPK",algoliaIndex:"index.zh-cn",algoliaSearchKey:"b42948e51daaa93df92381c8e2ac0f93",highlightTag:"em",maxResultLength:10,noResultsFound:"没有找到结果",snippetLength:50,type:"algolia"}}</script><script type=text/javascript src=/js/theme.min.js></script></body></html>

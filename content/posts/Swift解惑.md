@@ -146,6 +146,14 @@ struct HeapObject {
 `Swift` 引用计数的存储结构在[RefCount 头文件](https://github.com/apple/swift/blob/main/stdlib/public/SwiftShims/swift/shims/RefCount.h) 有介绍：
 
 ```swift
+  //Objects initially start with no side table. They can gain a side table when:
+  //* a weak reference is formed and pending future implementation:
+  //* strong RC or unowned RC overflows (inline RCs will be small on 32-bit)
+  //* associated object storage is needed on an object
+  //* etc
+  //Gaining a side table entry is a one-way operation; an object with a side 
+  //table entry never loses it. This prevents some thread races.
+
   //Strong and unowned variables point at the object.
   //Weak variables point at the object's side table.
 

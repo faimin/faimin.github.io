@@ -2,7 +2,7 @@
 weight: 10
 title: "iOS源码阅读笔记"
 date: 2022-06-09T17:06:35+08:00
-lastmod: 2022-10-10T20:47:00+08:00
+lastmod: 2022-10-12T15:42:00+08:00
 draft: false
 author: "Zero.D.Saber"
 authorLink: "https://github.com/faimin"
@@ -464,15 +464,16 @@ DISPATCH_VTABLE_INSTANCE(source,
 
 上面添加完成后，会调用 `__CFRepositionTimerInMode` 函数，然后调用 `__CFArmNextTimerInMode`，再调用 `mk_timer_arm` 函数把 `CFRunLoopModeRef` 的 `_timerPort` 和一个时间点注册到系统中，等待着 `mach_msg` 发消息唤醒休眠中的 `runloop` 起来执行到达时间的计时器。（macOS 和 iOS 下都是使用 `mk_timer` 来唤醒 `runloop`）；
 
-每次计时器都会调用  `__CFArmNextTimerInMode` 函数注册计时器的下次回调，休眠中的`runloop` 通过当前`runloop mode`的 `_timerPort` 端口唤醒，然后在本次`runloop`循环中在 `_CFRunloopDoTimers` 函数中循环调用 `__CFRunLoopDoTimer` 函数，执行达到触发时间的`timer`的 `_callout` 函数。
+每次计时器都会调用  `__CFArmNextTimerInMode` 函数注册计时器的下次执行时间（这个时间是基于本次执行的理论时间叠加得到的，而非当前的真实时间，也就是说假如本次执行滞后了，不会影响下次理论上要执行的时间点），休眠中的`runloop` 通过当前`runloop mode`的 `_timerPort` 端口唤醒，然后在本次`runloop`循环中在 `_CFRunloopDoTimers` 函数中循环调用 `__CFRunLoopDoTimer` 函数，执行达到触发时间的`timer`的 `_callout` 函数。
 `__CFRUNLOOP_IS_CALLING_OUT_TO_A_TIMER_CALLBACK_FUNCTION__(rlt->_callout, rlt, context_info);` 是执行计时器的 `_callout` 函数。
 
 #### NSTimer 不准时问题
 
-通过上面的 `NSTimer` 执行流程可看到计时器的触发回调完全依赖 `runloop` 的运行（macOS 和 iOS 下都是使用 `mk_timer` 来唤醒 `runloop`），使用 `NSTimer` 之前必须注册到 `run loop`，但是 `run loop` 为了节省资源并不会在非常准确的时间点调用计时器，如果一个任务执行时间较长（例如本次 `run loop` 循环中 `source0` 事件执行时间过长或者计时器自身回调执行时间过长，都会导致计时器下次正常时间点的回调被延后或者延后时间过长的话则直接忽略这次回调（计时器回调执行之前会判断当前的执行状态 `!__CFRunLoopTimerIsFiring(rlt)`，如果是计时器自身回调执行时间过长导致下次回调被忽略的情况大概与此标识有关 ）），那么当错过一个时间点后只能等到下一个时间点执行，并不会延后执行（`NSTimer` 提供了一个 `tolerance` 属性用于设置宽容度，即当前时间点已经过了计时器的本次触发点，但是超过的时间长度小于 `tolerance` 的话，那么本次计时器回调还可以正常执行，不过是不准时的延后执行。 tolerance 的值默认是 0，最大值的话是计时器间隔时间`_interval` 的一半，可以根据自身的情况酌情设置 `tolerance` 的值，（其实还是觉得如果自己的计时器不准时了还是应该从自己写的代码中找原因，自己去找该优化的点，或者是主线实在优化不动的话就把计时器放到子线程中去））。
+通过上面的 `NSTimer` 执行流程可看到计时器的触发回调完全依赖 `runloop` 的运行（macOS 和 iOS 下都是使用 `mk_timer` 来唤醒 `runloop`），使用 `NSTimer` 之前必须注册到 `run loop`，但是 `run loop` 为了节省资源并不会在非常准确的时间点调用计时器，如果一个任务执行时间较长（例如本次 `run loop` 循环中 `source0` 事件执行时间过长或者计时器自身回调执行时间过长，都会导致计时器下次正常时间点的回调被延后或者延后时间过长的话则直接忽略这次回调（计时器回调执行之前会判断当前的执行状态 `!__CFRunLoopTimerIsFiring(rlt)`，如果是计时器自身回调执行时间过长导致下次回调被忽略的情况大概与此标识有关 ）），那么当错过一个时间点后只能等到下一个时间点执行，并不会延后执行（`NSTimer` 提供了一个 `tolerance` 属性用于设置宽容度，即当前时间点已经过了计时器的本次触发点，但是超过的时间长度小于 `tolerance` 的话，那么本次计时器回调还可以正常执行，不过是不准时的延后执行。 `tolerance` 的值默认是 0，最大值的话是计时器间隔时间`_interval` 的一半，可以根据自身的情况酌情设置 `tolerance` 的值。
  （`NSTimer` 不是一种实时机制，以 `main run loop` 来说它负责了所有的主线程事件，例如 `UI` 界面的操作，负责的运算使当前 `run loop` 持续的时间超过了计时器的间隔时间，那么计时器下一次回调就被延后，这样就造成` timer` 的不准时，计时器有个属性叫做 `tolerance` (宽容度)，标示了当时间点到后，容许有多少最大误差。如果延后时间过长的话会直接导致计时器本次回调被忽略。）
 
 ## 推荐文章
 
 - [深入浅出 GCD 之 dispatch_queue](http://cocoa-chen.github.io/2018/03/05/%E6%B7%B1%E5%85%A5%E6%B5%85%E5%87%BAGCD%E4%B9%8Bdispatch_queue/)
 - [iOS之武功秘籍⑧: 类和分类加载过程](https://juejin.cn/post/6936978891126865928#heading-40)
+- [iOS 从源码解析Run Loop (八)：Run Loop 与 AutoreleasePool、NSTimer、PerformSelector 系列](https://juejin.cn/post/6911946403036004366#heading-10)

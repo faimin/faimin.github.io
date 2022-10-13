@@ -244,6 +244,7 @@
 ### Hex
 
 - [HexFriend](https://github.com/ridiculousfish/HexFiend)
+- [ImHex](https://github.com/WerWolv/ImHex)
 
 
 ### 命令行
@@ -257,6 +258,7 @@
 - [lsd](https://github.com/Peltoche/lsd) - `ls`
 - [exa](https://github.com/ogham/exa) - `ls`
 - [bat](https://github.com/sharkdp/bat) - `cat`
+- [ugit](https://github.com/Bhupesh-V/ugit) - 撤销`git`操作
 - [thefuck](https://github.com/nvbn/thefuck)
 - [ipatool](https://github.com/majd/ipatool) - 下载`IPA`文件
 - [HTTPie](https://github.com/jakubroztocil/httpie) - 查看网络
@@ -271,10 +273,10 @@
 
 ### 快捷打开终端
 
-- [OpenInTerminal](https://github.com/Ji4n1ng/OpenInTerminal]
-- [FinderGo](https://github.com/onmyway133/FinderGo]
-- [Go2Shell](http://zipzapmac.com/Go2Shell]
-- [Alfred插件](http://www.packal.org/workflow/terminalfinder]
+- [OpenInTerminal](https://github.com/Ji4n1ng/OpenInTerminal)
+- [FinderGo](https://github.com/onmyway133/FinderGo)
+- [Go2Shell](http://zipzapmac.com/Go2Shell)
+- [Alfred插件](http://www.packal.org/workflow/terminalfinder)
 
 
 ### 图片压缩
@@ -386,7 +388,11 @@
 ## 软件站
 
 - [open-source-mac-os-apps](https://github.com/serhii-londar/open-source-mac-os-apps)
-- [AlternativeTo](https://alternativeto.net/)
 - [麦氪搜](https://www.imacso.com/)
 - ~~[MacWk（已关站）](https://www.macwk.com/)~~
 - [Xclient](http://xclient.info/s/)
+- [MacBL](https://www.macbl.com/)
+- [AlternativeTo](https://alternativeto.net/)
+- [NSANE FORUMS](https://nsaneforums.com/)
+- [TorrentMac](https://www.torrentmac.net/)
+- [UUP dump](https://uupdump.net/?lang=zh-cn)

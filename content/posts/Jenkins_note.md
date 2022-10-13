@@ -7,7 +7,7 @@ author: "Zero.D.Saber"
 authorLink: "https://github.com/faimin"
 description: "Jenkins踩坑记录"
 tags: ["jenkins"]
-categories: ["Jenkins"]
+categories: ["CI"]
 
 featuredImage: ""
 featuredImagePreview: "/images/jenkins/Jenkins.svg"

@@ -6,7 +6,7 @@ draft: false
 author: "Zero.D.Saber"
 authorLink: "https://github.com/faimin"
 description: "Jenkins踩坑记录"
-tags: ["jenkins"]
+tags: ["CI", "jenkins"]
 categories: ["CI"]
 
 featuredImage: ""
@@ -38,7 +38,7 @@ export LC_ALL=en_US.UTF-8
 
 ## 3、构建中生成的数据无法传递给构建阶段
 
-解决：把数据写入文件，然后通过Jenkins种的`FILE`获取
+解决：把数据写入文件，然后通过`Jenkins`中的`FILE`获取
 
 写文件
 
@@ -103,7 +103,7 @@ ${BUILD_LOG_MULTILINE_REGEX,showTruncatedLines="false", regex="BID:.*|Version:.*
 #${BUILD_NUMBER}_${PROJECT_BRANCH}_${BUILD_USER}
 ```
 
-### Jenkins插件推荐
+## Jenkins插件推荐
 
 插件镜像： http://mirror.esuni.jp/jenkins/updates/update-center.json
 
@@ -120,14 +120,14 @@ ${BUILD_LOG_MULTILINE_REGEX,showTruncatedLines="false", regex="BID:.*|Version:.*
 - Xcode Integration
 - Safe Restart Plugin
 
-### Shell Tips：
+## Shell Tips：
 
 1. 执行出错时自动执行后面的命令（`||`）： `xcodebuild archive || echo "执行失败"`
 
 2. 设置默认值：`PROJECT_DIR=${project_path:-$WORKSPACE}` #如果参数未设置取默认值
 
 
-### 参考资料：
+## 参考资料：
 
 - [Updating Homebrew’s “httpListenAddress” Default for Jenkins](http://mikezornek.com/posts/2013/11/updating-homebrews-httplistenaddress-default-for-jenkins/)
 - [Shell 十三问](https://wiki.jikexueyuan.com/project/13-questions-of-shell/eight.html)

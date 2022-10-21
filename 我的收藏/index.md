@@ -125,6 +125,7 @@
 - [glance](https://github.com/chamburr/glance) - All-in-one Quick Look plugin
 - [SouceCodeSyntaxHighlight](https://github.com/sbarex/SourceCodeSyntaxHighlight)
 - [QLMarkdown](https://github.com/sbarex/QLMarkdown)
+- [Mac-QuickLook](https://github.com/haokaiyang/Mac-QuickLook)
 
 
 ### 邮件
@@ -195,7 +196,7 @@
 
 ### 收费软件推荐
 
-> 可以到[这里](#软件站)找**特（破）别（解）**版
+> 可以到[这里](#软件站)找 特(破)别(解) 版
 
 - [Alfred](https://www.alfredapp.com/) - 小帽子
     - [插件](https://github.com/zenorocha/alfred-workflows)
@@ -221,7 +222,7 @@
 
 - [LLVM](https://github.com/llvm/llvm-project)
 - [Lookin](https://github.com/hughkli/Lookin)
-- [LLDB](https://github.com/DerekSelander/LLDB) -  lldb 插件
+- [LLDB](https://github.com/DerekSelander/LLDB) -  `lldb`插件
 - [Chisel](https://github.com/facebook/chisel) - `lldb`插件
 - [injectionIII](https://github.com/johnno1962/InjectionIII) - hotreload
 - [OpenSim](https://github.com/luosheng/OpenSim) - 读取模拟器沙盒
@@ -279,6 +280,7 @@
 
 - [Json2Property](https://github.com/keepyounger/Json2Property)
 - [quicktype-xcode](https://github.com/quicktype/quicktype-xcode)
+- [CleverToolKit](https://apps.apple.com/us/app/clevertoolkit/id6443766349?l=zh&mt=12)
 
 
 ### 快捷打开终端
@@ -291,7 +293,7 @@
 
 ### 图片压缩
 
-- [ImageSmith](https://apps.apple.com/cn/app/imagesmith-%E5%9B%BE%E7%89%87%E5%8E%8B%E7%BC%A9%E4%B8%93%E5%AE%B6/id1623828135?mt=12) - 推荐，刚发布时我白嫖到的😏
+- [ImageSmith](https://apps.apple.com/cn/app/imagesmith-%E5%9B%BE%E7%89%87%E5%8E%8B%E7%BC%A9%E4%B8%93%E5%AE%B6/id1623828135?mt=12) - 推荐，刚发布时白嫖到的😏
 - [Imagenie](https://github.com/meowtec/Imagine)
 - [Crunch](https://github.com/chrissimpkins/Crunch)
 - [TinyPNG4Mac](https://github.com/kyleduo/TinyPNG4Mac)
@@ -386,12 +388,6 @@
     >
     > 2. 如果断点调试无法显示变量，检查下是否安装了`llvm`，如果是那可能默认用的是`llvm`的`lldb`。把`CodeLLDB`的`lldb`指定为`Xcode`的`lldb`，或者在`.zshrc`中用`Xcode`版本覆盖`llvm`版本： `export PATH="/Applications/Xcode.app/Contents/Developer/usr/bin:$PATH"`
 
-#### 函数参数没有代码提示的问题
-
-> 关闭阻止选项
-
-![](/images/treasure/snippets_prevent_suggestions.png "snippets_prevent_suggestions")
-
 
 ### Windows VC环境
 
@@ -399,6 +395,22 @@
 
 
 ------
+
+
+## 常见问题
+
+- `VSCode` 函数参数没有代码提示
+
+    > 关闭阻止选项
+
+    ![](/images/treasure/snippets_prevent_suggestions.png "snippets_prevent_suggestions")
+
+- 找回`IDEA`的`copy reference`
+
+    ![](/images/treasure/idea_copy_reference_lose.png "lose copy reference")
+
+------
+
 
 ## 软件站
 

@@ -43,6 +43,12 @@
 - [you-get](https://github.com/soimort/you-get) - 网站视频下载命令工具，如需视频合并，需额外安装`ffmpeg`
 
 
+### 系统优化
+
+- [lemon-cleaner](https://github.com/Tencent/lemon-cleaner)
+- [AppCleaner](https://freemacsoft.net/appcleaner/)
+
+
 ### Office
 
 - [LibreOffice](https://zh-cn.libreoffice.org/)
@@ -240,6 +246,7 @@
 - [bloaty](https://github.com/google/bloaty) - 对比文件体积变化
 - [ipsw](https://github.com/blacktop/ipsw)
 - [dSYMTools](https://github.com/answer-huang/dSYMTools)
+- [go-macho](https://github.com/blacktop/go-macho)
 
 
 ### 逆向
@@ -347,6 +354,16 @@
 ### 自动化
 
 - [Hammerspoon](http://hammerspoon.org/)
+
+
+### 分辨率调整
+
+- [RDM](https://github.com/avibrazil/RDM)
+
+
+### 网站打包成MacAPP
+
+- [Pake](https://github.com/tw93/Pake)
 
 
 ### Xcode版本管理

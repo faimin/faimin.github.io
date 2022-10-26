@@ -17,6 +17,13 @@
 
 - [iOS Memory内存详解](https://mp.weixin.qq.com/s/YpJa3LeTFz9UFOUcs5Bitg)
 
+### Crash捕获
+
+- [iOS crash分类：Mach异常、Unix信号和NSException异常](https://blog.csdn.net/u014600626/article/details/119517507)
+- [iOS崩溃监控与分析](https://tenloy.github.io/2021/08/01/Crash-Monitor.html#%E4%B8%89%E3%80%81%E6%8D%95%E8%8E%B7-%E2%80%94-Mach%E5%BC%82%E5%B8%B8%E4%B8%8EUnix%E4%BF%A1%E5%8F%B7%E5%BC%82%E5%B8%B8)
+- [你真的懂iOS的异常捕获吗？](https://juejin.cn/post/7142656591139962888)
+- [iOS Crash崩溃异常捕获](https://www.jianshu.com/p/3f6775c02257)
+
 ### UI
 
 - [iOS触摸事件全家桶](https://www.jianshu.com/p/c294d1bd963d)

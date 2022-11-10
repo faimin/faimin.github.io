@@ -5,7 +5,7 @@
 
 ## 简介
 
-个人平时收藏的一些`Mac`平台开源免费的工具，很多都支持`homebrew`安装。
+个人平时收藏的一些`Mac`平台开源免费的工具，基本都支持`homebrew`安装。
 
 
 ## 软件
@@ -17,6 +17,7 @@
 
 ### 终端
 
+- [Alacritty](https://github.com/alacritty/alacritty) - 跨平台
 - [iTerm2](https://iterm2.com/)
 - [WindTerm](https://github.com/kingToolbox/WindTerm) - 跨平台
 - [Tabby](https://github.com/Eugeny/tabby) - 跨平台
@@ -43,6 +44,12 @@
 - [you-get](https://github.com/soimort/you-get) - 网站视频下载命令工具，如需视频合并，需额外安装`ffmpeg`
 
 
+### 系统优化
+
+- [lemon-cleaner](https://github.com/Tencent/lemon-cleaner)
+- [AppCleaner](https://freemacsoft.net/appcleaner/)
+
+
 ### Office
 
 - [LibreOffice](https://zh-cn.libreoffice.org/)
@@ -60,17 +67,26 @@
 - [MarkText](https://github.com/marktext/marktext)
 
 
+### 阅读
+
+- [WeRead](https://github.com/tw93/Pake/releases) - 利用`Rust Tauri`打包的APP
+- [Legado](https://github.com/gedoor/legado) - Android
+
+
 ### 播放器
 
 > 收费的可以试试`Movist Pro`、`Infuse Pro`
 
 - [IINA](https://iina.io/)
+- [MusicFree](https://github.com/maotoumao/MusicFree) - Flutter
 
 
 ### 截图
 
 - [shottr](https://shottr.cc/)
 - [Snipaste](https://zh.snipaste.com/)
+- [flameshot](https://github.com/flameshot-org/flameshot)
+- [Xnip](https://apps.apple.com/cn/app/xnip-%E6%88%AA%E5%9B%BE-%E6%A0%87%E6%B3%A8/id1221250572?mt=12)
 - [iShot](https://apps.apple.com/cn/app/ishot-%E4%BC%98%E7%A7%80%E7%9A%84%E6%88%AA%E5%9B%BE%E8%B4%B4%E5%9B%BE%E5%BD%95%E5%B1%8F%E5%BD%95%E9%9F%B3ocr%E7%BF%BB%E8%AF%91%E5%8F%96%E8%89%B2%E6%A0%87%E6%B3%A8%E5%B7%A5%E5%85%B7/id1485844094?mt=12)
 
 
@@ -97,7 +113,7 @@
 
 ### 翻译
 
-- [Bob](https://apps.apple.com/cn/app/bob-%E7%BF%BB%E8%AF%91%E5%92%8C-ocr-%E5%B7%A5%E5%85%B7/id1630034110?mt=12) - `Bob`分为社区版和`AppStore`版，从社区第一个版本就开始用，后来有了商店版后我就买了。想白嫖的可以继续使用社区版，使用`homebrew`安装即可。
+- [Bob](https://apps.apple.com/cn/app/bob-%E7%BF%BB%E8%AF%91%E5%92%8C-ocr-%E5%B7%A5%E5%85%B7/id1630034110?mt=12) - `Bob`分为社区版(已停止日常维护)和`AppStore`版，想白嫖的可以继续使用社区版，`homebrew`安装即可。
 
 
 ### 状态栏
@@ -116,6 +132,7 @@
 - [glance](https://github.com/chamburr/glance) - All-in-one Quick Look plugin
 - [SouceCodeSyntaxHighlight](https://github.com/sbarex/SourceCodeSyntaxHighlight)
 - [QLMarkdown](https://github.com/sbarex/QLMarkdown)
+- [Mac-QuickLook](https://github.com/haokaiyang/Mac-QuickLook)
 
 
 ### 邮件
@@ -165,6 +182,7 @@
 ### RSS
 
 - [NetNewsWire](https://ranchero.com/netnewswire/)
+- [Lettura](https://github.com/zhanglun/lettura)
 
 
 ### U盘系统制作
@@ -185,7 +203,7 @@
 
 ### 收费软件推荐
 
-> 可以到[这里](#软件站)找**特（破）别（解）**版
+> 可以到[这里](#软件站)找 特(破)别(解) 版
 
 - [Alfred](https://www.alfredapp.com/) - 小帽子
     - [插件](https://github.com/zenorocha/alfred-workflows)
@@ -211,7 +229,7 @@
 
 - [LLVM](https://github.com/llvm/llvm-project)
 - [Lookin](https://github.com/hughkli/Lookin)
-- [LLDB](https://github.com/DerekSelander/LLDB) -  lldb 插件
+- [LLDB](https://github.com/DerekSelander/LLDB) -  `lldb`插件
 - [Chisel](https://github.com/facebook/chisel) - `lldb`插件
 - [injectionIII](https://github.com/johnno1962/InjectionIII) - hotreload
 - [OpenSim](https://github.com/luosheng/OpenSim) - 读取模拟器沙盒
@@ -229,6 +247,7 @@
 - [bloaty](https://github.com/google/bloaty) - 对比文件体积变化
 - [ipsw](https://github.com/blacktop/ipsw)
 - [dSYMTools](https://github.com/answer-huang/dSYMTools)
+- [go-macho](https://github.com/blacktop/go-macho)
 
 
 ### 逆向
@@ -244,6 +263,7 @@
 ### Hex
 
 - [HexFriend](https://github.com/ridiculousfish/HexFiend)
+- [ImHex](https://github.com/WerWolv/ImHex)
 
 
 ### 命令行
@@ -257,6 +277,7 @@
 - [lsd](https://github.com/Peltoche/lsd) - `ls`
 - [exa](https://github.com/ogham/exa) - `ls`
 - [bat](https://github.com/sharkdp/bat) - `cat`
+- [ugit](https://github.com/Bhupesh-V/ugit) - 撤销`git`操作
 - [thefuck](https://github.com/nvbn/thefuck)
 - [ipatool](https://github.com/majd/ipatool) - 下载`IPA`文件
 - [HTTPie](https://github.com/jakubroztocil/httpie) - 查看网络
@@ -267,19 +288,20 @@
 
 - [Json2Property](https://github.com/keepyounger/Json2Property)
 - [quicktype-xcode](https://github.com/quicktype/quicktype-xcode)
+- [CleverToolKit](https://apps.apple.com/us/app/clevertoolkit/id6443766349?l=zh&mt=12)
 
 
 ### 快捷打开终端
 
-- [OpenInTerminal](https://github.com/Ji4n1ng/OpenInTerminal]
-- [FinderGo](https://github.com/onmyway133/FinderGo]
-- [Go2Shell](http://zipzapmac.com/Go2Shell]
-- [Alfred插件](http://www.packal.org/workflow/terminalfinder]
+- [OpenInTerminal](https://github.com/Ji4n1ng/OpenInTerminal)
+- [FinderGo](https://github.com/onmyway133/FinderGo)
+- [Go2Shell](http://zipzapmac.com/Go2Shell)
+- [Alfred插件](http://www.packal.org/workflow/terminalfinder)
 
 
 ### 图片压缩
 
-- [ImageSmith](https://apps.apple.com/cn/app/imagesmith-%E5%9B%BE%E7%89%87%E5%8E%8B%E7%BC%A9%E4%B8%93%E5%AE%B6/id1623828135?mt=12) - 推荐，刚发布时我白嫖到的😏
+- [ImageSmith](https://apps.apple.com/cn/app/imagesmith-%E5%9B%BE%E7%89%87%E5%8E%8B%E7%BC%A9%E4%B8%93%E5%AE%B6/id1623828135?mt=12) - 推荐，刚发布时白嫖到的😏
 - [Imagenie](https://github.com/meowtec/Imagine)
 - [Crunch](https://github.com/chrissimpkins/Crunch)
 - [TinyPNG4Mac](https://github.com/kyleduo/TinyPNG4Mac)
@@ -335,6 +357,16 @@
 - [Hammerspoon](http://hammerspoon.org/)
 
 
+### 分辨率调整
+
+- [RDM](https://github.com/avibrazil/RDM)
+
+
+### 网站打包成MacAPP
+
+- [Pake](https://github.com/tw93/Pake)
+
+
 ### Xcode版本管理
 
 - [xcodes](https://github.com/RobotsAndPencils/xcodes) - 它还有个客户端
@@ -374,19 +406,38 @@
     >
     > 2. 如果断点调试无法显示变量，检查下是否安装了`llvm`，如果是那可能默认用的是`llvm`的`lldb`。把`CodeLLDB`的`lldb`指定为`Xcode`的`lldb`，或者在`.zshrc`中用`Xcode`版本覆盖`llvm`版本： `export PATH="/Applications/Xcode.app/Contents/Developer/usr/bin:$PATH"`
 
-#### 函数参数没有代码提示的问题
 
-> 关闭阻止选项
+### Windows VC环境
 
-![](/images/treasure/snippets_prevent_suggestions.png "snippets_prevent_suggestions")
+- [VCRedist](https://github.com/abbodi1406/vcredist)
 
 
 ------
 
+
+## 常见问题
+
+- `VSCode` 函数参数没有代码提示
+
+    > 关闭阻止选项
+
+    ![](/images/treasure/snippets_prevent_suggestions.png "snippets_prevent_suggestions")
+
+- 找回`IDEA`的`copy reference`
+
+    ![](/images/treasure/idea_copy_reference_lose.png "lose copy reference")
+
+------
+
+
 ## 软件站
 
 - [open-source-mac-os-apps](https://github.com/serhii-londar/open-source-mac-os-apps)
-- [AlternativeTo](https://alternativeto.net/)
 - [麦氪搜](https://www.imacso.com/)
 - ~~[MacWk（已关站）](https://www.macwk.com/)~~
 - [Xclient](http://xclient.info/s/)
+- [MacBL](https://www.macbl.com/)
+- [AlternativeTo](https://alternativeto.net/)
+- [NSANE FORUMS](https://nsaneforums.com/)
+- [TorrentMac](https://www.torrentmac.net/)
+- [UUP dump](https://uupdump.net/?lang=zh-cn)

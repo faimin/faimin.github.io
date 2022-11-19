@@ -1,4 +1,4 @@
-# 工具收藏
+# 工具
 
 
 <!--more-->
@@ -42,12 +42,6 @@
 - [Motrix](https://github.com/agalwood/Motrix)
 - [Free Download Manager](https://www.freedownloadmanager.org/zh/)
 - [you-get](https://github.com/soimort/you-get) - 网站视频下载命令工具，如需视频合并，需额外安装`ffmpeg`
-
-
-### 系统优化
-
-- [lemon-cleaner](https://github.com/Tencent/lemon-cleaner)
-- [AppCleaner](https://freemacsoft.net/appcleaner/)
 
 
 ### Office
@@ -285,6 +279,7 @@
 - [ipatool](https://github.com/majd/ipatool) - 下载`IPA`文件
 - [HTTPie](https://github.com/jakubroztocil/httpie) - 查看网络
 - [zsh-autosuggestions](https://github.com/zsh-users/zsh-autosuggestions)
+- [zsh-syntax-highlighting](https://github.com/zsh-users/zsh-syntax-highlighting)
 
 
 ### JSON -> Model

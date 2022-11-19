@@ -17,11 +17,11 @@
 
 ### 终端
 
-- [Alacritty](https://github.com/alacritty/alacritty) - 跨平台
 - [iTerm2](https://iterm2.com/)
-- [WindTerm](https://github.com/kingToolbox/WindTerm) - 跨平台
-- [Tabby](https://github.com/Eugeny/tabby) - 跨平台
-- [Neovide](https://neovide.dev/) - Neovim
+- [WezTerm](https://github.com/wez/wezterm)
+- [Alacritty](https://github.com/alacritty/alacritty)
+- [WindTerm](https://github.com/kingToolbox/WindTerm)
+- [Tabby](https://github.com/Eugeny/tabby)
 
 
 ### 系统优化
@@ -205,22 +205,25 @@
 
 > 可以到[这里](#软件站)找 特(破)别(解) 版
 
-- [Alfred](https://www.alfredapp.com/) - 小帽子
-    - [插件](https://github.com/zenorocha/alfred-workflows)
-- [PopClip](https://apps.apple.com/cn/app/popclip/id445189367?mt=12)
 - [Xee](https://apps.apple.com/cn/app/xee-image-viewer-and-browser/id639764244?mt=12) - 图片浏览
 - [Kaleidoscope](https://kaleidoscope.app/) - 文件`diff`
 
+
+### 效率
+
+- [PopClip](https://apps.apple.com/cn/app/popclip/id445189367?mt=12)
+- [Alfred](https://www.alfredapp.com/)
+    - [插件](https://github.com/zenorocha/alfred-workflows)
 
 ------
 
 ## 搜索引擎
 
-- [SearXNG](https://searx.tiekoetter.com/)
+- [SearX](https://searx.space/)
 - [Neeva](https://neeva.com/)
-- [You](https://you.com/)
-- [Yandex](https://yandex.com/)
 - [Qwant](https://www.qwant.com/)
+- [Yandex](https://yandex.com/)
+- ~~[You](https://you.com/)~~
 
 
 ## 开发
@@ -326,6 +329,7 @@
 
 ### 推送
 
+- [PushDeer](https://github.com/easychen/pushdeer)
 - [Knuff](https://github.com/KnuffApp/Knuff)
 - [Pusher](https://github.com/noodlewerk/NWPusher)
 - [Easy APNs Provider](https://itunes.apple.com/cn/app/easy-apns-provider-%E6%8E%A8%E9%80%81%E6%B5%8B%E8%AF%95%E5%B7%A5%E5%85%B7/id989622350?mt=12)

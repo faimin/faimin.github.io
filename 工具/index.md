@@ -208,6 +208,9 @@
 - [PopClip](https://apps.apple.com/cn/app/popclip/id445189367?mt=12)
 - [Alfred](https://www.alfredapp.com/)
     - [插件](https://github.com/zenorocha/alfred-workflows)
+- [xbar](https://github.com/matryer/xbar)
+- [Hammerspoon](http://hammerspoon.org/)
+
 
 ------
 
@@ -349,11 +352,6 @@
 ### WWDC
 
 - [WWDC](https://github.com/insidegui/WWDC)
-
-
-### 自动化
-
-- [Hammerspoon](http://hammerspoon.org/)
 
 
 ### 分辨率调整

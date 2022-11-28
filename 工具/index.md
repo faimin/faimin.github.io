@@ -186,6 +186,7 @@
 ### 窗口管理
 
 - [Rectangle](https://github.com/rxhanson/Rectangle)
+- [yabai](https://github.com/koekeishiya/yabai)
 
 
 ### 解压

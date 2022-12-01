@@ -316,7 +316,6 @@
 - [Chisel](https://github.com/facebook/chisel) - `lldb`插件
 - [injectionIII](https://github.com/johnno1962/InjectionIII) - hotreload
 - [OpenSim](https://github.com/luosheng/OpenSim) - 读取模拟器沙盒
-- [HTTPToolKit-Desktop](https://github.com/httptoolkit/httptoolkit-desktop)
 
 
 ### Mach-O
@@ -445,6 +444,14 @@
 ### 网站打包成MacAPP
 
 - [Pake](https://github.com/tw93/Pake)
+
+
+### 网络
+
+- [hoppscotch](https://github.com/hoppscotch/hoppscotch) - Postwomen
+- [HTTPToolKit-Desktop](https://github.com/httptoolkit/httptoolkit-desktop)
+- [Stream](https://apps.apple.com/cn/app/stream/id1312141691)
+- [Knot](https://apps.apple.com/cn/app/knot-packet-capture/id1618651767)
 
 
 ### Xcode版本管理

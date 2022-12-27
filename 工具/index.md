@@ -165,6 +165,14 @@
 - [Legado](https://github.com/gedoor/legado) - Android
 
 
+### PDF
+
+- [Skim](https://skim-app.sourceforge.io/)
+- Edge
+- Chrome
+- Firefox
+
+
 ### 播放器
 
 > 收费的可以试试`Movist Pro`、`Infuse Pro`

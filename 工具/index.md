@@ -254,6 +254,12 @@
 - [Tickys](http://www.yingdev.com/projects/tickeys) - 模拟机械键盘的声音
 
 
+### 输入法切换
+
+- [KeyboardHolder](https://github.com/leaves615/KeyboardHolder)
+- [搜狗输入法切换助手](https://apps.apple.com/cn/app/%E6%90%9C%E7%8B%97%E8%BE%93%E5%85%A5%E6%B3%95%E5%88%87%E6%8D%A2%E5%8A%A9%E6%89%8B/id6443621266?mt=12)
+
+
 ### 屏幕录制
 
 - [LICEcap](http://www.cockos.com/licecap/)

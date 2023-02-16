@@ -29,9 +29,10 @@
 ### 终端
 
 - [iTerm2](https://iterm2.com/)
-- [WindTerm](https://github.com/kingToolbox/WindTerm)
-- [WezTerm](https://github.com/wez/wezterm)
 - [Alacritty](https://github.com/alacritty/alacritty)
+- [WezTerm](https://github.com/wez/wezterm)
+- [kitty](https://github.com/kovidgoyal/kitty)
+- [WindTerm](https://github.com/kingToolbox/WindTerm)
 - [Tabby](https://github.com/Eugeny/tabby)
 
 
@@ -387,6 +388,7 @@
 - [zsh-autosuggestions](https://github.com/zsh-users/zsh-autosuggestions)
 - [zsh-syntax-highlighting](https://github.com/zsh-users/zsh-syntax-highlighting)
 - [git-cliff](https://github.com/orhun/git-cliff) - changelog
+- [erdtree](https://github.com/solidiquis/erdtree) - file-tree
 
 
 ### 快捷打开终端

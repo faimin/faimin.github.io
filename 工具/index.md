@@ -389,6 +389,8 @@
 - [zsh-syntax-highlighting](https://github.com/zsh-users/zsh-syntax-highlighting)
 - [git-cliff](https://github.com/orhun/git-cliff) - changelog
 - [erdtree](https://github.com/solidiquis/erdtree) - file-tree
+- [onefetch](https://github.com/o2sh/onefetch) - Git information
+- [zoxide](https://github.com/ajeetdsouza/zoxide) - jump
 
 
 ### 快捷打开终端

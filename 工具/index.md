@@ -292,6 +292,7 @@
 ### Hosts
 
 - [iHosts](https://apps.apple.com/cn/app/ihosts-etc-hosts-%E7%BC%96%E8%BE%91%E5%99%A8/id1102004240?mt=12)
+- [SwitchHosts](https://github.com/oldj/SwitchHosts)
 
 
 ### RSS

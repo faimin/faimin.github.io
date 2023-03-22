@@ -14,8 +14,8 @@
 - [Neeva](https://neeva.com/)
 - [Qwant](https://www.qwant.com/)
 - [Yandex](https://yandex.com/)
-- [You](https://you.com/) - 国内需要挂代理
 - [grep.app](https://grep.app/)
+- [phind](https://www.phind.com/)
 
 ------
 
@@ -184,6 +184,7 @@
 
 - [IINA](https://iina.io/)
 - [MusicFree](https://github.com/maotoumao/MusicFree) - Flutter
+- [Music站点](https://tools.liumingye.cn/music/#/)
 
 
 ### 截图

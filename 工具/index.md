@@ -36,6 +36,12 @@
 - [Tabby](https://github.com/Eugeny/tabby)
 
 
+### neovim GUI
+
+- [neovide](https://github.com/neovide/neovide)
+- [vimr](https://github.com/qvacua/vimr)
+
+
 ### 效率
 
 - [PopClip](https://apps.apple.com/cn/app/popclip/id445189367?mt=12)
@@ -473,6 +479,8 @@
 
 - [hoppscotch](https://github.com/hoppscotch/hoppscotch) - Postwomen
 - [HTTPToolKit-Desktop](https://github.com/httptoolkit/httptoolkit-desktop)
+- [cocoa-reset-client](https://github.com/mmattozzi/cocoa-rest-client)
+- [thunder-client](https://marketplace.visualstudio.com/items?itemName=rangav.vscode-thunder-client)
 - [Stream](https://apps.apple.com/cn/app/stream/id1312141691)
 - [Knot](https://apps.apple.com/cn/app/knot-packet-capture/id1618651767)
 

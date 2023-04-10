@@ -430,10 +430,11 @@
 
 ### 网络
 
+-   [thunder-client](https://marketplace.visualstudio.com/items?itemName=rangav.vscode-thunder-client)
 -   [hoppscotch](https://github.com/hoppscotch/hoppscotch) - Postwomen
+-   [RapidAPI / Paw](https://paw.cloud/)
 -   [HTTPToolKit-Desktop](https://github.com/httptoolkit/httptoolkit-desktop)
 -   [cocoa-reset-client](https://github.com/mmattozzi/cocoa-rest-client)
--   [thunder-client](https://marketplace.visualstudio.com/items?itemName=rangav.vscode-thunder-client)
 -   [Stream](https://apps.apple.com/cn/app/stream/id1312141691)
 -   [Knot](https://apps.apple.com/cn/app/knot-packet-capture/id1618651767)
 
@@ -465,16 +466,18 @@
 -   GitLens
 -   Git Graph
 -   Path Intellisense
--   Project Manager
 -   Thunder Client
 -   CodeSnap
 -   Comment Tranlate
 -   Markdown Editor
 -   Image Preview
 -   Paste JSON as Code
+-   Project Manager
+-   Bookmarks
 -   Todo Tree
 -   shellman
 -   Hex Editor
+-   Doxygen Documentation Generator
 -   Better Comments
 -   [whatchanged](https://marketplace.visualstudio.com/items?itemName=axetroy.vscode-whatchanged) - changelog
 -   Swift
@@ -513,7 +516,7 @@
 -   [NSANE FORUMS](https://nsaneforums.com/)
 -   [TorrentMac](https://www.torrentmac.net/)
 -   [UUP dump](https://uupdump.net/?lang=zh-cn)
--   ~~[MacYY(站长已卖)](https://www.macyy.cn/)~~
+-   ~~[MacYY(网站已转卖)](https://www.macyy.cn/)~~
 -   ~~[MacWk(已关站)](https://www.macwk.com/)~~
 
 ## 参考

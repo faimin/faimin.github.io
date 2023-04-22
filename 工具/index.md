@@ -213,6 +213,7 @@
 ### 翻译
 
 -   [Bob](https://apps.apple.com/cn/app/bob-%E7%BF%BB%E8%AF%91%E5%92%8C-ocr-%E5%B7%A5%E5%85%B7/id1630034110?mt=12) - `Bob`分为社区版(已停止日常维护)和`AppStore`版，想白嫖的可以继续使用社区版，`homebrew`安装即可。
+-   [EasyDict](https://github.com/tisfeng/Easydict)
 -   [沉浸式双语网页翻译扩展](https://github.com/immersive-translate/immersive-translate/)
 
 ### 状态栏

@@ -460,6 +460,7 @@
 ### VSCode 插件
 
 -   Shades of Purple - 主题
+-   [Dracula](https://draculatheme.com/) - 主题
 -   Code Runner
 -   CodeLLDB
 -   clangd

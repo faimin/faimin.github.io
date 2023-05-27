@@ -144,7 +144,7 @@
 
 -   [Motrix](https://github.com/agalwood/Motrix)
 -   [Free Download Manager](https://www.freedownloadmanager.org/zh/)
--   [you-get](https://github.com/soimort/you-get) - 网站视频下载命令工具，如需视频合并，需额外安装`ffmpeg`
+-   [you-get](https://github.com/soimort/you-get) - 网站视频下载命令工具，如需视频合并需额外安装`ffmpeg`
 
 ### Office
 
@@ -159,6 +159,7 @@
 ### Markdown
 
 -   [MarkText](https://github.com/marktext/marktext)
+-   [typst](https://github.com/typst/typst)
 
 ### 阅读
 

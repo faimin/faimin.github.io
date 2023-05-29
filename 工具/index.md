@@ -260,6 +260,7 @@
 ### 视频编辑
 
 -   [shotcut](https://www.shotcut.org/)
+-   [lossless-cut](https://github.com/mifi/lossless-cut)
 
 ### 格式转码
 
@@ -365,6 +366,7 @@
 -   [erdtree](https://github.com/solidiquis/erdtree) - file-tree
 -   [onefetch](https://github.com/o2sh/onefetch) - Git information
 -   [zoxide](https://github.com/ajeetdsouza/zoxide) - jump
+-   [ios-deploy](https://github.com/ios-control/ios-deploy)
 
 ### 快捷打开终端
 

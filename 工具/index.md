@@ -180,6 +180,7 @@
 > 收费的可以试试`Movist Pro`、`Infuse Pro`
 
 -   [IINA](https://iina.io/)
+-   [MPC-BE](https://github.com/Aleksoid1978/MPC-BE)
 -   [MusicFree](https://github.com/maotoumao/MusicFree) - Flutter
 -   [Music 站点](https://tools.liumingye.cn/music/#/)
 
@@ -284,6 +285,11 @@
 -   [Lettura](https://github.com/zhanglun/lettura)
 -   [mdSilo-app](https://github.com/mdSilo/mdSilo-app)
 
+### 文件传输
+
+-   [localsend](https://github.com/localsend/localsend)
+-   [FlyingCarpet](https://github.com/spieglt/FlyingCarpet)
+
 ### U 盘系统制作
 
 -   [Rufus](https://github.com/pbatard/rufus)
@@ -345,6 +351,7 @@
 
 -   [HexFriend](https://github.com/ridiculousfish/HexFiend)
 -   [ImHex](https://github.com/WerWolv/ImHex)
+-   [hexyl](https://github.com/sharkdp/hexyl)
 
 ### 命令行
 
@@ -369,6 +376,7 @@
 -   [onefetch](https://github.com/o2sh/onefetch) - Git information
 -   [zoxide](https://github.com/ajeetdsouza/zoxide) - jump
 -   [ios-deploy](https://github.com/ios-control/ios-deploy)
+-   [joshuto](https://github.com/kamiyaa/joshuto) - file manager
 
 ### 快捷打开终端
 
@@ -385,6 +393,8 @@
 -   [TinyPNG4Mac](https://github.com/kyleduo/TinyPNG4Mac)
 -   [ImageOptim](https://imageoptim.com/mac)
 -   [Pngyu](https://nukesaq88.github.io/Pngyu/)
+-   [rimage](https://github.com/SalOne22/rimage)
+-   [oxipng](https://github.com/shssoichiro/oxipng)
 
 ### 检测无用资源和代码
 
@@ -503,6 +513,10 @@
 ### Windows VC 环境
 
 -   [VCRedist](https://github.com/abbodi1406/vcredist)
+
+### Windows 激活
+
+-   [HEU_KMS_Activator](https://github.com/zbezj/HEU_KMS_Activator)
 
 ---
 

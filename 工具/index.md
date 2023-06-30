@@ -293,6 +293,7 @@
 ### U 盘系统制作
 
 -   [Rufus](https://github.com/pbatard/rufus)
+-   [Ventoy](https://github.com/ventoy/Ventoy)
 -   [etcher](https://github.com/balena-io/etcher)
 
 ### 数据恢复

@@ -144,6 +144,7 @@
 
 -   [Motrix](https://github.com/agalwood/Motrix)
 -   [Free Download Manager](https://www.freedownloadmanager.org/zh/)
+-   [gopeed](https://github.com/GopeedLab/gopeed)
 -   [you-get](https://github.com/soimort/you-get) - 网站视频下载命令工具，如需视频合并需额外安装`ffmpeg`
 
 ### Office

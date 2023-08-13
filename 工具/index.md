@@ -9,7 +9,6 @@
 
 ## 搜索引擎
 
--   [Neeva](https://neeva.com/)
 -   [Qwant](https://www.qwant.com/)
 -   [Yandex](https://yandex.com/)
 -   [phind](https://www.phind.com/)
@@ -23,6 +22,32 @@
 ### 包管理
 
 -   [Homebrew](https://brew.sh/index_zh-cn)：`Mac`端的包管理工具，`PC`端的有`Scoop`、`Chocolate`、`Winget`
+
+### 版本管理
+
+#### Python
+
+-   [pyenv](https://github.com/pyenv/pyenv)
+
+#### Node
+
+-   [volta](https://github.com/volta-cli/volta) - Node
+-   [nvm](https://github.com/nvm-sh/nvm) - Node
+-   [fnm](https://github.com/Schniz/fnm)
+
+#### Ruby
+
+-   [rbenv](https://github.com/rbenv/rbenv)
+-   [rvm](https://github.com/rvm/rvm)
+
+#### Java
+
+-   [sdkman](https://github.com/sdkman/sdkman-cli)
+-   [jenv](https://github.com/jenv/jenv)
+
+#### Flutter
+
+-   [fvm](https://github.com/fluttertools/fvm)
 
 ### 终端
 
@@ -224,6 +249,7 @@
 ### 状态栏
 
 -   [HiddenBar](https://github.com/dwarvesf/hidden) - 折叠图标
+-   [Dozer](https://github.com/Mortennn/Dozer)
 
 ### TouchBar
 

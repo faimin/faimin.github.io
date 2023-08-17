@@ -401,6 +401,7 @@
 -   [zsh-syntax-highlighting](https://github.com/zsh-users/zsh-syntax-highlighting)
 -   [git-cliff](https://github.com/orhun/git-cliff) - changelog
 -   [erdtree](https://github.com/solidiquis/erdtree) - file-tree
+-   [tokei](https://github.com/XAMPPRocky/tokei) - 统计代码行数
 -   [onefetch](https://github.com/o2sh/onefetch) - Git information
 -   [zoxide](https://github.com/ajeetdsouza/zoxide) - jump
 -   [ios-deploy](https://github.com/ios-control/ios-deploy)

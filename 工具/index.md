@@ -23,32 +23,6 @@
 
 -   [Homebrew](https://brew.sh/index_zh-cn)：`Mac`端的包管理工具，`PC`端的有`Scoop`、`Chocolate`、`Winget`
 
-### 版本管理
-
-#### Python
-
--   [pyenv](https://github.com/pyenv/pyenv)
-
-#### Node
-
--   [volta](https://github.com/volta-cli/volta) - Node
--   [nvm](https://github.com/nvm-sh/nvm) - Node
--   [fnm](https://github.com/Schniz/fnm)
-
-#### Ruby
-
--   [rbenv](https://github.com/rbenv/rbenv)
--   [rvm](https://github.com/rvm/rvm)
-
-#### Java
-
--   [sdkman](https://github.com/sdkman/sdkman-cli)
--   [jenv](https://github.com/jenv/jenv)
-
-#### Flutter
-
--   [fvm](https://github.com/fluttertools/fvm)
-
 ### 终端
 
 -   [iTerm2](https://iterm2.com/)
@@ -209,6 +183,7 @@
 -   [MPC-BE](https://github.com/Aleksoid1978/MPC-BE)
 -   [MusicFree](https://github.com/maotoumao/MusicFree) - Flutter
 -   [Music 站点](https://tools.liumingye.cn/music/#/)
+-   [网易云音乐 MAC 云盘上传工具](https://github.com/lulu-ls/cloud-uploader)
 
 ### 截图
 
@@ -343,6 +318,35 @@
 ---
 
 ## 开发
+
+### 版本管理
+
+#### Python
+
+-   [pyenv](https://github.com/pyenv/pyenv)
+
+#### web toolchain
+
+-   [volta](https://github.com/volta-cli/volta) - project toolchain
+
+#### Node
+
+-   [nvm](https://github.com/nvm-sh/nvm) - Node
+-   [fnm](https://github.com/Schniz/fnm)
+
+#### Ruby
+
+-   [rbenv](https://github.com/rbenv/rbenv)
+-   [rvm](https://github.com/rvm/rvm)
+
+#### Java
+
+-   [sdkman](https://github.com/sdkman/sdkman-cli)
+-   [jenv](https://github.com/jenv/jenv)
+
+#### Flutter
+
+-   [fvm](https://github.com/fluttertools/fvm)
 
 ### 调试
 

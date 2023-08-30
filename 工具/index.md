@@ -324,10 +324,11 @@
 #### Python
 
 -   [pyenv](https://github.com/pyenv/pyenv)
+-   [pixi](https://github.com/prefix-dev/pixi)
 
-#### web toolchain
+#### Env manager
 
--   [volta](https://github.com/volta-cli/volta) - project toolchain
+-   [volta](https://github.com/volta-cli/volta) - toolchain
 
 #### Node
 

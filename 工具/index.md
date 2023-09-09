@@ -397,7 +397,7 @@
 -   [ripgrep](https://github.com/BurntSushi/ripgrep) - grep
 -   [dust](https://github.com/bootandy/dust) - `du`
 -   [lsd](https://github.com/Peltoche/lsd) - `ls`
--   [exa](https://github.com/ogham/exa) - `ls`
+-   [eza](https://github.com/eza-community/eza) - `ls`
 -   [bat](https://github.com/sharkdp/bat) - `cat`
 -   [ugit](https://github.com/Bhupesh-V/ugit) - 撤销`git`操作
 -   [thefuck](https://github.com/nvbn/thefuck)

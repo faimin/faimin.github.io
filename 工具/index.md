@@ -350,6 +350,10 @@
 
 -   [fvm](https://github.com/fluttertools/fvm)
 
+#### Swift
+
+-   [swiftly](https://github.com/swift-server/swiftly)
+
 ### 调试
 
 -   [LLVM](https://github.com/llvm/llvm-project)

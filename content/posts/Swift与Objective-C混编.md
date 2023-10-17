@@ -269,6 +269,20 @@ pre_install do |installer|
 end
 ```
 
+```ruby 
+pre_install do |installer|
+    #以静态库形式存在的pod
+    static_library = ['Masonry', 'SDWebImage']
+    Pod::Installer::Xcode::TargetValidator.send(:define_method, :verify_no_static_framework_transitive_dependencies) {}
+    installer.pod_targets.each do |pod|
+      if static_library.include?(pod.name)
+        def pod.build_type;
+          Pod::BuildType.static_library
+        end
+      end
+    end
+end
+```
 
 ## 参考
 

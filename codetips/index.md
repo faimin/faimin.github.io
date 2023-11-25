@@ -388,6 +388,35 @@ import Darwin
 if (( (x - minx) | (maxx - x) ) >= 0) ...
 ```
 
+## 18. 通过异或混淆key
+
+通过异或的方式（字符串正常会进入常量区，但是通过异或的方式编译器会直接换算成异步结果）
+
+```c
+#define ENCRYPT_KEY 0xAC
+
+static NSString * AES_KEY(){
+    unsigned char key[] = {
+        (ENCRYPT_KEY ^ 'd'),
+        (ENCRYPT_KEY ^ 'e'),
+        (ENCRYPT_KEY ^ 'm'),
+        (ENCRYPT_KEY ^ 'o'),
+        (ENCRYPT_KEY ^ '_'),
+        (ENCRYPT_KEY ^ 'A'),
+        (ENCRYPT_KEY ^ 'E'),
+        (ENCRYPT_KEY ^ 'S'),
+        (ENCRYPT_KEY ^ '_'),
+        (ENCRYPT_KEY ^ '\0'),
+    };
+    unsigned char * p = key;
+    while (((*p) ^= ENCRYPT_KEY) != '\0') {
+        p++;
+    }
+    return [NSString stringWithUTF8String:(const char *)key];
+}
+```
+
+
 -------
 
 ### 参考
@@ -409,4 +438,6 @@ if (( (x - minx) | (maxx - x) ) >= 0) ...
 - [Swift 中的 ARC 机制: 从基础到进阶](https://mp.weixin.qq.com/s/ZJ3gVI-jzDcKpRKa0IMi0A)
 
 - [C语言有什么奇淫技巧](https://www.zhihu.com/question/27417946)
+
+- [iOS 摸鱼周报 #56 ](https://zhangferry.com/2022/06/09/iOSWeeklyLearning_56/)
 

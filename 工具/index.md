@@ -399,10 +399,11 @@
 ### 命令行
 
 - [fig](https://fig.io/)
+- [inshellisense](https://github.com/microsoft/inshellisense)
 - [starship](https://github.com/starship/starship) - `prompt`
 - [nushell](https://github.com/nushell/nushell)
 - [atuin](https://github.com/ellie/atuin) - shell history
-- [fd](https://github.com/sharkdp/fd) - 文件搜索
+- [fd](https://github.com/sharkdp/fd) - file search
 - [ripgrep](https://github.com/BurntSushi/ripgrep) - grep
 - [dust](https://github.com/bootandy/dust) - `du`
 - [lsd](https://github.com/Peltoche/lsd) - `ls`

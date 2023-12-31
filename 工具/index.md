@@ -202,7 +202,7 @@
 - [Rectangle](https://github.com/rxhanson/Rectangle)
 - [yabai](https://github.com/koekeishiya/yabai)
 
-### 压缩解压缩
+### 文件压缩
 
 - [The Unarchiver](https://apps.apple.com/cn/app/the-unarchiver/id425424353?mt=12)
 - [Keka](https://www.keka.io/zh-cn/)
@@ -334,13 +334,10 @@
 - [pyenv](https://github.com/pyenv/pyenv)
 - [pixi](https://github.com/prefix-dev/pixi)
 
-#### Env manager
+#### WebEnv/Node
 
-- [volta](https://github.com/volta-cli/volta) - toolchain
-
-#### Node
-
-- [fnm](https://github.com/Schniz/fnm) - Node
+- [volta](https://github.com/volta-cli/volta)
+- [fnm](https://github.com/Schniz/fnm)
 - [nvm](https://github.com/nvm-sh/nvm)
 
 #### Ruby
@@ -372,6 +369,7 @@
 
 ### Mach-O
 
+- [MachOView](https://github.com/gdbinit/MachOView)
 - [MachOView](https://github.com/fangshufeng/MachOView)
 - [MachO-Explorer](https://github.com/DeVaukz/MachO-Explorer)
 - [XMachOViewer](https://github.com/horsicq/XMachOViewer)
@@ -414,6 +412,7 @@
 - [thefuck](https://github.com/nvbn/thefuck)
 - [ipatool](https://github.com/majd/ipatool) - 下载`IPA`文件
 - [HTTPie](https://github.com/jakubroztocil/httpie) - 查看网络
+- [zsh-autocomplete](https://github.com/marlonrichert/zsh-autocomplete)
 - [zsh-autosuggestions](https://github.com/zsh-users/zsh-autosuggestions)
 - [zsh-syntax-highlighting](https://github.com/zsh-users/zsh-syntax-highlighting)
 - [git-cliff](https://github.com/orhun/git-cliff) - changelog

@@ -536,6 +536,8 @@
 - CodeLLDB
 - clangd
 - Error Lens
+- GitLess
+- Git Blame
 - GitLens
 - Git Graph
 - Path Intellisense

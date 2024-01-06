@@ -1,7 +1,7 @@
 ---
 title: "代码技巧"
 date: 2018-07-11T15:14:00+08:00
-lastmod: 2023-11-25T21:16:00+08:00
+lastmod: 2024-01-07T01:33:00+08:00
 draft: false
 author: "Zero.D.Saber"
 authorLink: "https://github.com/faimin"
@@ -309,7 +309,49 @@ methodThatCallsBackOnMain(completion: { result in
 })
 ```
 
-## 15. Assert
+## 15. 指针调用Swift函数
+
+> https://github.com/apple/swift/issues/70630
+
+```swift
+public class Printable {
+    public init (from sender : String) {
+        print ("Hello from \(sender)!")
+    }
+
+    public init (from sender : String, as name : String = "Bastie") { // 🆘  in result of init with one parameter unusable default value "Bastie" from init method
+        print ("Hello from \(name)?")
+    }
+}
+
+let fn = Printable.init(from:as:)
+let _ = fn("Sebastian")
+// or
+let _ = Printable.init(from:as:)("Sebastian")
+```
+
+## 16. 使用`map`简化代码
+
+> https://github.com/ReactiveX/RxSwift/pull/2549
+
+重构前：
+```swift
+let disposable: Disposable
+
+if let onDisposed = onDisposed {
+    disposable = Disposables.create(with: onDisposed)
+} else {
+    disposable = Disposables.create()
+}
+```
+
+重构后：
+```swift
+let disposable: Disposable = onDisposed.map( Disposables.create(with:) ) ?? Disposables.create()
+```
+
+
+## 17. Assert
 
 `assert`会导致程序退出，下面这种方式不会使程序退出而只是让`IDE`断在指定位置，类似于打断点那种效果
 
@@ -369,7 +411,7 @@ import Darwin
 }        
 ```
 
-## 16. 保证对象的生命周期
+## 18. 保证对象的生命周期
 
 1. Swift
    
@@ -388,7 +430,7 @@ import Darwin
    
    在 Objective-C ARC 中你可以使用 `__attribute__((objc_precise_lifetime))` 或者 `NS_VALID_UNTIL_END_OF_SCOPE` 来标注变量以达到类似的效果。
 
-## 17. 区间判断
+## 19. 区间判断
 
     判断某一个值`x`是否在区间`[min, max]`内    
 
@@ -400,7 +442,7 @@ import Darwin
 if (( (x - minx) | (maxx - x) ) >= 0) ...
 ```
 
-## 18. 通过异或混淆key
+## 20. 通过异或混淆key
 
 通过异或的方式（字符串正常会进入常量区，但是通过异或的方式编译器会直接换算成异步结果）
 
@@ -428,8 +470,7 @@ static NSString * AES_KEY(){
 }
 ```
 
-
--------
+---
 
 ### 参考
 
@@ -451,4 +492,4 @@ static NSString * AES_KEY(){
 
 - [C语言有什么奇淫技巧](https://www.zhihu.com/question/27417946)
 
-- [iOS 摸鱼周报 #56 ](https://zhangferry.com/2022/06/09/iOSWeeklyLearning_56/)
+- [iOS 摸鱼周报 #56](https://zhangferry.com/2022/06/09/iOSWeeklyLearning_56/)

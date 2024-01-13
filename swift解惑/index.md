@@ -364,6 +364,74 @@ store %36 to %37 : $*XX                         // id: %38
 5. `private`函数并未改变函数的派发方式（[iOS摸鱼周报#73](https://mp.weixin.qq.com/s/Om_1TOGKWkMiNneB6Ittrw) 中说`private`会隐式`final`声明，但我测试发现它并不会改变函数的派发方式，感兴趣的同学可以自己验证一下）；
 
 
+## `any` VS `some`
+
+```swift
+// 1.泛型
+func tFoo<T: Equatable>() -> T {
+    return 42 as! T
+}
+
+// 2.some
+func someFoo() -> some Equatable {
+    return 42
+}
+
+// 3.any
+func anyFoo() -> any Equatable {
+    return 42
+}
+```
+
+1. `some`是`Swift 5.1`新加的。`any`是`Swift 5.6`引入的，用来修饰`existential type`，在`Swift5.7`中这个修饰行为变为了强制；
+2. `some`其实只是对泛型协议参数的一种等价简化（如上的`1`和`2`是等价的），也就是说`some`在编译期就可以确定出类型，在方法调用上可以做到函数表派发、静态派发；
+3. `any`则是类似`盒子`的类型，它包装了遵循特定协议的类型。这个`box盒子`允许我们去存储任何具体类型，只要该类型遵循了特定协议即可。
+   1. 性能：由于编译器无法在编译期确定盒子内对象的具体类型以及内存分配方式，导致在运行时不得不采用动态派发的方式将消息派发到具体的对象上，这肯定比静态派发方式要慢很多。
+   2. 由于`existential type`使用上太简单、太方便，很容易会出现滥用的情况，为了提醒开发人员性能损失这一点，所以在`Swift 5.7`中苹果强制要求对`existential type`使用`any`来标记。
+   3. 我们不能使用`==`操作来比较两个`existential type`实例对象。
+   
+
+  ![some vs any](images/swift/some_vs_any.webp)
+
+  最后，根据下面的例子体会一下：
+
+  ```swift
+   // ✅ No compile error when changing the underlying data type
+   var myCar: any Vehicle = Car()
+   myCar = Bus()
+   myCar = Car()
+   ​
+    // 🔴 Compile error in Swift 5.7: Use of protocol 'Vehicle' as a type must be written 'any Vehicle' 
+   func wash(_ vehicle: Vehicle)  {
+       // Wash the given vehicle
+   }
+   ​
+   // ✅ No compile error in Swift 5.7
+   func wash(_ vehicle: any Vehicle)  {
+       // Wash the given vehicle
+   }
+
+   // 🔴 Compile error in Swift 5.7: Use of protocol 'Vehicle' as a type must be written 'any Vehicle'
+  // 一个函数不能返回多种类型结果，而`some`在编译期就可以确定类型，所以编译失败
+   func createVehicle(isPublicTransport: Bool) -> some Vehicle {
+      if isPublicTransport {
+        return Bus()
+      } else {
+        return Car()
+      }
+   }
+   ​
+   // ✅ No compile error when returning different kind of concrete type 
+  func createAnyVehicle(isPublicTransport: Bool) -> any Vehicle {
+      if isPublicTransport {
+        return Bus()
+      } else {
+        return Car()
+      }
+  }
+  ```
+
+
 ## 推荐文章
 
 - [从 SIL 角度看 Swift 中的值类型与引用类型](https://juejin.cn/post/7030983921328193549)
@@ -375,3 +443,10 @@ store %36 to %37 : $*XX                         // id: %38
 - [Swift 性能优化(2)——协议与泛型的实现](http://chuquan.me/2020/02/19/swift-performance-protocol-type-generic-type/)
 
 - [Swift 泛型底层实现原理](http://chuquan.me/2020/04/20/implementing-swift-generic/)
+
+- [【译】Understanding the “some” and “any” keywords in Swift 5.7](https://juejin.cn/post/7119062263406788616)
+  - [【译】What is the “some” keyword in Swift?](https://juejin.cn/post/7117916143175598088)
+  - [【译】What is the “any” keyword in Swift?](https://juejin.cn/post/7116463990724624421)
+  - [【译】What’s the difference between any and some in Swift 5.7?](https://juejin.cn/post/7119062787749314590)
+  - [【译】Using the ‘some’ and ‘any’ keywords to reference generic protocols in Swift 5](https://juejin.cn/post/7119393646729756685)
+  - [【译】What are primary associated types in Swift 5.7?](https://juejin.cn/post/7119423026755551239)

@@ -2,7 +2,7 @@
 weight: 9
 title: "Swift解惑"
 date: 2022-07-26T16:23:10+08:00
-lastmod: 2024-01-13T16:12 :00+08:00
+lastmod: 2024-01-13T16:12:00+08:00
 draft: false
 author: "Zero.D.Saber"
 authorLink: "https://github.com/faimin"
@@ -405,7 +405,7 @@ func anyFoo() -> any Equatable {
    3. 我们不能使用`==`操作来比较两个`existential type`实例对象。
    
 
-  ![some vs any](images/swift/some_vs_any.webp)
+  ![some vs any](/images/swift/some_vs_any.webp "some_vs_any")
 
   最后，根据下面的例子体会一下：
 

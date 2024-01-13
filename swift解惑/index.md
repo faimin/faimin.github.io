@@ -391,7 +391,7 @@ func anyFoo() -> any Equatable {
    3. 我们不能使用`==`操作来比较两个`existential type`实例对象。
    
 
-  ![some vs any](images/swift/some_vs_any.webp)
+  ![some vs any](/images/swift/some_vs_any.webp "some_vs_any")
 
   最后，根据下面的例子体会一下：
 

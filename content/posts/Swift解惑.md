@@ -2,11 +2,11 @@
 weight: 9
 title: "Swift解惑"
 date: 2022-07-26T16:23:10+08:00
-lastmod: 2024-01-13T16:12:00+08:00
+lastmod: 2024-01-14T01:10:00+08:00
 draft: false
 author: "Zero.D.Saber"
 authorLink: "https://github.com/faimin"
-description: "记录Swift语言中自己的一些疑惑"
+description: "记录Swift语言中的一些疑惑"
 tags: ["iOS", "swift"]
 categories: ["实现原理"]
 
@@ -445,8 +445,108 @@ func anyFoo() -> any Equatable {
   }
   ```
 
+## @objc方法的派发方式
+
+> 不考虑`@dynamic`关键字标记的场景（被`@dynamic`和`@objc`标记后会变为消息派发）
+
+`Swift`方法被`@objc`标记后，编译器会生成`2份`接口：一份是`Swift`接口，供`Swift`内部调用；另一份是`OC`接口，用于给`OC`层调用。其中`Swift`的函数调用采用的是**函数表派发**（函数在`sil_vtable`中），而`OC`接口内部其实最终调用的还是`Swift`函数，也就是说派发方式并没有发生变化，还是函数表派发。
+
+创建一个`Foo`类，并实现一个`@objc`标记的`bar`方法：
+
+```swift
+import Foundation
+
+class Foo: NSObject {
+    @objc func bar() {
+        print("Hello from Swift!")
+    }
+}
+```
+
+通过 `swiftc Foo.swift -emit-sil | xcrun swift-demangle > FooSILGen.sil`转换为`SIL`代码如下：
+
+> 有精简，只保留了`bar`函数和`vtable`相关部分
+
+```MLIR
+sil_stage canonical
+
+import Builtin
+import Swift
+import SwiftShims
+
+import Foundation
+
+@objc @_inheritsConvenienceInitializers class Foo : NSObject {
+  @objc func bar()
+  override dynamic init()
+  @objc deinit
+}
+
+// Foo.bar()
+sil hidden @Foo.Foo.bar() -> () : $@convention(method) (@guaranteed Foo) -> () {
+// %0 "self"                                      // user: %1
+bb0(%0 : $Foo):
+  debug_value %0 : $Foo, let, name "self", argno 1, implicit // id: %1
+  %2 = integer_literal $Builtin.Word, 1           // user: %4
+  // function_ref _allocateUninitializedArray<A>(_:)
+  %3 = function_ref @Swift._allocateUninitializedArray<A>(Builtin.Word) -> ([A], Builtin.RawPointer) : $@convention(thin) <τ_0_0> (Builtin.Word) -> (@owned Array<τ_0_0>, Builtin.RawPointer) // user: %4
+  %4 = apply %3<Any>(%2) : $@convention(thin) <τ_0_0> (Builtin.Word) -> (@owned Array<τ_0_0>, Builtin.RawPointer) // users: %6, %5
+  %5 = tuple_extract %4 : $(Array<Any>, Builtin.RawPointer), 0 // user: %17
+  %6 = tuple_extract %4 : $(Array<Any>, Builtin.RawPointer), 1 // user: %7
+  %7 = pointer_to_address %6 : $Builtin.RawPointer to [strict] $*Any // user: %14
+  %8 = string_literal utf8 "Hello from Swift!"    // user: %13
+  %9 = integer_literal $Builtin.Word, 17          // user: %13
+  %10 = integer_literal $Builtin.Int1, -1         // user: %13
+  %11 = metatype $@thin String.Type               // user: %13
+  // function_ref String.init(_builtinStringLiteral:utf8CodeUnitCount:isASCII:)
+  %12 = function_ref @Swift.String.init(_builtinStringLiteral: Builtin.RawPointer, utf8CodeUnitCount: Builtin.Word, isASCII: Builtin.Int1) -> Swift.String : $@convention(method) (Builtin.RawPointer, Builtin.Word, Builtin.Int1, @thin String.Type) -> @owned String // user: %13
+  %13 = apply %12(%8, %9, %10, %11) : $@convention(method) (Builtin.RawPointer, Builtin.Word, Builtin.Int1, @thin String.Type) -> @owned String // user: %15
+  %14 = init_existential_addr %7 : $*Any, $String // user: %15
+  store %13 to %14 : $*String                     // id: %15
+  // function_ref _finalizeUninitializedArray<A>(_:)
+  %16 = function_ref @Swift._finalizeUninitializedArray<A>(__owned [A]) -> [A] : $@convention(thin) <τ_0_0> (@owned Array<τ_0_0>) -> @owned Array<τ_0_0> // user: %17
+  %17 = apply %16<Any>(%5) : $@convention(thin) <τ_0_0> (@owned Array<τ_0_0>) -> @owned Array<τ_0_0> // users: %26, %23
+  // function_ref default argument 1 of print(_:separator:terminator:)
+  %18 = function_ref @default argument 1 of Swift.print(_: Any..., separator: Swift.String, terminator: Swift.String) -> () : $@convention(thin) () -> @owned String // user: %19
+  %19 = apply %18() : $@convention(thin) () -> @owned String // users: %25, %23
+  // function_ref default argument 2 of print(_:separator:terminator:)
+  %20 = function_ref @default argument 2 of Swift.print(_: Any..., separator: Swift.String, terminator: Swift.String) -> () : $@convention(thin) () -> @owned String // user: %21
+  %21 = apply %20() : $@convention(thin) () -> @owned String // users: %24, %23
+  // function_ref print(_:separator:terminator:)
+  %22 = function_ref @Swift.print(_: Any..., separator: Swift.String, terminator: Swift.String) -> () : $@convention(thin) (@guaranteed Array<Any>, @guaranteed String, @guaranteed String) -> () // user: %23
+  %23 = apply %22(%17, %19, %21) : $@convention(thin) (@guaranteed Array<Any>, @guaranteed String, @guaranteed String) -> ()
+  release_value %21 : $String                     // id: %24
+  release_value %19 : $String                     // id: %25
+  release_value %17 : $Array<Any>                 // id: %26
+  %27 = tuple ()                                  // user: %28
+  return %27 : $()                                // id: %28
+} // end sil function 'Foo.Foo.bar() -> ()'
+
+// @objc Foo.bar()
+sil private [thunk] @@objc Foo.Foo.bar() -> () : $@convention(objc_method) (Foo) -> () {
+// %0                                             // users: %4, %3, %1
+bb0(%0 : $Foo):
+  strong_retain %0 : $Foo                         // id: %1
+  // function_ref Foo.bar()
+  %2 = function_ref @Foo.Foo.bar() -> () : $@convention(method) (@guaranteed Foo) -> () // user: %3
+  %3 = apply %2(%0) : $@convention(method) (@guaranteed Foo) -> () // user: %5
+  strong_release %0 : $Foo                        // id: %4
+  return %3 : $()                                 // id: %5
+} // end sil function '@objc Foo.Foo.bar() -> ()'
+
+sil_vtable Foo {
+  #Foo.bar: (Foo) -> () -> () : @Foo.Foo.bar() -> ()	// Foo.bar()
+  #Foo.deinit!deallocator: @Foo.Foo.__deallocating_deinit	// Foo.__deallocating_deinit
+}
+```
+
+可以看到`oc`方法内部其实调用的还是`Swift`的实现：`%2 = function_ref @Foo.Foo.bar() -> (),  %3 = apply %2(%0)`，即`@objc`关键字未影响原来的派发方式。
+
+
 
 ## 推荐文章
+
+- [Swift Intermediate Language (SIL)](https://github.com/apple/swift/blob/main/docs/SIL.rst)
 
 - [从 SIL 角度看 Swift 中的值类型与引用类型](https://juejin.cn/post/7030983921328193549)
 

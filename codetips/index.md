@@ -458,6 +458,22 @@ static NSString * AES_KEY(){
 }
 ```
 
+## 21. 另类的NSTimer破环方案
+
+`block`结构中有个私有的函数：`invoke`。
+
+```objectivec
+@implementation NSTimer (ZDUtility)
+
++ (instancetype)zd_fireSecondsFromNow:(NSTimeInterval)delay block:(dispatch_block_t)block {
+    return [self scheduledTimerWithTimeInterval:delay target:block selector:@selector(invoke) userInfo:nil repeats:NO];
+}
+
+@end
+```
+
+
+
 ---
 
 ### 参考

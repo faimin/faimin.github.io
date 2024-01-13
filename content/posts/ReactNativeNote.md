@@ -1,5 +1,4 @@
 ---
-weight: 7
 title: "React Native笔记"
 date: 2024-01-14T01:38:00+08:00
 lastmod: 2024-01-14T01:38:00+08:00
@@ -59,7 +58,7 @@ const arr = []
 console.log(arr[0]) // undefined
 ```
 
-undefined问题：
+`undefined`问题：
 
 ![undefined](/images/reactnative/undefined.webp "undefined")
 
@@ -168,4 +167,7 @@ contentContainerStyle={{
 
 ## Q：条件渲染
 
+> [React 中条件渲染的 N 种方法](https://mp.weixin.qq.com/s/ZOvR7htlTIppyr0_G39ezA)
+
 在写组件时不要用`{ 判断条件 && 组件 }`这种写法，因为假如前面的条件是`false`，那这个结果就是 `{ false }` ，然而这并不是一个合法的组件，在某些场景下会报错。建议使用`{ 判断条件 ? 组件 : null  }`这种方式。
+

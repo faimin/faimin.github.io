@@ -23,19 +23,19 @@ jobs:
           submodules: true  # Fetch Hugo themes (true OR recursive) 
           fetch-depth: 0 
 
-      - name: Setup pnpm
-        uses: pnpm/action-setup@v2
-        with:
-          version: latest
+      # - name: Setup pnpm
+      #   uses: pnpm/action-setup@v2
+      #   with:
+      #     version: latest
 
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
-          node-version: 'lts/*'  # 指定node版本，默认v12已经废弃，网站展示会有问题
-          cache: 'pnpm'
+          node-version: 'lts/*'  
+          # cache: 'pnpm'
 
-      - name: Install dependencies
-        run: pnpm install
+      # - name: Install dependencies
+      #   run: pnpm install
 
       - name: Setup Hugo
         uses: peaceiris/actions-hugo@v2	

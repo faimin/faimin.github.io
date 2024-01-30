@@ -92,7 +92,8 @@ node_modules/.pnpm/canvas@2.11.2_encoding@0.1.13/node_modules/canvas: Running in
 
 #####  解决方案
 
-```python
+```bash
+❯ brew install pkg-config cairo pango libpng jpeg giflib librsvg pixman #node-canvas的依赖
 ❯ pip install setuptools
 ```
 

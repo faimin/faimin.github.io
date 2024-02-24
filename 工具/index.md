@@ -332,6 +332,7 @@
 #### Python
 
 - [pyenv](https://github.com/pyenv/pyenv)
+- [uv](https://github.com/astral-sh/uv)
 - [pixi](https://github.com/prefix-dev/pixi)
 
 #### WebEnv/Node
@@ -472,6 +473,7 @@
 - [Fork](https://git-fork.com)
 - [GitUI](https://github.com/extrawurst/gitui)
 - [LazyGit](https://github.com/jesseduffield/lazygit)
+- [gitbutler](https://github.com/gitbutlerapp/gitbutler)
 
 > 开源的还有[Xit](https://github.com/Uncommon/Xit)、[GitUp](https://github.com/git-up/GitUp)，收费的有`Tower`、`Sublime Merge`、`GitKraken`
 

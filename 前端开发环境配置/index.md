@@ -99,7 +99,7 @@ node_modules/.pnpm/canvas@2.11.2_encoding@0.1.13/node_modules/canvas: Running in
 
 ### yarn4 module找不到
 
-![](/images/web/cannot_find_module.webp "yarn4 node_modules")
+![](/images/web/cannot_find_module.png "yarn4 node_modules")
 
 #### 解决方案
 

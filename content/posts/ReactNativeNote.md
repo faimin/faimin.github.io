@@ -171,3 +171,21 @@ contentContainerStyle={{
 
 在写组件时不要用`{ 判断条件 && 组件 }`这种写法，因为假如前面的条件是`false`，那这个结果就是 `{ false }` ，然而这并不是一个合法的组件，在某些场景下会报错。建议使用`{ 判断条件 ? 组件 : null  }`这种方式。
 
+## Q: 切圆角时如何把子类超出父视图的部分也切掉？
+
+确保父元素的`overflow`属性设置为`hidden`。
+
+```jsx
+{
+    overflow: 'hidden'
+}
+```
+
+## Q: 如何让文字纵向居中？
+
+1. 让`View`组件包一层
+2. 设置`lineHeight`与控件高度相同
+
+```jsx
+<Text style={{ textAlign: 'center', lineHeight: 40 }}>文本内容</Text>
+```

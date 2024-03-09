@@ -208,4 +208,19 @@ const windowHeight = useWindowDimensions().height;
 
 export const STATUS_BAR_HEIGHT =
   Platform.OS === "android" ? StatusBar.currentHeight : StatusBarManager.HEIGHT;
+
+// Platform.select
+const styles = StyleSheet.create({
+  container: {
+    marginTop: Platform.OS === "android" ? 25 : 0,
+  },
+  text: {
+    ...Platform.select({
+      ios: { color: "purple", fontSize: 24 },
+      android: { color: "blue", fontSize: 30 },
+    }),
+    fontWeight: "bold",
+    textAlign: "center",
+  },
+});
 ```

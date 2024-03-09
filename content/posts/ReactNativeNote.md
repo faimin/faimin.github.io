@@ -1,7 +1,7 @@
 ---
 title: "React Native笔记"
 date: 2024-01-14T01:38:00+08:00
-lastmod: 2024-01-14T01:38:00+08:00
+lastmod: 2024-03-09T11:06:00+08:00
 draft: false
 author: "Zero.D.Saber"
 authorLink: "https://github.com/faimin"
@@ -19,17 +19,17 @@ featuredImagePreview: "/images/reactnative/react_native.webp"
 ## Q：JSON转JavaScript对象时自定义key
 
 ```javascript
-const jsonString = '{"componentName":"abc","theme":"light","debugMode":"1"}'
-const obj = JSON.parse(jsonString, function(k, v){
-	if (k == 'theme') {
-        // 给自定义的属性赋值
-		this.custom = v;
-        // 返回undefined会把当前这个key从对象中移除
-		return undefined;
-	} else if (k == '') {
-		console.log("宝儿姐");
-	}
-	return v;
+const jsonString = '{"componentName":"abc","theme":"light","debugMode":"1"}';
+const obj = JSON.parse(jsonString, function (k, v) {
+  if (k == "theme") {
+    // 给自定义的属性赋值
+    this.custom = v;
+    // 返回undefined会把当前这个key从对象中移除
+    return undefined;
+  } else if (k == "") {
+    console.log("宝儿姐");
+  }
+  return v;
 });
 
 console.log(obj);
@@ -54,8 +54,8 @@ console.log(obj == false); // false
 不需要，`JS`的数组不会发生越界的异常，我们使用时只需关注数组是否 `undefined`的问题。
 
 ```javascript
-const arr = []
-console.log(arr[0]) // undefined
+const arr = [];
+console.log(arr[0]); // undefined
 ```
 
 `undefined`问题：
@@ -63,18 +63,19 @@ console.log(arr[0]) // undefined
 ![undefined](/images/reactnative/undefined.webp "undefined")
 
 解决办法：
+
 ```javascript
-const arr = undefined
-console.log(arr?.[0]) // undefined
+const arr = undefined;
+console.log(arr?.[0]); // undefined
 ```
 
 ## Q：JS中如何判断一个变量是数组还是对象？
 
 ```javascript
-const arr = []
-const obj = {}
+const arr = [];
+const obj = {};
 
-console.log(Array.isArray(arr)) // true
+console.log(Array.isArray(arr)); // true
 ```
 
 ## Q：<> vs React.flagment
@@ -89,7 +90,7 @@ console.log(Array.isArray(arr)) // true
 
 - `React.flagment`支持设置`key`属性
 
-#### `fragment`可以解决我们什么问题？ 
+#### `fragment`可以解决我们什么问题？
 
 `map`函数中的组件需要设置`key`属性，`<>` 并不支持设置属性，而我们又不想增加`DOM`节点，此时`React.fragment`就可以大展身手了：
 
@@ -161,7 +162,7 @@ fetchNextPageMutation.mutate({
 
 ```jsx
 contentContainerStyle={{
-  flexGrow: 1,                    
+  flexGrow: 1,
 }}
 ```
 
@@ -177,7 +178,7 @@ contentContainerStyle={{
 
 ```jsx
 {
-    overflow: 'hidden'
+  overflow: "hidden";
 }
 ```
 
@@ -187,5 +188,24 @@ contentContainerStyle={{
 2. 设置`lineHeight`与控件高度相同
 
 ```jsx
-<Text style={{ textAlign: 'center', lineHeight: 40 }}>文本内容</Text>
+<Text style={{ textAlign: "center", lineHeight: 40 }}>文本内容</Text>
+```
+
+## Q: 有哪些实用API？
+
+```javascript
+import {
+  useWindowDimensions,
+  NativeModules,
+  StatusBar,
+  Platform,
+} from "react-native";
+
+const { StatusBarManager } = NativeModules;
+
+const windowWidth = useWindowDimensions().width;
+const windowHeight = useWindowDimensions().height;
+
+export const STATUS_BAR_HEIGHT =
+  Platform.OS === "android" ? StatusBar.currentHeight : StatusBarManager.HEIGHT;
 ```

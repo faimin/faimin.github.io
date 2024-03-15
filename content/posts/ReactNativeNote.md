@@ -1,7 +1,7 @@
 ---
 title: "React Native笔记"
 date: 2024-01-14T01:38:00+08:00
-lastmod: 2024-03-09T11:06:00+08:00
+lastmod: 2024-03-15T22:27:00+08:00
 draft: false
 author: "Zero.D.Saber"
 authorLink: "https://github.com/faimin"
@@ -189,6 +189,12 @@ contentContainerStyle={{
 
 ```jsx
 <Text style={{ textAlign: "center", lineHeight: 40 }}>文本内容</Text>
+```
+
+## Q: 如何让视图不响应事件？
+
+```jsx
+<View pointerEvents="none" />
 ```
 
 ## Q: 有哪些实用API？

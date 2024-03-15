@@ -585,6 +585,20 @@
 
   ![](/images/treasure/idea_copy_reference_lose.png "lose copy reference")
 
+- 旧版`Xcode`调试新`iOS`系统
+
+  执行如下命令：
+
+  ```bash
+  defaults write com.apple.dt.Xcode DVTEnableCoreDevice enabled
+  ```
+
+  如果想恢复，请执行如下命令：
+
+  ```bash
+  defaults delete com.apple.dt.Xcode DVTEnableCoreDevice
+  ```
+
 ---
 
 ## 软件站

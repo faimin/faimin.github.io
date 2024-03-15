@@ -178,6 +178,12 @@ contentContainerStyle={{
 <Text style={{ textAlign: "center", lineHeight: 40 }}>文本内容</Text>
 ```
 
+## Q: 如何让视图不响应事件？
+
+```jsx
+<View pointerEvents="none" />
+```
+
 ## Q: 有哪些实用API？
 
 ```javascript

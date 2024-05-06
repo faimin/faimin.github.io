@@ -24,6 +24,7 @@
 ### 包管理
 
 - [Homebrew](https://brew.sh/index_zh-cn)：`Mac`端的包管理工具，`PC`端的有`Scoop`、`Chocolate`、`Winget`
+- [UniGetUI](https://github.com/marticliment/WingetUI)
 
 ### 终端
 
@@ -263,6 +264,7 @@
 
 ### 屏幕录制
 
+- [QuickRecorder](https://github.com/lihaoyun6/QuickRecorder)
 - [LICEcap](http://www.cockos.com/licecap/)
 - [Kap](https://github.com/wulkano/kap)
 - [GIFCapture](https://github.com/onmyway133/GifCapture)

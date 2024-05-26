@@ -346,6 +346,7 @@
 - [volta](https://github.com/volta-cli/volta)
 - [fnm](https://github.com/Schniz/fnm)
 - [nvm](https://github.com/nvm-sh/nvm)
+- [mise](https://github.com/jdx/mise)
 
 #### Ruby
 

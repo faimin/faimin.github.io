@@ -1,7 +1,7 @@
 ---
 title: "React Native笔记"
 date: 2024-01-14T01:38:00+08:00
-lastmod: 2024-03-15T22:27:00+08:00
+lastmod: 2024-06-08T00:56:00+08:00
 draft: false
 author: "Zero.D.Saber"
 authorLink: "https://github.com/faimin"
@@ -78,7 +78,7 @@ const obj = {};
 console.log(Array.isArray(arr)); // true
 ```
 
-## Q：<> vs React.flagment
+## Q：<> vs React.Fragment
 
 1. 相同点：
 
@@ -88,17 +88,17 @@ console.log(Array.isArray(arr)); // true
 
 2. 不同点：
 
-- `React.flagment`支持设置`key`属性
+- `React.Fragment`支持设置`key`属性
 
-#### `fragment`可以解决我们什么问题？
+#### `Fragment`可以解决我们什么问题？
 
-`map`函数中的组件需要设置`key`属性，`<>` 并不支持设置属性，而我们又不想增加`DOM`节点，此时`React.fragment`就可以大展身手了：
+`map`函数中的组件需要设置`key`属性，`<>` 并不支持设置属性，而我们又不想增加`DOM`节点，此时`React.Fragment`就可以大展身手了：
 
 ```jsx
 <Text style={style} numberOfLines={numberOfLines}>
     {icons?.map(({ width, height, url }, index) => {
         return (
-            <React.fragment key={index.toString()}>
+            <React.Fragment key={index.toString()}>
                 <Image
                     style={styles.iconImg}
                     resizeMode={'contain'}
@@ -158,12 +158,14 @@ fetchNextPageMutation.mutate({
 
 ## Q：ListEmptyComponets 不能铺满：
 
-给`SectionList`设置如下属性:
+给`SectionList`设置`contentContainerStyle`属性:
 
 ```jsx
-contentContainerStyle={{
-  flexGrow: 1,
-}}
+<SectionList
+  contentContainerStyle={{
+    flexGrow: 1,
+  }}
+/>
 ```
 
 ## Q：条件渲染

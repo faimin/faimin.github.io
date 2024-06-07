@@ -9,10 +9,10 @@
 
 ## 搜索引擎
 
-- [devv](https://devv.ai/zh)
-- [Qwant](https://www.qwant.com/)
-- [Yandex](https://yandex.com/)
+- [kimi](https://kimi.moonshot.cn/)
 - [phind](https://www.phind.com/)
+- [Yandex](https://yandex.com/)
+- [Qwant](https://www.qwant.com/)
 - [grep.app](https://grep.app/)
 - [startpage](https://www.startpage.com/)
 - [SearX](https://searx.space/)
@@ -212,6 +212,7 @@
 - [The Unarchiver](https://apps.apple.com/cn/app/the-unarchiver/id425424353?mt=12)
 - [Keka](https://www.keka.io/zh-cn/)
 - [PeaZip](https://github.com/peazip/PeaZip)
+- [NanaZip](https://github.com/M2Team/NanaZip) - windows
 
 ### 屏幕保护
 
@@ -231,9 +232,10 @@
 - [pot-desktop](https://github.com/pot-app/pot-desktop)
 - [tran](https://github.com/Borber/tran)
 
-### 状态栏
+### MenuBar
 
 - [HiddenBar](https://github.com/dwarvesf/hidden) - 折叠图标
+- [Ice](https://github.com/jordanbaird/Ice)
 - [Dozer](https://github.com/Mortennn/Dozer)
 
 ### TouchBar
@@ -442,8 +444,7 @@
 
 ### 图片压缩
 
-- [ImageSmith](https://apps.apple.com/cn/app/imagesmith-%E5%9B%BE%E7%89%87%E5%8E%8B%E7%BC%A9%E4%B8%93%E5%AE%B6/id1623828135?mt=12) -
-  推荐，刚发布时白嫖到的 😏
+- [ImageSmith](https://apps.apple.com/cn/app/imagesmith-%E5%9B%BE%E7%89%87%E5%8E%8B%E7%BC%A9%E4%B8%93%E5%AE%B6/id1623828135?mt=12)
 - [Imagenie](https://github.com/meowtec/Imagine)
 - [Crunch](https://github.com/chrissimpkins/Crunch)
 - [TinyPNG4Mac](https://github.com/kyleduo/TinyPNG4Mac)
@@ -451,6 +452,7 @@
 - [Pngyu](https://nukesaq88.github.io/Pngyu/)
 - [rimage](https://github.com/SalOne22/rimage)
 - [oxipng](https://github.com/shssoichiro/oxipng)
+- [pic-smaller](https://github.com/joye61/pic-smaller)
 
 ### 检测无用资源和代码
 

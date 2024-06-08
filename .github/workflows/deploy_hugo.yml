@@ -24,7 +24,7 @@ jobs:
           fetch-depth: 0 
 
       # - name: Setup pnpm
-      #   uses: pnpm/action-setup@v2
+      #   uses: pnpm/action-setup@v4
       #   with:
       #     version: latest
 
@@ -38,7 +38,7 @@ jobs:
       #   run: pnpm install
 
       - name: Setup Hugo
-        uses: peaceiris/actions-hugo@v2	
+        uses: peaceiris/actions-hugo@v3	
         with:
           hugo-version: 'latest'
           extended: true

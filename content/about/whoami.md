@@ -1,7 +1,7 @@
 ---
 title: "自我简介"
 date: 2022-08-26T17:11:09+08:00
-lastmod: 2023-04-08T23:37:00+08:00
+lastmod: 2024-06-15T22:55:00+08:00
 draft: false
 author: "Zero.D.Saber"
 authorLink: "https://github.com/faimin"
@@ -15,20 +15,19 @@ featuredImagePreview: ""
 
 ## 我
 
-符现超，菜鸡程序员一枚
+符现超，大龄程序员一枚
 
 ## 技术栈
 
-> 有向全栈发展的想法，正在修行中
+> 有向全栈发展的想法，修行中
 
 -   `Objective-C`
 -   `Swift`
 -   `Lua`
--   `JavaScript`
+-   `JavaScript`、`TypeScript`
 -   `ReactNative`
--   `Shell`
 
-会点`C++`，喜欢`Rust`、`Flutter`, 学习中...
+喜欢`Rust`、`Flutter`，对`Go`、`Kotlin`也很感兴趣
 
 ## 兴趣爱好
 
@@ -40,4 +39,4 @@ featuredImagePreview: ""
 
 ## 优缺点
 
-处女座，有点小强迫症；乡下人，踏实稳重，能吃苦；
+处女座，有点小强迫症；乡下人，踏实稳重，吃苦耐劳；

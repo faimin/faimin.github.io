@@ -1,7 +1,7 @@
 ---
 title: "React Native笔记"
 date: 2024-01-14T01:38:00+08:00
-lastmod: 2024-06-08T00:56:00+08:00
+lastmod: 2024-06-15T16:08:00+08:00
 draft: false
 author: "Zero.D.Saber"
 authorLink: "https://github.com/faimin"
@@ -77,6 +77,24 @@ const obj = {};
 
 console.log(Array.isArray(arr)); // true
 ```
+
+## Q: TypeScript中`unknown`和`never`
+
+1. `unknown`表示不确定的类型，可以赋值给任何类型，但是在使用之前需要进行类型检查，否则在执行函数调用时会报错，而`any`不需要进行类型检查就可以执行，这点是与`any`的不同之处。
+2. `never`可以用作类型检查，同时返回值为`never`表示它不会有任何的返回值，其中一个场景如下：
+   ```typescript
+   function foo(): never {
+      const x: number = 999;
+      if (x > 0) {
+        //⚠️ error
+        return;
+      }
+      console.log(x);
+   }
+   ```
+
+参考： [TypeScript 中 any、unknown 和 never 完整指南](https://mp.weixin.qq.com/s/Ut77dt3wqvhePXxumXYMDQ)
+
 
 ## Q：<> vs React.Fragment
 

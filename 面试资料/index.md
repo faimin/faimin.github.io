@@ -17,10 +17,12 @@
 - [iOS之武功秘籍](https://juejin.cn/post/6936173181321347102)
 - [Block的本质](https://github.com/pro648/tips/blob/master/sources/Block%E7%9A%84%E6%9C%AC%E8%B4%A8.md)
 - [Block捕获实体引用](https://github.com/tripleCC/Laboratory/blob/5064a0f4e7c26ea5b71b8b3d7b1a64121f0c6ea9/BlockStrongReferenceObject/README.md)
+- [图解fishhook原理](https://mp.weixin.qq.com/s/dcQrR4knN0aGDPy2hsrgmg)
 
 ### Memory
 
 - [iOS Memory内存详解](https://mp.weixin.qq.com/s/YpJa3LeTFz9UFOUcs5Bitg)
+- [【精华】程序员的自我修养视频教程](https://www.bilibili.com/video/BV1xf4y127AJ)
 
 ### Performance
 

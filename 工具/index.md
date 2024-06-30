@@ -368,6 +368,10 @@
 
 - [swiftly](https://github.com/swift-server/swiftly)
 
+### 换源
+
+- [chsrc](https://github.com/RubyMetric/chsrc)
+
 ### 调试
 
 - [LLVM](https://github.com/llvm/llvm-project)

@@ -3,7 +3,7 @@ publishdir = "docs"
 
 # theme
 # 主题
-theme = "LoveIt"
+theme = "DoIt"
 
 # website title
 # 网站标题

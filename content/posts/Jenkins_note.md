@@ -3,7 +3,6 @@ title: "Jenkins笔记"
 date: 2020-04-18T11:13:00+08:00
 lastmod: 2022-08-27T15:13:20+08:00
 draft: false
-author: "Zero.D.Saber"
 authorLink: "https://github.com/faimin"
 description: "Jenkins踩坑记录"
 tags: ["CI", "jenkins"]

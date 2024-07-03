@@ -3,7 +3,6 @@ title: "Swift学习笔记"
 date: 2016-03-01T20:55:20+08:00
 lastmod: 2020-11-18T20:55:20+08:00
 draft: false
-author: "Zero.D.Saber"
 authorLink: "https://github.com/faimin"
 description: ""
 tags: ["iOS", "swift"]

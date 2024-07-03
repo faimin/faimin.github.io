@@ -3,7 +3,6 @@ title: "Promise源码简析"
 date: 2019-02-13T20:55:36+08:00
 lastmod: 
 draft: false
-author: "Zero.D.Saber"
 authorLink: "https://github.com/faimin"
 description: ""
 tags: ["iOS", "promise"]

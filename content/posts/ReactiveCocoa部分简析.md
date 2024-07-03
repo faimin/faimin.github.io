@@ -3,7 +3,6 @@ title: "ReactiveCocoa部分简析"
 date: 2016-10-01T09:42:32+08:00
 lastmod: 2022-08-27T14:15:30+08:00
 draft: false
-author: "Zero.D.Saber"
 authorLink: "https://github.com/faimin"
 description: "简析`ReactiveCocoa`中的几个函数"
 tags: ["iOS", "reactive"]

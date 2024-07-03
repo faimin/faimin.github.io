@@ -3,7 +3,6 @@ title: "Block捕获原理探究"
 date: 2018-08-17T12:10:41+08:00
 lastmod: 2022-08-26T23:27:25+08:00
 draft: false
-author: "Zero.D.Saber"
 authorLink: "https://github.com/faimin"
 description: "探索block变量捕获的原理"
 tags: ["iOS", "block"]

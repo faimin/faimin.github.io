@@ -3,7 +3,6 @@ title: "React Native笔记"
 date: 2024-01-14T01:38:00+08:00
 lastmod: 2024-06-15T16:08:00+08:00
 draft: false
-author: "Zero.D.Saber"
 authorLink: "https://github.com/faimin"
 description: "记录React Native学习过程中的一点收获"
 tags: ["ReactNative"]

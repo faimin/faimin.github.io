@@ -3,7 +3,6 @@ title: "NextResponder"
 date: 2022-09-19T16:34:10+08:00
 lastmod: 2022-09-19T16:34:10+08:00
 draft: false
-author: "Zero.D.Saber"
 authorLink: "https://github.com/faimin"
 description: "childController的nextResponder是谁？"
 tags: ["iOS", "事件响应链"]

@@ -3,7 +3,6 @@ title: "代码技巧"
 date: 2018-07-11T15:14:00+08:00
 lastmod: 2024-01-14T01:33:00+08:00
 draft: false
-author: "Zero.D.Saber"
 authorLink: "https://github.com/faimin"
 description: "代码技巧"
 tags: ["iOS", "tips"]

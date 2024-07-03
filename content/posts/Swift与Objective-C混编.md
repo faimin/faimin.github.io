@@ -3,7 +3,6 @@ title: "Swift与Objective-C混编"
 date: 2020-11-04T18:21:55+08:00
 lastmod: 2022-09-07T19:40:00+08:00
 draft: false
-author: "Zero.D.Saber"
 authorLink: "https://github.com/faimin"
 description: "CocoaPods组件中Swift与Objective-C混编"
 tags: ["iOS", "swift"]

@@ -4,7 +4,6 @@ title: "Swift解惑"
 date: 2022-07-26T16:23:10+08:00
 lastmod: 2024-01-14T01:10:00+08:00
 draft: false
-author: "Zero.D.Saber"
 authorLink: "https://github.com/faimin"
 description: "记录Swift语言中的一些疑惑"
 tags: ["iOS", "swift"]

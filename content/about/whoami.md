@@ -3,7 +3,6 @@ title: "自我简介"
 date: 2022-08-26T17:11:09+08:00
 lastmod: 2024-06-15T22:55:00+08:00
 draft: false
-author: "Zero.D.Saber"
 authorLink: "https://github.com/faimin"
 description: ""
 tags: []

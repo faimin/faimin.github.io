@@ -3,7 +3,6 @@ title: "{{ replace .Name "_" " " | title }}"
 date: {{ .Date }}
 lastmod: {{ .Date }}
 draft: false
-author: "Zero.D.Saber"
 authorLink: "https://github.com/faimin"
 description: "摘要"
 tags: ["iOS"]

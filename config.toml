@@ -107,7 +107,7 @@ ignoreErrors = ["error-remote-getjson", "error-missing-instagram-accesstoken"]
   title = "Zero.D.Saber的小屋"
   # website description for RSS, SEO, Open Graph and Twitter Cards
   # 网站描述, 用于 RSS, SEO, Open Graph 和 Twitter Cards
-  description = "Hugo theme - LoveIt"
+  description = "Hugo theme - DoIt"
   # website images for Open Graph and Twitter Cards
   # 网站图片, 用于 Open Graph 和 Twitter Cards
   images = ["/logo/avatar.gif"]
@@ -197,7 +197,7 @@ ignoreErrors = ["error-remote-getjson", "error-missing-instagram-accesstoken"]
   [params.app]
     # optional site title override for the app when added to an iOS home screen or Android launcher
     # 当添加到 iOS 主屏幕或者 Android 启动器时的标题, 覆盖默认标题
-    title = "LoveIt"
+    title = "DoIt"
     # whether to omit favicon resource links
     # 是否隐藏网站图标资源链接
     noFavicon = false
@@ -220,7 +220,7 @@ ignoreErrors = ["error-remote-getjson", "error-missing-instagram-accesstoken"]
     enable = true
     # type of search engine ["lunr", "algolia"]
     # 搜索引擎的类型 ["lunr", "algolia"]
-    type = "algolia"
+    type = "fuse"
     # max index length of the chunked content
     # 文章内容最长索引长度
     contentLength = 4000
@@ -243,6 +243,23 @@ ignoreErrors = ["error-remote-getjson", "error-missing-instagram-accesstoken"]
       index = ""
       appID = ""
       searchKey = ""
+    [params.search.fuse]
+      # DoIt 新增 | 0.2.12 https://fusejs.io/api/options.html
+      isCaseSensitive = false
+      minMatchCharLength = 2
+      findAllMatches = false
+      location = 0
+      threshold = 0.3
+      distance = 100
+      ignoreLocation = false
+      useExtendedSearch = false
+      ignoreFieldNorm = false
+
+  [params.image]
+    # 缓存图片链接到本地
+    cacheRemote = true
+    # 图片缩放和优化
+    optimise = true
 
   # Home page config
   # 主页信息设置
@@ -391,6 +408,15 @@ ignoreErrors = ["error-remote-getjson", "error-missing-instagram-accesstoken"]
     # whether to show the full text content in RSS
     # 是否在 RSS 中显示全文内容
     rssFullText = false
+    # DoIt 新增 | 0.2.13 是否在文章开头显示系列导航
+    seriesNavigation = true
+    # 是否启用最后修改时间
+    enableLastMod = true
+    # 是否启用字数统计
+    enableWordCount = true
+    # 是否启用阅读时间估计
+    enableReadingTime = true
+
     # Table of the contents config
     # 目录配置
     [params.page.toc]
@@ -411,7 +437,10 @@ ignoreErrors = ["error-remote-getjson", "error-missing-instagram-accesstoken"]
       copy = true
       # the maximum number of lines of displayed code by default
       # 默认展开显示的代码行数
-      maxShownLines = 50
+      maxShownLines = 10
+    [params.page.table]
+      # 是否开启表格排序
+      sort = true
     # KaTeX mathematical formulas config (KaTeX https://katex.org/)
     # KaTeX 数学公式配置 (KaTeX https://katex.org/)
     [params.page.math]
@@ -609,6 +638,10 @@ ignoreErrors = ["error-remote-getjson", "error-missing-instagram-accesstoken"]
         name = "Zero.D.Saber"
         logoUrl = "/images/avatar.png"
 
+    [params.page.related]
+      enable = true
+      count = 5
+
   # TypeIt config
   # TypeIt 配置
   [params.typeit]
@@ -643,6 +676,8 @@ ignoreErrors = ["error-remote-getjson", "error-missing-instagram-accesstoken"]
     # thumbnail URL
     # 缩略图 URL
     thumbnailUrl = "/images/screenshot.png"
+    # Google 搜索结果中网站备用名字
+    alternateName = ["faimin", "zero", "saber", "fuxianchao"]
 
   # Analytics config
   # 网站分析配置

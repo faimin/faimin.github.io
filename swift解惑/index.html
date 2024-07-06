@@ -1,35 +1,82 @@
 <!doctype html><html lang=zh-CN><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=robots content="noodp"><title>Swift解惑 - Zero.D.Saber</title><meta name=Description content="记录Swift语言中的一些疑惑"><meta property="og:url" content="https://faimin.github.io/swift%E8%A7%A3%E6%83%91/">
-<meta property="og:site_name" content="Zero.D.Saber"><meta property="og:title" content="Swift解惑"><meta property="og:description" content="记录Swift语言中的一些疑惑"><meta property="og:locale" content="zh_CN"><meta property="og:type" content="article"><meta property="article:section" content="posts"><meta property="article:published_time" content="2022-07-26T16:23:10+08:00"><meta property="article:modified_time" content="2024-01-14T01:10:00+08:00"><meta property="article:tag" content="IOS"><meta property="article:tag" content="Swift"><meta property="og:image" content="https://faimin.github.io/logo/avatar.gif"><meta name=twitter:card content="summary_large_image"><meta name=twitter:image content="https://faimin.github.io/logo/avatar.gif"><meta name=twitter:title content="Swift解惑"><meta name=twitter:description content="记录Swift语言中的一些疑惑"><meta name=application-name content="LoveIt"><meta name=apple-mobile-web-app-title content="LoveIt"><meta name=theme-color content="#ffffff"><meta name=msapplication-TileColor content="#da532c"><link rel=icon href=/logo/avatar.gif><link rel=apple-touch-icon sizes=180x180 href=/apple-touch-icon.png><link rel=mask-icon href=/safari-pinned-tab.svg color=#5bbad5><link rel=manifest href=/site.webmanifest><link rel=canonical href=https://faimin.github.io/swift%E8%A7%A3%E6%83%91/><link rel=prev href=https://faimin.github.io/ios%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/><link rel=next href=https://faimin.github.io/%E5%B7%A5%E5%85%B7/><link rel=stylesheet href=/css/style.min.css><link rel=preload href=https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css as=style onload='this.onload=null,this.rel="stylesheet"'><noscript><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css></noscript><link rel=preload href=https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css as=style onload='this.onload=null,this.rel="stylesheet"'><noscript><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css></noscript><script type=application/ld+json>{"@context":"http://schema.org","@type":"BlogPosting","headline":"Swift解惑","inLanguage":"zh-CN","mainEntityOfPage":{"@type":"WebPage","@id":"https:\/\/faimin.github.io\/swift%E8%A7%A3%E6%83%91\/"},"image":["https:\/\/faimin.github.io\/images\/Apple-Devices-Preview.png"],"genre":"posts","keywords":"iOS, swift","wordcount":7718,"url":"https:\/\/faimin.github.io\/swift%E8%A7%A3%E6%83%91\/","datePublished":"2022-07-26T16:23:10+08:00","dateModified":"2024-01-14T01:10:00+08:00","license":"This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher":{"@type":"Organization","name":"Zero.D.Saber","logo":"https:\/\/faimin.github.io\/images\/avatar.png"},"author":{"@type":"Person","name":"Zero.D.Saber"},"description":"记录Swift语言中的一些疑惑"}</script></head><body data-header-desktop=fixed data-header-mobile=auto><script type=text/javascript>(window.localStorage&&localStorage.getItem("theme")?localStorage.getItem("theme")==="dark":"auto"==="auto"?window.matchMedia("(prefers-color-scheme: dark)").matches:"auto"==="dark")&&document.body.setAttribute("theme","dark")</script><div id=mask></div><div class=wrapper><header class=desktop id=header-desktop><div class=header-wrapper><div class=header-title><a href=/ title=Zero.D.Saber>Zero.D.Saber's Notes</a></div><div class=menu><div class=menu-inner><a class=menu-item href=/posts/>所有文章 </a><a class=menu-item href=/tags/>标签 </a><a class=menu-item href=/categories/>分类 </a><a class=menu-item href=/categories/documentation/>文档 </a><a class=menu-item href=/about/whoami>关于 </a><a class=menu-item href=https://github.com/faimin title=GitHub rel="noopener noreffer" target=_blank><i class='fab fa-github fa-fw' aria-hidden=true></i> </a><span class="menu-item delimiter"></span><span class="menu-item search" id=search-desktop>
+<meta property="og:site_name" content="Zero.D.Saber"><meta property="og:title" content="Swift解惑"><meta property="og:description" content="记录Swift语言中的一些疑惑"><meta property="og:locale" content="zh_CN"><meta property="og:type" content="article"><meta property="article:section" content="posts"><meta property="article:published_time" content="2022-07-26T16:23:10+08:00"><meta property="article:modified_time" content="2024-01-14T01:10:00+08:00"><meta property="article:tag" content="IOS"><meta property="article:tag" content="Swift"><meta property="og:image" content="https://faimin.github.io/logo/avatar.gif"><meta name=twitter:card content="summary_large_image"><meta name=twitter:image content="https://faimin.github.io/logo/avatar.gif"><meta name=twitter:title content="Swift解惑"><meta name=twitter:description content="记录Swift语言中的一些疑惑"><meta name=application-name content="DoIt"><meta name=apple-mobile-web-app-title content="DoIt"><meta name=theme-color content="#f8f8f8"><meta name=msapplication-TileColor content="#da532c"><link rel=icon href=/logo/avatar.gif><link rel=apple-touch-icon sizes=180x180 href=/apple-touch-icon.png><link rel=mask-icon href=/safari-pinned-tab.svg color=#5bbad5><link rel=canonical href=https://faimin.github.io/swift%E8%A7%A3%E6%83%91/><link rel=prev href=https://faimin.github.io/ios%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/><link rel=next href=https://faimin.github.io/%E5%B7%A5%E5%85%B7/><link rel=stylesheet href=/css/main.min.css><link rel=stylesheet href=/css/style.min.css><script type=application/ld+json>{"@context":"https://schema.org","@type":"BlogPosting","headline":"Swift解惑","inLanguage":"zh-CN","mainEntityOfPage":{"@type":"WebPage","@id":"https://faimin.github.io/swift%E8%A7%A3%E6%83%91/"},"image":["https://faimin.github.io/images/opensource/swift/naruto.jpg","https://faimin.github.io/images/opensource/swift/naruto.jpg"],"genre":"posts","keywords":["iOS","swift"],"wordcount":7438,"url":"https://faimin.github.io/swift%E8%A7%A3%E6%83%91/","datePublished":"2022-07-26T16:23:10+08:00","dateModified":"2024-01-14T01:10:00+08:00","license":"This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher":{"@type":"Organization","name":"Zero.D.Saber","logo":"https://faimin.github.io/images/avatar.png"},"author":{"@type":"Person","name":"Zero.D.Saber","url":"https://github.com/faimin"},"description":"记录Swift语言中的一些疑惑"}</script></head><body data-instant-intensity=viewport><script type=text/javascript>function setTheme(e){document.body.setAttribute("theme",e),document.documentElement.className=e,document.documentElement.style.setProperty("color-scheme",e==="light"?"light":"dark"),e==="light"?document.documentElement.classList.remove("tw-dark"):document.documentElement.classList.add("tw-dark"),window.theme=e,window.isDark=window.theme!=="light"}function saveTheme(e){window.localStorage&&localStorage.setItem("theme",e)}function getMeta(e){const t=document.getElementsByTagName("meta");for(let n=0;n<t.length;n++)if(t[n].getAttribute("name")===e)return t[n];return""}if(window.localStorage&&localStorage.getItem("theme")){let e=localStorage.getItem("theme");e==="light"||e==="dark"?setTheme(e):setTheme(window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light")}else"auto"==="light"||"auto"==="dark"?(setTheme("auto"),saveTheme("auto")):(saveTheme("auto"),setTheme(window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light"));let metaColors={light:"#f8f8f8",dark:"#161b22"};getMeta("theme-color").content=metaColors[document.body.getAttribute("theme")],window.switchThemeEventSet=new Set</script><div id=back-to-top></div><div id=mask></div><div class=wrapper><header class="desktop print:!tw-hidden" id=header-desktop><div class=header-wrapper><div class=header-title><a href=/ title=Zero.D.Saber>Zero.D.Saber's Notes</a></div><div class=menu><div class=menu-inner><a class=menu-item href=/posts/>所有文章 </a><a class=menu-item href=/tags/>标签 </a><a class=menu-item href=/categories/>分类 </a><a class=menu-item href=/categories/documentation/>文档 </a><a class=menu-item href=/about/whoami>关于 </a><a class=menu-item href=https://github.com/faimin title=GitHub rel="noopener noreferrer" target=_blank><i class='fab fa-github fa-fw' aria-hidden=true></i> </a><span class="menu-item delimiter"></span><button class="menu-item language" aria-label=选择语言>简体中文<svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg>
+<select class=language-select aria-label=选择语言 id=language-select-desktop onchange="location=this.value"><option value=/swift%E8%A7%A3%E6%83%91/ selected>简体中文</option></select>
+</button><span class="menu-item search" id=search-desktop>
 <input type=text placeholder=搜索文章标题或内容... id=search-input-desktop>
-<a href=javascript:void(0); class="search-button search-toggle" id=search-toggle-desktop title=搜索><i class="fas fa-search fa-fw" aria-hidden=true></i>
-</a><a href=javascript:void(0); class="search-button search-clear" id=search-clear-desktop title=清空><i class="fas fa-times-circle fa-fw" aria-hidden=true></i>
-</a><span class="search-button search-loading" id=search-loading-desktop><i class="fas fa-spinner fa-fw fa-spin" aria-hidden=true></i>
-</span></span><a href=javascript:void(0); class="menu-item theme-switch" title=切换主题><i class="fas fa-adjust fa-fw" aria-hidden=true></i>
-</a><a href=javascript:void(0); class="menu-item language" title=选择语言><i class="fa fa-globe" aria-hidden=true></i>
-<select class=language-select id=language-select-desktop onchange="location=this.value"><option value=/swift%E8%A7%A3%E6%83%91/ selected>简体中文</option></select></a></div></div></div></header><header class=mobile id=header-mobile><div class=header-container><div class=header-wrapper><div class=header-title><a href=/ title=Zero.D.Saber>Zero.D.Saber's Notes</a></div><div class=menu-toggle id=menu-toggle-mobile><span></span><span></span><span></span></div></div><div class=menu id=menu-mobile><div class=search-wrapper><div class="search mobile" id=search-mobile><input type=text placeholder=搜索文章标题或内容... id=search-input-mobile>
-<a href=javascript:void(0); class="search-button search-toggle" id=search-toggle-mobile title=搜索><i class="fas fa-search fa-fw" aria-hidden=true></i>
-</a><a href=javascript:void(0); class="search-button search-clear" id=search-clear-mobile title=清空><i class="fas fa-times-circle fa-fw" aria-hidden=true></i>
-</a><span class="search-button search-loading" id=search-loading-mobile><i class="fas fa-spinner fa-fw fa-spin" aria-hidden=true></i></span></div><a href=javascript:void(0); class=search-cancel id=search-cancel-mobile>取消</a></div><a class=menu-item href=/posts/ title>所有文章</a><a class=menu-item href=/tags/ title>标签</a><a class=menu-item href=/categories/ title>分类</a><a class=menu-item href=/categories/documentation/ title>文档</a><a class=menu-item href=/about/whoami title>关于</a><a class=menu-item href=https://github.com/faimin title=GitHub rel="noopener noreffer" target=_blank><i class='fab fa-github fa-fw' aria-hidden=true></i></a><a href=javascript:void(0); class="menu-item theme-switch" title=切换主题>
-<i class="fas fa-adjust fa-fw" aria-hidden=true></i>
-</a><a href=javascript:void(0); class=menu-item title=选择语言><i class="fa fa-globe fa-fw" aria-hidden=true></i>
-<select class=language-select onchange="location=this.value"><option value=/swift%E8%A7%A3%E6%83%91/ selected>简体中文</option></select></a></div></div></header><div class="search-dropdown desktop"><div id=search-dropdown-desktop></div></div><div class="search-dropdown mobile"><div id=search-dropdown-mobile></div></div><main class=main><div class=container><div class=toc id=toc-auto><h2 class=toc-title>目录</h2><div class=toc-content id=toc-content-auto></div></div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">Swift解惑</h1><div class=post-meta><div class=post-meta-line><span class=post-author><a href=https://github.com/faimin title=Author target=_blank rel="noopener noreffer author" class=author><i class="fas fa-user-circle fa-fw" aria-hidden=true></i>Zero.D.Saber</a></span>&nbsp;<span class=post-category>收录于 <a href=/categories/%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/><i class="far fa-folder fa-fw" aria-hidden=true></i>实现原理</a></span></div><div class=post-meta-line><i class="far fa-calendar-alt fa-fw" aria-hidden=true></i>&nbsp;<time datetime=2022-07-26>2022-07-26</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden=true></i>&nbsp;约 7718 字&nbsp;
-<i class="far fa-clock fa-fw" aria-hidden=true></i>&nbsp;预计阅读 16 分钟&nbsp;<span id=/swift%E8%A7%A3%E6%83%91/ class=leancloud_visitors data-flag-title=Swift解惑>
-<i class="far fa-eye fa-fw" aria-hidden=true></i>&nbsp;<span class=leancloud-visitors-count></span>&nbsp;次阅读
-</span>&nbsp;</div></div><div class=featured-image><img class=lazyload src=/svg/loading.min.svg data-src=/images/opensource/swift/naruto.jpg data-srcset="/images/opensource/swift/naruto.jpg, /images/opensource/swift/naruto.jpg 1.5x, /images/opensource/swift/naruto.jpg 2x" data-sizes=auto alt=/images/opensource/swift/naruto.jpg title=记录Swift语言中的一些疑惑></div><div class="details toc" id=toc-static data-kept><div class="details-summary toc-title"><span>目录</span>
-<span><i class="details-icon fas fa-angle-right" aria-hidden=true></i></span></div><div class="details-content toc-content" id=toc-content-static><nav id=TableOfContents><ul><li><a href=#swift分析利器>Swift分析利器</a></li><li><a href=#备忘录>备忘录</a></li><li><a href=#值类型线程安全>值类型线程安全？</a></li><li><a href=#闭包closure>闭包（closure）</a></li><li><a href=#lazy>Lazy</a></li><li><a href=#weak机制>Weak机制</a></li><li><a href=#struct>struct</a><ul><li><ul><li><a href=#嵌套类型会影响父级结构的内存占用吗>嵌套类型会影响父级结构的内存占用吗？</a></li><li><a href=#array存any类型的元素是怎么内存对齐的><code>Array</code>存<code>Any</code>类型的元素是怎么内存对齐的？</a></li></ul></li></ul></li><li><a href=#枚举>枚举</a><ul><li><a href=#内存占用>内存占用</a></li></ul></li><li><a href=#派发方式>派发方式</a></li><li><a href=#any-vs-some><code>any</code> VS <code>some</code></a></li><li><a href=#objc方法的派发方式>@objc方法的派发方式</a></li><li><a href=#推荐文章>推荐文章</a></li></ul></nav></div></div><div class=content id=content><h2 id=swift分析利器>Swift分析利器</h2><blockquote><p>swiftc xxx.swift -emit-sil[gen] | xcrun swift-demangle > xxxxSILGen.sil</p></blockquote><h2 id=备忘录>备忘录</h2><ul><li><p><strong>全局的常量或者变量都是延迟计算的</strong>，跟延迟加载存储属性相似，不同的地方在于，全局的常量或变量不需要标记<code>lazy</code>修饰符。<strong>局部范围的常量和变量不延迟计算</strong>；</p></li><li><p>枚举类型不支持存储属性，想存储数据可以使用枚举关联的方式；</p></li><li><p>为类定义<strong>计算型类型属性</strong>时，可以改用关键字<code>class</code>来支持子类对父类的实现进行重写；</p></li><li><p>如果一个被标记为<code>lazy</code>的属性在没有初始化时就被多个线程访问，则无法保证该属性只会被初始化一次，也就是说<code>lazy</code>不是线程安全的；</p></li><li><p>我们可以为除了延迟计算属性之外的其他存储属性添加属性观察器，也可以通过重写属性的方式为继承的属性（包括存储属性和计算属性）添加属性观察器；不需要为非重写的计算属性添加属性观察器，因为可以通过它的<code>setter</code>直接监控和响应值的变化；如果在一个属性的<code>didSet</code>观察器里为它赋值，这个值会替换该观察器之前设置的值；</p></li><li><p>父类的属性在子类的构造器中被赋值时，它在父类中的<code>willSet</code>和<code>didSet</code>观察器会被调用，随后才会调用子类的观察器。在父类初始化方法调用之前，子类给属性赋值时，观察器不会被调用。</p></li><li><p>存储型类型属性可以是变量或常量，计算型类型属性跟实例的计算型属性一样只能定义成变量属性。跟实例的存储型属性不同，<strong>必须给存储型类型属性指定默认值</strong>，因为类型本身没有构造器，也就无法在初始化过程中使用构造器给类型属性赋值。<strong>存储型类型属性是延迟初始化的，它们只有在第一次被访问的时候才会被初始化，即使它们被多个线程同时访问，系统也保证只会对其进行一次初始化，并且不需要对其使用<code>lazy</code>修饰符</strong>。</p></li><li><p>如果将属性通过<code>in-out</code>方式传入函数，<code>willSet</code> 和 <code>didSet</code> 也会调用，这是因为 <code>in-out</code>参数采用了拷入拷出模式：<strong>即在函数内部使用的是参数的<code>copy</code>，函数结束后，又对参数重新赋值</strong>；</p></li></ul><h2 id=值类型线程安全>值类型线程安全？</h2><p>不要人云亦云，这个说法是有问题的，思考一下：假如我们有个变量 <code>var i = 1</code>，多线程修改时不需要加锁？</p><p>在未优化状态下值类型其实默认是在堆上分配的，只是在<code>SIL</code>优化阶段，编译器会根据上下文把大部分值类型改为在栈上分配，在栈上分配的情况是才是线程安全的，因为每个线程都有自己的栈空间，不需要考虑线程安全问题。但是对于被捕获的这种情况是没办法优化的，你想想如果放到栈上在出作用域后不就被释放了嘛，所以这种情况不会优化到栈上，而是继续留在堆上，也就是说这种场景下多线程操作值类型是不安全的，需要加锁来防止数据竞争。</p><p>那值类型的安全性体现在哪里呢？</p><ol><li><p>显式捕获：这种情况会发生值类型的拷贝操作，即生成一份新的变量，所以是安全的</p></li><li><p>函数传参时值类型会发生拷贝，所以是安全的</p></li><li><p><code>let</code> 标记的变量是不允许修改的，所以这种也是安全的</p></li></ol><h2 id=闭包closure>闭包（closure）</h2><p><figure><a class=lightgallery href=/images/opensource/swift/closure-define.png title=闭包定义 data-thumbnail=/images/opensource/swift/closure-define.png data-sub-html="<h2>closure-define</h2><p>闭包定义</p>"><img class=lazyload src=/svg/loading.min.svg data-src=/images/opensource/swift/closure-define.png data-srcset="/images/opensource/swift/closure-define.png, /images/opensource/swift/closure-define.png 1.5x, /images/opensource/swift/closure-define.png 2x" data-sizes=auto alt=/images/opensource/swift/closure-define.png></a><figcaption class=image-caption>closure-define</figcaption></figure></p><blockquote><p>闭包和函数都是<strong>引用类型</strong></p><p>函数也是特殊的闭包</p></blockquote><p><code>Objective-C</code>中的<code>block</code>默认会捕获外界变量，我们要想修改捕获的值需要添加<code>__block</code>。 可是在<code>Swift</code>中不太一样，<code>Swift</code>中的闭包是捕获和存储其所在上下文中任意常量和变量的<strong>引用</strong> <strong>引用</strong> <strong>引用</strong>，注意是<strong>引用</strong>，如果想要捕获值类型变量的值，需要在闭包中显式引用。</p><p>我们来简单分析下，<code>Swift</code>捕获外界上下文变量时会在堆上开辟一块内存<code>project_box</code> （仔细想想，如果是在栈上，出作用域就会释放掉，还怎么实现捕获的目的？！），然后上下文变量会被包装成<code>project_box</code>(先被<code>HeapObject</code>包装一下，<code>HeapObject</code>再被<code>Box</code>包装一下，最后捕获的是<code>Box</code>，即<strong>捕获的上下文存储在堆空间</strong>)，这个<code>project_box</code>会被放到闭包的参数列表后面传递进来。变量属于是被间接捕获的，有点类似于<code>OC</code>中的<code>__block</code>原理。当然，并不是所有的外界变量捕获都是经过包装过的，只有在闭包内发生修改的变量才会被包装，官方文档中有提到。</p><blockquote><p>注意：
-为了优化，如果一个值不会被闭包改变，或者在闭包创建后不会改变，Swift 可能会改为捕获并保存一份对值的拷贝。</p></blockquote><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
-</span><span class=lnt> 2
-</span><span class=lnt> 3
-</span><span class=lnt> 4
-</span><span class=lnt> 5
-</span><span class=lnt> 6
-</span><span class=lnt> 7
-</span><span class=lnt> 8
-</span><span class=lnt> 9
-</span><span class=lnt>10
-</span><span class=lnt>11
-</span><span class=lnt>12
-</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-swift data-lang=swift><span class=line><span class=cl> <span class=kd>struct</span> <span class=nc>HeapObject</span> <span class=p>{</span>
+<button class="search-button search-toggle" id=search-toggle-desktop title=搜索>
+<svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M505 442.7 405.3 343c-4.5-4.5-10.6-7-17-7H372c27.6-35.3 44-79.7 44-128C416 93.1 322.9.0 208 0S0 93.1.0 208s93.1 208 208 208c48.3.0 92.7-16.4 128-44v16.3c0 6.4 2.5 12.5 7 17l99.7 99.7c9.4 9.4 24.6 9.4 33.9.0l28.3-28.3c9.4-9.4 9.4-24.6.1-34zM208 336c-70.7.0-128-57.2-128-128 0-70.7 57.2-128 128-128 70.7.0 128 57.2 128 128 0 70.7-57.2 128-128 128z"/></svg>
+</button>
+<button class="search-button search-clear" id=search-clear-desktop title=清空>
+<svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M256 8C119 8 8 119 8 256s111 248 248 248 248-111 248-248S393 8 256 8zm121.6 313.1c4.7 4.7 4.7 12.3.0 17L338 377.6c-4.7 4.7-12.3 4.7-17 0L256 312l-65.1 65.6c-4.7 4.7-12.3 4.7-17 0L134.4 338c-4.7-4.7-4.7-12.3.0-17l65.6-65-65.6-65.1c-4.7-4.7-4.7-12.3.0-17l39.6-39.6c4.7-4.7 12.3-4.7 17 0l65 65.7 65.1-65.6c4.7-4.7 12.3-4.7 17 0l39.6 39.6c4.7 4.7 4.7 12.3.0 17L312 256l65.6 65.1z"/></svg>
+</button>
+<span class="search-button search-loading tw-animate-spin" id=search-loading-desktop><svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M304 48c0 26.51-21.49 48-48 48s-48-21.49-48-48 21.49-48 48-48 48 21.49 48 48zm-48 368c-26.51.0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48-21.49-48-48-48zm208-208c-26.51.0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48-21.49-48-48-48zM96 256c0-26.51-21.49-48-48-48S0 229.49.0 256s21.49 48 48 48 48-21.49 48-48zm12.922 99.078c-26.51.0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48c0-26.509-21.491-48-48-48zm294.156.0c-26.51.0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48c0-26.509-21.49-48-48-48zM108.922 60.922c-26.51.0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48-21.491-48-48-48z"/></svg>
+</span></span><button class="menu-item theme-switch" aria-label=切换主题><svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M8 256c0 136.966 111.033 248 248 248s248-111.034 248-248S392.966 8 256 8 8 119.033 8 256zm248 184V72c101.705.0 184 82.311 184 184 0 101.705-82.311 184-184 184z"/></svg></button></div></div></div></header><header class="mobile print:!tw-hidden" id=header-mobile><div class=header-container><div class=header-wrapper><div class=header-title><a href=/ title=Zero.D.Saber>Zero.D.Saber's Notes</a></div><div class=menu-toggle id=menu-toggle-mobile><span></span><span></span><span></span></div></div><div class=menu id=menu-mobile><div class=search-wrapper><div class="search mobile" id=search-mobile><input type=text placeholder=搜索文章标题或内容... id=search-input-mobile>
+<button class="search-button search-toggle tw-h-10" id=search-toggle-mobile title=搜索>
+<svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M505 442.7 405.3 343c-4.5-4.5-10.6-7-17-7H372c27.6-35.3 44-79.7 44-128C416 93.1 322.9.0 208 0S0 93.1.0 208s93.1 208 208 208c48.3.0 92.7-16.4 128-44v16.3c0 6.4 2.5 12.5 7 17l99.7 99.7c9.4 9.4 24.6 9.4 33.9.0l28.3-28.3c9.4-9.4 9.4-24.6.1-34zM208 336c-70.7.0-128-57.2-128-128 0-70.7 57.2-128 128-128 70.7.0 128 57.2 128 128 0 70.7-57.2 128-128 128z"/></svg>
+</button>
+<button class="search-button search-clear" id=search-clear-mobile title=清空>
+<svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M256 8C119 8 8 119 8 256s111 248 248 248 248-111 248-248S393 8 256 8zm121.6 313.1c4.7 4.7 4.7 12.3.0 17L338 377.6c-4.7 4.7-12.3 4.7-17 0L256 312l-65.1 65.6c-4.7 4.7-12.3 4.7-17 0L134.4 338c-4.7-4.7-4.7-12.3.0-17l65.6-65-65.6-65.1c-4.7-4.7-4.7-12.3.0-17l39.6-39.6c4.7-4.7 12.3-4.7 17 0l65 65.7 65.1-65.6c4.7-4.7 12.3-4.7 17 0l39.6 39.6c4.7 4.7 4.7 12.3.0 17L312 256l65.6 65.1z"/></svg>
+</button>
+<span class="search-button search-loading tw-animate-spin" id=search-loading-mobile><svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M304 48c0 26.51-21.49 48-48 48s-48-21.49-48-48 21.49-48 48-48 48 21.49 48 48zm-48 368c-26.51.0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48-21.49-48-48-48zm208-208c-26.51.0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48-21.49-48-48-48zM96 256c0-26.51-21.49-48-48-48S0 229.49.0 256s21.49 48 48 48 48-21.49 48-48zm12.922 99.078c-26.51.0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48c0-26.509-21.491-48-48-48zm294.156.0c-26.51.0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48c0-26.509-21.49-48-48-48zM108.922 60.922c-26.51.0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48-21.491-48-48-48z"/></svg></span></div><button class=search-cancel id=search-cancel-mobile>
+取消</button></div><a class=menu-item href=/posts/ title>所有文章</a><a class=menu-item href=/tags/ title>标签</a><a class=menu-item href=/categories/ title>分类</a><a class=menu-item href=/categories/documentation/ title>文档</a><a class=menu-item href=/about/whoami title>关于</a><a class=menu-item href=https://github.com/faimin title=GitHub rel="noopener noreferrer" target=_blank><i class='fab fa-github fa-fw' aria-hidden=true></i></a><button class="menu-item theme-switch tw-w-full" aria-label=切换主题>
+<svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M8 256c0 136.966 111.033 248 248 248s248-111.034 248-248S392.966 8 256 8 8 119.033 8 256zm248 184V72c101.705.0 184 82.311 184 184 0 101.705-82.311 184-184 184z"/></svg>
+</button><button class="menu-item tw-w-full" title>简体中文<svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg>
+<select class=language-select title onchange="location=this.value"><option value=/swift%E8%A7%A3%E6%83%91/ selected>简体中文</option></select></button></div></div></header><div class="search-dropdown desktop"><div id=search-dropdown-desktop></div></div><div class="search-dropdown mobile"><div id=search-dropdown-mobile></div></div><main class=main><div class=container><div class="toc print:!tw-hidden" id=toc-auto><h2 class=toc-title>目录</h2><div class=toc-content id=toc-content-auto><nav id=TableOfContents><ul><li><a href=#swift分析利器>Swift分析利器</a></li><li><a href=#备忘录>备忘录</a></li><li><a href=#值类型线程安全>值类型线程安全？</a></li><li><a href=#闭包closure>闭包（closure）</a></li><li><a href=#lazy>Lazy</a></li><li><a href=#weak机制>Weak机制</a></li><li><a href=#struct>struct</a><ul><li><ul><li><a href=#嵌套类型会影响父级结构的内存占用吗>嵌套类型会影响父级结构的内存占用吗？</a></li><li><a href=#array存any类型的元素是怎么内存对齐的><code>Array</code>存<code>Any</code>类型的元素是怎么内存对齐的？</a></li></ul></li></ul></li><li><a href=#枚举>枚举</a><ul><li><a href=#内存占用>内存占用</a></li></ul></li><li><a href=#派发方式>派发方式</a></li><li><a href=#any-vs-some><code>any</code> VS <code>some</code></a></li><li><a href=#objc方法的派发方式>@objc方法的派发方式</a></li><li><a href=#推荐文章>推荐文章</a></li></ul></nav></div></div><script>document.getElementsByTagName("main")[0].setAttribute("autoTOC","true")</script><article class="page single print:!tw-w-full print:!tw-max-w-none print:!tw-m-0 print:!tw-p-0"><h1 class=single-title>Swift解惑</h1><div class=post-meta><div class=post-meta-line><span class=post-author><svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><path d="M248 8C111 8 0 119 0 256s111 248 248 248 248-111 248-248S385 8 248 8zm0 96c48.6.0 88 39.4 88 88s-39.4 88-88 88-88-39.4-88-88 39.4-88 88-88zm0 344c-58.7.0-111.3-26.6-146.5-68.2 18.8-35.4 55.6-59.8 98.5-59.8 2.4.0 4.8.4 7.1 1.1 13 4.2 26.6 6.9 40.9 6.9s28-2.7 40.9-6.9c2.3-.7 4.7-1.1 7.1-1.1 42.9.0 79.7 24.4 98.5 59.8C359.3 421.4 306.7 448 248 448z"/></svg><a href=https://github.com/faimin title=Author target=_blank rel="noopener noreferrer author" class=author>Zero.D.Saber</a>
+</span>&nbsp;<span class=post-category>收录于 </span>&nbsp;<span class=post-category>类别 <a href=/categories/%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/><svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M464 128H272l-54.63-54.63c-6-6-14.14-9.37-22.63-9.37H48C21.49 64 0 85.49.0 112v288c0 26.51 21.49 48 48 48h416c26.51.0 48-21.49 48-48V176c0-26.51-21.49-48-48-48zm0 272H48V112h140.12l54.63 54.63c6 6 14.14 9.37 22.63 9.37H464v224z"/></svg>实现原理</a></span></div><div class=post-meta-line><svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M148 288h-40c-6.6.0-12-5.4-12-12v-40c0-6.6 5.4-12 12-12h40c6.6.0 12 5.4 12 12v40c0 6.6-5.4 12-12 12zm108-12v-40c0-6.6-5.4-12-12-12h-40c-6.6.0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6.0 12-5.4 12-12zm96 0v-40c0-6.6-5.4-12-12-12h-40c-6.6.0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6.0 12-5.4 12-12zm-96 96v-40c0-6.6-5.4-12-12-12h-40c-6.6.0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6.0 12-5.4 12-12zm-96 0v-40c0-6.6-5.4-12-12-12h-40c-6.6.0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6.0 12-5.4 12-12zm192 0v-40c0-6.6-5.4-12-12-12h-40c-6.6.0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6.0 12-5.4 12-12zm96-260v352c0 26.5-21.5 48-48 48H48c-26.5.0-48-21.5-48-48V112c0-26.5 21.5-48 48-48h48V12c0-6.6 5.4-12 12-12h40c6.6.0 12 5.4 12 12v52h128V12c0-6.6 5.4-12 12-12h40c6.6.0 12 5.4 12 12v52h48c26.5.0 48 21.5 48 48zm-48 346V160H48v298c0 3.3 2.7 6 6 6h340c3.3.0 6-2.7 6-6z"/></svg>&nbsp;<time datetime=2022-07-26>2022-07-26</time>&nbsp;<svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><path d="M402.3 344.9l32-32c5-5 13.7-1.5 13.7 5.7V464c0 26.5-21.5 48-48 48H48c-26.5.0-48-21.5-48-48V112c0-26.5 21.5-48 48-48h273.5c7.1.0 10.7 8.6 5.7 13.7l-32 32c-1.5 1.5-3.5 2.3-5.7 2.3H48v352h352V350.5c0-2.1.8-4.1 2.3-5.6zm156.6-201.8L296.3 405.7l-90.4 10c-26.2 2.9-48.5-19.2-45.6-45.6l10-90.4L432.9 17.1c22.9-22.9 59.9-22.9 82.7.0l43.2 43.2c22.9 22.9 22.9 60 .1 82.8zM460.1 174 402 115.9 216.2 301.8l-7.3 65.3 65.3-7.3L460.1 174zm64.8-79.7-43.2-43.2c-4.1-4.1-10.8-4.1-14.8.0L436 82l58.1 58.1 30.9-30.9c4-4.2 4-10.8-.1-14.9z"/></svg>&nbsp;<time datetime=2024-01-14>2024-01-14</time>&nbsp;<svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M497.9 142.1l-46.1 46.1c-4.7 4.7-12.3 4.7-17 0l-111-111c-4.7-4.7-4.7-12.3.0-17l46.1-46.1c18.7-18.7 49.1-18.7 67.9.0l60.1 60.1c18.8 18.7 18.8 49.1.0 67.9zM284.2 99.8 21.6 362.4.4 483.9c-2.9 16.4 11.4 30.6 27.8 27.8l121.5-21.3 262.6-262.6c4.7-4.7 4.7-12.3.0-17l-111-111c-4.8-4.7-12.4-4.7-17.1.0zM124.1 339.9c-5.5-5.5-5.5-14.3.0-19.8l154-154c5.5-5.5 14.3-5.5 19.8.0s5.5 14.3.0 19.8l-154 154c-5.5 5.5-14.3 5.5-19.8.0zM88 424h48v36.3l-64.5 11.3-31.1-31.1L51.7 376H88v48z"/></svg>&nbsp;约 7438 字&nbsp;<svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M256 8C119 8 8 119 8 256s111 248 248 248 248-111 248-248S393 8 256 8zm0 448c-110.5.0-2e2-89.5-2e2-2e2S145.5 56 256 56s2e2 89.5 2e2 2e2-89.5 2e2-2e2 2e2zm61.8-104.4-84.9-61.7c-3.1-2.3-4.9-5.9-4.9-9.7V116c0-6.6 5.4-12 12-12h32c6.6.0 12 5.4 12 12v141.7l66.8 48.6c5.4 3.9 6.5 11.4 2.6 16.8L334.6 349c-3.9 5.3-11.4 6.5-16.8 2.6z"/></svg>&nbsp;预计阅读 15 分钟&nbsp;<span id=/swift%E8%A7%A3%E6%83%91/ class=leancloud_visitors data-flag-title=Swift解惑>
+<svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><path d="M288 144a110.94 110.94.0 00-31.24 5 55.4 55.4.0 017.24 27 56 56 0 01-56 56 55.4 55.4.0 01-27-7.24A111.71 111.71.0 10288 144zm284.52 97.4C518.29 135.59 410.93 64 288 64S57.68 135.64 3.48 241.41a32.35 32.35.0 000 29.19C57.71 376.41 165.07 448 288 448s230.32-71.64 284.52-177.41a32.35 32.35.0 000-29.19zM288 4e2c-98.65.0-189.09-55-237.93-144C98.91 167 189.34 112 288 112s189.09 55 237.93 144C477.1 345 386.66 4e2 288 4e2z"/></svg>&nbsp;<span class=leancloud-visitors-count></span>&nbsp;次阅读
+</span>&nbsp;</div></div><div class=featured-image><img loading=eager src=/images/opensource/swift/naruto.jpg alt=记录Swift语言中的一些疑惑></div><div class="details toc print:!tw-block" id=toc-static kept><div class="details-summary toc-title"><span>目录</span>
+<span class=details-icon><svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 512"><path d="M224.3 273l-136 136c-9.4 9.4-24.6 9.4-33.9.0l-22.6-22.6c-9.4-9.4-9.4-24.6.0-33.9l96.4-96.4-96.4-96.4c-9.4-9.4-9.4-24.6.0-33.9L54.3 103c9.4-9.4 24.6-9.4 33.9.0l136 136c9.5 9.4 9.5 24.6.1 34z"/></svg></span></div><div class="details-content toc-content" id=toc-content-static><nav id=TableOfContents><ul><li><a href=#swift分析利器>Swift分析利器</a></li><li><a href=#备忘录>备忘录</a></li><li><a href=#值类型线程安全>值类型线程安全？</a></li><li><a href=#闭包closure>闭包（closure）</a></li><li><a href=#lazy>Lazy</a></li><li><a href=#weak机制>Weak机制</a></li><li><a href=#struct>struct</a><ul><li><ul><li><a href=#嵌套类型会影响父级结构的内存占用吗>嵌套类型会影响父级结构的内存占用吗？</a></li><li><a href=#array存any类型的元素是怎么内存对齐的><code>Array</code>存<code>Any</code>类型的元素是怎么内存对齐的？</a></li></ul></li></ul></li><li><a href=#枚举>枚举</a><ul><li><a href=#内存占用>内存占用</a></li></ul></li><li><a href=#派发方式>派发方式</a></li><li><a href=#any-vs-some><code>any</code> VS <code>some</code></a></li><li><a href=#objc方法的派发方式>@objc方法的派发方式</a></li><li><a href=#推荐文章>推荐文章</a></li></ul></nav></div></div><div class=content id=content><h2 id=swift分析利器 class=headerLink><a href=#swift%e5%88%86%e6%9e%90%e5%88%a9%e5%99%a8 class=header-mark aria-label="Header mark for 'Swift分析利器'"></a>Swift分析利器</h2><blockquote><p>swiftc xxx.swift -emit-sil[gen] | xcrun swift-demangle > xxxxSILGen.sil</p></blockquote><h2 id=备忘录 class=headerLink><a href=#%e5%a4%87%e5%bf%98%e5%bd%95 class=header-mark aria-label="Header mark for '备忘录'"></a>备忘录</h2><ul><li><p><strong>全局的常量或者变量都是延迟计算的</strong>，跟延迟加载存储属性相似，不同的地方在于，全局的常量或变量不需要标记<code>lazy</code>修饰符。<strong>局部范围的常量和变量不延迟计算</strong>；</p></li><li><p>枚举类型不支持存储属性，想存储数据可以使用枚举关联的方式；</p></li><li><p>为类定义<strong>计算型类型属性</strong>时，可以改用关键字<code>class</code>来支持子类对父类的实现进行重写；</p></li><li><p>如果一个被标记为<code>lazy</code>的属性在没有初始化时就被多个线程访问，则无法保证该属性只会被初始化一次，也就是说<code>lazy</code>不是线程安全的；</p></li><li><p>我们可以为除了延迟计算属性之外的其他存储属性添加属性观察器，也可以通过重写属性的方式为继承的属性（包括存储属性和计算属性）添加属性观察器；不需要为非重写的计算属性添加属性观察器，因为可以通过它的<code>setter</code>直接监控和响应值的变化；如果在一个属性的<code>didSet</code>观察器里为它赋值，这个值会替换该观察器之前设置的值；</p></li><li><p>父类的属性在子类的构造器中被赋值时，它在父类中的<code>willSet</code>和<code>didSet</code>观察器会被调用，随后才会调用子类的观察器。在父类初始化方法调用之前，子类给属性赋值时，观察器不会被调用。</p></li><li><p>存储型类型属性可以是变量或常量，计算型类型属性跟实例的计算型属性一样只能定义成变量属性。跟实例的存储型属性不同，<strong>必须给存储型类型属性指定默认值</strong>，因为类型本身没有构造器，也就无法在初始化过程中使用构造器给类型属性赋值。<strong>存储型类型属性是延迟初始化的，它们只有在第一次被访问的时候才会被初始化，即使它们被多个线程同时访问，系统也保证只会对其进行一次初始化，并且不需要对其使用<code>lazy</code>修饰符</strong>。</p></li><li><p>如果将属性通过<code>in-out</code>方式传入函数，<code>willSet</code> 和 <code>didSet</code> 也会调用，这是因为 <code>in-out</code>参数采用了拷入拷出模式：<strong>即在函数内部使用的是参数的<code>copy</code>，函数结束后，又对参数重新赋值</strong>；</p></li></ul><h2 id=值类型线程安全 class=headerLink><a href=#%e5%80%bc%e7%b1%bb%e5%9e%8b%e7%ba%bf%e7%a8%8b%e5%ae%89%e5%85%a8 class=header-mark aria-label="Header mark for '值类型线程安全？'"></a>值类型线程安全？</h2><p>不要人云亦云，这个说法是有问题的，思考一下：假如我们有个变量 <code>var i = 1</code>，多线程修改时不需要加锁？</p><p>在未优化状态下值类型其实默认是在堆上分配的，只是在<code>SIL</code>优化阶段，编译器会根据上下文把大部分值类型改为在栈上分配，在栈上分配的情况是才是线程安全的，因为每个线程都有自己的栈空间，不需要考虑线程安全问题。但是对于被捕获的这种情况是没办法优化的，你想想如果放到栈上在出作用域后不就被释放了嘛，所以这种情况不会优化到栈上，而是继续留在堆上，也就是说这种场景下多线程操作值类型是不安全的，需要加锁来防止数据竞争。</p><p>那值类型的安全性体现在哪里呢？</p><ol><li><p>显式捕获：这种情况会发生值类型的拷贝操作，即生成一份新的变量，所以是安全的</p></li><li><p>函数传参时值类型会发生拷贝，所以是安全的</p></li><li><p><code>let</code> 标记的变量是不允许修改的，所以这种也是安全的</p></li></ol><h2 id=闭包closure class=headerLink><a href=#%e9%97%ad%e5%8c%85closure class=header-mark aria-label="Header mark for '闭包（closure）'"></a>闭包（closure）</h2><p><figure><a class=lightgallery href=/images/opensource/swift/closure-define.png title=闭包定义 data-thumbnail=/images/opensource/swift/closure-define.png data-sub-html="<h2>closure-define</h2><p>闭包定义</p>"><img loading=lazy src=/images/opensource/swift/closure-define.png alt=闭包定义></a><figcaption class=image-caption>closure-define</figcaption></figure></p><blockquote><p>闭包和函数都是<strong>引用类型</strong></p><p>函数也是特殊的闭包</p></blockquote><p><code>Objective-C</code>中的<code>block</code>默认会捕获外界变量，我们要想修改捕获的值需要添加<code>__block</code>。 可是在<code>Swift</code>中不太一样，<code>Swift</code>中的闭包是捕获和存储其所在上下文中任意常量和变量的<strong>引用</strong> <strong>引用</strong> <strong>引用</strong>，注意是<strong>引用</strong>，如果想要捕获值类型变量的值，需要在闭包中显式引用。</p><p>我们来简单分析下，<code>Swift</code>捕获外界上下文变量时会在堆上开辟一块内存<code>project_box</code> （仔细想想，如果是在栈上，出作用域就会释放掉，还怎么实现捕获的目的？！），然后上下文变量会被包装成<code>project_box</code>(先被<code>HeapObject</code>包装一下，<code>HeapObject</code>再被<code>Box</code>包装一下，最后捕获的是<code>Box</code>，即<strong>捕获的上下文存储在堆空间</strong>)，这个<code>project_box</code>会被放到闭包的参数列表后面传递进来。变量属于是被间接捕获的，有点类似于<code>OC</code>中的<code>__block</code>原理。当然，并不是所有的外界变量捕获都是经过包装过的，只有在闭包内发生修改的变量才会被包装，官方文档中有提到。</p><blockquote><p>注意：
+为了优化，如果一个值不会被闭包改变，或者在闭包创建后不会改变，Swift 可能会改为捕获并保存一份对值的拷贝。</p></blockquote><div class="code-block highlight is-closed show-line-numbers tw-group tw-my-2"><div class="code-block-title
+tw-flex
+tw-flex-row
+tw-justify-between
+tw-w-full tw-bg-bgColor-secondary"><button class="tw-select-none
+tw-mx-2
+tw-block
+group-[.is-open]:tw-rotate-90
+tw-transition-[transform]
+tw-duration-500
+tw-ease-in-out
+print:!tw-hidden" disabled aria-hidden=true><svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></button><div class="code-block-title-bar tw-w-full"><p class="tw-select-none !tw-my-1">swift</p></div><div class=tw-flex><button class="line-number-button
+tw-select-none
+tw-mx-2
+tw-hidden
+group-[.is-open]:tw-block
+group-[.show-line-numbers]:tw-text-fgColor-link
+print:!tw-hidden" title="Toggle line numbers"><svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M61.77 401l17.5-20.15a19.92 19.92.0 005.07-14.19v-3.31C84.34 356 80.5 352 73 352H16a8 8 0 00-8 8v16a8 8 0 008 8h22.83a157.41 157.41.0 00-11 12.31l-5.61 7c-4 5.07-5.25 10.13-2.8 14.88l1.05 1.93c3 5.76 6.29 7.88 12.25 7.88h4.73c10.33.0 15.94 2.44 15.94 9.09.0 4.72-4.2 8.22-14.36 8.22a41.54 41.54.0 01-15.47-3.12c-6.49-3.88-11.74-3.5-15.6 3.12l-5.59 9.31c-3.72 6.13-3.19 11.72 2.63 15.94 7.71 4.69 20.38 9.44 37 9.44 34.16.0 48.5-22.75 48.5-44.12-.03-14.38-9.12-29.76-28.73-34.88zM496 224H176a16 16 0 00-16 16v32a16 16 0 0016 16h320a16 16 0 0016-16v-32a16 16 0 00-16-16zm0-160H176a16 16 0 00-16 16v32a16 16 0 0016 16h320a16 16 0 0016-16V80a16 16 0 00-16-16zm0 320H176a16 16 0 00-16 16v32a16 16 0 0016 16h320a16 16 0 0016-16v-32a16 16 0 00-16-16zM16 160h64a8 8 0 008-8v-16a8 8 0 00-8-8H64V40a8 8 0 00-8-8H32a8 8 0 00-7.14 4.42l-8 16A8 8 0 0024 64h8v64H16a8 8 0 00-8 8v16a8 8 0 008 8zm-3.91 160H80a8 8 0 008-8v-16a8 8 0 00-8-8H41.32c3.29-10.29 48.34-18.68 48.34-56.44.0-29.06-25-39.56-44.47-39.56-21.36.0-33.8 10-40.46 18.75-4.37 5.59-3 10.84 2.8 15.37l8.58 6.88c5.61 4.56 11 2.47 16.12-2.44a13.44 13.44.0 019.46-3.84c3.33.0 9.28 1.56 9.28 8.75C51 248.19.0 257.31.0 304.59v4C0 316 5.08 320 12.09 320z"/></svg></button>
+<button class="wrap-code-button
+tw-select-none
+tw-mx-2
+tw-hidden
+group-[.is-open]:tw-block
+group-[.is-wrap]:tw-text-fgColor-link
+print:!tw-hidden" title="Toggle code wrap"><svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M16 132h416c8.837.0 16-7.163 16-16V76c0-8.837-7.163-16-16-16H16C7.163 60 0 67.163.0 76v40c0 8.837 7.163 16 16 16zm0 160h416c8.837.0 16-7.163 16-16v-40c0-8.837-7.163-16-16-16H16c-8.837.0-16 7.163-16 16v40c0 8.837 7.163 16 16 16zm0 160h416c8.837.0 16-7.163 16-16v-40c0-8.837-7.163-16-16-16H16c-8.837.0-16 7.163-16 16v40c0 8.837 7.163 16 16 16z"/></svg></button>
+<button class="copy-code-button
+tw-select-none
+tw-mx-2
+tw-hidden
+group-[.is-open]:tw-block
+hover:tw-text-fgColor-link
+print:!tw-hidden" title="Copy code">
+<span class="copy-icon tw-block"><svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M433.941 65.941l-51.882-51.882A48 48 0 00348.118.0H176c-26.51.0-48 21.49-48 48v48H48c-26.51.0-48 21.49-48 48v320c0 26.51 21.49 48 48 48h224c26.51.0 48-21.49 48-48v-48h80c26.51.0 48-21.49 48-48V99.882a48 48 0 00-14.059-33.941zM266 464H54a6 6 0 01-6-6V150a6 6 0 016-6h74v224c0 26.51 21.49 48 48 48h96v42a6 6 0 01-6 6zm128-96H182a6 6 0 01-6-6V54a6 6 0 016-6h106v88c0 13.255 10.745 24 24 24h88v202a6 6 0 01-6 6zm6-256h-64V48h9.632c1.591.0 3.117.632 4.243 1.757l48.368 48.368a6 6 0 011.757 4.243V112z"/></svg></span>
+<span class="check-icon tw-hidden"><svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M173.898 439.404l-166.4-166.4c-9.997-9.997-9.997-26.206.0-36.204l36.203-36.204c9.997-9.998 26.207-9.998 36.204.0L192 312.69 432.095 72.596c9.997-9.997 26.207-9.997 36.204.0l36.203 36.204c9.997 9.997 9.997 26.206.0 36.204l-294.4 294.401c-9.998 9.997-26.207 9.997-36.204-.001z"/></svg></span>
+</button>
+<button class="tw-select-none
+tw-mx-2
+tw-block
+group-[.is-open]:tw-hidden
+print:!tw-hidden" disabled aria-hidden=true><svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M328 256c0 39.8-32.2 72-72 72s-72-32.2-72-72 32.2-72 72-72 72 32.2 72 72zm104-72c-39.8.0-72 32.2-72 72s32.2 72 72 72 72-32.2 72-72-32.2-72-72-72zm-352 0c-39.8.0-72 32.2-72 72s32.2 72 72 72 72-32.2 72-72-32.2-72-72-72z"/></svg></button></div></div><pre style=counter-reset:codeblock class="tw-block tw-m-0 tw-p-0"><code id=codeblock-id-1 class="chroma
+!tw-block
+tw-p-0
+tw-m-0
+tw-transition-[max-height]
+tw-duration-500
+tw-ease-in-out
+group-[.is-closed]:!tw-max-h-0
+group-[.is-wrap]:tw-text-wrap
+tw-overflow-y-hidden
+tw-overflow-x-auto
+tw-scrollbar-thin"><span class=line><span class=cl> <span class=kd>struct</span> <span class=nc>HeapObject</span> <span class=p>{</span>
 </span></span><span class=line><span class=cl>    <span class=kd>var</span> <span class=nv>Kind</span><span class=p>:</span> <span class=nb>UInt64</span>
 </span></span><span class=line><span class=cl>    <span class=kd>var</span> <span class=nv>refcount</span><span class=p>:</span> <span class=nb>UInt64</span>
 </span></span><span class=line><span class=cl> <span class=p>}</span>
@@ -40,43 +87,57 @@
 </span></span><span class=line><span class=cl>    <span class=c1>// 这个捕获的值的类型根据捕获的值进行分配，此处规范操作是写泛型</span>
 </span></span><span class=line><span class=cl>    <span class=c1>// var value: Int</span>
 </span></span><span class=line><span class=cl>    <span class=kd>var</span> <span class=nv>value</span><span class=p>:</span> <span class=p>&lt;</span><span class=n>T</span><span class=p>&gt;</span>
-</span></span><span class=line><span class=cl><span class=p>}</span>
-</span></span></code></pre></td></tr></table></div></div><p>而显式捕获，比如捕获全局变量的场景，经过编译后可以发现，其实是把被捕获的变量作为闭包函数的参数放到了原有闭包函数的后面，而值类型的函数参数在传参过程中会发生拷贝操作。</p><h2 id=lazy>Lazy</h2><p>这里的<code>lazy</code>指的是高阶函数前面的<code>lazy</code>，而非属性声明中的<code>lazy</code>。</p><p>使用<code>lazy</code>后再执行高阶函数，返回的其实是一个<code>lazy</code>对象，比如对一个数组进行<code>XX</code>操作，返回的是 <code>LazyXXSequence</code> 类型，这个类型中会保存原函数的操作行为和原始数据，只有在对这个<code>lazy</code>类型进行操作时才会真正进行函数操作。</p><p><figure><a class=lightgallery href=/images/opensource/swift/Swift_Lazy.png title=Lazy data-thumbnail=/images/opensource/swift/Swift_Lazy.png data-sub-html="<h2>swift_lazy</h2><p>Lazy</p>"><img class=lazyload src=/svg/loading.min.svg data-src=/images/opensource/swift/Swift_Lazy.png data-srcset="/images/opensource/swift/Swift_Lazy.png, /images/opensource/swift/Swift_Lazy.png 1.5x, /images/opensource/swift/Swift_Lazy.png 2x" data-sizes=auto alt=/images/opensource/swift/Swift_Lazy.png></a><figcaption class=image-caption>swift_lazy</figcaption></figure></p><h2 id=weak机制>Weak机制</h2><p><code>Swift</code>中<code>weak</code>与<code>Objective-C</code>中的<code>weak</code>实现机制不太一样，<code>Objective-C</code>中是不允许在一个对象释放过程中再被弱引用的，而<code>Swift</code>却没有这个限制。</p><p><code>Swift</code>中的弱引用并没有和<code>Objective-C</code>一样放在全局的<code>side table</code>表中（Swift也不存在这个全局<code>side table</code>），而是由自身结构中的 <code>InlineRefCounts refCounts</code>来管理，这样效能会比<code>Objective-C</code>那种查表的方式高一些。</p><p><code>Swift</code><a href=https://github.com/apple/swift/blob/main/stdlib/public/SwiftShims/swift/shims/HeapObject.h target=_blank rel="noopener noreffer">对象基本结构</a>如下：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
-</span><span class=lnt> 2
-</span><span class=lnt> 3
-</span><span class=lnt> 4
-</span><span class=lnt> 5
-</span><span class=lnt> 6
-</span><span class=lnt> 7
-</span><span class=lnt> 8
-</span><span class=lnt> 9
-</span><span class=lnt>10
-</span><span class=lnt>11
-</span><span class=lnt>12
-</span><span class=lnt>13
-</span><span class=lnt>14
-</span><span class=lnt>15
-</span><span class=lnt>16
-</span><span class=lnt>17
-</span><span class=lnt>18
-</span><span class=lnt>19
-</span><span class=lnt>20
-</span><span class=lnt>21
-</span><span class=lnt>22
-</span><span class=lnt>23
-</span><span class=lnt>24
-</span><span class=lnt>25
-</span><span class=lnt>26
-</span><span class=lnt>27
-</span><span class=lnt>28
-</span><span class=lnt>29
-</span><span class=lnt>30
-</span><span class=lnt>31
-</span><span class=lnt>32
-</span><span class=lnt>33
-</span><span class=lnt>34
-</span><span class=lnt>35
-</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-cpp data-lang=cpp><span class=line><span class=cl><span class=c1>// The members of the HeapObject header that are not shared by a
+</span></span><span class=line><span class=cl><span class=p>}</span></span></span></code></pre></div><p>而显式捕获，比如捕获全局变量的场景，经过编译后可以发现，其实是把被捕获的变量作为闭包函数的参数放到了原有闭包函数的后面，而值类型的函数参数在传参过程中会发生拷贝操作。</p><h2 id=lazy class=headerLink><a href=#lazy class=header-mark aria-label="Header mark for 'Lazy'"></a>Lazy</h2><p>这里的<code>lazy</code>指的是高阶函数前面的<code>lazy</code>，而非属性声明中的<code>lazy</code>。</p><p>使用<code>lazy</code>后再执行高阶函数，返回的其实是一个<code>lazy</code>对象，比如对一个数组进行<code>XX</code>操作，返回的是 <code>LazyXXSequence</code> 类型，这个类型中会保存原函数的操作行为和原始数据，只有在对这个<code>lazy</code>类型进行操作时才会真正进行函数操作。</p><p><figure><a class=lightgallery href=/images/opensource/swift/Swift_Lazy.png title=Lazy data-thumbnail=/images/opensource/swift/Swift_Lazy.png data-sub-html="<h2>swift_lazy</h2><p>Lazy</p>"><img loading=lazy src=/images/opensource/swift/Swift_Lazy.png alt=Lazy></a><figcaption class=image-caption>swift_lazy</figcaption></figure></p><h2 id=weak机制 class=headerLink><a href=#weak%e6%9c%ba%e5%88%b6 class=header-mark aria-label="Header mark for 'Weak机制'"></a>Weak机制</h2><p><code>Swift</code>中<code>weak</code>与<code>Objective-C</code>中的<code>weak</code>实现机制不太一样，<code>Objective-C</code>中是不允许在一个对象释放过程中再被弱引用的，而<code>Swift</code>却没有这个限制。</p><p><code>Swift</code>中的弱引用并没有和<code>Objective-C</code>一样放在全局的<code>side table</code>表中（Swift也不存在这个全局<code>side table</code>），而是由自身结构中的 <code>InlineRefCounts refCounts</code>来管理，这样效能会比<code>Objective-C</code>那种查表的方式高一些。</p><p><code>Swift</code><a href=https://github.com/apple/swift/blob/main/stdlib/public/SwiftShims/swift/shims/HeapObject.h target=_blank rel="noopener noreferrer">对象基本结构</a>如下：</p><div class="code-block highlight is-closed show-line-numbers tw-group tw-my-2"><div class="code-block-title
+tw-flex
+tw-flex-row
+tw-justify-between
+tw-w-full tw-bg-bgColor-secondary"><button class="tw-select-none
+tw-mx-2
+tw-block
+group-[.is-open]:tw-rotate-90
+tw-transition-[transform]
+tw-duration-500
+tw-ease-in-out
+print:!tw-hidden" disabled aria-hidden=true><svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></button><div class="code-block-title-bar tw-w-full"><p class="tw-select-none !tw-my-1">cpp</p></div><div class=tw-flex><button class="line-number-button
+tw-select-none
+tw-mx-2
+tw-hidden
+group-[.is-open]:tw-block
+group-[.show-line-numbers]:tw-text-fgColor-link
+print:!tw-hidden" title="Toggle line numbers"><svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M61.77 401l17.5-20.15a19.92 19.92.0 005.07-14.19v-3.31C84.34 356 80.5 352 73 352H16a8 8 0 00-8 8v16a8 8 0 008 8h22.83a157.41 157.41.0 00-11 12.31l-5.61 7c-4 5.07-5.25 10.13-2.8 14.88l1.05 1.93c3 5.76 6.29 7.88 12.25 7.88h4.73c10.33.0 15.94 2.44 15.94 9.09.0 4.72-4.2 8.22-14.36 8.22a41.54 41.54.0 01-15.47-3.12c-6.49-3.88-11.74-3.5-15.6 3.12l-5.59 9.31c-3.72 6.13-3.19 11.72 2.63 15.94 7.71 4.69 20.38 9.44 37 9.44 34.16.0 48.5-22.75 48.5-44.12-.03-14.38-9.12-29.76-28.73-34.88zM496 224H176a16 16 0 00-16 16v32a16 16 0 0016 16h320a16 16 0 0016-16v-32a16 16 0 00-16-16zm0-160H176a16 16 0 00-16 16v32a16 16 0 0016 16h320a16 16 0 0016-16V80a16 16 0 00-16-16zm0 320H176a16 16 0 00-16 16v32a16 16 0 0016 16h320a16 16 0 0016-16v-32a16 16 0 00-16-16zM16 160h64a8 8 0 008-8v-16a8 8 0 00-8-8H64V40a8 8 0 00-8-8H32a8 8 0 00-7.14 4.42l-8 16A8 8 0 0024 64h8v64H16a8 8 0 00-8 8v16a8 8 0 008 8zm-3.91 160H80a8 8 0 008-8v-16a8 8 0 00-8-8H41.32c3.29-10.29 48.34-18.68 48.34-56.44.0-29.06-25-39.56-44.47-39.56-21.36.0-33.8 10-40.46 18.75-4.37 5.59-3 10.84 2.8 15.37l8.58 6.88c5.61 4.56 11 2.47 16.12-2.44a13.44 13.44.0 019.46-3.84c3.33.0 9.28 1.56 9.28 8.75C51 248.19.0 257.31.0 304.59v4C0 316 5.08 320 12.09 320z"/></svg></button>
+<button class="wrap-code-button
+tw-select-none
+tw-mx-2
+tw-hidden
+group-[.is-open]:tw-block
+group-[.is-wrap]:tw-text-fgColor-link
+print:!tw-hidden" title="Toggle code wrap"><svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M16 132h416c8.837.0 16-7.163 16-16V76c0-8.837-7.163-16-16-16H16C7.163 60 0 67.163.0 76v40c0 8.837 7.163 16 16 16zm0 160h416c8.837.0 16-7.163 16-16v-40c0-8.837-7.163-16-16-16H16c-8.837.0-16 7.163-16 16v40c0 8.837 7.163 16 16 16zm0 160h416c8.837.0 16-7.163 16-16v-40c0-8.837-7.163-16-16-16H16c-8.837.0-16 7.163-16 16v40c0 8.837 7.163 16 16 16z"/></svg></button>
+<button class="copy-code-button
+tw-select-none
+tw-mx-2
+tw-hidden
+group-[.is-open]:tw-block
+hover:tw-text-fgColor-link
+print:!tw-hidden" title="Copy code">
+<span class="copy-icon tw-block"><svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M433.941 65.941l-51.882-51.882A48 48 0 00348.118.0H176c-26.51.0-48 21.49-48 48v48H48c-26.51.0-48 21.49-48 48v320c0 26.51 21.49 48 48 48h224c26.51.0 48-21.49 48-48v-48h80c26.51.0 48-21.49 48-48V99.882a48 48 0 00-14.059-33.941zM266 464H54a6 6 0 01-6-6V150a6 6 0 016-6h74v224c0 26.51 21.49 48 48 48h96v42a6 6 0 01-6 6zm128-96H182a6 6 0 01-6-6V54a6 6 0 016-6h106v88c0 13.255 10.745 24 24 24h88v202a6 6 0 01-6 6zm6-256h-64V48h9.632c1.591.0 3.117.632 4.243 1.757l48.368 48.368a6 6 0 011.757 4.243V112z"/></svg></span>
+<span class="check-icon tw-hidden"><svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M173.898 439.404l-166.4-166.4c-9.997-9.997-9.997-26.206.0-36.204l36.203-36.204c9.997-9.998 26.207-9.998 36.204.0L192 312.69 432.095 72.596c9.997-9.997 26.207-9.997 36.204.0l36.203 36.204c9.997 9.997 9.997 26.206.0 36.204l-294.4 294.401c-9.998 9.997-26.207 9.997-36.204-.001z"/></svg></span>
+</button>
+<button class="tw-select-none
+tw-mx-2
+tw-block
+group-[.is-open]:tw-hidden
+print:!tw-hidden" disabled aria-hidden=true><svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M328 256c0 39.8-32.2 72-72 72s-72-32.2-72-72 32.2-72 72-72 72 32.2 72 72zm104-72c-39.8.0-72 32.2-72 72s32.2 72 72 72 72-32.2 72-72-32.2-72-72-72zm-352 0c-39.8.0-72 32.2-72 72s32.2 72 72 72 72-32.2 72-72-32.2-72-72-72z"/></svg></button></div></div><pre style=counter-reset:codeblock class="tw-block tw-m-0 tw-p-0"><code id=codeblock-id-2 class="chroma
+!tw-block
+tw-p-0
+tw-m-0
+tw-transition-[max-height]
+tw-duration-500
+tw-ease-in-out
+group-[.is-closed]:!tw-max-h-0
+group-[.is-wrap]:tw-text-wrap
+tw-overflow-y-hidden
+tw-overflow-x-auto
+tw-scrollbar-thin"><span class=line><span class=cl><span class=c1>// The members of the HeapObject header that are not shared by a
 </span></span></span><span class=line><span class=cl><span class=c1>// standard Objective-C instance
 </span></span></span><span class=line><span class=cl><span class=c1></span><span class=cp>#define SWIFT_HEAPOBJECT_NON_OBJC_MEMBERS       \
 </span></span></span><span class=line><span class=cl><span class=cp>  InlineRefCounts refCounts
@@ -110,41 +171,57 @@
 </span></span><span class=line><span class=cl><span class=cp>#endif
 </span></span></span><span class=line><span class=cl><span class=cp></span>
 </span></span><span class=line><span class=cl><span class=cp>#endif </span><span class=c1>// __swift__
-</span></span></span><span class=line><span class=cl><span class=c1></span><span class=p>};</span>
-</span></span></code></pre></td></tr></table></div></div><p><code>Swift</code> 引用计数的存储结构在<a href=https://github.com/apple/swift/blob/main/stdlib/public/SwiftShims/swift/shims/RefCount.h target=_blank rel="noopener noreffer">RefCount 头文件</a> 有介绍：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
-</span><span class=lnt> 2
-</span><span class=lnt> 3
-</span><span class=lnt> 4
-</span><span class=lnt> 5
-</span><span class=lnt> 6
-</span><span class=lnt> 7
-</span><span class=lnt> 8
-</span><span class=lnt> 9
-</span><span class=lnt>10
-</span><span class=lnt>11
-</span><span class=lnt>12
-</span><span class=lnt>13
-</span><span class=lnt>14
-</span><span class=lnt>15
-</span><span class=lnt>16
-</span><span class=lnt>17
-</span><span class=lnt>18
-</span><span class=lnt>19
-</span><span class=lnt>20
-</span><span class=lnt>21
-</span><span class=lnt>22
-</span><span class=lnt>23
-</span><span class=lnt>24
-</span><span class=lnt>25
-</span><span class=lnt>26
-</span><span class=lnt>27
-</span><span class=lnt>28
-</span><span class=lnt>29
-</span><span class=lnt>30
-</span><span class=lnt>31
-</span><span class=lnt>32
-</span><span class=lnt>33
-</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-swift data-lang=swift><span class=line><span class=cl>  <span class=c1>//Objects initially start with no side table. They can gain a side table when:</span>
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=p>};</span></span></span></code></pre></div><p><code>Swift</code> 引用计数的存储结构在<a href=https://github.com/apple/swift/blob/main/stdlib/public/SwiftShims/swift/shims/RefCount.h target=_blank rel="noopener noreferrer">RefCount 头文件</a> 有介绍：</p><div class="code-block highlight is-closed show-line-numbers tw-group tw-my-2"><div class="code-block-title
+tw-flex
+tw-flex-row
+tw-justify-between
+tw-w-full tw-bg-bgColor-secondary"><button class="tw-select-none
+tw-mx-2
+tw-block
+group-[.is-open]:tw-rotate-90
+tw-transition-[transform]
+tw-duration-500
+tw-ease-in-out
+print:!tw-hidden" disabled aria-hidden=true><svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></button><div class="code-block-title-bar tw-w-full"><p class="tw-select-none !tw-my-1">swift</p></div><div class=tw-flex><button class="line-number-button
+tw-select-none
+tw-mx-2
+tw-hidden
+group-[.is-open]:tw-block
+group-[.show-line-numbers]:tw-text-fgColor-link
+print:!tw-hidden" title="Toggle line numbers"><svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M61.77 401l17.5-20.15a19.92 19.92.0 005.07-14.19v-3.31C84.34 356 80.5 352 73 352H16a8 8 0 00-8 8v16a8 8 0 008 8h22.83a157.41 157.41.0 00-11 12.31l-5.61 7c-4 5.07-5.25 10.13-2.8 14.88l1.05 1.93c3 5.76 6.29 7.88 12.25 7.88h4.73c10.33.0 15.94 2.44 15.94 9.09.0 4.72-4.2 8.22-14.36 8.22a41.54 41.54.0 01-15.47-3.12c-6.49-3.88-11.74-3.5-15.6 3.12l-5.59 9.31c-3.72 6.13-3.19 11.72 2.63 15.94 7.71 4.69 20.38 9.44 37 9.44 34.16.0 48.5-22.75 48.5-44.12-.03-14.38-9.12-29.76-28.73-34.88zM496 224H176a16 16 0 00-16 16v32a16 16 0 0016 16h320a16 16 0 0016-16v-32a16 16 0 00-16-16zm0-160H176a16 16 0 00-16 16v32a16 16 0 0016 16h320a16 16 0 0016-16V80a16 16 0 00-16-16zm0 320H176a16 16 0 00-16 16v32a16 16 0 0016 16h320a16 16 0 0016-16v-32a16 16 0 00-16-16zM16 160h64a8 8 0 008-8v-16a8 8 0 00-8-8H64V40a8 8 0 00-8-8H32a8 8 0 00-7.14 4.42l-8 16A8 8 0 0024 64h8v64H16a8 8 0 00-8 8v16a8 8 0 008 8zm-3.91 160H80a8 8 0 008-8v-16a8 8 0 00-8-8H41.32c3.29-10.29 48.34-18.68 48.34-56.44.0-29.06-25-39.56-44.47-39.56-21.36.0-33.8 10-40.46 18.75-4.37 5.59-3 10.84 2.8 15.37l8.58 6.88c5.61 4.56 11 2.47 16.12-2.44a13.44 13.44.0 019.46-3.84c3.33.0 9.28 1.56 9.28 8.75C51 248.19.0 257.31.0 304.59v4C0 316 5.08 320 12.09 320z"/></svg></button>
+<button class="wrap-code-button
+tw-select-none
+tw-mx-2
+tw-hidden
+group-[.is-open]:tw-block
+group-[.is-wrap]:tw-text-fgColor-link
+print:!tw-hidden" title="Toggle code wrap"><svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M16 132h416c8.837.0 16-7.163 16-16V76c0-8.837-7.163-16-16-16H16C7.163 60 0 67.163.0 76v40c0 8.837 7.163 16 16 16zm0 160h416c8.837.0 16-7.163 16-16v-40c0-8.837-7.163-16-16-16H16c-8.837.0-16 7.163-16 16v40c0 8.837 7.163 16 16 16zm0 160h416c8.837.0 16-7.163 16-16v-40c0-8.837-7.163-16-16-16H16c-8.837.0-16 7.163-16 16v40c0 8.837 7.163 16 16 16z"/></svg></button>
+<button class="copy-code-button
+tw-select-none
+tw-mx-2
+tw-hidden
+group-[.is-open]:tw-block
+hover:tw-text-fgColor-link
+print:!tw-hidden" title="Copy code">
+<span class="copy-icon tw-block"><svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M433.941 65.941l-51.882-51.882A48 48 0 00348.118.0H176c-26.51.0-48 21.49-48 48v48H48c-26.51.0-48 21.49-48 48v320c0 26.51 21.49 48 48 48h224c26.51.0 48-21.49 48-48v-48h80c26.51.0 48-21.49 48-48V99.882a48 48 0 00-14.059-33.941zM266 464H54a6 6 0 01-6-6V150a6 6 0 016-6h74v224c0 26.51 21.49 48 48 48h96v42a6 6 0 01-6 6zm128-96H182a6 6 0 01-6-6V54a6 6 0 016-6h106v88c0 13.255 10.745 24 24 24h88v202a6 6 0 01-6 6zm6-256h-64V48h9.632c1.591.0 3.117.632 4.243 1.757l48.368 48.368a6 6 0 011.757 4.243V112z"/></svg></span>
+<span class="check-icon tw-hidden"><svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M173.898 439.404l-166.4-166.4c-9.997-9.997-9.997-26.206.0-36.204l36.203-36.204c9.997-9.998 26.207-9.998 36.204.0L192 312.69 432.095 72.596c9.997-9.997 26.207-9.997 36.204.0l36.203 36.204c9.997 9.997 9.997 26.206.0 36.204l-294.4 294.401c-9.998 9.997-26.207 9.997-36.204-.001z"/></svg></span>
+</button>
+<button class="tw-select-none
+tw-mx-2
+tw-block
+group-[.is-open]:tw-hidden
+print:!tw-hidden" disabled aria-hidden=true><svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M328 256c0 39.8-32.2 72-72 72s-72-32.2-72-72 32.2-72 72-72 72 32.2 72 72zm104-72c-39.8.0-72 32.2-72 72s32.2 72 72 72 72-32.2 72-72-32.2-72-72-72zm-352 0c-39.8.0-72 32.2-72 72s32.2 72 72 72 72-32.2 72-72-32.2-72-72-72z"/></svg></button></div></div><pre style=counter-reset:codeblock class="tw-block tw-m-0 tw-p-0"><code id=codeblock-id-3 class="chroma
+!tw-block
+tw-p-0
+tw-m-0
+tw-transition-[max-height]
+tw-duration-500
+tw-ease-in-out
+group-[.is-closed]:!tw-max-h-0
+group-[.is-wrap]:tw-text-wrap
+tw-overflow-y-hidden
+tw-overflow-x-auto
+tw-scrollbar-thin"><span class=line><span class=cl>  <span class=c1>//Objects initially start with no side table. They can gain a side table when:</span>
 </span></span><span class=line><span class=cl>  <span class=c1>//* a weak reference is formed and pending future implementation:</span>
 </span></span><span class=line><span class=cl>  <span class=c1>//* strong RC or unowned RC overflows (inline RCs will be small on 32-bit)</span>
 </span></span><span class=line><span class=cl>  <span class=c1>//* associated object storage is needed on an object</span>
@@ -176,73 +253,57 @@
 </span></span><span class=line><span class=cl>        <span class=n>strong</span> <span class=n>RC</span> <span class=o>+</span> <span class=kr>unowned</span> <span class=n>RC</span> <span class=o>+</span> <span class=kr>weak</span> <span class=n>RC</span> <span class=o>+</span> <span class=n>flags</span>
 </span></span><span class=line><span class=cl>      <span class=p>}</span>
 </span></span><span class=line><span class=cl>    <span class=p>}</span>   
-</span></span><span class=line><span class=cl>  <span class=p>}</span>
-</span></span></code></pre></td></tr></table></div></div><p>一般情况下<code>Swift</code>引用类型的对象结构中的<code>InlineRefCounts</code>并不会开辟<code>HeapObjectSideTableEntry</code>内存，只有在创建<code>weak</code>引用时，会先把对象的引用计数放到新创建的<code>HeapObjectSideTableEntry</code>中去，再把空出来的空间存放 <code>HeapObjectSideTableEntry</code> 的地址，而 <code>runtime</code> 会通过一个标志位来区分对象是否有 <code>HeapObjectSideTableEntry</code>。</p><p>对象的生命周期在 <a href=https://github.com/apple/swift/blob/main/stdlib/public/SwiftShims/swift/shims/RefCount.h target=_blank rel="noopener noreffer">RefCount 头文件</a> 中也有详细的说明：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
-</span><span class=lnt> 2
-</span><span class=lnt> 3
-</span><span class=lnt> 4
-</span><span class=lnt> 5
-</span><span class=lnt> 6
-</span><span class=lnt> 7
-</span><span class=lnt> 8
-</span><span class=lnt> 9
-</span><span class=lnt>10
-</span><span class=lnt>11
-</span><span class=lnt>12
-</span><span class=lnt>13
-</span><span class=lnt>14
-</span><span class=lnt>15
-</span><span class=lnt>16
-</span><span class=lnt>17
-</span><span class=lnt>18
-</span><span class=lnt>19
-</span><span class=lnt>20
-</span><span class=lnt>21
-</span><span class=lnt>22
-</span><span class=lnt>23
-</span><span class=lnt>24
-</span><span class=lnt>25
-</span><span class=lnt>26
-</span><span class=lnt>27
-</span><span class=lnt>28
-</span><span class=lnt>29
-</span><span class=lnt>30
-</span><span class=lnt>31
-</span><span class=lnt>32
-</span><span class=lnt>33
-</span><span class=lnt>34
-</span><span class=lnt>35
-</span><span class=lnt>36
-</span><span class=lnt>37
-</span><span class=lnt>38
-</span><span class=lnt>39
-</span><span class=lnt>40
-</span><span class=lnt>41
-</span><span class=lnt>42
-</span><span class=lnt>43
-</span><span class=lnt>44
-</span><span class=lnt>45
-</span><span class=lnt>46
-</span><span class=lnt>47
-</span><span class=lnt>48
-</span><span class=lnt>49
-</span><span class=lnt>50
-</span><span class=lnt>51
-</span><span class=lnt>52
-</span><span class=lnt>53
-</span><span class=lnt>54
-</span><span class=lnt>55
-</span><span class=lnt>56
-</span><span class=lnt>57
-</span><span class=lnt>58
-</span><span class=lnt>59
-</span><span class=lnt>60
-</span><span class=lnt>61
-</span><span class=lnt>62
-</span><span class=lnt>63
-</span><span class=lnt>64
-</span><span class=lnt>65
-</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-swift data-lang=swift><span class=line><span class=cl>  <span class=n>Object</span> <span class=n>lifecycle</span> <span class=n>state</span> <span class=n>machine</span><span class=p>:</span>
+</span></span><span class=line><span class=cl>  <span class=p>}</span></span></span></code></pre></div><p>一般情况下<code>Swift</code>引用类型的对象结构中的<code>InlineRefCounts</code>并不会开辟<code>HeapObjectSideTableEntry</code>内存，只有在创建<code>weak</code>引用时，会先把对象的引用计数放到新创建的<code>HeapObjectSideTableEntry</code>中去，再把空出来的空间存放 <code>HeapObjectSideTableEntry</code> 的地址，而 <code>runtime</code> 会通过一个标志位来区分对象是否有 <code>HeapObjectSideTableEntry</code>。</p><p>对象的生命周期在 <a href=https://github.com/apple/swift/blob/main/stdlib/public/SwiftShims/swift/shims/RefCount.h target=_blank rel="noopener noreferrer">RefCount 头文件</a> 中也有详细的说明：</p><div class="code-block highlight is-closed show-line-numbers tw-group tw-my-2"><div class="code-block-title
+tw-flex
+tw-flex-row
+tw-justify-between
+tw-w-full tw-bg-bgColor-secondary"><button class="tw-select-none
+tw-mx-2
+tw-block
+group-[.is-open]:tw-rotate-90
+tw-transition-[transform]
+tw-duration-500
+tw-ease-in-out
+print:!tw-hidden" disabled aria-hidden=true><svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></button><div class="code-block-title-bar tw-w-full"><p class="tw-select-none !tw-my-1">swift</p></div><div class=tw-flex><button class="line-number-button
+tw-select-none
+tw-mx-2
+tw-hidden
+group-[.is-open]:tw-block
+group-[.show-line-numbers]:tw-text-fgColor-link
+print:!tw-hidden" title="Toggle line numbers"><svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M61.77 401l17.5-20.15a19.92 19.92.0 005.07-14.19v-3.31C84.34 356 80.5 352 73 352H16a8 8 0 00-8 8v16a8 8 0 008 8h22.83a157.41 157.41.0 00-11 12.31l-5.61 7c-4 5.07-5.25 10.13-2.8 14.88l1.05 1.93c3 5.76 6.29 7.88 12.25 7.88h4.73c10.33.0 15.94 2.44 15.94 9.09.0 4.72-4.2 8.22-14.36 8.22a41.54 41.54.0 01-15.47-3.12c-6.49-3.88-11.74-3.5-15.6 3.12l-5.59 9.31c-3.72 6.13-3.19 11.72 2.63 15.94 7.71 4.69 20.38 9.44 37 9.44 34.16.0 48.5-22.75 48.5-44.12-.03-14.38-9.12-29.76-28.73-34.88zM496 224H176a16 16 0 00-16 16v32a16 16 0 0016 16h320a16 16 0 0016-16v-32a16 16 0 00-16-16zm0-160H176a16 16 0 00-16 16v32a16 16 0 0016 16h320a16 16 0 0016-16V80a16 16 0 00-16-16zm0 320H176a16 16 0 00-16 16v32a16 16 0 0016 16h320a16 16 0 0016-16v-32a16 16 0 00-16-16zM16 160h64a8 8 0 008-8v-16a8 8 0 00-8-8H64V40a8 8 0 00-8-8H32a8 8 0 00-7.14 4.42l-8 16A8 8 0 0024 64h8v64H16a8 8 0 00-8 8v16a8 8 0 008 8zm-3.91 160H80a8 8 0 008-8v-16a8 8 0 00-8-8H41.32c3.29-10.29 48.34-18.68 48.34-56.44.0-29.06-25-39.56-44.47-39.56-21.36.0-33.8 10-40.46 18.75-4.37 5.59-3 10.84 2.8 15.37l8.58 6.88c5.61 4.56 11 2.47 16.12-2.44a13.44 13.44.0 019.46-3.84c3.33.0 9.28 1.56 9.28 8.75C51 248.19.0 257.31.0 304.59v4C0 316 5.08 320 12.09 320z"/></svg></button>
+<button class="wrap-code-button
+tw-select-none
+tw-mx-2
+tw-hidden
+group-[.is-open]:tw-block
+group-[.is-wrap]:tw-text-fgColor-link
+print:!tw-hidden" title="Toggle code wrap"><svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M16 132h416c8.837.0 16-7.163 16-16V76c0-8.837-7.163-16-16-16H16C7.163 60 0 67.163.0 76v40c0 8.837 7.163 16 16 16zm0 160h416c8.837.0 16-7.163 16-16v-40c0-8.837-7.163-16-16-16H16c-8.837.0-16 7.163-16 16v40c0 8.837 7.163 16 16 16zm0 160h416c8.837.0 16-7.163 16-16v-40c0-8.837-7.163-16-16-16H16c-8.837.0-16 7.163-16 16v40c0 8.837 7.163 16 16 16z"/></svg></button>
+<button class="copy-code-button
+tw-select-none
+tw-mx-2
+tw-hidden
+group-[.is-open]:tw-block
+hover:tw-text-fgColor-link
+print:!tw-hidden" title="Copy code">
+<span class="copy-icon tw-block"><svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M433.941 65.941l-51.882-51.882A48 48 0 00348.118.0H176c-26.51.0-48 21.49-48 48v48H48c-26.51.0-48 21.49-48 48v320c0 26.51 21.49 48 48 48h224c26.51.0 48-21.49 48-48v-48h80c26.51.0 48-21.49 48-48V99.882a48 48 0 00-14.059-33.941zM266 464H54a6 6 0 01-6-6V150a6 6 0 016-6h74v224c0 26.51 21.49 48 48 48h96v42a6 6 0 01-6 6zm128-96H182a6 6 0 01-6-6V54a6 6 0 016-6h106v88c0 13.255 10.745 24 24 24h88v202a6 6 0 01-6 6zm6-256h-64V48h9.632c1.591.0 3.117.632 4.243 1.757l48.368 48.368a6 6 0 011.757 4.243V112z"/></svg></span>
+<span class="check-icon tw-hidden"><svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M173.898 439.404l-166.4-166.4c-9.997-9.997-9.997-26.206.0-36.204l36.203-36.204c9.997-9.998 26.207-9.998 36.204.0L192 312.69 432.095 72.596c9.997-9.997 26.207-9.997 36.204.0l36.203 36.204c9.997 9.997 9.997 26.206.0 36.204l-294.4 294.401c-9.998 9.997-26.207 9.997-36.204-.001z"/></svg></span>
+</button>
+<button class="tw-select-none
+tw-mx-2
+tw-block
+group-[.is-open]:tw-hidden
+print:!tw-hidden" disabled aria-hidden=true><svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M328 256c0 39.8-32.2 72-72 72s-72-32.2-72-72 32.2-72 72-72 72 32.2 72 72zm104-72c-39.8.0-72 32.2-72 72s32.2 72 72 72 72-32.2 72-72-32.2-72-72-72zm-352 0c-39.8.0-72 32.2-72 72s32.2 72 72 72 72-32.2 72-72-32.2-72-72-72z"/></svg></button></div></div><pre style=counter-reset:codeblock class="tw-block tw-m-0 tw-p-0"><code id=codeblock-id-4 class="chroma
+!tw-block
+tw-p-0
+tw-m-0
+tw-transition-[max-height]
+tw-duration-500
+tw-ease-in-out
+group-[.is-closed]:!tw-max-h-0
+group-[.is-wrap]:tw-text-wrap
+tw-overflow-y-hidden
+tw-overflow-x-auto
+tw-scrollbar-thin"><span class=line><span class=cl>  <span class=n>Object</span> <span class=n>lifecycle</span> <span class=n>state</span> <span class=n>machine</span><span class=p>:</span>
 </span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl>  <span class=n>LIVE</span> <span class=n>without</span> <span class=n>side</span> <span class=n>table</span>
 </span></span><span class=line><span class=cl>  <span class=n>The</span> <span class=n>object</span> <span class=k>is</span> <span class=n>alive</span><span class=p>.</span>
@@ -306,51 +367,64 @@
 </span></span><span class=line><span class=cl>    <span class=n>the</span> <span class=n>object</span> <span class=n>becomes</span> <span class=n>DEAD</span><span class=p>.</span>
 </span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl>  <span class=n>DEAD</span>
-</span></span><span class=line><span class=cl>  <span class=n>The</span> <span class=n>object</span> <span class=n>and</span> <span class=n>its</span> <span class=n>side</span> <span class=n>table</span> <span class=n>are</span> <span class=n>gone</span><span class=p>.</span>
-</span></span></code></pre></td></tr></table></div></div><p>简单翻译过来就是：</p><ol><li><p><strong>LIVE</strong>阶段：</p><p>在给对象添加<code>weak</code>引用时，创建<code>side table</code>，把弱引用计数放到其中，强引用计数和无主引用计数也会挪到这里，在强引用计数变为<code>0</code>时调用<code>deinit()</code>析构函数，然后这个对象被标记为<strong>DEINITING</strong>；</p></li><li><p><strong>DEINITING</strong>阶段（对象正在析构）：</p><p>a. 没有弱引用：</p><pre><code> i. 再强引用此对象不会发生任何效果，即什么都不做(OC中也是如此)；
+</span></span><span class=line><span class=cl>  <span class=n>The</span> <span class=n>object</span> <span class=n>and</span> <span class=n>its</span> <span class=n>side</span> <span class=n>table</span> <span class=n>are</span> <span class=n>gone</span><span class=p>.</span></span></span></code></pre></div><p>简单翻译过来就是：</p><ol><li><p><strong>LIVE</strong>阶段：</p><p>在给对象添加<code>weak</code>引用时，创建<code>side table</code>，把弱引用计数放到其中，强引用计数和无主引用计数也会挪到这里，在强引用计数变为<code>0</code>时调用<code>deinit()</code>析构函数，然后这个对象被标记为<strong>DEINITING</strong>；</p></li><li><p><strong>DEINITING</strong>阶段（对象正在析构）：</p><p>a. 没有弱引用：</p><pre><code> i. 再强引用此对象不会发生任何效果，即什么都不做(OC中也是如此)；
  ii. 通过无主引用加载此对象会发生`abort`；
  iii. 可以正常新增对此对象的无主引用;
  iv. 新增weak引用会指向nil
 </code></pre><p>在<code>deinit()</code>析构函数执行结束会调用<code>swift_deallocObject</code>函数，内部会执行<code>canBeFreedNow()</code>进行检查，如果没有无主引用和弱引用，则这个对象会被立即释放并且变为<code>DEAD</code>状态，否则，无主引用计数<code>-1</code>，变为<strong>DEINITED</strong>状态。</p><p>b. 存在弱引用：</p><pre><code> i. 通过`weak`获取对象或者新增`weak`指向对象都不会有问题，它们都会指向`nil`；
 </code></pre><p>这种情况<code>canBeFreedNow()</code>必定返回<code>false</code>，然后无主引用计数<code>-1</code>，变为<strong>DEINITED</strong>状态。</p></li><li><p><strong>DEINITED</strong>阶段（对象析构完成，强引用计数变为0，但是存在无主引用）：</p><p>a. 没有弱引用：</p><pre><code> i. 通过无主引用加载此对象会发生`abort`；
 </code></pre><p>当无主引用计数变为<code>0</code>的时候会真正释放此对象的内存，然后变为<strong>DEAD</strong>状态。</p><p>b. 存在弱引用：</p><pre><code> i. 通过`weak`获取对象得到`nil`；
-</code></pre><p>当无主引用计数变为<code>0</code>的时候会真正释放此对象的内存，弱引用计数<code>-1</code>，对象变为<strong>FREED</strong>状态。</p></li><li><p><strong>FREED</strong>阶段（对象已释放，但是存在弱引用，即<code>side table</code>）：</p><p>a. 当弱引用计数变为<code>0</code>，则释放<code>side table entry</code>，然后对象变为<strong>DEAD</strong>。</p></li><li><p><strong>DEAD</strong>阶段：</p><p>对象和它的<code>side table</code>都被释放了。</p></li></ol><h2 id=struct>struct</h2><h4 id=嵌套类型会影响父级结构的内存占用吗>嵌套类型会影响父级结构的内存占用吗？</h4><p>不会。最简单的验证方法就是通过<code>MemoryLayout&lt;Type>.size</code>打印一下父级结构所占内存大小就清楚了。也就是说嵌套只是起到了命名空间的作用，并不会影响其他东西</p><h4 id=array存any类型的元素是怎么内存对齐的><code>Array</code>存<code>Any</code>类型的元素是怎么内存对齐的？</h4><p>元素会被包装成<code>existential</code>类型，初步猜测应该和数组中存放遵守相同协议的元素的处理方式类似。</p><p>下面截取函数原型为<code>arr.append(1); arr.append((100, 200)); arr.append(XX());</code>的部分<code>SIL</code>代码，注意里面的<code>init_existential_addr</code>字眼：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
-</span><span class=lnt> 2
-</span><span class=lnt> 3
-</span><span class=lnt> 4
-</span><span class=lnt> 5
-</span><span class=lnt> 6
-</span><span class=lnt> 7
-</span><span class=lnt> 8
-</span><span class=lnt> 9
-</span><span class=lnt>10
-</span><span class=lnt>11
-</span><span class=lnt>12
-</span><span class=lnt>13
-</span><span class=lnt>14
-</span><span class=lnt>15
-</span><span class=lnt>16
-</span><span class=lnt>17
-</span><span class=lnt>18
-</span><span class=lnt>19
-</span><span class=lnt>20
-</span><span class=lnt>21
-</span><span class=lnt>22
-</span><span class=lnt>23
-</span><span class=lnt>24
-</span><span class=lnt>25
-</span><span class=lnt>26
-</span><span class=lnt>27
-</span><span class=lnt>28
-</span><span class=lnt>29
-</span><span class=lnt>30
-</span><span class=lnt>31
-</span><span class=lnt>32
-</span><span class=lnt>33
-</span><span class=lnt>34
-</span><span class=lnt>35
-</span><span class=lnt>36
-</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-c data-lang=c><span class=line><span class=cl><span class=n>store</span> <span class=o>%</span><span class=mi>6</span> <span class=n>to</span> <span class=o>%</span><span class=mi>3</span> <span class=o>:</span> <span class=err>$</span><span class=o>*</span><span class=n>Array</span><span class=o>&lt;</span><span class=n>Any</span><span class=o>&gt;</span>                   <span class=c1>// id: %7
+</code></pre><p>当无主引用计数变为<code>0</code>的时候会真正释放此对象的内存，弱引用计数<code>-1</code>，对象变为<strong>FREED</strong>状态。</p></li><li><p><strong>FREED</strong>阶段（对象已释放，但是存在弱引用，即<code>side table</code>）：</p><p>a. 当弱引用计数变为<code>0</code>，则释放<code>side table entry</code>，然后对象变为<strong>DEAD</strong>。</p></li><li><p><strong>DEAD</strong>阶段：</p><p>对象和它的<code>side table</code>都被释放了。</p></li></ol><h2 id=struct class=headerLink><a href=#struct class=header-mark aria-label="Header mark for 'struct'"></a>struct</h2><h4 id=嵌套类型会影响父级结构的内存占用吗 class=headerLink><a href=#%e5%b5%8c%e5%a5%97%e7%b1%bb%e5%9e%8b%e4%bc%9a%e5%bd%b1%e5%93%8d%e7%88%b6%e7%ba%a7%e7%bb%93%e6%9e%84%e7%9a%84%e5%86%85%e5%ad%98%e5%8d%a0%e7%94%a8%e5%90%97 class=header-mark aria-label="Header mark for '嵌套类型会影响父级结构的内存占用吗？'"></a>嵌套类型会影响父级结构的内存占用吗？</h4><p>不会。最简单的验证方法就是通过<code>MemoryLayout&lt;Type>.size</code>打印一下父级结构所占内存大小就清楚了。也就是说嵌套只是起到了命名空间的作用，并不会影响其他东西</p><h4 id=array存any类型的元素是怎么内存对齐的 class=headerLink><a href=#array%e5%ad%98any%e7%b1%bb%e5%9e%8b%e7%9a%84%e5%85%83%e7%b4%a0%e6%98%af%e6%80%8e%e4%b9%88%e5%86%85%e5%ad%98%e5%af%b9%e9%bd%90%e7%9a%84 class=header-mark aria-label="Header mark for '<code>Array</code>存<code>Any</code>类型的元素是怎么内存对齐的？'"></a><code>Array</code>存<code>Any</code>类型的元素是怎么内存对齐的？</h4><p>元素会被包装成<code>existential</code>类型，初步猜测应该和数组中存放遵守相同协议的元素的处理方式类似。</p><p>下面截取函数原型为<code>arr.append(1); arr.append((100, 200)); arr.append(XX());</code>的部分<code>SIL</code>代码，注意里面的<code>init_existential_addr</code>字眼：</p><div class="code-block highlight is-closed show-line-numbers tw-group tw-my-2"><div class="code-block-title
+tw-flex
+tw-flex-row
+tw-justify-between
+tw-w-full tw-bg-bgColor-secondary"><button class="tw-select-none
+tw-mx-2
+tw-block
+group-[.is-open]:tw-rotate-90
+tw-transition-[transform]
+tw-duration-500
+tw-ease-in-out
+print:!tw-hidden" disabled aria-hidden=true><svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></button><div class="code-block-title-bar tw-w-full"><p class="tw-select-none !tw-my-1">c</p></div><div class=tw-flex><button class="line-number-button
+tw-select-none
+tw-mx-2
+tw-hidden
+group-[.is-open]:tw-block
+group-[.show-line-numbers]:tw-text-fgColor-link
+print:!tw-hidden" title="Toggle line numbers"><svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M61.77 401l17.5-20.15a19.92 19.92.0 005.07-14.19v-3.31C84.34 356 80.5 352 73 352H16a8 8 0 00-8 8v16a8 8 0 008 8h22.83a157.41 157.41.0 00-11 12.31l-5.61 7c-4 5.07-5.25 10.13-2.8 14.88l1.05 1.93c3 5.76 6.29 7.88 12.25 7.88h4.73c10.33.0 15.94 2.44 15.94 9.09.0 4.72-4.2 8.22-14.36 8.22a41.54 41.54.0 01-15.47-3.12c-6.49-3.88-11.74-3.5-15.6 3.12l-5.59 9.31c-3.72 6.13-3.19 11.72 2.63 15.94 7.71 4.69 20.38 9.44 37 9.44 34.16.0 48.5-22.75 48.5-44.12-.03-14.38-9.12-29.76-28.73-34.88zM496 224H176a16 16 0 00-16 16v32a16 16 0 0016 16h320a16 16 0 0016-16v-32a16 16 0 00-16-16zm0-160H176a16 16 0 00-16 16v32a16 16 0 0016 16h320a16 16 0 0016-16V80a16 16 0 00-16-16zm0 320H176a16 16 0 00-16 16v32a16 16 0 0016 16h320a16 16 0 0016-16v-32a16 16 0 00-16-16zM16 160h64a8 8 0 008-8v-16a8 8 0 00-8-8H64V40a8 8 0 00-8-8H32a8 8 0 00-7.14 4.42l-8 16A8 8 0 0024 64h8v64H16a8 8 0 00-8 8v16a8 8 0 008 8zm-3.91 160H80a8 8 0 008-8v-16a8 8 0 00-8-8H41.32c3.29-10.29 48.34-18.68 48.34-56.44.0-29.06-25-39.56-44.47-39.56-21.36.0-33.8 10-40.46 18.75-4.37 5.59-3 10.84 2.8 15.37l8.58 6.88c5.61 4.56 11 2.47 16.12-2.44a13.44 13.44.0 019.46-3.84c3.33.0 9.28 1.56 9.28 8.75C51 248.19.0 257.31.0 304.59v4C0 316 5.08 320 12.09 320z"/></svg></button>
+<button class="wrap-code-button
+tw-select-none
+tw-mx-2
+tw-hidden
+group-[.is-open]:tw-block
+group-[.is-wrap]:tw-text-fgColor-link
+print:!tw-hidden" title="Toggle code wrap"><svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M16 132h416c8.837.0 16-7.163 16-16V76c0-8.837-7.163-16-16-16H16C7.163 60 0 67.163.0 76v40c0 8.837 7.163 16 16 16zm0 160h416c8.837.0 16-7.163 16-16v-40c0-8.837-7.163-16-16-16H16c-8.837.0-16 7.163-16 16v40c0 8.837 7.163 16 16 16zm0 160h416c8.837.0 16-7.163 16-16v-40c0-8.837-7.163-16-16-16H16c-8.837.0-16 7.163-16 16v40c0 8.837 7.163 16 16 16z"/></svg></button>
+<button class="copy-code-button
+tw-select-none
+tw-mx-2
+tw-hidden
+group-[.is-open]:tw-block
+hover:tw-text-fgColor-link
+print:!tw-hidden" title="Copy code">
+<span class="copy-icon tw-block"><svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M433.941 65.941l-51.882-51.882A48 48 0 00348.118.0H176c-26.51.0-48 21.49-48 48v48H48c-26.51.0-48 21.49-48 48v320c0 26.51 21.49 48 48 48h224c26.51.0 48-21.49 48-48v-48h80c26.51.0 48-21.49 48-48V99.882a48 48 0 00-14.059-33.941zM266 464H54a6 6 0 01-6-6V150a6 6 0 016-6h74v224c0 26.51 21.49 48 48 48h96v42a6 6 0 01-6 6zm128-96H182a6 6 0 01-6-6V54a6 6 0 016-6h106v88c0 13.255 10.745 24 24 24h88v202a6 6 0 01-6 6zm6-256h-64V48h9.632c1.591.0 3.117.632 4.243 1.757l48.368 48.368a6 6 0 011.757 4.243V112z"/></svg></span>
+<span class="check-icon tw-hidden"><svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M173.898 439.404l-166.4-166.4c-9.997-9.997-9.997-26.206.0-36.204l36.203-36.204c9.997-9.998 26.207-9.998 36.204.0L192 312.69 432.095 72.596c9.997-9.997 26.207-9.997 36.204.0l36.203 36.204c9.997 9.997 9.997 26.206.0 36.204l-294.4 294.401c-9.998 9.997-26.207 9.997-36.204-.001z"/></svg></span>
+</button>
+<button class="tw-select-none
+tw-mx-2
+tw-block
+group-[.is-open]:tw-hidden
+print:!tw-hidden" disabled aria-hidden=true><svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M328 256c0 39.8-32.2 72-72 72s-72-32.2-72-72 32.2-72 72-72 72 32.2 72 72zm104-72c-39.8.0-72 32.2-72 72s32.2 72 72 72 72-32.2 72-72-32.2-72-72-72zm-352 0c-39.8.0-72 32.2-72 72s32.2 72 72 72 72-32.2 72-72-32.2-72-72-72z"/></svg></button></div></div><pre style=counter-reset:codeblock class="tw-block tw-m-0 tw-p-0"><code id=codeblock-id-5 class="chroma
+!tw-block
+tw-p-0
+tw-m-0
+tw-transition-[max-height]
+tw-duration-500
+tw-ease-in-out
+group-[.is-closed]:!tw-max-h-0
+group-[.is-wrap]:tw-text-wrap
+tw-overflow-y-hidden
+tw-overflow-x-auto
+tw-scrollbar-thin"><span class=line><span class=cl><span class=n>store</span> <span class=o>%</span><span class=mi>6</span> <span class=n>to</span> <span class=o>%</span><span class=mi>3</span> <span class=o>:</span> <span class=err>$</span><span class=o>*</span><span class=n>Array</span><span class=o>&lt;</span><span class=n>Any</span><span class=o>&gt;</span>                   <span class=c1>// id: %7
 </span></span></span><span class=line><span class=cl><span class=c1></span><span class=o>%</span><span class=mi>8</span> <span class=o>=</span> <span class=n>alloc_stack</span> <span class=err>$</span><span class=n>Any</span>                           <span class=c1>// users: %17, %15, %11
 </span></span></span><span class=line><span class=cl><span class=c1></span><span class=o>%</span><span class=mi>9</span> <span class=o>=</span> <span class=n>integer_literal</span> <span class=err>$</span><span class=n>Builtin</span><span class=p>.</span><span class=n>Int64</span><span class=p>,</span> <span class=mi>1</span>          <span class=c1>// user: %10
 </span></span></span><span class=line><span class=cl><span class=c1></span><span class=o>%</span><span class=mi>10</span> <span class=o>=</span> <span class=k>struct</span> <span class=err>$</span><span class=nf>Int</span> <span class=p>(</span><span class=o>%</span><span class=mi>9</span> <span class=o>:</span> <span class=err>$</span><span class=n>Builtin</span><span class=p>.</span><span class=n>Int64</span><span class=p>)</span>         <span class=c1>// user: %12
@@ -386,21 +460,57 @@
 </span></span></span><span class=line><span class=cl><span class=c1></span><span class=o>%</span><span class=mi>37</span> <span class=o>=</span> <span class=n>init_existential_addr</span> <span class=o>%</span><span class=mi>33</span> <span class=o>:</span> <span class=err>$</span><span class=o>*</span><span class=n>Any</span><span class=p>,</span> <span class=err>$</span><span class=n>XX</span>    <span class=c1>// user: %38
 </span></span></span><span class=line><span class=cl><span class=c1></span><span class=n>store</span> <span class=o>%</span><span class=mi>36</span> <span class=n>to</span> <span class=o>%</span><span class=mi>37</span> <span class=o>:</span> <span class=err>$</span><span class=o>*</span><span class=n>XX</span>                         <span class=c1>// id: %38
 </span></span></span><span class=line><span class=cl><span class=c1></span><span class=o>%</span><span class=mi>39</span> <span class=o>=</span> <span class=n>begin_access</span> <span class=p>[</span><span class=n>modify</span><span class=p>]</span> <span class=p>[</span><span class=n>dynamic</span><span class=p>]</span> <span class=o>%</span><span class=mi>3</span> <span class=o>:</span> <span class=err>$</span><span class=o>*</span><span class=n>Array</span><span class=o>&lt;</span><span class=n>Any</span><span class=o>&gt;</span> <span class=c1>// users: %42, %41
-</span></span></span></code></pre></td></tr></table></div></div><h2 id=枚举>枚举</h2><h3 id=内存占用>内存占用</h3><ol><li>普通的枚举（非关联类型）自身只占用<code>1个字节</code>，与<code>case</code>数量无关；</li><li>带关联值的枚举，其所占内存大小为所有<code>case</code>中关联类型占用内存最大的那个(类似<code>union</code>)，再加枚举自身的大小；</li><li>特殊场景：只有一个<code>case</code>的枚举，枚举本身所占用的内存大小是<code>0个字节</code>，如果带关联值，那枚举所占内存大小只包含关联值所占内存的大小，不包含枚举自身的大小；</li><li>对于有关联值的<code>case</code>，它的<code>case</code>值会根据定义的顺序默认从<code>0</code>开始累加<code>1</code>；而其余所有不带关联值的<code>case</code>，它们的<code>case</code>地址相同，都等于最后一个带关联成员<code>case</code>的值<code>+1</code>（也就是说不带关联值的<code>case</code>在带关联值的<code>case</code>后面）；</li><li><strong>关联值</strong>是直接存储在枚举变量内存里面的，而<strong>原始值</strong>不是，它是通过<code>xx.rawValue</code>（计算属性）访问的，因此它的原始值完全不需要存储（枚举也不支持存储属性），而是在计算属性函数的返回值中，即函数中。<code>rawValue</code>这个计算属性是编译器帮我们默认添加的，它的返回值默认是我们设置的<strong>原始值</strong>，假如我们自己实现了这个计算属性，编译器就不会帮我们默认添加了，而是使用我们自己的实现；</li><li>嵌套枚举：被<code>indirect</code>标记的对象会被<code>BoxPair</code>包装成引用类型（放到堆上），和<code>Rust</code>一样的处理方式（<code>Rust</code>中是被包装成<code>Box</code>类型）；</li></ol><h2 id=派发方式>派发方式</h2><blockquote><ol><li><p>静态派发</p></li><li><p>函数表派发</p></li><li><p>消息派发</p></li></ol></blockquote><ol><li>添加 <code>@objc</code> 标识，编译器会生成两份函数实现，一份是消息派发的函数供<code>OC</code>调用，另一份是函数表派发或静态派发的函数实现；消息派发那个函数内部会调用另一份实现，我觉得可以简单理解为<code>@objc</code>只是编译器帮我们暴漏了一个<code>OC</code>接口而已；</li><li>多使用<code>final</code>关键字，一个类标记为<code>final</code>后，默认的函数表派发会变成静态派发，但是它不会影响<code>@objc</code>这个接口的生成；函数用<code>final</code>标记后也会变成静态派发；</li><li>在<code>extension</code>中的方法是静态派发；</li><li><code>protocol</code>中声明的方法属于函数表派发，即使在<code>extension</code>中添加了默认实现，当我们在调用某个对象的这个协议方法时采用的也是函数表派发；但是我们调用<code>protocol</code>的<code>extension</code>中的某个未作为协议声明的方法时，采用的是静态派发的策略；</li><li><code>private</code>函数并未改变函数的派发方式（<a href=https://mp.weixin.qq.com/s/Om_1TOGKWkMiNneB6Ittrw target=_blank rel="noopener noreffer">iOS摸鱼周报#73</a> 中说<code>private</code>会隐式<code>final</code>声明，但我测试发现它并不会改变函数的派发方式，感兴趣的同学可以自己验证一下）；</li></ol><h2 id=any-vs-some><code>any</code> VS <code>some</code></h2><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
-</span><span class=lnt> 2
-</span><span class=lnt> 3
-</span><span class=lnt> 4
-</span><span class=lnt> 5
-</span><span class=lnt> 6
-</span><span class=lnt> 7
-</span><span class=lnt> 8
-</span><span class=lnt> 9
-</span><span class=lnt>10
-</span><span class=lnt>11
-</span><span class=lnt>12
-</span><span class=lnt>13
-</span><span class=lnt>14
-</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-swift data-lang=swift><span class=line><span class=cl><span class=c1>// 1.泛型</span>
+</span></span></span></code></pre></div><h2 id=枚举 class=headerLink><a href=#%e6%9e%9a%e4%b8%be class=header-mark aria-label="Header mark for '枚举'"></a>枚举</h2><h3 id=内存占用 class=headerLink><a href=#%e5%86%85%e5%ad%98%e5%8d%a0%e7%94%a8 class=header-mark aria-label="Header mark for '内存占用'"></a>内存占用</h3><ol><li>普通的枚举（非关联类型）自身只占用<code>1个字节</code>，与<code>case</code>数量无关；</li><li>带关联值的枚举，其所占内存大小为所有<code>case</code>中关联类型占用内存最大的那个(类似<code>union</code>)，再加枚举自身的大小；</li><li>特殊场景：只有一个<code>case</code>的枚举，枚举本身所占用的内存大小是<code>0个字节</code>，如果带关联值，那枚举所占内存大小只包含关联值所占内存的大小，不包含枚举自身的大小；</li><li>对于有关联值的<code>case</code>，它的<code>case</code>值会根据定义的顺序默认从<code>0</code>开始累加<code>1</code>；而其余所有不带关联值的<code>case</code>，它们的<code>case</code>地址相同，都等于最后一个带关联成员<code>case</code>的值<code>+1</code>（也就是说不带关联值的<code>case</code>在带关联值的<code>case</code>后面）；</li><li><strong>关联值</strong>是直接存储在枚举变量内存里面的，而<strong>原始值</strong>不是，它是通过<code>xx.rawValue</code>（计算属性）访问的，因此它的原始值完全不需要存储（枚举也不支持存储属性），而是在计算属性函数的返回值中，即函数中。<code>rawValue</code>这个计算属性是编译器帮我们默认添加的，它的返回值默认是我们设置的<strong>原始值</strong>，假如我们自己实现了这个计算属性，编译器就不会帮我们默认添加了，而是使用我们自己的实现；</li><li>嵌套枚举：被<code>indirect</code>标记的对象会被<code>BoxPair</code>包装成引用类型（放到堆上），和<code>Rust</code>一样的处理方式（<code>Rust</code>中是被包装成<code>Box</code>类型）；</li></ol><h2 id=派发方式 class=headerLink><a href=#%e6%b4%be%e5%8f%91%e6%96%b9%e5%bc%8f class=header-mark aria-label="Header mark for '派发方式'"></a>派发方式</h2><blockquote><ol><li><p>静态派发</p></li><li><p>函数表派发</p></li><li><p>消息派发</p></li></ol></blockquote><ol><li>添加 <code>@objc</code> 标识，编译器会生成两份函数实现，一份是消息派发的函数供<code>OC</code>调用，另一份是函数表派发或静态派发的函数实现；消息派发那个函数内部会调用另一份实现，我觉得可以简单理解为<code>@objc</code>只是编译器帮我们暴漏了一个<code>OC</code>接口而已；</li><li>多使用<code>final</code>关键字，一个类标记为<code>final</code>后，默认的函数表派发会变成静态派发，但是它不会影响<code>@objc</code>这个接口的生成；函数用<code>final</code>标记后也会变成静态派发；</li><li>在<code>extension</code>中的方法是静态派发；</li><li><code>protocol</code>中声明的方法属于函数表派发，即使在<code>extension</code>中添加了默认实现，当我们在调用某个对象的这个协议方法时采用的也是函数表派发；但是我们调用<code>protocol</code>的<code>extension</code>中的某个未作为协议声明的方法时，采用的是静态派发的策略；</li><li><code>private</code>函数并未改变函数的派发方式（<a href=https://mp.weixin.qq.com/s/Om_1TOGKWkMiNneB6Ittrw target=_blank rel="noopener noreferrer">iOS摸鱼周报#73</a> 中说<code>private</code>会隐式<code>final</code>声明，但我测试发现它并不会改变函数的派发方式，感兴趣的同学可以自己验证一下）；</li></ol><h2 id=any-vs-some class=headerLink><a href=#any-vs-some class=header-mark aria-label="Header mark for '<code>any</code> VS <code>some</code>'"></a><code>any</code> VS <code>some</code></h2><div class="code-block highlight is-closed show-line-numbers tw-group tw-my-2"><div class="code-block-title
+tw-flex
+tw-flex-row
+tw-justify-between
+tw-w-full tw-bg-bgColor-secondary"><button class="tw-select-none
+tw-mx-2
+tw-block
+group-[.is-open]:tw-rotate-90
+tw-transition-[transform]
+tw-duration-500
+tw-ease-in-out
+print:!tw-hidden" disabled aria-hidden=true><svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></button><div class="code-block-title-bar tw-w-full"><p class="tw-select-none !tw-my-1">swift</p></div><div class=tw-flex><button class="line-number-button
+tw-select-none
+tw-mx-2
+tw-hidden
+group-[.is-open]:tw-block
+group-[.show-line-numbers]:tw-text-fgColor-link
+print:!tw-hidden" title="Toggle line numbers"><svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M61.77 401l17.5-20.15a19.92 19.92.0 005.07-14.19v-3.31C84.34 356 80.5 352 73 352H16a8 8 0 00-8 8v16a8 8 0 008 8h22.83a157.41 157.41.0 00-11 12.31l-5.61 7c-4 5.07-5.25 10.13-2.8 14.88l1.05 1.93c3 5.76 6.29 7.88 12.25 7.88h4.73c10.33.0 15.94 2.44 15.94 9.09.0 4.72-4.2 8.22-14.36 8.22a41.54 41.54.0 01-15.47-3.12c-6.49-3.88-11.74-3.5-15.6 3.12l-5.59 9.31c-3.72 6.13-3.19 11.72 2.63 15.94 7.71 4.69 20.38 9.44 37 9.44 34.16.0 48.5-22.75 48.5-44.12-.03-14.38-9.12-29.76-28.73-34.88zM496 224H176a16 16 0 00-16 16v32a16 16 0 0016 16h320a16 16 0 0016-16v-32a16 16 0 00-16-16zm0-160H176a16 16 0 00-16 16v32a16 16 0 0016 16h320a16 16 0 0016-16V80a16 16 0 00-16-16zm0 320H176a16 16 0 00-16 16v32a16 16 0 0016 16h320a16 16 0 0016-16v-32a16 16 0 00-16-16zM16 160h64a8 8 0 008-8v-16a8 8 0 00-8-8H64V40a8 8 0 00-8-8H32a8 8 0 00-7.14 4.42l-8 16A8 8 0 0024 64h8v64H16a8 8 0 00-8 8v16a8 8 0 008 8zm-3.91 160H80a8 8 0 008-8v-16a8 8 0 00-8-8H41.32c3.29-10.29 48.34-18.68 48.34-56.44.0-29.06-25-39.56-44.47-39.56-21.36.0-33.8 10-40.46 18.75-4.37 5.59-3 10.84 2.8 15.37l8.58 6.88c5.61 4.56 11 2.47 16.12-2.44a13.44 13.44.0 019.46-3.84c3.33.0 9.28 1.56 9.28 8.75C51 248.19.0 257.31.0 304.59v4C0 316 5.08 320 12.09 320z"/></svg></button>
+<button class="wrap-code-button
+tw-select-none
+tw-mx-2
+tw-hidden
+group-[.is-open]:tw-block
+group-[.is-wrap]:tw-text-fgColor-link
+print:!tw-hidden" title="Toggle code wrap"><svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M16 132h416c8.837.0 16-7.163 16-16V76c0-8.837-7.163-16-16-16H16C7.163 60 0 67.163.0 76v40c0 8.837 7.163 16 16 16zm0 160h416c8.837.0 16-7.163 16-16v-40c0-8.837-7.163-16-16-16H16c-8.837.0-16 7.163-16 16v40c0 8.837 7.163 16 16 16zm0 160h416c8.837.0 16-7.163 16-16v-40c0-8.837-7.163-16-16-16H16c-8.837.0-16 7.163-16 16v40c0 8.837 7.163 16 16 16z"/></svg></button>
+<button class="copy-code-button
+tw-select-none
+tw-mx-2
+tw-hidden
+group-[.is-open]:tw-block
+hover:tw-text-fgColor-link
+print:!tw-hidden" title="Copy code">
+<span class="copy-icon tw-block"><svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M433.941 65.941l-51.882-51.882A48 48 0 00348.118.0H176c-26.51.0-48 21.49-48 48v48H48c-26.51.0-48 21.49-48 48v320c0 26.51 21.49 48 48 48h224c26.51.0 48-21.49 48-48v-48h80c26.51.0 48-21.49 48-48V99.882a48 48 0 00-14.059-33.941zM266 464H54a6 6 0 01-6-6V150a6 6 0 016-6h74v224c0 26.51 21.49 48 48 48h96v42a6 6 0 01-6 6zm128-96H182a6 6 0 01-6-6V54a6 6 0 016-6h106v88c0 13.255 10.745 24 24 24h88v202a6 6 0 01-6 6zm6-256h-64V48h9.632c1.591.0 3.117.632 4.243 1.757l48.368 48.368a6 6 0 011.757 4.243V112z"/></svg></span>
+<span class="check-icon tw-hidden"><svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M173.898 439.404l-166.4-166.4c-9.997-9.997-9.997-26.206.0-36.204l36.203-36.204c9.997-9.998 26.207-9.998 36.204.0L192 312.69 432.095 72.596c9.997-9.997 26.207-9.997 36.204.0l36.203 36.204c9.997 9.997 9.997 26.206.0 36.204l-294.4 294.401c-9.998 9.997-26.207 9.997-36.204-.001z"/></svg></span>
+</button>
+<button class="tw-select-none
+tw-mx-2
+tw-block
+group-[.is-open]:tw-hidden
+print:!tw-hidden" disabled aria-hidden=true><svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M328 256c0 39.8-32.2 72-72 72s-72-32.2-72-72 32.2-72 72-72 72 32.2 72 72zm104-72c-39.8.0-72 32.2-72 72s32.2 72 72 72 72-32.2 72-72-32.2-72-72-72zm-352 0c-39.8.0-72 32.2-72 72s32.2 72 72 72 72-32.2 72-72-32.2-72-72-72z"/></svg></button></div></div><pre style=counter-reset:codeblock class="tw-block tw-m-0 tw-p-0"><code id=codeblock-id-6 class="chroma
+!tw-block
+tw-p-0
+tw-m-0
+tw-transition-[max-height]
+tw-duration-500
+tw-ease-in-out
+group-[.is-closed]:!tw-max-h-0
+group-[.is-wrap]:tw-text-wrap
+tw-overflow-y-hidden
+tw-overflow-x-auto
+tw-scrollbar-thin"><span class=line><span class=cl><span class=c1>// 1.泛型</span>
 </span></span><span class=line><span class=cl><span class=kd>func</span> <span class=nf>tFoo</span><span class=p>&lt;</span><span class=n>T</span><span class=p>:</span> <span class=nb>Equatable</span><span class=p>&gt;()</span> <span class=p>-&gt;</span> <span class=n>T</span> <span class=p>{</span>
 </span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=mi>42</span> <span class=k>as</span><span class=p>!</span> <span class=n>T</span>
 </span></span><span class=line><span class=cl><span class=p>}</span>
@@ -413,41 +523,57 @@
 </span></span><span class=line><span class=cl><span class=c1>// 3.any</span>
 </span></span><span class=line><span class=cl><span class=kd>func</span> <span class=nf>anyFoo</span><span class=p>()</span> <span class=p>-&gt;</span> <span class=n>any</span> <span class=nb>Equatable</span> <span class=p>{</span>
 </span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=mi>42</span>
-</span></span><span class=line><span class=cl><span class=p>}</span>
-</span></span></code></pre></td></tr></table></div></div><ol><li><code>some</code>是<code>Swift 5.1</code>新加的。<code>any</code>是<code>Swift 5.6</code>引入的，用来修饰<code>existential type</code>，在<code>Swift5.7</code>中这个修饰行为变为了强制；</li><li><code>some</code>其实只是对泛型协议参数的一种等价简化（如上的<code>1</code>和<code>2</code>是等价的），也就是说<code>some</code>在编译期就可以确定出类型，在方法调用上可以做到函数表派发、静态派发；</li><li><code>any</code>则是类似<code>盒子</code>的类型，它包装了遵循特定协议的类型。这个<code>box盒子</code>允许我们去存储任何具体类型，只要该类型遵循了特定协议即可。<ol><li>性能：由于编译器无法在编译期确定盒子内对象的具体类型以及内存分配方式，导致在运行时不得不采用动态派发的方式将消息派发到具体的对象上，这肯定比静态派发方式要慢很多。</li><li>由于<code>existential type</code>使用上太简单、太方便，很容易会出现滥用的情况，为了提醒开发人员性能损失这一点，所以在<code>Swift 5.7</code>中苹果强制要求对<code>existential type</code>使用<code>any</code>来标记。</li><li>我们不能使用<code>==</code>操作来比较两个<code>existential type</code>实例对象。</li></ol></li></ol><p><figure><a class=lightgallery href=/images/swift/some_vs_any.webp title="some vs any" data-thumbnail=/images/swift/some_vs_any.webp data-sub-html="<h2>some_vs_any</h2><p>some vs any</p>"><img class=lazyload src=/svg/loading.min.svg data-src=/images/swift/some_vs_any.webp data-srcset="/images/swift/some_vs_any.webp, /images/swift/some_vs_any.webp 1.5x, /images/swift/some_vs_any.webp 2x" data-sizes=auto alt=/images/swift/some_vs_any.webp></a><figcaption class=image-caption>some_vs_any</figcaption></figure></p><p>最后，根据下面的例子体会一下：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
-</span><span class=lnt> 2
-</span><span class=lnt> 3
-</span><span class=lnt> 4
-</span><span class=lnt> 5
-</span><span class=lnt> 6
-</span><span class=lnt> 7
-</span><span class=lnt> 8
-</span><span class=lnt> 9
-</span><span class=lnt>10
-</span><span class=lnt>11
-</span><span class=lnt>12
-</span><span class=lnt>13
-</span><span class=lnt>14
-</span><span class=lnt>15
-</span><span class=lnt>16
-</span><span class=lnt>17
-</span><span class=lnt>18
-</span><span class=lnt>19
-</span><span class=lnt>20
-</span><span class=lnt>21
-</span><span class=lnt>22
-</span><span class=lnt>23
-</span><span class=lnt>24
-</span><span class=lnt>25
-</span><span class=lnt>26
-</span><span class=lnt>27
-</span><span class=lnt>28
-</span><span class=lnt>29
-</span><span class=lnt>30
-</span><span class=lnt>31
-</span><span class=lnt>32
-</span><span class=lnt>33
-</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-swift data-lang=swift><span class=line><span class=cl> <span class=c1>// ✅ No compile error when changing the underlying data type</span>
+</span></span><span class=line><span class=cl><span class=p>}</span></span></span></code></pre></div><ol><li><code>some</code>是<code>Swift 5.1</code>新加的。<code>any</code>是<code>Swift 5.6</code>引入的，用来修饰<code>existential type</code>，在<code>Swift5.7</code>中这个修饰行为变为了强制；</li><li><code>some</code>其实只是对泛型协议参数的一种等价简化（如上的<code>1</code>和<code>2</code>是等价的），也就是说<code>some</code>在编译期就可以确定出类型，在方法调用上可以做到函数表派发、静态派发；</li><li><code>any</code>则是类似<code>盒子</code>的类型，它包装了遵循特定协议的类型。这个<code>box盒子</code>允许我们去存储任何具体类型，只要该类型遵循了特定协议即可。<ol><li>性能：由于编译器无法在编译期确定盒子内对象的具体类型以及内存分配方式，导致在运行时不得不采用动态派发的方式将消息派发到具体的对象上，这肯定比静态派发方式要慢很多。</li><li>由于<code>existential type</code>使用上太简单、太方便，很容易会出现滥用的情况，为了提醒开发人员性能损失这一点，所以在<code>Swift 5.7</code>中苹果强制要求对<code>existential type</code>使用<code>any</code>来标记。</li><li>我们不能使用<code>==</code>操作来比较两个<code>existential type</code>实例对象。</li></ol></li></ol><p><figure><a class=lightgallery href=/images/swift/some_vs_any.webp title="some vs any" data-thumbnail=/images/swift/some_vs_any.webp data-sub-html="<h2>some_vs_any</h2><p>some vs any</p>"><img loading=lazy src=/images/swift/some_vs_any.webp alt="some vs any"></a><figcaption class=image-caption>some_vs_any</figcaption></figure></p><p>最后，根据下面的例子体会一下：</p><div class="code-block highlight is-closed show-line-numbers tw-group tw-my-2"><div class="code-block-title
+tw-flex
+tw-flex-row
+tw-justify-between
+tw-w-full tw-bg-bgColor-secondary"><button class="tw-select-none
+tw-mx-2
+tw-block
+group-[.is-open]:tw-rotate-90
+tw-transition-[transform]
+tw-duration-500
+tw-ease-in-out
+print:!tw-hidden" disabled aria-hidden=true><svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></button><div class="code-block-title-bar tw-w-full"><p class="tw-select-none !tw-my-1">swift</p></div><div class=tw-flex><button class="line-number-button
+tw-select-none
+tw-mx-2
+tw-hidden
+group-[.is-open]:tw-block
+group-[.show-line-numbers]:tw-text-fgColor-link
+print:!tw-hidden" title="Toggle line numbers"><svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M61.77 401l17.5-20.15a19.92 19.92.0 005.07-14.19v-3.31C84.34 356 80.5 352 73 352H16a8 8 0 00-8 8v16a8 8 0 008 8h22.83a157.41 157.41.0 00-11 12.31l-5.61 7c-4 5.07-5.25 10.13-2.8 14.88l1.05 1.93c3 5.76 6.29 7.88 12.25 7.88h4.73c10.33.0 15.94 2.44 15.94 9.09.0 4.72-4.2 8.22-14.36 8.22a41.54 41.54.0 01-15.47-3.12c-6.49-3.88-11.74-3.5-15.6 3.12l-5.59 9.31c-3.72 6.13-3.19 11.72 2.63 15.94 7.71 4.69 20.38 9.44 37 9.44 34.16.0 48.5-22.75 48.5-44.12-.03-14.38-9.12-29.76-28.73-34.88zM496 224H176a16 16 0 00-16 16v32a16 16 0 0016 16h320a16 16 0 0016-16v-32a16 16 0 00-16-16zm0-160H176a16 16 0 00-16 16v32a16 16 0 0016 16h320a16 16 0 0016-16V80a16 16 0 00-16-16zm0 320H176a16 16 0 00-16 16v32a16 16 0 0016 16h320a16 16 0 0016-16v-32a16 16 0 00-16-16zM16 160h64a8 8 0 008-8v-16a8 8 0 00-8-8H64V40a8 8 0 00-8-8H32a8 8 0 00-7.14 4.42l-8 16A8 8 0 0024 64h8v64H16a8 8 0 00-8 8v16a8 8 0 008 8zm-3.91 160H80a8 8 0 008-8v-16a8 8 0 00-8-8H41.32c3.29-10.29 48.34-18.68 48.34-56.44.0-29.06-25-39.56-44.47-39.56-21.36.0-33.8 10-40.46 18.75-4.37 5.59-3 10.84 2.8 15.37l8.58 6.88c5.61 4.56 11 2.47 16.12-2.44a13.44 13.44.0 019.46-3.84c3.33.0 9.28 1.56 9.28 8.75C51 248.19.0 257.31.0 304.59v4C0 316 5.08 320 12.09 320z"/></svg></button>
+<button class="wrap-code-button
+tw-select-none
+tw-mx-2
+tw-hidden
+group-[.is-open]:tw-block
+group-[.is-wrap]:tw-text-fgColor-link
+print:!tw-hidden" title="Toggle code wrap"><svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M16 132h416c8.837.0 16-7.163 16-16V76c0-8.837-7.163-16-16-16H16C7.163 60 0 67.163.0 76v40c0 8.837 7.163 16 16 16zm0 160h416c8.837.0 16-7.163 16-16v-40c0-8.837-7.163-16-16-16H16c-8.837.0-16 7.163-16 16v40c0 8.837 7.163 16 16 16zm0 160h416c8.837.0 16-7.163 16-16v-40c0-8.837-7.163-16-16-16H16c-8.837.0-16 7.163-16 16v40c0 8.837 7.163 16 16 16z"/></svg></button>
+<button class="copy-code-button
+tw-select-none
+tw-mx-2
+tw-hidden
+group-[.is-open]:tw-block
+hover:tw-text-fgColor-link
+print:!tw-hidden" title="Copy code">
+<span class="copy-icon tw-block"><svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M433.941 65.941l-51.882-51.882A48 48 0 00348.118.0H176c-26.51.0-48 21.49-48 48v48H48c-26.51.0-48 21.49-48 48v320c0 26.51 21.49 48 48 48h224c26.51.0 48-21.49 48-48v-48h80c26.51.0 48-21.49 48-48V99.882a48 48 0 00-14.059-33.941zM266 464H54a6 6 0 01-6-6V150a6 6 0 016-6h74v224c0 26.51 21.49 48 48 48h96v42a6 6 0 01-6 6zm128-96H182a6 6 0 01-6-6V54a6 6 0 016-6h106v88c0 13.255 10.745 24 24 24h88v202a6 6 0 01-6 6zm6-256h-64V48h9.632c1.591.0 3.117.632 4.243 1.757l48.368 48.368a6 6 0 011.757 4.243V112z"/></svg></span>
+<span class="check-icon tw-hidden"><svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M173.898 439.404l-166.4-166.4c-9.997-9.997-9.997-26.206.0-36.204l36.203-36.204c9.997-9.998 26.207-9.998 36.204.0L192 312.69 432.095 72.596c9.997-9.997 26.207-9.997 36.204.0l36.203 36.204c9.997 9.997 9.997 26.206.0 36.204l-294.4 294.401c-9.998 9.997-26.207 9.997-36.204-.001z"/></svg></span>
+</button>
+<button class="tw-select-none
+tw-mx-2
+tw-block
+group-[.is-open]:tw-hidden
+print:!tw-hidden" disabled aria-hidden=true><svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M328 256c0 39.8-32.2 72-72 72s-72-32.2-72-72 32.2-72 72-72 72 32.2 72 72zm104-72c-39.8.0-72 32.2-72 72s32.2 72 72 72 72-32.2 72-72-32.2-72-72-72zm-352 0c-39.8.0-72 32.2-72 72s32.2 72 72 72 72-32.2 72-72-32.2-72-72-72z"/></svg></button></div></div><pre style=counter-reset:codeblock class="tw-block tw-m-0 tw-p-0"><code id=codeblock-id-7 class="chroma
+!tw-block
+tw-p-0
+tw-m-0
+tw-transition-[max-height]
+tw-duration-500
+tw-ease-in-out
+group-[.is-closed]:!tw-max-h-0
+group-[.is-wrap]:tw-text-wrap
+tw-overflow-y-hidden
+tw-overflow-x-auto
+tw-scrollbar-thin"><span class=line><span class=cl> <span class=c1>// ✅ No compile error when changing the underlying data type</span>
 </span></span><span class=line><span class=cl> <span class=kd>var</span> <span class=nv>myCar</span><span class=p>:</span> <span class=n>any</span> <span class=n>Vehicle</span> <span class=p>=</span> <span class=n>Car</span><span class=p>()</span>
 </span></span><span class=line><span class=cl> <span class=n>myCar</span> <span class=p>=</span> <span class=n>Bus</span><span class=p>()</span>
 </span></span><span class=line><span class=cl> <span class=n>myCar</span> <span class=p>=</span> <span class=n>Car</span><span class=p>()</span>
@@ -479,92 +605,113 @@
 </span></span><span class=line><span class=cl>    <span class=p>}</span> <span class=k>else</span> <span class=p>{</span>
 </span></span><span class=line><span class=cl>      <span class=k>return</span> <span class=n>Car</span><span class=p>()</span>
 </span></span><span class=line><span class=cl>    <span class=p>}</span>
-</span></span><span class=line><span class=cl><span class=p>}</span>
-</span></span></code></pre></td></tr></table></div></div><h2 id=objc方法的派发方式>@objc方法的派发方式</h2><blockquote><p>不考虑<code>@dynamic</code>关键字标记的场景（被<code>@dynamic</code>和<code>@objc</code>标记后会变为消息派发）</p></blockquote><p><code>Swift</code>方法被<code>@objc</code>标记后，编译器会生成<code>2份</code>接口：一份是<code>Swift</code>接口，供<code>Swift</code>内部调用；另一份是<code>OC</code>接口，用于给<code>OC</code>层调用。其中<code>Swift</code>的函数调用采用的是<strong>函数表派发</strong>（函数在<code>sil_vtable</code>中），而<code>OC</code>接口内部其实最终调用的还是<code>Swift</code>函数，也就是说派发方式并没有发生变化，还是函数表派发。</p><p>创建一个<code>Foo</code>类，并实现一个<code>@objc</code>标记的<code>bar</code>方法：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
-</span><span class=lnt>2
-</span><span class=lnt>3
-</span><span class=lnt>4
-</span><span class=lnt>5
-</span><span class=lnt>6
-</span><span class=lnt>7
-</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-swift data-lang=swift><span class=line><span class=cl><span class=kd>import</span> <span class=nc>Foundation</span>
+</span></span><span class=line><span class=cl><span class=p>}</span></span></span></code></pre></div><h2 id=objc方法的派发方式 class=headerLink><a href=#objc%e6%96%b9%e6%b3%95%e7%9a%84%e6%b4%be%e5%8f%91%e6%96%b9%e5%bc%8f class=header-mark aria-label="Header mark for '@objc方法的派发方式'"></a>@objc方法的派发方式</h2><blockquote><p>不考虑<code>@dynamic</code>关键字标记的场景（被<code>@dynamic</code>和<code>@objc</code>标记后会变为消息派发）</p></blockquote><p><code>Swift</code>方法被<code>@objc</code>标记后，编译器会生成<code>2份</code>接口：一份是<code>Swift</code>接口，供<code>Swift</code>内部调用；另一份是<code>OC</code>接口，用于给<code>OC</code>层调用。其中<code>Swift</code>的函数调用采用的是<strong>函数表派发</strong>（函数在<code>sil_vtable</code>中），而<code>OC</code>接口内部其实最终调用的还是<code>Swift</code>函数，也就是说派发方式并没有发生变化，还是函数表派发。</p><p>创建一个<code>Foo</code>类，并实现一个<code>@objc</code>标记的<code>bar</code>方法：</p><div class="code-block highlight is-open show-line-numbers tw-group tw-my-2"><div class="code-block-title
+tw-flex
+tw-flex-row
+tw-justify-between
+tw-w-full tw-bg-bgColor-secondary"><button class="tw-select-none
+tw-mx-2
+tw-block
+group-[.is-open]:tw-rotate-90
+tw-transition-[transform]
+tw-duration-500
+tw-ease-in-out
+print:!tw-hidden" disabled aria-hidden=true><svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></button><div class="code-block-title-bar tw-w-full"><p class="tw-select-none !tw-my-1">swift</p></div><div class=tw-flex><button class="line-number-button
+tw-select-none
+tw-mx-2
+tw-hidden
+group-[.is-open]:tw-block
+group-[.show-line-numbers]:tw-text-fgColor-link
+print:!tw-hidden" title="Toggle line numbers"><svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M61.77 401l17.5-20.15a19.92 19.92.0 005.07-14.19v-3.31C84.34 356 80.5 352 73 352H16a8 8 0 00-8 8v16a8 8 0 008 8h22.83a157.41 157.41.0 00-11 12.31l-5.61 7c-4 5.07-5.25 10.13-2.8 14.88l1.05 1.93c3 5.76 6.29 7.88 12.25 7.88h4.73c10.33.0 15.94 2.44 15.94 9.09.0 4.72-4.2 8.22-14.36 8.22a41.54 41.54.0 01-15.47-3.12c-6.49-3.88-11.74-3.5-15.6 3.12l-5.59 9.31c-3.72 6.13-3.19 11.72 2.63 15.94 7.71 4.69 20.38 9.44 37 9.44 34.16.0 48.5-22.75 48.5-44.12-.03-14.38-9.12-29.76-28.73-34.88zM496 224H176a16 16 0 00-16 16v32a16 16 0 0016 16h320a16 16 0 0016-16v-32a16 16 0 00-16-16zm0-160H176a16 16 0 00-16 16v32a16 16 0 0016 16h320a16 16 0 0016-16V80a16 16 0 00-16-16zm0 320H176a16 16 0 00-16 16v32a16 16 0 0016 16h320a16 16 0 0016-16v-32a16 16 0 00-16-16zM16 160h64a8 8 0 008-8v-16a8 8 0 00-8-8H64V40a8 8 0 00-8-8H32a8 8 0 00-7.14 4.42l-8 16A8 8 0 0024 64h8v64H16a8 8 0 00-8 8v16a8 8 0 008 8zm-3.91 160H80a8 8 0 008-8v-16a8 8 0 00-8-8H41.32c3.29-10.29 48.34-18.68 48.34-56.44.0-29.06-25-39.56-44.47-39.56-21.36.0-33.8 10-40.46 18.75-4.37 5.59-3 10.84 2.8 15.37l8.58 6.88c5.61 4.56 11 2.47 16.12-2.44a13.44 13.44.0 019.46-3.84c3.33.0 9.28 1.56 9.28 8.75C51 248.19.0 257.31.0 304.59v4C0 316 5.08 320 12.09 320z"/></svg></button>
+<button class="wrap-code-button
+tw-select-none
+tw-mx-2
+tw-hidden
+group-[.is-open]:tw-block
+group-[.is-wrap]:tw-text-fgColor-link
+print:!tw-hidden" title="Toggle code wrap"><svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M16 132h416c8.837.0 16-7.163 16-16V76c0-8.837-7.163-16-16-16H16C7.163 60 0 67.163.0 76v40c0 8.837 7.163 16 16 16zm0 160h416c8.837.0 16-7.163 16-16v-40c0-8.837-7.163-16-16-16H16c-8.837.0-16 7.163-16 16v40c0 8.837 7.163 16 16 16zm0 160h416c8.837.0 16-7.163 16-16v-40c0-8.837-7.163-16-16-16H16c-8.837.0-16 7.163-16 16v40c0 8.837 7.163 16 16 16z"/></svg></button>
+<button class="copy-code-button
+tw-select-none
+tw-mx-2
+tw-hidden
+group-[.is-open]:tw-block
+hover:tw-text-fgColor-link
+print:!tw-hidden" title="Copy code">
+<span class="copy-icon tw-block"><svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M433.941 65.941l-51.882-51.882A48 48 0 00348.118.0H176c-26.51.0-48 21.49-48 48v48H48c-26.51.0-48 21.49-48 48v320c0 26.51 21.49 48 48 48h224c26.51.0 48-21.49 48-48v-48h80c26.51.0 48-21.49 48-48V99.882a48 48 0 00-14.059-33.941zM266 464H54a6 6 0 01-6-6V150a6 6 0 016-6h74v224c0 26.51 21.49 48 48 48h96v42a6 6 0 01-6 6zm128-96H182a6 6 0 01-6-6V54a6 6 0 016-6h106v88c0 13.255 10.745 24 24 24h88v202a6 6 0 01-6 6zm6-256h-64V48h9.632c1.591.0 3.117.632 4.243 1.757l48.368 48.368a6 6 0 011.757 4.243V112z"/></svg></span>
+<span class="check-icon tw-hidden"><svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M173.898 439.404l-166.4-166.4c-9.997-9.997-9.997-26.206.0-36.204l36.203-36.204c9.997-9.998 26.207-9.998 36.204.0L192 312.69 432.095 72.596c9.997-9.997 26.207-9.997 36.204.0l36.203 36.204c9.997 9.997 9.997 26.206.0 36.204l-294.4 294.401c-9.998 9.997-26.207 9.997-36.204-.001z"/></svg></span>
+</button>
+<button class="tw-select-none
+tw-mx-2
+tw-block
+group-[.is-open]:tw-hidden
+print:!tw-hidden" disabled aria-hidden=true><svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M328 256c0 39.8-32.2 72-72 72s-72-32.2-72-72 32.2-72 72-72 72 32.2 72 72zm104-72c-39.8.0-72 32.2-72 72s32.2 72 72 72 72-32.2 72-72-32.2-72-72-72zm-352 0c-39.8.0-72 32.2-72 72s32.2 72 72 72 72-32.2 72-72-32.2-72-72-72z"/></svg></button></div></div><pre style=counter-reset:codeblock class="tw-block tw-m-0 tw-p-0"><code id=codeblock-id-8 class="chroma
+!tw-block
+tw-p-0
+tw-m-0
+tw-transition-[max-height]
+tw-duration-500
+tw-ease-in-out
+group-[.is-closed]:!tw-max-h-0
+group-[.is-wrap]:tw-text-wrap
+tw-overflow-y-hidden
+tw-overflow-x-auto
+tw-scrollbar-thin"><span class=line><span class=cl><span class=kd>import</span> <span class=nc>Foundation</span>
 </span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl><span class=kd>class</span> <span class=nc>Foo</span><span class=p>:</span> <span class=n>NSObject</span> <span class=p>{</span>
 </span></span><span class=line><span class=cl>    <span class=kr>@objc</span> <span class=kd>func</span> <span class=nf>bar</span><span class=p>()</span> <span class=p>{</span>
 </span></span><span class=line><span class=cl>        <span class=bp>print</span><span class=p>(</span><span class=s>&#34;Hello from Swift!&#34;</span><span class=p>)</span>
 </span></span><span class=line><span class=cl>    <span class=p>}</span>
-</span></span><span class=line><span class=cl><span class=p>}</span>
-</span></span></code></pre></td></tr></table></div></div><p>通过 <code>swiftc Foo.swift -emit-sil | xcrun swift-demangle > FooSILGen.sil</code>转换为<code>SIL</code>代码如下：</p><blockquote><p>有精简，只保留了<code>bar</code>函数和<code>vtable</code>相关部分</p></blockquote><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
-</span><span class=lnt> 2
-</span><span class=lnt> 3
-</span><span class=lnt> 4
-</span><span class=lnt> 5
-</span><span class=lnt> 6
-</span><span class=lnt> 7
-</span><span class=lnt> 8
-</span><span class=lnt> 9
-</span><span class=lnt>10
-</span><span class=lnt>11
-</span><span class=lnt>12
-</span><span class=lnt>13
-</span><span class=lnt>14
-</span><span class=lnt>15
-</span><span class=lnt>16
-</span><span class=lnt>17
-</span><span class=lnt>18
-</span><span class=lnt>19
-</span><span class=lnt>20
-</span><span class=lnt>21
-</span><span class=lnt>22
-</span><span class=lnt>23
-</span><span class=lnt>24
-</span><span class=lnt>25
-</span><span class=lnt>26
-</span><span class=lnt>27
-</span><span class=lnt>28
-</span><span class=lnt>29
-</span><span class=lnt>30
-</span><span class=lnt>31
-</span><span class=lnt>32
-</span><span class=lnt>33
-</span><span class=lnt>34
-</span><span class=lnt>35
-</span><span class=lnt>36
-</span><span class=lnt>37
-</span><span class=lnt>38
-</span><span class=lnt>39
-</span><span class=lnt>40
-</span><span class=lnt>41
-</span><span class=lnt>42
-</span><span class=lnt>43
-</span><span class=lnt>44
-</span><span class=lnt>45
-</span><span class=lnt>46
-</span><span class=lnt>47
-</span><span class=lnt>48
-</span><span class=lnt>49
-</span><span class=lnt>50
-</span><span class=lnt>51
-</span><span class=lnt>52
-</span><span class=lnt>53
-</span><span class=lnt>54
-</span><span class=lnt>55
-</span><span class=lnt>56
-</span><span class=lnt>57
-</span><span class=lnt>58
-</span><span class=lnt>59
-</span><span class=lnt>60
-</span><span class=lnt>61
-</span><span class=lnt>62
-</span><span class=lnt>63
-</span><span class=lnt>64
-</span><span class=lnt>65
-</span><span class=lnt>66
-</span><span class=lnt>67
-</span><span class=lnt>68
-</span><span class=lnt>69
-</span><span class=lnt>70
-</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-MLIR data-lang=MLIR><span class=line><span class=cl>sil_stage canonical
+</span></span><span class=line><span class=cl><span class=p>}</span></span></span></code></pre></div><p>通过 <code>swiftc Foo.swift -emit-sil | xcrun swift-demangle > FooSILGen.sil</code>转换为<code>SIL</code>代码如下：</p><blockquote><p>有精简，只保留了<code>bar</code>函数和<code>vtable</code>相关部分</p></blockquote><div class="code-block highlight is-closed show-line-numbers tw-group tw-my-2"><div class="code-block-title
+tw-flex
+tw-flex-row
+tw-justify-between
+tw-w-full tw-bg-bgColor-secondary"><button class="tw-select-none
+tw-mx-2
+tw-block
+group-[.is-open]:tw-rotate-90
+tw-transition-[transform]
+tw-duration-500
+tw-ease-in-out
+print:!tw-hidden" disabled aria-hidden=true><svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><path d="M285.476 272.971 91.132 467.314c-9.373 9.373-24.569 9.373-33.941.0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941.0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg></button><div class="code-block-title-bar tw-w-full"><p class="tw-select-none !tw-my-1">MLIR</p></div><div class=tw-flex><button class="line-number-button
+tw-select-none
+tw-mx-2
+tw-hidden
+group-[.is-open]:tw-block
+group-[.show-line-numbers]:tw-text-fgColor-link
+print:!tw-hidden" title="Toggle line numbers"><svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M61.77 401l17.5-20.15a19.92 19.92.0 005.07-14.19v-3.31C84.34 356 80.5 352 73 352H16a8 8 0 00-8 8v16a8 8 0 008 8h22.83a157.41 157.41.0 00-11 12.31l-5.61 7c-4 5.07-5.25 10.13-2.8 14.88l1.05 1.93c3 5.76 6.29 7.88 12.25 7.88h4.73c10.33.0 15.94 2.44 15.94 9.09.0 4.72-4.2 8.22-14.36 8.22a41.54 41.54.0 01-15.47-3.12c-6.49-3.88-11.74-3.5-15.6 3.12l-5.59 9.31c-3.72 6.13-3.19 11.72 2.63 15.94 7.71 4.69 20.38 9.44 37 9.44 34.16.0 48.5-22.75 48.5-44.12-.03-14.38-9.12-29.76-28.73-34.88zM496 224H176a16 16 0 00-16 16v32a16 16 0 0016 16h320a16 16 0 0016-16v-32a16 16 0 00-16-16zm0-160H176a16 16 0 00-16 16v32a16 16 0 0016 16h320a16 16 0 0016-16V80a16 16 0 00-16-16zm0 320H176a16 16 0 00-16 16v32a16 16 0 0016 16h320a16 16 0 0016-16v-32a16 16 0 00-16-16zM16 160h64a8 8 0 008-8v-16a8 8 0 00-8-8H64V40a8 8 0 00-8-8H32a8 8 0 00-7.14 4.42l-8 16A8 8 0 0024 64h8v64H16a8 8 0 00-8 8v16a8 8 0 008 8zm-3.91 160H80a8 8 0 008-8v-16a8 8 0 00-8-8H41.32c3.29-10.29 48.34-18.68 48.34-56.44.0-29.06-25-39.56-44.47-39.56-21.36.0-33.8 10-40.46 18.75-4.37 5.59-3 10.84 2.8 15.37l8.58 6.88c5.61 4.56 11 2.47 16.12-2.44a13.44 13.44.0 019.46-3.84c3.33.0 9.28 1.56 9.28 8.75C51 248.19.0 257.31.0 304.59v4C0 316 5.08 320 12.09 320z"/></svg></button>
+<button class="wrap-code-button
+tw-select-none
+tw-mx-2
+tw-hidden
+group-[.is-open]:tw-block
+group-[.is-wrap]:tw-text-fgColor-link
+print:!tw-hidden" title="Toggle code wrap"><svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M16 132h416c8.837.0 16-7.163 16-16V76c0-8.837-7.163-16-16-16H16C7.163 60 0 67.163.0 76v40c0 8.837 7.163 16 16 16zm0 160h416c8.837.0 16-7.163 16-16v-40c0-8.837-7.163-16-16-16H16c-8.837.0-16 7.163-16 16v40c0 8.837 7.163 16 16 16zm0 160h416c8.837.0 16-7.163 16-16v-40c0-8.837-7.163-16-16-16H16c-8.837.0-16 7.163-16 16v40c0 8.837 7.163 16 16 16z"/></svg></button>
+<button class="copy-code-button
+tw-select-none
+tw-mx-2
+tw-hidden
+group-[.is-open]:tw-block
+hover:tw-text-fgColor-link
+print:!tw-hidden" title="Copy code">
+<span class="copy-icon tw-block"><svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M433.941 65.941l-51.882-51.882A48 48 0 00348.118.0H176c-26.51.0-48 21.49-48 48v48H48c-26.51.0-48 21.49-48 48v320c0 26.51 21.49 48 48 48h224c26.51.0 48-21.49 48-48v-48h80c26.51.0 48-21.49 48-48V99.882a48 48 0 00-14.059-33.941zM266 464H54a6 6 0 01-6-6V150a6 6 0 016-6h74v224c0 26.51 21.49 48 48 48h96v42a6 6 0 01-6 6zm128-96H182a6 6 0 01-6-6V54a6 6 0 016-6h106v88c0 13.255 10.745 24 24 24h88v202a6 6 0 01-6 6zm6-256h-64V48h9.632c1.591.0 3.117.632 4.243 1.757l48.368 48.368a6 6 0 011.757 4.243V112z"/></svg></span>
+<span class="check-icon tw-hidden"><svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M173.898 439.404l-166.4-166.4c-9.997-9.997-9.997-26.206.0-36.204l36.203-36.204c9.997-9.998 26.207-9.998 36.204.0L192 312.69 432.095 72.596c9.997-9.997 26.207-9.997 36.204.0l36.203 36.204c9.997 9.997 9.997 26.206.0 36.204l-294.4 294.401c-9.998 9.997-26.207 9.997-36.204-.001z"/></svg></span>
+</button>
+<button class="tw-select-none
+tw-mx-2
+tw-block
+group-[.is-open]:tw-hidden
+print:!tw-hidden" disabled aria-hidden=true><svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M328 256c0 39.8-32.2 72-72 72s-72-32.2-72-72 32.2-72 72-72 72 32.2 72 72zm104-72c-39.8.0-72 32.2-72 72s32.2 72 72 72 72-32.2 72-72-32.2-72-72-72zm-352 0c-39.8.0-72 32.2-72 72s32.2 72 72 72 72-32.2 72-72-32.2-72-72-72z"/></svg></button></div></div><pre style=counter-reset:codeblock class="tw-block tw-m-0 tw-p-0"><code id=codeblock-id-9 class="chroma
+!tw-block
+tw-p-0
+tw-m-0
+tw-transition-[max-height]
+tw-duration-500
+tw-ease-in-out
+group-[.is-closed]:!tw-max-h-0
+group-[.is-wrap]:tw-text-wrap
+tw-overflow-y-hidden
+tw-overflow-x-auto
+tw-scrollbar-thin"><span class=line><span class=cl>sil_stage canonical
 </span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl>import Builtin
 </span></span><span class=line><span class=cl>import Swift
@@ -633,7 +780,15 @@
 </span></span><span class=line><span class=cl>sil_vtable Foo <span class=p>{</span>
 </span></span><span class=line><span class=cl>  <span class=nv>#Foo.bar</span><span class=p>:</span> <span class=p>(</span>Foo<span class=p>)</span> <span class=p>-&gt;</span> <span class=p>()</span> <span class=p>-&gt;</span> <span class=p>()</span> <span class=p>:</span> <span class=nf>@Foo.Foo.bar</span><span class=p>()</span> <span class=p>-&gt;</span> <span class=p>()</span>	<span class=c>// Foo.bar()
 </span></span></span><span class=line><span class=cl><span class=c></span>  <span class=nv>#Foo.deinit</span><span class=p>!</span>deallocator<span class=p>:</span> <span class=nf>@Foo.Foo.__deallocating_deinit</span>	<span class=c>// Foo.__deallocating_deinit
-</span></span></span><span class=line><span class=cl><span class=c></span><span class=p>}</span>
-</span></span></code></pre></td></tr></table></div></div><p>可以看到<code>oc</code>方法内部其实调用的还是<code>Swift</code>的实现：<code>%2 = function_ref @Foo.Foo.bar() -> (), %3 = apply %2(%0)</code>，即<code>@objc</code>关键字未影响原来的派发方式。</p><h2 id=推荐文章>推荐文章</h2><ul><li><p><a href=https://github.com/apple/swift/blob/main/docs/SIL.rst target=_blank rel="noopener noreffer">Swift Intermediate Language (SIL)</a></p></li><li><p><a href=https://juejin.cn/post/7030983921328193549 target=_blank rel="noopener noreffer">从 SIL 角度看 Swift 中的值类型与引用类型</a></p></li><li><p><a href=https://mp.weixin.qq.com/s/KvwFyc1X_anTt-DTw86u7Q target=_blank rel="noopener noreffer">从 SIL 看 Swift 函数派发机制</a></p></li><li><p><a href=https://mp.weixin.qq.com/s/97Ij2N545ydx6WBNAwncOA target=_blank rel="noopener noreffer">iOS下的闭包下篇-Closure</a></p></li><li><p><a href=http://chuquan.me/2020/02/19/swift-performance-protocol-type-generic-type/ target=_blank rel="noopener noreffer">Swift 性能优化(2)——协议与泛型的实现</a></p></li><li><p><a href=http://chuquan.me/2020/04/20/implementing-swift-generic/ target=_blank rel="noopener noreffer">Swift 泛型底层实现原理</a></p></li><li><p><a href=https://juejin.cn/post/7119062263406788616 target=_blank rel="noopener noreffer">【译】Understanding the “some” and “any” keywords in Swift 5.7</a></p><ul><li><a href=https://juejin.cn/post/7117916143175598088 target=_blank rel="noopener noreffer">【译】What is the “some” keyword in Swift?</a></li><li><a href=https://juejin.cn/post/7116463990724624421 target=_blank rel="noopener noreffer">【译】What is the “any” keyword in Swift?</a></li><li><a href=https://juejin.cn/post/7119062787749314590 target=_blank rel="noopener noreffer">【译】What’s the difference between any and some in Swift 5.7?</a></li><li><a href=https://juejin.cn/post/7119393646729756685 target=_blank rel="noopener noreffer">【译】Using the ‘some’ and ‘any’ keywords to reference generic protocols in Swift 5</a></li><li><a href=https://juejin.cn/post/7119423026755551239 target=_blank rel="noopener noreffer">【译】What are primary associated types in Swift 5.7?</a></li></ul></li></ul></div><div class=post-footer id=post-footer><div class=post-info><div class=post-info-line><div class=post-info-mod><span>更新于 2024-01-14</span></div></div><div class=post-info-line><div class=post-info-md><span><a class=link-to-markdown href=/swift%E8%A7%A3%E6%83%91/index.md target=_blank>阅读原始文档</a></span></div><div class=post-info-share><span><a href=javascript:void(0); title="分享到 Twitter" data-sharer=twitter data-url=https://faimin.github.io/swift%E8%A7%A3%E6%83%91/ data-title=Swift解惑 data-hashtags=iOS,swift><i class="fab fa-twitter fa-fw" aria-hidden=true></i></a><a href=javascript:void(0); title="分享到 Facebook" data-sharer=facebook data-url=https://faimin.github.io/swift%E8%A7%A3%E6%83%91/ data-hashtag=iOS><i class="fab fa-facebook-square fa-fw" aria-hidden=true></i></a><a href=javascript:void(0); title="分享到 Hacker News" data-sharer=hackernews data-url=https://faimin.github.io/swift%E8%A7%A3%E6%83%91/ data-title=Swift解惑><i class="fab fa-hacker-news fa-fw" aria-hidden=true></i></a><a href=javascript:void(0); title="分享到 Line" data-sharer=line data-url=https://faimin.github.io/swift%E8%A7%A3%E6%83%91/ data-title=Swift解惑><i data-svg-src=https://cdn.jsdelivr.net/npm/simple-icons@7.3.0/icons/line.svg aria-hidden=true></i></a><a href=javascript:void(0); title="分享到 微博" data-sharer=weibo data-url=https://faimin.github.io/swift%E8%A7%A3%E6%83%91/ data-title=Swift解惑 data-image=/images/opensource/swift/naruto.jpg data-ralateuid=1655766025><i class="fab fa-weibo fa-fw" aria-hidden=true></i></a></span></div></div></div><div class=post-info-more><section class=post-tags><i class="fas fa-tags fa-fw" aria-hidden=true></i>&nbsp;<a href=/tags/ios/>IOS</a>,&nbsp;<a href=/tags/swift/>Swift</a></section><section><span><a href=javascript:void(0); onclick=window.history.back()>返回</a></span>&nbsp;|&nbsp;<span><a href=/>主页</a></span></section></div><div class=post-nav><a href=/ios%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/ class=prev rel=prev title=iOS源码阅读笔记><i class="fas fa-angle-left fa-fw" aria-hidden=true></i>iOS源码阅读笔记</a>
-<a href=/%E5%B7%A5%E5%85%B7/ class=next rel=next title=差生文具多>差生文具多<i class="fas fa-angle-right fa-fw" aria-hidden=true></i></a></div></div><div id=comments><div id=valine class=comment></div><noscript>Please enable JavaScript to view the comments powered by <a href=https://valine.js.org/>Valine</a>.</noscript></div></article></div></main><footer class=footer><div class=footer-container><div class=footer-line><span id=busuanzi_container_site_uv>本站访客数<span id=busuanzi_value_site_uv></span>人次</span> | <span id=busuanzi_container_site_pv>本站总访问量 <span id=busuanzi_value_site_pv></span>次</span></div><div class=footer-line>由 <a href=https://gohugo.io/ target=_blank rel="noopener noreffer" title="Hugo 0.128.0">Hugo</a> 强力驱动 | 主题 - <a href=https://github.com/dillonzq/LoveIt target=_blank rel="noopener noreffer" title="LoveIt 0.2.11"><i class="far fa-kiss-wink-heart fa-fw" aria-hidden=true></i> LoveIt</a></div><div class=footer-line itemscope itemtype=http://schema.org/CreativeWork><i class="far fa-copyright fa-fw" aria-hidden=true></i><span itemprop=copyrightYear>2018 - 2024</span><span class=author itemprop=copyrightHolder>&nbsp;<a href=https://github.com/faimin target=_blank>Zero.D.Saber</a></span>&nbsp;|&nbsp;<span class=license><a rel="license external nofollow noopener noreffer" href=https://creativecommons.org/licenses/by-nc/4.0/ target=_blank>CC BY-NC 4.0</a></span></div></div></footer></div><div id=fixed-buttons><a href=# id=back-to-top class=fixed-button title=回到顶部><i class="fas fa-arrow-up fa-fw" aria-hidden=true></i>
-</a><a href=# id=view-comments class=fixed-button title=查看评论><i class="fas fa-comment fa-fw" aria-hidden=true></i></a></div><link rel=stylesheet href=/lib/valine/valine.min.css><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/lightgallery@2.5.0/css/lightgallery-bundle.min.css><script type=text/javascript src=https://cdn.jsdelivr.net/npm/valine@1.5.0/dist/Valine.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/autocomplete.js@0.38.1/dist/autocomplete.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/algoliasearch@4.13.1/dist/algoliasearch-lite.umd.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/lazysizes@5.3.2/lazysizes.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/lightgallery@2.5.0/lightgallery.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/lightgallery@2.5.0/plugins/thumbnail/lg-thumbnail.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/lightgallery@2.5.0/plugins/zoom/lg-zoom.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/clipboard@2.0.11/dist/clipboard.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/sharer.js@0.5.1/sharer.min.js></script><script type=text/javascript>window.config={code:{copyTitle:"复制到剪贴板",maxShownLines:50},comment:{valine:{appId:"QGzwQXOqs5JOhN4RGPOkR2mR-MdYXbMMI",appKey:"WBmoGyJtbqUswvfLh6L8iEBr",avatar:"mp",el:"#valine",emojiCDN:"https://cdn.jsdelivr.net/npm/emoji-datasource-google@14.0.0/img/google/64/",emojiMaps:{100:"1f4af.png",alien:"1f47d.png",anger:"1f4a2.png",angry:"1f620.png",anguished:"1f627.png",astonished:"1f632.png",black_heart:"1f5a4.png",blue_heart:"1f499.png",blush:"1f60a.png",bomb:"1f4a3.png",boom:"1f4a5.png",broken_heart:"1f494.png",brown_heart:"1f90e.png",clown_face:"1f921.png",cold_face:"1f976.png",cold_sweat:"1f630.png",confounded:"1f616.png",confused:"1f615.png",cry:"1f622.png",crying_cat_face:"1f63f.png",cupid:"1f498.png",dash:"1f4a8.png",disappointed:"1f61e.png",disappointed_relieved:"1f625.png",dizzy:"1f4ab.png",dizzy_face:"1f635.png",drooling_face:"1f924.png",exploding_head:"1f92f.png",expressionless:"1f611.png",face_vomiting:"1f92e.png",face_with_cowboy_hat:"1f920.png",face_with_hand_over_mouth:"1f92d.png",face_with_head_bandage:"1f915.png",face_with_monocle:"1f9d0.png",face_with_raised_eyebrow:"1f928.png",face_with_rolling_eyes:"1f644.png",face_with_symbols_on_mouth:"1f92c.png",face_with_thermometer:"1f912.png",fearful:"1f628.png",flushed:"1f633.png",frowning:"1f626.png",ghost:"1f47b.png",gift_heart:"1f49d.png",green_heart:"1f49a.png",grimacing:"1f62c.png",grin:"1f601.png",grinning:"1f600.png",hankey:"1f4a9.png",hear_no_evil:"1f649.png",heart:"2764-fe0f.png",heart_decoration:"1f49f.png",heart_eyes:"1f60d.png",heart_eyes_cat:"1f63b.png",heartbeat:"1f493.png",heartpulse:"1f497.png",heavy_heart_exclamation_mark_ornament:"2763-fe0f.png",hole:"1f573-fe0f.png",hot_face:"1f975.png",hugging_face:"1f917.png",hushed:"1f62f.png",imp:"1f47f.png",innocent:"1f607.png",japanese_goblin:"1f47a.png",japanese_ogre:"1f479.png",joy:"1f602.png",joy_cat:"1f639.png",kiss:"1f48b.png",kissing:"1f617.png",kissing_cat:"1f63d.png",kissing_closed_eyes:"1f61a.png",kissing_heart:"1f618.png",kissing_smiling_eyes:"1f619.png",laughing:"1f606.png",left_speech_bubble:"1f5e8-fe0f.png",love_letter:"1f48c.png",lying_face:"1f925.png",mask:"1f637.png",money_mouth_face:"1f911.png",nauseated_face:"1f922.png",nerd_face:"1f913.png",neutral_face:"1f610.png",no_mouth:"1f636.png",open_mouth:"1f62e.png",orange_heart:"1f9e1.png",partying_face:"1f973.png",pensive:"1f614.png",persevere:"1f623.png",pleading_face:"1f97a.png",pouting_cat:"1f63e.png",purple_heart:"1f49c.png",rage:"1f621.png",relaxed:"263a-fe0f.png",relieved:"1f60c.png",revolving_hearts:"1f49e.png",right_anger_bubble:"1f5ef-fe0f.png",robot_face:"1f916.png",rolling_on_the_floor_laughing:"1f923.png",scream:"1f631.png",scream_cat:"1f640.png",see_no_evil:"1f648.png",shushing_face:"1f92b.png",skull:"1f480.png",skull_and_crossbones:"2620-fe0f.png",sleeping:"1f634.png",sleepy:"1f62a.png",slightly_frowning_face:"1f641.png",slightly_smiling_face:"1f642.png",smile:"1f604.png",smile_cat:"1f638.png",smiley:"1f603.png",smiley_cat:"1f63a.png",smiling_face_with_3_hearts:"1f970.png",smiling_imp:"1f608.png",smirk:"1f60f.png",smirk_cat:"1f63c.png",sneezing_face:"1f927.png",sob:"1f62d.png",space_invader:"1f47e.png",sparkling_heart:"1f496.png",speak_no_evil:"1f64a.png",speech_balloon:"1f4ac.png","star-struck":"1f929.png",stuck_out_tongue:"1f61b.png",stuck_out_tongue_closed_eyes:"1f61d.png",stuck_out_tongue_winking_eye:"1f61c.png",sunglasses:"1f60e.png",sweat:"1f613.png",sweat_drops:"1f4a6.png",sweat_smile:"1f605.png",thinking_face:"1f914.png",thought_balloon:"1f4ad.png",tired_face:"1f62b.png",triumph:"1f624.png",two_hearts:"1f495.png",unamused:"1f612.png",upside_down_face:"1f643.png",weary:"1f629.png",white_frowning_face:"2639-fe0f.png",white_heart:"1f90d.png",wink:"1f609.png",woozy_face:"1f974.png",worried:"1f61f.png",yawning_face:"1f971.png",yellow_heart:"1f49b.png",yum:"1f60b.png",zany_face:"1f92a.png",zipper_mouth_face:"1f910.png",zzz:"1f4a4.png"},enableQQ:!1,highlight:!0,lang:"zh-CN",pageSize:10,placeholder:"你的评论 ...",recordIP:!0,serverURLs:"https://leancloud.hugoloveit.com",visitor:!0}},lightgallery:!0,search:{algoliaAppID:"PASDMWALPK",algoliaIndex:"index.zh-cn",algoliaSearchKey:"b42948e51daaa93df92381c8e2ac0f93",highlightTag:"em",maxResultLength:10,noResultsFound:"没有找到结果",snippetLength:50,type:"algolia"}}</script><script type=text/javascript src=/js/theme.min.js></script></body></html>
+</span></span></span><span class=line><span class=cl><span class=c></span><span class=p>}</span></span></span></code></pre></div><p>可以看到<code>oc</code>方法内部其实调用的还是<code>Swift</code>的实现：<code>%2 = function_ref @Foo.Foo.bar() -> (), %3 = apply %2(%0)</code>，即<code>@objc</code>关键字未影响原来的派发方式。</p><h2 id=推荐文章 class=headerLink><a href=#%e6%8e%a8%e8%8d%90%e6%96%87%e7%ab%a0 class=header-mark aria-label="Header mark for '推荐文章'"></a>推荐文章</h2><ul><li><p><a href=https://github.com/apple/swift/blob/main/docs/SIL.rst target=_blank rel="noopener noreferrer">Swift Intermediate Language (SIL)</a></p></li><li><p><a href=https://juejin.cn/post/7030983921328193549 target=_blank rel="noopener noreferrer">从 SIL 角度看 Swift 中的值类型与引用类型</a></p></li><li><p><a href=https://mp.weixin.qq.com/s/KvwFyc1X_anTt-DTw86u7Q target=_blank rel="noopener noreferrer">从 SIL 看 Swift 函数派发机制</a></p></li><li><p><a href=https://mp.weixin.qq.com/s/97Ij2N545ydx6WBNAwncOA target=_blank rel="noopener noreferrer">iOS下的闭包下篇-Closure</a></p></li><li><p><a href=http://chuquan.me/2020/02/19/swift-performance-protocol-type-generic-type/ target=_blank rel="noopener noreferrer">Swift 性能优化(2)——协议与泛型的实现</a></p></li><li><p><a href=http://chuquan.me/2020/04/20/implementing-swift-generic/ target=_blank rel="noopener noreferrer">Swift 泛型底层实现原理</a></p></li><li><p><a href=https://juejin.cn/post/7119062263406788616 target=_blank rel="noopener noreferrer">【译】Understanding the “some” and “any” keywords in Swift 5.7</a></p><ul><li><a href=https://juejin.cn/post/7117916143175598088 target=_blank rel="noopener noreferrer">【译】What is the “some” keyword in Swift?</a></li><li><a href=https://juejin.cn/post/7116463990724624421 target=_blank rel="noopener noreferrer">【译】What is the “any” keyword in Swift?</a></li><li><a href=https://juejin.cn/post/7119062787749314590 target=_blank rel="noopener noreferrer">【译】What’s the difference between any and some in Swift 5.7?</a></li><li><a href=https://juejin.cn/post/7119393646729756685 target=_blank rel="noopener noreferrer">【译】Using the ‘some’ and ‘any’ keywords to reference generic protocols in Swift 5</a></li><li><a href=https://juejin.cn/post/7119423026755551239 target=_blank rel="noopener noreferrer">【译】What are primary associated types in Swift 5.7?</a></li></ul></li></ul></div><h2>相关内容</h2><div class=related-container><div class=related-item-container><div class=related-image><a href=/ios%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/><img src=/logo/welcome.jpg alt=记录Swift语言中的一些疑惑 height=200 width=400></a></div><h2 class=related-title><a href=/ios%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/>iOS源码阅读笔记</a></h2></div><div class=related-item-container><div class=related-image><a href=/%E7%A8%8B%E5%BA%8F%E5%91%98%E7%9A%84%E8%87%AA%E6%88%91%E4%BF%AE%E5%85%BB%E7%AC%94%E8%AE%B0/><img src=/images/other/xiao.jpeg alt=记录Swift语言中的一些疑惑 height=200 width=400></a></div><h2 class=related-title><a href=/%E7%A8%8B%E5%BA%8F%E5%91%98%E7%9A%84%E8%87%AA%E6%88%91%E4%BF%AE%E5%85%BB%E7%AC%94%E8%AE%B0/>《程序员的自我修养》笔记</a></h2></div><div class=related-item-container><div class=related-image><a href=/nextresponder/><img src=/images/ui/fairy_tail_ailusaha.jpeg alt=记录Swift语言中的一些疑惑 height=200 width=400></a></div><h2 class=related-title><a href=/nextresponder/>NextResponder</a></h2></div><div class=related-item-container><div class=related-image><a href=/swift%E4%B8%8Eobjective-c%E6%B7%B7%E7%BC%96/><img src=/images/swiftocmix/cover_luoxiaohei.png alt=记录Swift语言中的一些疑惑 height=200 width=400></a></div><h2 class=related-title><a href=/swift%E4%B8%8Eobjective-c%E6%B7%B7%E7%BC%96/>Swift与Objective-C混编</a></h2></div><div class=related-item-container><div class=related-image><a href=/promise%E6%BA%90%E7%A0%81%E7%AE%80%E6%9E%90/><img src=/images/promise/SpiritedAway.jpg alt=记录Swift语言中的一些疑惑 height=200 width=400></a></div><h2 class=related-title><a href=/promise%E6%BA%90%E7%A0%81%E7%AE%80%E6%9E%90/>Promise源码简析</a></h2></div></div><div class=post-footer id=post-footer><div class=post-info><div class=post-info-line><div class=post-info-mod><span>更新于 2024-01-14</span></div><div class=post-info-license></div></div><div class="post-info-line print:!tw-hidden"><div class=post-info-md><span><a class=link-to-mardown href=/swift%E8%A7%A3%E6%83%91/index.md target=_blank rel="noopener noreferrer">阅读原始文档</a></span></div><div class=post-info-share><button title="分享到 Twitter" data-sharer=twitter data-url=https://faimin.github.io/swift%E8%A7%A3%E6%83%91/ data-title=Swift解惑 data-hashtags=iOS,swift><svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M459.37 151.716c.325 4.548.325 9.097.325 13.645.0 138.72-105.583 298.558-298.558 298.558-59.452.0-114.68-17.219-161.137-47.106 8.447.974 16.568 1.299 25.34 1.299 49.055.0 94.213-16.568 130.274-44.832-46.132-.975-84.792-31.188-98.112-72.772 6.498.974 12.995 1.624 19.818 1.624 9.421.0 18.843-1.3 27.614-3.573-48.081-9.747-84.143-51.98-84.143-102.985v-1.299c13.969 7.797 30.214 12.67 47.431 13.319-28.264-18.843-46.781-51.005-46.781-87.391.0-19.492 5.197-37.36 14.294-52.954 51.655 63.675 129.3 105.258 216.365 109.807-1.624-7.797-2.599-15.918-2.599-24.04.0-57.828 46.782-104.934 104.934-104.934 30.213.0 57.502 12.67 76.67 33.137 23.715-4.548 46.456-13.32 66.599-25.34-7.798 24.366-24.366 44.833-46.132 57.827 21.117-2.273 41.584-8.122 60.426-16.243-14.292 20.791-32.161 39.308-52.628 54.253z"/></svg></button><button title="分享到 Facebook" data-sharer=facebook data-url=https://faimin.github.io/swift%E8%A7%A3%E6%83%91/ data-hashtag=iOS><svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M504 256C504 119 393 8 256 8S8 119 8 256c0 123.78 90.69 226.38 209.25 245V327.69h-63V256h63v-54.64c0-62.15 37-96.48 93.67-96.48 27.14.0 55.52 4.84 55.52 4.84v61h-31.28c-30.8.0-40.41 19.12-40.41 38.73V256h68.78l-11 71.69h-57.78V501C413.31 482.38 504 379.78 504 256z"/></svg></button><button title="分享到 Hacker News" data-sharer=hackernews data-url=https://faimin.github.io/swift%E8%A7%A3%E6%83%91/ data-title=Swift解惑><svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M0 32v448h448V32H0zm21.2 197.2H21c.1-.1.2-.3.3-.4.0.1.0.3-.1.4zm218 53.9V384h-31.4V281.3L128 128h37.3c52.5 98.3 49.2 101.2 59.3 125.6 12.3-27 5.8-24.4 60.6-125.6H320l-80.8 155.1z"/></svg></button><button title="分享到 Line" data-sharer=line data-url=https://faimin.github.io/swift%E8%A7%A3%E6%83%91/ data-title=Swift解惑><svg class="icon" role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title>LINE</title><path d="M19.365 9.863c.349.0.63.285.63.631.0.345-.281.63-.63.63H17.61v1.125h1.755c.349.0.63.283.63.63.0.344-.281.629-.63.629h-2.386c-.345.0-.627-.285-.627-.629V8.108c0-.345.282-.63.63-.63h2.386c.346.0.627.285.627.63.0.349-.281.63-.63.63H17.61v1.125h1.755zm-3.855 3.016c0 .27-.174.51-.432.596-.064.021-.133.031-.199.031-.211.0-.391-.09-.51-.25l-2.443-3.317v2.94c0 .344-.279.629-.631.629-.346.0-.626-.285-.626-.629V8.108c0-.27.173-.51.43-.595.06-.023.136-.033.194-.033.195.0.375.104.495.254l2.462 3.33V8.108c0-.345.282-.63.63-.63.345.0.63.285.63.63v4.771zm-5.741.0c0 .344-.282.629-.631.629-.345.0-.627-.285-.627-.629V8.108c0-.345.282-.63.63-.63.346.0.628.285.628.63v4.771zm-2.466.629H4.917c-.345.0-.63-.285-.63-.629V8.108c0-.345.285-.63.63-.63.348.0.63.285.63.63v4.141h1.756c.348.0.629.283.629.63.0.344-.282.629-.629.629M24 10.314C24 4.943 18.615.572 12 .572S0 4.943.0 10.314c0 4.811 4.27 8.842 10.035 9.608.391.082.923.258 1.058.59.12.301.079.766.038 1.08l-.164 1.02c-.045.301-.24 1.186 1.049.645 1.291-.539 6.916-4.078 9.436-6.975C23.176 14.393 24 12.458 24 10.314"/></svg></button><button title="分享到 微博" data-sharer=weibo data-url=https://faimin.github.io/swift%E8%A7%A3%E6%83%91/ data-title=Swift解惑 data-image=/images/opensource/swift/naruto.jpg data-ralateuid=1655766025><svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M407 177.6c7.6-24-13.4-46.8-37.4-41.7-22 4.8-28.8-28.1-7.1-32.8 50.1-10.9 92.3 37.1 76.5 84.8-6.8 21.2-38.8 10.8-32-10.3zM214.8 446.7C108.5 446.7.0 395.3.0 310.4c0-44.3 28-95.4 76.3-143.7C176 67 279.5 65.8 249.9 161c-4 13.1 12.3 5.7 12.3 6 79.5-33.6 140.5-16.8 114 51.4-3.7 9.4 1.1 10.9 8.3 13.1 135.7 42.3 34.8 215.2-169.7 215.2zm143.7-146.3c-5.4-55.7-78.5-94-163.4-85.7-84.8 8.6-148.8 60.3-143.4 116s78.5 94 163.4 85.7c84.8-8.6 148.8-60.3 143.4-116zM347.9 35.1c-25.9 5.6-16.8 43.7 8.3 38.3 72.3-15.2 134.8 52.8 111.7 124-7.4 24.2 29.1 37 37.4 12 31.9-99.8-55.1-195.9-157.4-174.3zm-78.5 311c-17.1 38.8-66.8 60-109.1 46.3-40.8-13.1-58-53.4-40.3-89.7 17.7-35.4 63.1-55.4 103.4-45.1 42 10.8 63.1 50.2 46 88.5zm-86.3-30c-12.9-5.4-30 .3-38 12.9-8.3 12.9-4.3 28 8.6 34 13.1 6 30.8.3 39.1-12.9 8-13.1 3.7-28.3-9.7-34zm32.6-13.4c-5.1-1.7-11.4.6-14.3 5.4-2.9 5.1-1.4 10.6 3.7 12.9 5.1 2 11.7-.3 14.6-5.4 2.8-5.2 1.1-10.9-4-12.9z"/></svg></button></div></div></div><div class=post-info-more><section class=post-tags><svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><path d="M497.941 225.941 286.059 14.059A48 48 0 00252.118.0H48C21.49.0.0 21.49.0 48v204.118a48 48 0 0014.059 33.941l211.882 211.882c18.744 18.745 49.136 18.746 67.882.0l204.118-204.118c18.745-18.745 18.745-49.137.0-67.882zM112 160c-26.51.0-48-21.49-48-48s21.49-48 48-48 48 21.49 48 48-21.49 48-48 48zm513.941 133.823L421.823 497.941c-18.745 18.745-49.137 18.745-67.882.0l-.36-.36L527.64 323.522c16.999-16.999 26.36-39.6 26.36-63.64s-9.362-46.641-26.36-63.64L331.397.0h48.721a48 48 0 0133.941 14.059l211.882 211.882c18.745 18.745 18.745 49.137.0 67.882z"/></svg>&nbsp;<a href=/tags/ios/>IOS</a>,&nbsp;<a href=/tags/swift/>Swift</a></section><section class=print:!tw-hidden><span><button class="tw-text-fgColor-link-muted hover:tw-text-fgColor-link-muted-hover" onclick=window.history.back()>返回</button></span>&nbsp;|&nbsp;<span><a href=/>主页</a></span></section></div><div class="post-nav print:tw-hidden"><a href=/ios%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/ class=prev rel=prev title=iOS源码阅读笔记><svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 512"><path d="M31.7 239l136-136c9.4-9.4 24.6-9.4 33.9.0l22.6 22.6c9.4 9.4 9.4 24.6.0 33.9L127.9 256l96.4 96.4c9.4 9.4 9.4 24.6.0 33.9L201.7 409c-9.4 9.4-24.6 9.4-33.9.0l-136-136c-9.5-9.4-9.5-24.6-.1-34z"/></svg>iOS源码阅读笔记</a>
+<a href=/%E5%B7%A5%E5%85%B7/ class=next rel=next title=差生文具多>差生文具多<svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 512"><path d="M224.3 273l-136 136c-9.4 9.4-24.6 9.4-33.9.0l-22.6-22.6c-9.4-9.4-9.4-24.6.0-33.9l96.4-96.4-96.4-96.4c-9.4-9.4-9.4-24.6.0-33.9L54.3 103c9.4-9.4 24.6-9.4 33.9.0l136 136c9.5 9.4 9.5 24.6.1 34z"/></svg></a></div></div><div id=comments class="print:!tw-hidden tw-pt-32 tw-pb-8"><div id=valine class=comment></div><noscript>Please enable JavaScript to view the comments powered by <a href=https://valine.js.org/>Valine</a>.</noscript></div></article></div></main><footer class=footer><div class=footer-container><div class=footer-line><span id=busuanzi_container_site_uv>本站访客数<span id=busuanzi_value_site_uv></span>人次</span> | <span id=busuanzi_container_site_pv>本站总访问量 <span id=busuanzi_value_site_pv></span>次</span></div><div class=footer-line>由 <a href=https://gohugo.io/ target=_blank rel="noopener noreferrer" title="Hugo 0.128.2">Hugo</a> 强力驱动&nbsp;|&nbsp;主题 - <a href=https://github.com/HEIGE-PCloud/DoIt target=_blank rel="noopener noreferrer" title="DoIt 0.4.0"><svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><path d="M402.3 344.9l32-32c5-5 13.7-1.5 13.7 5.7V464c0 26.5-21.5 48-48 48H48c-26.5.0-48-21.5-48-48V112c0-26.5 21.5-48 48-48h273.5c7.1.0 10.7 8.6 5.7 13.7l-32 32c-1.5 1.5-3.5 2.3-5.7 2.3H48v352h352V350.5c0-2.1.8-4.1 2.3-5.6zm156.6-201.8L296.3 405.7l-90.4 10c-26.2 2.9-48.5-19.2-45.6-45.6l10-90.4L432.9 17.1c22.9-22.9 59.9-22.9 82.7.0l43.2 43.2c22.9 22.9 22.9 60 .1 82.8zM460.1 174 402 115.9 216.2 301.8l-7.3 65.3 65.3-7.3L460.1 174zm64.8-79.7-43.2-43.2c-4.1-4.1-10.8-4.1-14.8.0L436 82l58.1 58.1 30.9-30.9c4-4.2 4-10.8-.1-14.9z"/></svg> DoIt</a></div><div class=footer-line><svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M256 8C119.033 8 8 119.033 8 256s111.033 248 248 248 248-111.033 248-248S392.967 8 256 8zm0 448c-110.532.0-2e2-89.451-2e2-2e2.0-110.531 89.451-2e2 2e2-2e2 110.532.0 2e2 89.451 2e2 2e2.0 110.532-89.451 2e2-2e2 2e2zm107.351-101.064c-9.614 9.712-45.53 41.396-104.065 41.396-82.43.0-140.484-61.425-140.484-141.567.0-79.152 60.275-139.401 139.762-139.401 55.531.0 88.738 26.62 97.593 34.779a11.965 11.965.0 011.936 15.322l-18.155 28.113c-3.841 5.95-11.966 7.282-17.499 2.921-8.595-6.776-31.814-22.538-61.708-22.538-48.303.0-77.916 35.33-77.916 80.082.0 41.589 26.888 83.692 78.277 83.692 32.657.0 56.843-19.039 65.726-27.225 5.27-4.857 13.596-4.039 17.82 1.738l19.865 27.17a11.947 11.947.0 01-1.152 15.518z"/></svg>2018 - 2024<span class=author>&nbsp;<a href=https://github.com/faimin target=_blank rel="noopener noreferrer">Zero.D.Saber</a></span>&nbsp;|&nbsp;<span class=license><a rel="license external nofollow noopener noreffer" href=https://creativecommons.org/licenses/by-nc/4.0/ target=_blank>CC BY-NC 4.0</a></span></div><div class=footer-line></div><div class=footer-line></div></div></footer></div><div id=fixed-buttons class=print:!tw-hidden><a href=#back-to-top id=back-to-top-button class="fixed-button tw-transition-opacity tw-opacity-0" title=回到顶部><svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M34.9 289.5l-22.2-22.2c-9.4-9.4-9.4-24.6.0-33.9L207 39c9.4-9.4 24.6-9.4 33.9.0l194.3 194.3c9.4 9.4 9.4 24.6.0 33.9L413 289.4c-9.5 9.5-25 9.3-34.3-.4L264 168.6V456c0 13.3-10.7 24-24 24h-32c-13.3.0-24-10.7-24-24V168.6L69.2 289.1c-9.3 9.8-24.8 10-34.3.4z"/></svg>
+</a><a href=#comments id=view-comments class=fixed-button title=查看评论><svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M256 32C114.6 32 0 125.1.0 240c0 49.6 21.4 95 57 130.7C44.5 421.1 2.7 466 2.2 466.5c-2.2 2.3-2.8 5.7-1.5 8.7S4.8 480 8 480c66.3.0 116-31.8 140.6-51.4 32.7 12.3 69 19.4 107.4 19.4 141.4.0 256-93.1 256-208S397.4 32 256 32z"/></svg></a></div><link rel=stylesheet href=/lib/valine/valine.min.css><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/lightgallery.js@1.4.0/dist/css/lightgallery.min.css><script>window.config={"algoliasearch.min.js":"https://cdn.jsdelivr.net/npm/algoliasearch@4.11.0/dist/algoliasearch.umd.min.js","autocomplete.min.js":"https://cdn.jsdelivr.net/npm/autocomplete.js@0.38.0/dist/autocomplete.min.js",comment:{valine:{appId:"QGzwQXOqs5JOhN4RGPOkR2mR-MdYXbMMI",appKey:"WBmoGyJtbqUswvfLh6L8iEBr",avatar:"mp",el:"#valine",emojiCDN:"https://cdn.jsdelivr.net/npm/emoji-datasource-google@5.0.1/img/google/64/",emojiMaps:{100:"1f4af.png",alien:"1f47d.png",anger:"1f4a2.png",angry:"1f620.png",anguished:"1f627.png",astonished:"1f632.png",black_heart:"1f5a4.png",blue_heart:"1f499.png",blush:"1f60a.png",bomb:"1f4a3.png",boom:"1f4a5.png",broken_heart:"1f494.png",brown_heart:"1f90e.png",clown_face:"1f921.png",cold_face:"1f976.png",cold_sweat:"1f630.png",confounded:"1f616.png",confused:"1f615.png",cry:"1f622.png",crying_cat_face:"1f63f.png",cupid:"1f498.png",dash:"1f4a8.png",disappointed:"1f61e.png",disappointed_relieved:"1f625.png",dizzy:"1f4ab.png",dizzy_face:"1f635.png",drooling_face:"1f924.png",exploding_head:"1f92f.png",expressionless:"1f611.png",face_vomiting:"1f92e.png",face_with_cowboy_hat:"1f920.png",face_with_hand_over_mouth:"1f92d.png",face_with_head_bandage:"1f915.png",face_with_monocle:"1f9d0.png",face_with_raised_eyebrow:"1f928.png",face_with_rolling_eyes:"1f644.png",face_with_symbols_on_mouth:"1f92c.png",face_with_thermometer:"1f912.png",fearful:"1f628.png",flushed:"1f633.png",frowning:"1f626.png",ghost:"1f47b.png",gift_heart:"1f49d.png",green_heart:"1f49a.png",grimacing:"1f62c.png",grin:"1f601.png",grinning:"1f600.png",hankey:"1f4a9.png",hear_no_evil:"1f649.png",heart:"2764-fe0f.png",heart_decoration:"1f49f.png",heart_eyes:"1f60d.png",heart_eyes_cat:"1f63b.png",heartbeat:"1f493.png",heartpulse:"1f497.png",heavy_heart_exclamation_mark_ornament:"2763-fe0f.png",hole:"1f573-fe0f.png",hot_face:"1f975.png",hugging_face:"1f917.png",hushed:"1f62f.png",imp:"1f47f.png",innocent:"1f607.png",japanese_goblin:"1f47a.png",japanese_ogre:"1f479.png",joy:"1f602.png",joy_cat:"1f639.png",kiss:"1f48b.png",kissing:"1f617.png",kissing_cat:"1f63d.png",kissing_closed_eyes:"1f61a.png",kissing_heart:"1f618.png",kissing_smiling_eyes:"1f619.png",laughing:"1f606.png",left_speech_bubble:"1f5e8-fe0f.png",love_letter:"1f48c.png",lying_face:"1f925.png",mask:"1f637.png",money_mouth_face:"1f911.png",nauseated_face:"1f922.png",nerd_face:"1f913.png",neutral_face:"1f610.png",no_mouth:"1f636.png",open_mouth:"1f62e.png",orange_heart:"1f9e1.png",partying_face:"1f973.png",pensive:"1f614.png",persevere:"1f623.png",pleading_face:"1f97a.png",pouting_cat:"1f63e.png",purple_heart:"1f49c.png",rage:"1f621.png",relaxed:"263a-fe0f.png",relieved:"1f60c.png",revolving_hearts:"1f49e.png",right_anger_bubble:"1f5ef-fe0f.png",robot_face:"1f916.png",rolling_on_the_floor_laughing:"1f923.png",scream:"1f631.png",scream_cat:"1f640.png",see_no_evil:"1f648.png",shushing_face:"1f92b.png",skull:"1f480.png",skull_and_crossbones:"2620-fe0f.png",sleeping:"1f634.png",sleepy:"1f62a.png",slightly_frowning_face:"1f641.png",slightly_smiling_face:"1f642.png",smile:"1f604.png",smile_cat:"1f638.png",smiley:"1f603.png",smiley_cat:"1f63a.png",smiling_face_with_3_hearts:"1f970.png",smiling_imp:"1f608.png",smirk:"1f60f.png",smirk_cat:"1f63c.png",sneezing_face:"1f927.png",sob:"1f62d.png",space_invader:"1f47e.png",sparkling_heart:"1f496.png",speak_no_evil:"1f64a.png",speech_balloon:"1f4ac.png","star-struck":"1f929.png",stuck_out_tongue:"1f61b.png",stuck_out_tongue_closed_eyes:"1f61d.png",stuck_out_tongue_winking_eye:"1f61c.png",sunglasses:"1f60e.png",sweat:"1f613.png",sweat_drops:"1f4a6.png",sweat_smile:"1f605.png",thinking_face:"1f914.png",thought_balloon:"1f4ad.png",tired_face:"1f62b.png",triumph:"1f624.png",two_hearts:"1f495.png",unamused:"1f612.png",upside_down_face:"1f643.png",weary:"1f629.png",white_frowning_face:"2639-fe0f.png",white_heart:"1f90d.png",wink:"1f609.png",woozy_face:"1f974.png",worried:"1f61f.png",yawning_face:"1f971.png",yellow_heart:"1f49b.png",yum:"1f60b.png",zany_face:"1f92a.png",zipper_mouth_face:"1f910.png",zzz:"1f4a4.png"},enableQQ:!1,highlight:!0,lang:"zh-cn",pageSize:10,placeholder:"你的评论 ...",recordIP:!0,serverURLs:"https://leancloud.hugoloveit.com",visitor:!0}},lightGallery:{actualSize:!1,exThumbImage:"data-thumbnail",hideBarsDelay:2e3,selector:".lightgallery",speed:400,thumbContHeight:80,thumbWidth:80,thumbnail:!0},search:{algoliaAppID:"PASDMWALPK",algoliaIndex:"index.zh-cn",algoliaSearchKey:"b42948e51daaa93df92381c8e2ac0f93",highlightTag:"em",maxResultLength:10,noResultsFound:"没有找到结果",snippetLength:50,type:"algolia"},sharerjs:!0,table:{sort:!0}}</script><script src=https://cdn.jsdelivr.net/npm/tablesort@5.3.0/src/tablesort.min.js></script><script src=https://cdn.jsdelivr.net/npm/lightgallery.js@1.4.0/dist/js/lightgallery.min.js></script><script src=https://cdn.jsdelivr.net/npm/lg-thumbnail.js@1.2.0/dist/lg-thumbnail.min.js></script><script src=https://cdn.jsdelivr.net/npm/lg-zoom.js@1.3.0/dist/lg-zoom.min.js></script><script src=https://cdn.jsdelivr.net/npm/sharer.js@0.4.2/sharer.min.js></script><script src=/js/theme.min.js defer></script><script src=https://cdn.jsdelivr.net/npm/valine@1.4.16/dist/Valine.min.js defer></script><script src=/js/valine.min.js defer></script><script type=speculationrules>
+        {
+          "prerender": [
+            {
+              "where": { "href_matches": "/*" },
+              "eagerness": "moderate"
+            }
+          ]
+        }
+    </script></body></html>

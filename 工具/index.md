@@ -617,6 +617,7 @@
 ## 软件站
 
 - [AppStorrent](https://appstorrent.ru/)
+- [macked](https://macked.app/)
 - [麦氪搜](https://www.imacso.com/)
 - [open-source-mac-os-apps](https://github.com/serhii-londar/open-source-mac-os-apps)
 - [Xclient](http://xclient.info/s/)
@@ -625,8 +626,6 @@
 - [NSANE FORUMS](https://nsaneforums.com/)
 - [TorrentMac](https://www.torrentmac.net/)
 - [UUP dump](https://uupdump.net/?lang=zh-cn)
-- ~~[MacYY(网站已转卖)](https://www.macyy.cn/)~~
-- ~~[MacWk(已关站)](https://www.macwk.com/)~~
 
 ## 参考
 

@@ -134,6 +134,7 @@
 ### 系统优化
 
 - [Lemon Cleaner](https://github.com/Tencent/lemon-cleaner)
+- [Pearcleaner](https://github.com/alienator88/Pearcleaner)
 - [AppCleaner](https://freemacsoft.net/appcleaner/)
 
 ### 系统监控
@@ -194,12 +195,12 @@
 ### 截图
 
 - [Snipaste](https://zh.snipaste.com/)
+- [pixpin](https://pixpinapp.com)
 - [shottr](https://shottr.cc/)
 - [flameshot](https://github.com/flameshot-org/flameshot)
 - [eSearch](https://github.com/xushengfeng/eSearch)
 - [Xnip](https://apps.apple.com/cn/app/xnip-%E6%88%AA%E5%9B%BE-%E6%A0%87%E6%B3%A8/id1221250572?mt=12)
 - [iShot](https://apps.apple.com/cn/app/ishot-%E4%BC%98%E7%A7%80%E7%9A%84%E6%88%AA%E5%9B%BE%E8%B4%B4%E5%9B%BE%E5%BD%95%E5%B1%8F%E5%BD%95%E9%9F%B3ocr%E7%BF%BB%E8%AF%91%E5%8F%96%E8%89%B2%E6%A0%87%E6%B3%A8%E5%B7%A5%E5%85%B7/id1485844094?mt=12)
-- [pixpin](https://pixpinapp.com)
 
 ### 窗口管理
 
@@ -231,6 +232,11 @@
 - [TTime](https://github.com/inkTimeRecord/TTime)
 - [pot-desktop](https://github.com/pot-app/pot-desktop)
 - [tran](https://github.com/Borber/tran)
+
+### 剪切板
+
+- [EcoPaste](https://github.com/ayangweb/EcoPaste)
+
 
 ### MenuBar
 

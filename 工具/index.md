@@ -37,10 +37,10 @@
 
 ### nvim
 
+- [LazyVim](https://github.com/LazyVim/LazyVim)
 - [Neovim](https://github.com/neovide/neovide) - GUI
 - [vimr](https://github.com/qvacua/vimr) - GUI
 - [NvChad](https://github.com/NvChad/NvChad)
-- [LazyVim](https://github.com/LazyVim/LazyVim)
 
 ### 效率
 
@@ -131,10 +131,15 @@
 - [DevToys](https://github.com/ObuchiYuki/DevToysMac)
 - [OnlySwitch](https://github.com/jacklandrin/OnlySwitch)
 
+### 输入法切换
+
+- [KeyboardHolder](https://github.com/leaves615/KeyboardHolder)
+- [搜狗输入法切换助手](https://apps.apple.com/cn/app/%E6%90%9C%E7%8B%97%E8%BE%93%E5%85%A5%E6%B3%95%E5%88%87%E6%8D%A2%E5%8A%A9%E6%89%8B/id6443621266?mt=12)
+
 ### 系统优化
 
 - [Lemon Cleaner](https://github.com/Tencent/lemon-cleaner)
-- [Pearcleaner](https://github.com/alienator88/Pearcleaner)
+- [Pearcleaner](https://github.com/alienator88/Pearcleaner) - Uninstall
 - [AppCleaner](https://freemacsoft.net/appcleaner/)
 
 ### 系统监控
@@ -237,6 +242,9 @@
 
 - [EcoPaste](https://github.com/ayangweb/EcoPaste)
 
+### QR
+
+- [Viz](https://github.com/alienator88/Viz)
 
 ### MenuBar
 
@@ -264,11 +272,6 @@
 
 - [KeyCastr](https://github.com/keycastr/keycastr) - 显示当前按键
 - [Tickys](http://www.yingdev.com/projects/tickeys) - 模拟机械键盘的声音
-
-### 输入法切换
-
-- [KeyboardHolder](https://github.com/leaves615/KeyboardHolder)
-- [搜狗输入法切换助手](https://apps.apple.com/cn/app/%E6%90%9C%E7%8B%97%E8%BE%93%E5%85%A5%E6%B3%95%E5%88%87%E6%8D%A2%E5%8A%A9%E6%89%8B/id6443621266?mt=12)
 
 ### 屏幕录制
 

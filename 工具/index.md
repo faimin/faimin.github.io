@@ -395,6 +395,11 @@
 - [injectionIII](https://github.com/johnno1962/InjectionIII) - hotreload
 - [OpenSim](https://github.com/luosheng/OpenSim) - 读取模拟器沙盒
 
+### CI
+
+- [maestro](https://github.com/mobile-dev-inc/maestro)
+- [xcbeautify](https://github.com/cpisciotta/xcbeautify)
+
 ### Mach-O
 
 - [MachOView](https://github.com/gdbinit/MachOView)

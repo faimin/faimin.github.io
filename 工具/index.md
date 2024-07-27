@@ -471,6 +471,7 @@
 - [rimage](https://github.com/SalOne22/rimage)
 - [oxipng](https://github.com/shssoichiro/oxipng)
 - [pic-smaller](https://github.com/joye61/pic-smaller)
+- [imagecompressor](https://www.websiteplanet.com/zh-hans/webtools/imagecompressor/)
 
 ### 检测无用资源和代码
 

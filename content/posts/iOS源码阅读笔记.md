@@ -321,13 +321,13 @@ thread_pool_size = DISPATCH_WORKQ_MAX_PTHREAD_COUNT     255
 
 a. 首先将任务加入队列
 
-b. 执行任务`block`
+b. 在当前线程执行任务`block`，没有切换线程的操作
 
 c. 将任务移出队列
 
-d. `sync`里面的处理最终执行的是`barrier`的内部函数
+d. `sync`中对串行队列的处理最终执行的是`barrier`的内部函数: `_dispatch_barrier_sync_f_inline`
 
-e. 会死锁的原因：执行时会检查当前线程的状态（是否正在等待），然后与当前的线程的`ID`（`_dispatch_tid_self()`）做比较，相等的话则判定为死锁。（相关处理在 `__DISPATCH_WAIT_FOR_QUEUE__` 函数中）
+e. 会死锁的原因：执行时会检查当前队列的状态（是否正在等待），得到一个状态值，然后队列的状态值与当前所在线程的`ID`（`_dispatch_tid_self()`存在了`dispatch_sync_context_s`的`dsc_waiter`属性中）做比较，相等（线程属于队列）的话则判定为死锁。（相关处理在 `__DISPATCH_WAIT_FOR_QUEUE__` 函数中）
 
 ---
 
@@ -335,7 +335,7 @@ e. 会死锁的原因：执行时会检查当前线程的状态（是否正在�
 
 a. 将异步任务（`dispatch_queue 、 block`）封装为 `dispatch_continuation_t` 类型
 
-b. 然后执行 `_dispatch_continuation_async -> dx_push`递归重定向到根队列，然后执行`_dispatch_root_queue_poke`进行出队操作，通过创建线程执行 `dx_invoke` 执行`block`回调；
+b. 然后执行 `_dispatch_continuation_async -> dx_push`递归重定向到根队列，接着执行`_dispatch_root_queue_poke`进行出队操作，通过创建线程执行`dx_invoke` 进行 `block`回调；
 
 ---
 
@@ -474,5 +474,6 @@ DISPATCH_VTABLE_INSTANCE(source,
 ## 推荐文章
 
 - [深入浅出 GCD 之 dispatch_queue](http://cocoa-chen.github.io/2018/03/05/%E6%B7%B1%E5%85%A5%E6%B5%85%E5%87%BAGCD%E4%B9%8Bdispatch_queue/)
+- [iOS刨根问底-深入理解GCD](https://www.cnblogs.com/kenshincui/p/13272517.html)
 - [iOS之武功秘籍⑧: 类和分类加载过程](https://juejin.cn/post/6936978891126865928#heading-40)
 - [iOS 从源码解析Run Loop (八)：Run Loop 与 AutoreleasePool、NSTimer、PerformSelector 系列](https://juejin.cn/post/6911946403036004366#heading-10)

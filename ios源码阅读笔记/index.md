@@ -22,14 +22,14 @@
 
 ##### 叙述一下：
 
-1. 配置环境变量，开启共享缓存，接下来把主程序的可执行文件（`macho`）加载进内存，检测`macho`内的`magic`、`cpu`等属性以及兼容性，如果通过则创建一个`imageLoader`，然后插入动态库，链接主程序（加载进所有依赖库，然后`rebase`修正偏移、`rebind`绑定符号地址）和插入的动态库，然后弱符号绑定，接下来就是进入真正的初始化方法，如下图，当`dyld`加载到开始链接主程序的时候，递归调用`recursiveInitialization`函数；
+1. 配置环境变量，开启共享缓存，接下来把主程序的可执行文件（`macho`）加载进内存，检测`macho`内的`magic`、`cpu`等属性以及兼容性，如果通过则创建一个`imageLoader`，然后插入动态库，链接主程序（加载进所有依赖库，然后`rebase`修正偏移、`rebind`绑定符号地址）和插入的动态库，然后执行弱符号绑定，接下来就是进入真正的初始化方法，如下图，当`dyld`加载到开始链接主程序的时候，递归调用`recursiveInitialization`函数；
 
 ![](/images/opensource/ios/Runtime_objc_init.png "_objc_init")
 ![](/images/opensource/ios/Runtime_recursiveInitialization.png "recursiveInitialization")
 
 2. 这个函数第一次执行，会走到 `doInitialization` -> `doModInitFunctions` -> l`ibSystemInitialized`，进行`libsystem`的初始化；
 3. `libsystem` 的初始化，它会调用起 `libdispatch_init`，`libdispatch` 的 `init` 会调用 `_os_object_init`，这个函数里面调用了 `_objc_init`；
-4. _objc_init 中注册并保存了`map_images`、`load_images`、`unmap_image`函数地址；
+4. `_objc_init`中注册并保存了`map_images`、`load_images`、`unmap_image`函数地址；
 5. 注册完毕继续回到 `recursiveInitialization` 递归下一次调用，例如 `libobjc`，当 `libobjc` 来到 `recursiveInitialization` 调用时会触发`libsystem`，调用到`_objc_init`里注册好的回调函数进行调用，就来到了`libobjc`，调用`load_images`。
 
 ### 类的加载

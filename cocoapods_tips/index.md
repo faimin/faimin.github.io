@@ -62,7 +62,7 @@ end
 
 **有3种解决办法：**
 
-1）修改源码：把.h文件中报错的`__weak`标识删除（不能删除.m文件中的，否则会发生内存问题）
+1）修改源码：把`.h`文件中报错的`__weak`标识删除（不能删除`.m`文件中的，否则会发生内存问题）
 
 2）在引入`ReactiveCocoa`的地方添加`macro`判断标识：
 
@@ -311,6 +311,107 @@ s.subspec 'CorePromise' do |ss|
     ss.source_files = cc
     ss.public_header_files = hh
     ss.preserve_paths = 'Sources/AnyPromise+Private.h', 'Sources/PMKCallVariadicBlock.m', 'Sources/NSMethodSignatureForBlock.m'
+end
+```
+
+## 14、创建文件软链接实现解耦
+
+`cocoapods`插件文件，在`pod install`时创建文件软链
+
+```ruby
+require 'zd/core' #伪代码
+require 'zd/abc/core' #伪代码
+
+require 'cocoapods'
+require 'json'
+require 'pathname'
+require 'fileutils'
+
+module ZD # 伪代码
+  module ABC # 伪代码
+    module Service
+      class AppDefineIntegration
+        def before_all
+          remove_not_exist_soft_link
+        end
+
+        def prepare_install
+          create_soft_link
+        end
+
+        def remove_unused_files(dir, used_files)
+          dir = Pathname.new(dir)
+          dir.children.each do |child|
+            next if used_files.include?(child.to_s)
+            FileUtils.rm_rf(child)
+          end
+        end
+
+        def remove_not_exist_soft_link
+          Dir.glob("#{soft_link_destination_dir}/*.h").each do |file_path|
+            FileUtils.rm_rf(file_path) unless File.exist?(file_path) # 真身不存在时，需要删除软连
+          end
+        end
+
+        def create_soft_link
+          FileUtils.mkdir_p(soft_link_destination_dir) unless File.exist?(soft_link_destination_dir)
+          
+          # 目标文件名
+          service_name = "MyAppDefine"
+
+          # 遍历所有本地pod，查找`myappdefine.h`
+          pod_local_path_map.each do |pod_name, pod_path|
+            # 如果当前目录下已经存在此文件则不需要做软链，跳过，避免陷入死循环
+            next if File.exist?(File.join(soft_link_destination_dir, "#{service_name}.h"))
+
+            pod_dir = File.expand_path("#{root_dir}/#{pod_path}")
+            file_path = Dir.glob("#{pod_dir}/**/#{service_name}.h").first
+
+            # 不存在则跳过
+            next if file_path.nil?
+
+            source_file_path = Pathname.new(File.expand_path(file_path))
+            dest_file_path = Pathname.new(File.join(soft_link_destination_dir, File.basename(file_path)))
+            dest_dir_path =  Pathname.new(File.dirname(dest_file_path.to_s))
+            # 创建软链
+            FileUtils.ln_sf(source_file_path.relative_path_from(dest_dir_path), dest_file_path)
+          end
+        end
+
+        def root_dir
+          @root_dir ||= Pod::Config.instance.project_root.to_s
+        end
+
+        def pod_root_dir
+          @pod_root_dir ||= Pod::Config.instance.project_pods_root.to_s
+        end
+
+        def current_dir
+          @current_dir ||= File.expand_path(File.dirname(__FILE__))
+        end
+
+        def soft_link_destination_dir
+          # 路径可以自己指定
+          @soft_link_destination_dir = File.join(current_dir, "Core", "Link")
+        end
+
+        def podfile_info
+          @podfile_info ||= ABC.pod_file_info # 伪代码
+        end
+
+        def pod_local_path_map
+          @pod_local_path_map ||= begin
+            podfile_info.local_root_pod_deps.each_with_object({}) do |dep, hash|
+              next unless dep.external? && dep.external_source.include?(:path)
+              hash[dep.root_name] = dep.external_source[:path]
+            end
+          end
+        end
+
+      end
+
+    end
+  end
 end
 ```
 

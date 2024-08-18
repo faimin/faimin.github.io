@@ -310,7 +310,7 @@ static struct Block_byref *_Block_byref_copy(const void *arg) {
 }
 ```
 
-![](/images/block/__forwarding.jpg "__forwarding")
+![](/images/block/BlockForwarding.png "block __forwarding")
 
 虽然`NSMutableArray`前面加不加`__block`，都不会影响往数组中添加数据，但是当在`block`中给`mutArr`重新赋值的时候就有区别了。
 

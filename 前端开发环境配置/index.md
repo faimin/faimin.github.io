@@ -7,7 +7,7 @@
 
 ## 问题
 
-### Python12 移除 distutils 包，导致 pnpm 执行失败
+### Q: Python12 移除 distutils 包，导致 pnpm 执行失败
 
 ```bash
 ❯ pnpm add canvas -D
@@ -100,7 +100,7 @@ node_modules/.pnpm/canvas@2.11.2_encoding@0.1.13/node_modules/canvas: Running in
 ❯ pip install setuptools
 ```
 
-### yarn4 module找不到
+### Q: yarn4 module找不到
 
 ![](/images/h5/cannot_find_module.webp "yarn4 node_modules")
 

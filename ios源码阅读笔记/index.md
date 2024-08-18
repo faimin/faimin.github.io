@@ -2,9 +2,22 @@
 
 ## Runtime
 
-`AutoreleasePoolPage` 、`SideTableMap`、`AssociationsManager` 是在`map_images->map_images_nolock->arr_init()` 函数中初始化的；
+一个类最多能添加`64`个分类。
 
-一个类最多能添加`64`个分类；
+~~`AutoreleasePoolPage`~~ 、`SideTableMap`、`AssociationsManager` 是在`map_images->map_images_nolock->arr_init()` 函数中初始化的；
+
+```cpp
+void arr_init(void) 
+{
+    SideTablesMap.init();
+    _objc_associations_init();
+
+#if !TARGET_OS_EXCLAVEKIT
+    if (DebugScanWeakTables)
+        startWeakTableScan();
+#endif
+}
+```
 
 ### dyld加载流程
 
@@ -34,21 +47,23 @@
 
 ### 类的加载
 
-1. `read_image`： 初始化`gdb_objc_realized_classes`表，容量是类总数量的 `4/3` 倍，这个表用来存放不在共享缓存中并且非懒加载类。接下来从`mach-o`中读取非懒加载类，把从`mach-o`中读取的类指针转换成类名，变成可识别的类（地址 -> 类名），然后加入前面创建的`gdb_objc_realized_classes` map表中（这个表的作用是在后面处理类有没有被正确的处理），同时也会加入 `allocatedClasses` 这个`set`表中（这个表是在 `_objc_init` 中的 `runtime_init` 函数中初始化的，存储的是已经初始化过的类）；总的来说，这一步就是把类读取到内存；
-2. 接下来就是重点方法`realizeClassWithoutSwift`：创建`rw`，把`ro`放到`rw`中（方法列表是在后面放的），递归执行`realizeClassWithoutSwift`，即递归设置`rw`；
+1. `read_image`： 初始化`gdb_objc_realized_classes`表，容量是类总数量的 `4/3` 倍，这个表用来存放不在共享缓存中并且非懒加载类。接下来从`mach-o`中读取非懒加载类，把从`mach-o`中读取的类指针转换成类名，变成可识别的类（地址 -> 类名），然后加入前面创建的`gdb_objc_realized_classes` map表中（这个表的作用是在后面处理类有没有被正确的处理），同时也会加入 `allocatedClasses` 这个`set`表中（这个表是在 `_objc_init` 中的 `runtime_init` 函数中初始化的，存储的是已经初始化过的类）。总的来说，这一步就是把类读取到内存；
+2. 接下来就是重点方法`realizeClassWithoutSwift`：创建`rw（class_rw_t）`，把从`class`中获取`(ro = cls->safe_ro()）`到的`ro（class_ro_t）`放到`rw`中（方法列表是在后面放的），递归执行`realizeClassWithoutSwift`，即递归设置`rw`；
 3. 设置类、父类和元类，其实就是生成一个双向链表；
-4. `methodizeClass` ： 获取`class`的`ro`中的`baseMethods`，通过`prepareMethodLists`函数进行方法升序排序，然后 `unttachedCategories::attachToClass` ，这里是重头戏， `attachToClass`中会执行`attachCategories`，在这里面会初始化`rwe`，在这过程中会把`ro`中的方法列表、属性列表、协议列表都复制到`rwe`中，然后接着会把`category`中的方法列表、属性列表、协议列表也会吸纳进去，此时类才算加载完成；
-5. 方法排序的这里有几个细节：在`methodizeClass`中首次从`class_ro_w`中拿到`basemethods`后就立即做了升序排序处理，而分类中的方法排序发生在`attachCategory`方法中，也就是说他们是分开各自独立排序的（疑问：没有整合到一起后再排序，那怎么用的二分查找？）。
-
-   > 解答：
-   >
-   > 只有类和分类都实现`load`方法，才会存在`load_image`阶段分类方法整合到所属类的方法列表中的操作，也就是说只有类或者分类中实现`load`方法的情况，类的方法列表和分类方法都是直接在编译期存放在`class_ro_t`中的`baseMethods`中的；那这种情况怎么能保证分类方法在原始类方法前面的？这应该是编译器自己在编译期做的处理，让分类方法地址比原始类的方法地址要低。而对于二分查找，其实整合后的方法列表其实是个二维数组，内部存的是排好序的一维方法列表（`methodizeClass`阶段`preparemethod`进行方法排序），方法查找先是顺序遍历二维数组，再在有序的一维方法列表中进行二分查找。
-   >
-6. 方法添加顺序：新建个数组，先把类中`class_ro_w` `basemethods`放到数组的后面，然后把分类方法放到数组前面
+4. `methodizeClass` ：获取`class`的`ro`中的`baseMethods`，通过`prepareMethodLists`函数进行方法升序排序，然后 `unttachedCategories::attachToClass` ，这里是重头戏，`attachToClass`中会执行`attachCategories`，在这里面会初始化`rwe（class_rw_ext_t）`，在这过程中会把`ro`中的**方法列表、属性列表、协议列表**都复制到`rwe`中，然后接着会把`category`中的**方法列表、属性列表、协议列表**也会吸纳进去，此时类才算加载完成；
+5. 方法排序的这里有几个细节：在`methodizeClass`中首次从`class_ro_w`中拿到`basemethods`后就立即做了升序排序处理，而分类中的方法排序发生在`attachCategory`方法中，也就是说他们是分开并各自独立排序的。
+    > 疑问：没有整合到一起后再排序，那怎么用的二分查找？
+    > 
+    > 解答：
+    >
+    > 只有类和分类都实现`load`方法，才会存在`load_image`阶段分类方法整合到所属类的方法列表中的操作，也就是说只有类或者分类中实现`load`方法的情况，类的方法列表和分类方法列表都是直接在编译期存放在`class_ro_t`中的`baseMethods`中的。</br>
+    > 那这种情况怎么能保证分类方法在原始类方法前面呢？应该是编译器自己在编译期做的处理：让分类方法地址比原始类的方法地址要低。而对于二分查找，整合后的方法列表其实是个二维数组，内部存的是排好序的一维方法列表（`methodizeClass`阶段`preparemethod`进行方法排序），方法查找先是顺序遍历二维数组，再在有序的一维方法列表中进行二分查找。
+    >
+6. 方法添加顺序：新建个数组，先把类中`class_ro_w`的`basemethods`放到数组后面，然后把分类方法放到数组前面。
 
 #### 为什么`category`会覆盖原来的方法？
 
-在`map_images`方法的 `attachCategories -> attachLists` 分类附加到原来的类的方法列表时，会先重新开辟一个新的数组，把原来的方法列表倒序遍历添加到新数组的后面，接着再正序遍历，把分类的方法添加到新数组的前面（方法列表的顺序与原来的顺序一致）；
+在`map_images`函数的 `attachCategories -> attachLists` 分类附加到原来的类的方法列表时，会先重新开辟一个新的数组，把原来的方法列表倒序遍历添加到新数组的后面，接着再正序遍历，把分类的方法添加到新数组的前面（方法列表的顺序与原来的顺序一致）；
 
 ![methodLists](/images/opensource/ios/Runtime_AttackMethodLists.png "methodLists")
 
@@ -63,15 +78,38 @@
 #### 为什么会有CleanMemory和DirtyMemory呢？
 
 - `iOS`运行过程中会涉及对内存进行增删改查，为了防止对原始数据的修改，所以把原来的`CleanMemory` `copy`一份到`rw`中。
-- 有了`rw`为什么还要`rwe`（脏内存）？因为不是所有的类加载进内存时需要进行动态的插入、删除，当我们添加一个属性、一个方法会对内存改动很大，对内存的消耗有一定影响，所以只要我们对类进行动态处理了（比如把`category`的方法、属性、协议合并到类中），就会生成一个`rwe`。
+- 有了`rw`为什么还要`rwe`（`DirtyMemory`）？因为并不是所有的类加载进内存时都需要进行动态的插入、删除，我们添加一个属性、一个方法会对内存改动很大，对内存的占用也有一定影响，所以我们只要对类进行动态处理了（比如把`category`的方法、属性、协议合并到类中），就会生成一个`rwe`。
 
 #### 为什么执行`load`方法时没有触发`initialize`？
 
-一定明确`initialize`是在首次发消息时才会触发，而`load`的执行是通过函数指针的方式调用的，没有走消息发送机制，所以不会触发`initialize`。
+一定要明确一个概念：`initialize`在首次发消息时才会触发，而`load`的执行是通过函数指针的方式调用的，并没有走消息发送机制，所以也就不会触发`initialize`。
+
+#### 如何判断一个类是否已经初始化？
+
+```cpp
+// objc-runtime-new.h
+struct objc_class : objc_object {
+    uint32_t getMetaFlags() const {
+        ASSERT(!isStubClass());
+
+        uint32_t flags = bits.flags();
+        if (flags & RW_META)
+            return flags;
+        return this->ISA()->bits.flags();
+    }
+
+    // 类是否已经初始化完成
+    bool isInitialized() const {
+        return getMetaFlags() & RW_INITIALIZED;
+    }
+}
+```
+
+参考`objc_class`的结构构造一个相同的数据结构，然后模仿原实现获取到是否已经初始化的标识。可以参考[SLMClassCoverage](https://github.com/HarrisonXi/SLMClassCoverage/blob/main/SLMClassCoverage.m)中的实现。
 
 #### 为什么在对象释放过程中通过`weak`变量获取不到这个对象？
 
-在关联的场景中，比如`A`关联`B`，`B`弱持有`A`，`A`释放时会释放其关联的`B`，导致`B`的`dealloc`执行，然后我们在`B`的`dealloc`方法中通过`weak`变量读取`A`，却发现获取到的是`nil`（根据释放流程此时A还没有free掉），这是为什么？
+在关联的场景中，比如`A`关联`B`，`B`弱持有`A`，`A`释放时会释放其关联的`B`，导致`B`的`dealloc`执行，然后我们在`B`的`dealloc`方法中通过`weak`变量读取`A`，却发现获取到的是`nil`（根据释放流程此时`A`还没有`free`掉），这是为什么？
 
 分析如下：
 
@@ -196,7 +234,7 @@ objc_object::rootRetain(bool tryRetain, objc_object::RRVariant variant)
 
 ### 对象释放流程
 
-调用`release` -> `rootRelease`，引用计数`-1`，当引用计数变为`0`时，就会通过`objc_msgSend`调用`Objective-C`对象的`dealloc`方法，然后进入到`objc_object::rootDealloc()`函数，函数内部会读取当前对象的`isa`中存储的信息，包括是否是非指针、有没有弱引用、成员变量、关联对象、`has_sidetable_rc`，如果都没有会直接释放（`free`），否则会执行`objc_destructInstance(obj)`，这个函数的逻辑为先释放成员变量，接着移除关联对象，再移除弱引用，把弱引用指针置为`nil`，最后再从`SideTable`的`RefcountMap refcnts`成员变量中 把存储当前对象引用计数的记录（`key-value`）从引用计数表中移除，类似于从字典中把这条`key-value`都删除（疑问：此时引用计数已经是0了，那最后这个引用计数表的处理是不是多余的，什么情况下会执行进来？？？）。
+调用`release` -> `rootRelease`，引用计数`-1`，当引用计数变为`0`时，就会通过`objc_msgSend`调用`Objective-C`对象的`dealloc`方法，然后进入到`objc_object::rootDealloc()`函数，函数内部会读取当前对象的`isa`中存储的信息，包括是否是非指针、有没有弱引用、成员变量、关联对象、`has_sidetable_rc`，如果都没有会直接释放（`free`），否则会执行`objc_destructInstance(obj)`，这个函数的逻辑为：先释放成员变量，接着移除关联对象，再移除弱引用，把弱引用指针置为`nil`，最后再从`SideTable`的`RefcountMap refcnts`成员变量中 把存储当前对象引用计数的记录（`key-value`）从引用计数表中移除，类似于从字典中把这条`key-value`都删除（疑问：此时引用计数已经是0了，那最后这个引用计数表的处理是不是多余的，什么情况下会执行进来？？？）。
 
 在`dealloc`方法中如果有对`self`的引用，比如`- (void)dealloc { id obj = self; }`，是不会发生引用计数`+1`的，`runtime`处理如下：
 
@@ -206,6 +244,12 @@ bool isDeallocating() {
     return extra_rc == 0 && has_sidetable_rc == 0;
 }
 
+ALWAYS_INLINE id 
+objc_object::rootRetain()
+{
+    return rootRetain(false, RRVariant::Fast);
+}
+
 // retain最终执行的函数
 ALWAYS_INLINE id
 objc_object::rootRetain(bool tryRetain, objc_object::RRVariant variant)
@@ -213,7 +257,8 @@ objc_object::rootRetain(bool tryRetain, objc_object::RRVariant variant)
     // 省略代码
     ... 
 
-    // 在dealloc中这里的执行结果是true
+    // 在dealloc中这里的执行结果是true, tryRetain是false，
+    // 所以会直接返回this
     if (slowpath(newisa.isDeallocating())) {
         ClearExclusive(&isa.bits);
         if (sideTableLocked) {
@@ -250,7 +295,7 @@ size_t begin = hash_pointer(referent) & weak_table->mask;
 
 ![weak_hash_insert](/images/opensource/ios/Runtime_WeakHashInsert.png "weak_hash_insert")
 
-`weak_table_t` 还有一个扩容和缩容的处理，当前使用容量占到总容量（`mask + 1`)的 3/4` 的时候会进行扩容处理，扩大到现有总容量的`2`倍。 当总容量超过`1024`，而实际使用的空间低于总空间的 `1/16` 时则会进行容量压缩，缩到现有总容量的`1/8` （为什么是八分之一？是为了保证总容量是现有使用容量的`2`倍）。
+`weak_table_t` 还有一个扩容和缩容的处理，当前使用容量占到总容量（`mask + 1`)的 `3/4` 的时候会进行扩容处理，扩大到现有总容量的`2`倍。 当总容量超过`1024`，而实际使用的空间低于总空间的 `1/16` 时则会进行容量压缩，缩到现有总容量的`1/8` （为什么是八分之一？是为了保证总容量是现有使用容量的`2`倍）。
 
 ## @synchronized原理
 
@@ -270,7 +315,7 @@ size_t begin = hash_pointer(referent) & weak_table->mask;
 
 ## Associate 原理
 
-所有的关联对象都是由`AssociationsManager`管理的，`AssociationsManager`里面是由一个静态`AssociationsHashMap`来存储所有的关联对象。这相当于把所有对象的关联对象都存在一个全局`hashMap`里面，`hashMap`的`key`是这个对象的`指针地址`（任意两个不同对象的指针地址一定是不同的），而这个`hashMap`的`value`又是一个`ObjectAssociationsMap`，里面保存了关联对象的`key`和对应的`value`值。`runtime`的销毁对象函数`objc_destructInstance`里面会判断这个对象有没有关联对象，如果有会调用`_object_remove_assocations`做关联对象的清理工作。
+所有的关联对象都是由`AssociationsManager`管理的，`AssociationsManager`里面是由一个静态`AssociationsHashMap`来存储所有的关联对象。这相当于把所有对象的关联对象都存在一个全局`hashMap`里面，`hashMap`的`key`是这个对象的`指针地址`（任意两个不同对象的指针地址一定是不同的），而这个`hashMap`的`value`又是一个`ObjectAssociationsMap`，里面保存了关联对象的`key`和对应的`value`值。`runtime`的销毁对象函数`objc_destructInstance`里面会判断这个对象有没有关联对象，如果有，则会调用`_object_remove_assocations`做关联对象的清理工作。
 
 在`set`和`get`时，即对内部的`map`进行操作时都会用`manager`中的`spinlock`（底层其实还是`unfair_lock`），所以`set`、`get`时一般情况下是线程安全的。但是可能是为了追求性能，`set`时把旧对象的释放放到了锁外，`atomic get`时为了保证线程安全，会`retain`一下访问对象，在锁外又`autorelease`了一下，如果不执行`retain`操作可能会出现数据竞争。可以参考下这篇文章: [AssociatedObject 源码分析：如何实现线程安全？](https://juejin.cn/post/7124943924308738061)
 

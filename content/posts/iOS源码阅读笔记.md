@@ -249,6 +249,56 @@ objc_object::rootRetain(bool tryRetain, objc_object::RRVariant variant)
 
 调用`release` -> `rootRelease`，引用计数`-1`，当引用计数变为`0`时，就会通过`objc_msgSend`调用`Objective-C`对象的`dealloc`方法，然后进入到`objc_object::rootDealloc()`函数，函数内部会读取当前对象的`isa`中存储的信息，包括是否是非指针、有没有弱引用、成员变量、关联对象、`has_sidetable_rc`，如果都没有会直接释放（`free`），否则会执行`objc_destructInstance(obj)`，这个函数的逻辑为：先释放成员变量，接着移除关联对象，再移除弱引用，把弱引用指针置为`nil`，最后再从`SideTable`的`RefcountMap refcnts`成员变量中 把存储当前对象引用计数的记录（`key-value`）从引用计数表中移除，类似于从字典中把这条`key-value`都删除（疑问：此时引用计数已经是0了，那最后这个引用计数表的处理是不是多余的，什么情况下会执行进来？？？）。
 
+```cpp
+/***********************************************************************
+* objc_destructInstance
+* Destroys an instance without freeing memory.
+* Calls C++ destructors.
+* Calls ARC ivar cleanup.
+* Removes associative references.
+* Returns `obj`. Does nothing if `obj` is nil.
+**********************************************************************/
+void *objc_destructInstance(id obj)
+{
+    if (obj) {
+        // Read all of the flags at once for performance.
+        bool cxx = obj->hasCxxDtor();
+        bool assoc = obj->hasAssociatedObjects();
+
+        // This order is important.
+        if (cxx) object_cxxDestruct(obj);
+        if (assoc) _object_remove_associations(obj, /*deallocating*/true);
+        obj->clearDeallocating();
+    }
+
+    return obj;
+}
+```
+
+什么场景下才会有`cxxdtor`？
+
+```cpp
+// class has .cxx_construct/destruct implementations
+#define RO_HAS_CXX_STRUCTORS  (1<<2)
+
+static Class realizeClassWithoutSwift(Class cls, Class previously) {
+    ...
+    
+    // Copy some flags from ro to rw
+    if (ro->flags & RO_HAS_CXX_STRUCTORS) {
+        cls->setHasCxxDtor();
+        if (! (ro->flags & RO_HAS_CXX_DTOR_ONLY)) {
+            cls->setHasCxxCtor();
+        }
+    }
+
+    ...
+}
+```
+
+![](/images/runtime/cxx_construct.png "cxx_construct.png")
+
+
 在`dealloc`方法中如果有对`self`的引用，比如`- (void)dealloc { id obj = self; }`，是不会发生引用计数`+1`的，`runtime`处理如下：
 
 ```cpp

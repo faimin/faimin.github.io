@@ -19,6 +19,8 @@ HTTPS加密过程
 
 ## HTTPS加密过程
 
+{{< bilibili id=BV1w4411m7GL p=1 >}}
+
 发送HTTPS请求首先要进行SSL/TLS握手，握手过程大致如下：
 
     1. 客户端发起握手请求，携带随机数1、支持算法列表、SSL/TLS版本等参数；
@@ -28,3 +30,4 @@ HTTPS加密过程
     5. 双方根据以上交互的信息（比如3个随机数）生成`session ticket`，用作该连接后续数据传输的加密密钥。
 
 ![](/images/network/HTTPS_TLS.webp "https_tls")
+

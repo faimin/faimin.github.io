@@ -500,6 +500,28 @@ static struct IMAGE_INFO { unsigned version; unsigned flag; } _OBJC_IMAGE_INFO =
 * 在 `ARC` 中，捕获了外部非静态变量的`block`的类型会是`__NSStackBlock__` 或者 `__NSMallocBlock__`，如果 `block` 被赋值给了某个变量，在这个过程中会执行`_Block_copy`，将原有的 `__NSStackBlock__` 变成 `__NSMallocBlock__`；但是如果 `block` 没有被赋值给某个变量，那它的类型就是`__NSStackBlock__`；捕获静态变量、全局变量或者没有捕获外部变量的 `block` 类型则是 `__NSGlobalBlock__` ，既不在栈上，也不在堆上，它类似于 `C` 语言函数一样，会在代码段中。
 * 在`MRC`中，捕获了外部变量的 `block` 的类会是`__NSStackBlock__`，放置在栈上；没有捕获外部变量的 `block` 与 `ARC` 环境下的情况是相同的，类型是`__NSGlobalBlock__`，放置在代码段中。
 
+捕获外部变量，类型还是栈上block的例子如下：
+```cpp
+#import <Foundation/Foundation.h>
+
+int main(int argc, const char * argv[])
+{
+    @autoreleasepool {
+        int i = 1024;
+        void (^block1)(void) = ^{
+            printf("%d\n", i);
+        };
+        block1();
+        
+        // output: __NSMallocBlock__ , __NSStackBlock__
+        NSLog(@"%@, %@", block1, [^{
+            NSLog(@"%d", i);
+        } class]);
+    }
+    return 0;
+}
+```
+
 ------
 
 ## 推荐文章：

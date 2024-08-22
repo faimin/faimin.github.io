@@ -503,22 +503,33 @@ static struct IMAGE_INFO { unsigned version; unsigned flag; } _OBJC_IMAGE_INFO =
 捕获外部变量，类型还是栈上block的例子如下：
 ```cpp
 #import <Foundation/Foundation.h>
+#import <stdio.h>
 
-int main(int argc, const char * argv[])
+int x = 1;
+
+int main (int argc, const char * argv[])
 {
-    @autoreleasepool {
-        int i = 1024;
-        void (^block1)(void) = ^{
-            printf("%d\n", i);
-        };
-        block1();
-        
-        // output: __NSMallocBlock__ , __NSStackBlock__
-        NSLog(@"%@, %@", block1, [^{
-            NSLog(@"%d", i);
-        } class]);
-    }
-    return 0;
+  @autoreleasepool {
+    int i = 1024;
+    void (^block1)(void) = ^{
+        printf("%d\n", i);
+    };
+    
+    static int j = 1025;
+    void(^block2)(void) = ^{
+      printf("%d", j);
+    };
+
+    void(^block3)(void) = ^{
+      printf("%d", x);
+    };
+
+    // output: _NSConcreteMallocBlock, _NSConcreteGlobalBlock, _NSConcreteGlobalBlock, _NSConcreteStackBlock
+    NSLog(@"%@, %@, %@, %@", [block1 class], [block2 class], [block3 class], [^{
+        NSLog(@"%d", i);
+    } class]);
+    
+  }
 }
 ```
 

@@ -5,8 +5,8 @@ lastmod: 2024-08-22T14:08:00+08:00
 draft: false
 authorLink: "https://github.com/faimin"
 description: ""
-tags: ["网络"]
-categories: ["网络", "原理"]
+tags: ["网络", "原理"]
+categories: ["网络"]
 
 images: []
 featuredImage: ""

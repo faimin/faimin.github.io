@@ -14,6 +14,10 @@ featuredImage: ""
 featuredImagePreview: "/logo/welcome.jpg"
 ---
 
+源码学习笔记
+
+<!--more-->
+
 ## 平台宏
 
 ```cpp

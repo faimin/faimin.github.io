@@ -14,6 +14,8 @@ featuredImage: ""
 featuredImagePreview: "/logo/welcome.jpg"
 ---
 
+## 平台宏
+
 ```cpp
 // TargetConditionals.h
 
@@ -434,6 +436,65 @@ size_t begin = hash_pointer(referent) & weak_table->mask;
 
 ---
 
+## Runloop
+
+> 推荐：[029：runloop](https://www.cnblogs.com/zyzmlc/p/14087616.html)
+
+> 摘自 `ibireme` 的 [深入理解runloop](https://blog.ibireme.com/2015/05/18/runloop/)
+
+```cpp
+{
+    /// 1. 通知Observers，即将进入RunLoop
+    /// 此处有Observer会创建AutoreleasePool: _objc_autoreleasePoolPush();
+    __CFRUNLOOP_IS_CALLING_OUT_TO_AN_OBSERVER_CALLBACK_FUNCTION__(kCFRunLoopEntry);
+    do {
+ 
+        /// 2. 通知 Observers: 即将触发 Timer 回调。
+        __CFRUNLOOP_IS_CALLING_OUT_TO_AN_OBSERVER_CALLBACK_FUNCTION__(kCFRunLoopBeforeTimers);
+        /// 3. 通知 Observers: 即将触发 Source (非基于port的,Source0) 回调。
+        __CFRUNLOOP_IS_CALLING_OUT_TO_AN_OBSERVER_CALLBACK_FUNCTION__(kCFRunLoopBeforeSources);
+        __CFRUNLOOP_IS_CALLING_OUT_TO_A_BLOCK__(block);
+ 
+        /// 4. 触发 Source0 (非基于port的) 回调。
+        __CFRUNLOOP_IS_CALLING_OUT_TO_A_SOURCE0_PERFORM_FUNCTION__(source0);
+        __CFRUNLOOP_IS_CALLING_OUT_TO_A_BLOCK__(block);
+ 
+        /// 6. 通知Observers，即将进入休眠
+        /// 此处有Observer释放并新建AutoreleasePool: _objc_autoreleasePoolPop(); _objc_autoreleasePoolPush();
+        __CFRUNLOOP_IS_CALLING_OUT_TO_AN_OBSERVER_CALLBACK_FUNCTION__(kCFRunLoopBeforeWaiting);
+ 
+        /// 7. sleep to wait msg.
+        mach_msg() -> mach_msg_trap();
+        
+ 
+        /// 8. 通知Observers，线程被唤醒
+        __CFRUNLOOP_IS_CALLING_OUT_TO_AN_OBSERVER_CALLBACK_FUNCTION__(kCFRunLoopAfterWaiting);
+ 
+        /// 9. 如果是被Timer唤醒的，回调Timer
+        __CFRUNLOOP_IS_CALLING_OUT_TO_A_TIMER_CALLBACK_FUNCTION__(timer);
+ 
+        /// 9. 如果是被dispatch唤醒的，执行所有调用 dispatch_async 等方法放入main queue 的 block
+        __CFRUNLOOP_IS_SERVICING_THE_MAIN_DISPATCH_QUEUE__(dispatched_block);
+ 
+        /// 9. 如果如果Runloop是被 Source1 (基于port的) 的事件唤醒了，处理这个事件
+        __CFRUNLOOP_IS_CALLING_OUT_TO_A_SOURCE1_PERFORM_FUNCTION__(source1);
+ 
+ 
+    } while (...);
+ 
+    /// 10. 通知Observers，即将退出RunLoop
+    /// 此处有Observer释放AutoreleasePool: _objc_autoreleasePoolPop();
+    __CFRUNLOOP_IS_CALLING_OUT_TO_AN_OBSERVER_CALLBACK_FUNCTION__(kCFRunLoopExit);
+}
+```
+
+### Source0与Source1的区别
+
+Source有两个版本：Source0 和 Source1：
+
+- `Source0` 只包含了一个回调（函数指针），它并不能主动触发事件。使用时，你需要先调用 `CFRunLoopSourceSignal(source)`，将这个 `Source` 标记为待处理，然后手动调用 `CFRunLoopWakeUp(runloop)` 来唤醒 `RunLoop`，让其处理这个事件。
+- `Source1` 包含了一个 `mach_port` 和一个回调（函数指针），被用于通过内核和其他线程相互发送消息。这种 Source 能主动唤醒 RunLoop 的线程。
+
 ## GCD
 
 可创建的最大线程数是 `255`
@@ -612,7 +673,7 @@ DISPATCH_VTABLE_INSTANCE(source,
 #### NSTimer 不准时问题
 
 通过上面的 `NSTimer` 执行流程可看到计时器的触发回调完全依赖 `runloop` 的运行（macOS 和 iOS 下都是使用 `mk_timer` 来唤醒 `runloop`），使用 `NSTimer` 之前必须注册到 `run loop`，但是 `run loop` 为了节省资源并不会在非常准确的时间点调用计时器，如果一个任务执行时间较长（例如本次 `run loop` 循环中 `source0` 事件执行时间过长或者计时器自身回调执行时间过长，都会导致计时器下次正常时间点的回调被延后或者延后时间过长的话则直接忽略这次回调（计时器回调执行之前会判断当前的执行状态 `!__CFRunLoopTimerIsFiring(rlt)`，如果是计时器自身回调执行时间过长导致下次回调被忽略的情况大概与此标识有关 ）），那么当错过一个时间点后只能等到下一个时间点执行，并不会延后执行（`NSTimer` 提供了一个 `tolerance` 属性用于设置宽容度，即当前时间点已经过了计时器的本次触发点，但是超过的时间长度小于 `tolerance` 的话，那么本次计时器回调还可以正常执行，不过是不准时的延后执行。 `tolerance` 的值默认是 0，最大值的话是计时器间隔时间`_interval` 的一半，可以根据自身的情况酌情设置 `tolerance` 的值。
- （`NSTimer` 不是一种实时机制，以 `main run loop` 来说它负责了所有的主线程事件，例如 `UI` 界面的操作，负责的运算使当前 `run loop` 持续的时间超过了计时器的间隔时间，那么计时器下一次回调就被延后，这样就造成` timer` 的不准时，计时器有个属性叫做 `tolerance` (宽容度)，标示了当时间点到后，容许有多少最大误差。如果延后时间过长的话会直接导致计时器本次回调被忽略。）
+ （`NSTimer` 不是一种实时机制，以 `main run loop` 来说它负责了所有的主线程事件，例如 `UI` 界面的操作，负责的运算使当前 `run loop` 持续的时间超过了计时器的间隔时间，那么计时器下一次回调就被延后，这样就造成` timer` 的不准时，计时器有个属性叫做 `tolerance` (宽容度)，标示了当时间点到后，容许有多少最大误差。如果延后时间过长的话会直接导致计时器直接跳过本次回调。）
 
 ## 推荐文章
 

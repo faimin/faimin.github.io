@@ -25,6 +25,8 @@
 - [Block的本质](https://github.com/pro648/tips/blob/master/sources/Block%E7%9A%84%E6%9C%AC%E8%B4%A8.md)
 - [Block捕获实体引用](https://github.com/tripleCC/Laboratory/blob/5064a0f4e7c26ea5b71b8b3d7b1a64121f0c6ea9/BlockStrongReferenceObject/README.md)
 - [图解fishhook原理](https://mp.weixin.qq.com/s/dcQrR4knN0aGDPy2hsrgmg)
+- [深入理解runloop](https://blog.ibireme.com/2015/05/18/runloop/)
+  - [CFRunLoop.c源码](https://github.com/apple/swift-corelibs-foundation/blob/main/Sources/CoreFoundation/CFRunLoop.c)
 
 ### Performance
 

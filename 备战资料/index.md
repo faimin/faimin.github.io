@@ -56,6 +56,10 @@
 - [Web技术（五）：HTTP/2 是如何解决HTTP/1.1 性能瓶颈的？](https://blog.csdn.net/m0_37621078/article/details/106006303)
 - [Web技术（六）：QUIC 是如何解决TCP 性能瓶颈的？](https://blog.csdn.net/m0_37621078/article/details/106506532)
 
+- [一条视频讲清楚TCP协议与UDP协议-什么是三次握手与四次挥手](https://www.bilibili.com/video/BV1kV411j7hA/)
+
+    {{< bilibili id=BV1kV411j7hA p=1 >}}
+
 ### Swift
 
 - [从 SIL 角度看 Swift 中的值类型与引用类型](https://juejin.cn/post/7030983921328193549)

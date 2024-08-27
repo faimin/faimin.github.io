@@ -15,7 +15,7 @@
 - [Qwant](https://www.qwant.com/)
 - [grep.app](https://grep.app/)
 - [startpage](https://www.startpage.com/)
-- [SearX](https://searx.space/)
+- [SearX](https://github.com/searxng/searxng)
 
 ---
 
@@ -319,7 +319,7 @@
 - [localsend](https://github.com/localsend/localsend)
 - [FlyingCarpet](https://github.com/spieglt/FlyingCarpet)
 
-### U 盘系统制作
+### U盘系统制作
 
 - [Rufus](https://github.com/pbatard/rufus)
 - [Ventoy](https://github.com/ventoy/Ventoy)
@@ -431,7 +431,7 @@
 
 ### 命令行
 
-- [fig](https://fig.io/)
+- [fig](https://docs.aws.amazon.com/amazonq/latest/qdeveloper-ug/command-line-getting-started-installing.html)
 - [inshellisense](https://github.com/microsoft/inshellisense)
 - [starship](https://github.com/starship/starship) - `prompt`
 - [nushell](https://github.com/nushell/nushell)

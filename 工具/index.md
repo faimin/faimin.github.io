@@ -335,15 +335,12 @@
 - [Tunnelblick](https://github.com/Tunnelblick/Tunnelblick) - OpenVPN
 - [whistle](https://github.com/avwo/whistle)
 
-### 收费软件推荐
+### 图片浏览器
 
-> 可以到[这里](#软件站)找 特(破)别(解) 版
+- [Xee](https://apps.apple.com/cn/app/xee-image-viewer-and-browser/id639764244?mt=12)
+- [Picture View](https://apps.apple.com/tt/app/picture-view-image-browser/id1606275031?mt=12)
+- [FlowVision](https://github.com/netdcy/FlowVision)
 
-- [Xee](https://apps.apple.com/cn/app/xee-image-viewer-and-browser/id639764244?mt=12) -
-  图片浏览
-- [Picture View](https://apps.apple.com/tt/app/picture-view-image-browser/id1606275031?mt=12) -
-  图片浏览
-- [Kaleidoscope](https://kaleidoscope.app/) - 文件`diff`
 
 ---
 
@@ -510,6 +507,10 @@
 - [gitbutler](https://github.com/gitbutlerapp/gitbutler)
 
 > 开源的还有[Xit](https://github.com/Uncommon/Xit)、[GitUp](https://github.com/git-up/GitUp)，收费的有`Tower`、`Sublime Merge`、`GitKraken`
+
+### 文件diff
+
+- [Kaleidoscope](https://kaleidoscope.app/) - 文件`diff`
 
 ### 数据库
 

@@ -249,3 +249,85 @@ const styles = StyleSheet.create({
   },
 });
 ```
+
+## Q: redux中一个reducer想读取其他reducer数据怎么办？
+
+使用 `extraReducers`
+
+```diff
+export const xxxReducer = createSlice({
+    name: 'xxxReducer',
+    initialState: {
+        data: undefined as IProp,
+        show: false,
+        enable: false,
+    },
+    reducers: {
+        updateIPropInfo: (state, action: PayloadAction<IProp>) => {
+            state.data = action.payload;
+        },
+        updateClockInLoadingStatus: (state, action: PayloadAction<boolean>) => {
+            state.show = action.payload;
+        },
+    },
+    // 在这里截获其他reducer中的数据，
+    // 如下面的updateDetailData就是来自其他reducer
++    extraReducers: (builder) => {
++        builder.addCase(
++           updateDetailData,
++            (state, action: PayloadAction<DetailResponse>) => {
++                const model = action.payload?.data;
++                state.enable = model?.enable === 1;
++            },
++        );
++    },
+});
+```
+
+## useInfiniteQuery用法
+
+```typescript
+export interface IBaseResponse<T> {
+    [propName: string]: any;
+    message?: string;
+    code?: string;
+    data: T;
+}
+
+export function useQueryXXList() {
+    const dispatch = useDispatch();
+    const currentPageCount = useAppSelector(selectCurrentPageCount);
+
+    return useInfiniteQuery<XXResponse>(
+        ['a', 'b'],
+        (params) => {
+            return requestXXList({ cursor: params?.pageParam });
+        },
+        {
+            onSuccess: (data) => {
+                const listCount = data?.pages?.length ?? 0;
+                if (currentPageCount == listCount) {
+                    return;
+                }
+                if (listCount > 0) {
+                    const xxData = data?.pages?.[listCount - 1]?.data;
+                    dispatch(updateXXListData(xxData));
+                } 
+            },
+            onError: (error) => {
+                console.log(error);
+            },
+            getNextPageParam: (
+                lastPage: IBaseResponse<XXListData>,
+                _pages,
+            ) => {
+                if (lastPage?.data?.nextCursor !== 'XX') {
+                    return lastPage?.data?.nextCursor;
+                }
+                // 没有更多数据
+                return undefined;
+            },
+        },
+    );
+}
+```

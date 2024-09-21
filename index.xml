@@ -10,7 +10,20 @@
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">$ git commit --amend -m <span class="s2">&#34;message&#34;</span>
-</span></span></code></pr]]></description></item><item><title>fishhook查找过程</title><link>https://faimin.github.io/fishhook%E6%9F%A5%E6%89%BE%E8%BF%87%E7%A8%8B/</link><pubDate>Sat, 24 Aug 2024 17:37:00 +0800</pubDate><author>Zero.D.Saber</author><guid>https://faimin.github.io/fishhook%E6%9F%A5%E6%89%BE%E8%BF%87%E7%A8%8B/</guid><description><![CDATA[<div class="featured-image">
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h4 id="合并多个commit">合并多个commit</h4>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">$ git rebase -i <span class="o">[</span>startpoint<span class="o">]</span> <span class="o">[</span>endpoint<span class="o">]</span>
+</span></span><span class="line"><span class="cl">$ git rebase -i HEAD~2 <span class="c1"># 合并最近两次提交</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><code>endpoint</code>默认为当前分支指向的<code>HEAD</code>节点。参数<code>-i</code>表示<code>interactive(交互)</code>，该命令执行之后会进入一个<code>vim</code>的交互编辑界面，下面会有一些参数的说明：</p>]]></description></item><item><title>fishhook查找过程</title><link>https://faimin.github.io/fishhook%E6%9F%A5%E6%89%BE%E8%BF%87%E7%A8%8B/</link><pubDate>Sat, 24 Aug 2024 17:37:00 +0800</pubDate><author>Zero.D.Saber</author><guid>https://faimin.github.io/fishhook%E6%9F%A5%E6%89%BE%E8%BF%87%E7%A8%8B/</guid><description><![CDATA[<div class="featured-image">
                 <img src="/images/fishhook/macho.jpg" referrerpolicy="no-referrer">
             </div><p>fishhook实现原理</p>]]></description></item><item><title>HTTPS加密过程</title><link>https://faimin.github.io/https%E5%8A%A0%E5%AF%86%E8%BF%87%E7%A8%8B/</link><pubDate>Thu, 22 Aug 2024 14:08:00 +0800</pubDate><author>Zero.D.Saber</author><guid>https://faimin.github.io/https%E5%8A%A0%E5%AF%86%E8%BF%87%E7%A8%8B/</guid><description>&lt;p>HTTPS加密过程&lt;/p></description></item><item><title>前端开发环境配置</title><link>https://faimin.github.io/%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/</link><pubDate>Tue, 30 Jan 2024 12:38:00 +0800</pubDate><author>Zero.D.Saber</author><guid>https://faimin.github.io/%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/</guid><description>&lt;p>前端开发环境配置踩坑记录&lt;/p></description></item><item><title>React Native笔记</title><link>https://faimin.github.io/reactnativenote/</link><pubDate>Sun, 14 Jan 2024 01:38:00 +0800</pubDate><author>Zero.D.Saber</author><guid>https://faimin.github.io/reactnativenote/</guid><description>&lt;div class="featured-image">
                 &lt;img src="/images/reactnative/react_native.webp" referrerpolicy="no-referrer">
@@ -75,4 +88,7 @@
 <h2 id="笔记">笔记</h2>
 <ol>
 <li>
-<p>内存分为<code>不可访问区域</code>、<code>.text</code>、<code>.data</code>、<code>.bss</code>、<code>堆区</code>、<code>共享库</code>、<code>.stack</code>、<code>内核区</code>；</p>]]></description></item></channel></rss>
+<p>内存分为<code>不可访问区域</code>、<code>.text</code>、<code>.data</code>、<code>.bss</code>、<code>堆区</code>、<code>共享库</code>、<code>.stack</code>、<code>内核区</code>；</p>
+</li>
+<li>
+<p>全局变量、静态变量在数据段，其中已初始化并且初始化值不为<code>0</code>的<code>.data</code>段，初始化为<code>0</code>或者未初始化的在<code>.bss</code>段，函数中的变量（即指令）放在了<code>.text</code>段；</p>]]></description></item></channel></rss>

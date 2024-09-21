@@ -143,6 +143,7 @@
 
 - [Lemon Cleaner](https://github.com/Tencent/lemon-cleaner)
 - [Pearcleaner](https://github.com/alienator88/Pearcleaner) - Uninstall
+- [UninstallPKG](https://www.corecode.io/uninstallpkg/)
 - [AppCleaner](https://freemacsoft.net/appcleaner/)
 
 ### 系统监控

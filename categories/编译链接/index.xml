@@ -4,4 +4,7 @@
 <h2 id="笔记">笔记</h2>
 <ol>
 <li>
-<p>内存分为<code>不可访问区域</code>、<code>.text</code>、<code>.data</code>、<code>.bss</code>、<code>堆区</code>、<code>共享库</code>、<code>.stack</code>、<code>内核区</code>；</p>]]></description></item></channel></rss>
+<p>内存分为<code>不可访问区域</code>、<code>.text</code>、<code>.data</code>、<code>.bss</code>、<code>堆区</code>、<code>共享库</code>、<code>.stack</code>、<code>内核区</code>；</p>
+</li>
+<li>
+<p>全局变量、静态变量在数据段，其中已初始化并且初始化值不为<code>0</code>的<code>.data</code>段，初始化为<code>0</code>或者未初始化的在<code>.bss</code>段，函数中的变量（即指令）放在了<code>.text</code>段；</p>]]></description></item></channel></rss>

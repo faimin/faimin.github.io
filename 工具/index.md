@@ -247,6 +247,7 @@
 ### 剪切板
 
 - [EcoPaste](https://github.com/ayangweb/EcoPaste)
+- [crosspaste-desktop](https://github.com/CrossPaste/crosspaste-desktop) - kotlin
 
 ### QR
 
@@ -257,6 +258,12 @@
 - [HiddenBar](https://github.com/dwarvesf/hidden) - 折叠图标
 - [Ice](https://github.com/jordanbaird/Ice)
 - [Dozer](https://github.com/Mortennn/Dozer)
+
+### 日历
+
+- [LunarBar](https://github.com/LunarBar-app/LunarBar)
+- [CalendarX](https://github.com/ZzzM/CalendarX)
+- [Calendr](https://github.com/pakerwreah/Calendr)
 
 ### TouchBar
 
@@ -319,6 +326,8 @@
 
 - [localsend](https://github.com/localsend/localsend)
 - [FlyingCarpet](https://github.com/spieglt/FlyingCarpet)
+- [sharing](https://github.com/parvardegr/sharing)
+- [sharedrop](https://github.com/szimek/sharedrop)
 
 ### U盘系统制作
 
@@ -392,6 +401,7 @@
 - [Chisel](https://github.com/facebook/chisel) - `lldb`插件
 - [injectionIII](https://github.com/johnno1962/InjectionIII) - hotreload
 - [OpenSim](https://github.com/luosheng/OpenSim) - 读取模拟器沙盒
+- [flx](https://github.com/itome/flx) - 终端调试flutter
 
 ### CI
 
@@ -420,6 +430,7 @@
 - [Frida](https://github.com/frida/frida)
 - [Cutter](https://github.com/rizinorg/cutter)
 - [Hashcat](https://github.com/hashcat/hashcat)
+- [icertools](https://github.com/codematrixer/icertools) - 重签名
 
 ### Hex
 

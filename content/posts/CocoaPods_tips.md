@@ -1,7 +1,7 @@
 ---
 title: "CocoaPods笔记"
 date: 2016-11-21T11:40:00+08:00
-lastmod: 2024-08-17T16:42:00+08:00
+lastmod: 2024-09-99T12:45:00+08:00
 draft: false
 authorLink: "https://github.com/faimin"
 description: ""
@@ -425,6 +425,18 @@ module ZD # 伪代码
     end
   end
 end
+```
+
+## 15、使用自定义的Podspec代替原仓库的Podspec
+
+用以方便的解决原仓库`Podspec`配置错误或者想使用`fork`版本的问题
+
+```ruby
+# Local Podspec
+pod 'CombineCocoa', :podspec => './CustomPodspecs/CombineCocoa.podspec'
+
+# Remote Podspec
+pod 'CombineCocoa', :podspec => 'https://example.com/CombineCocoa.podspec'
 ```
 
 ---

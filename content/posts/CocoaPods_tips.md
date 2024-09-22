@@ -1,7 +1,7 @@
 ---
 title: "CocoaPods笔记"
 date: 2016-11-21T11:40:00+08:00
-lastmod: 2024-09-99T12:45:00+08:00
+lastmod: 2024-09-22T15:15:00+08:00
 draft: false
 authorLink: "https://github.com/faimin"
 description: ""
@@ -308,7 +308,7 @@ pre_install do |installer|
 end
 ```
 
-## 13、使用`Ruby`快速设置头文件
+## 13、使用`Ruby`特性快速设置头文件
 
   > https://github.com/mxcl/PromiseKit/blob/6.15.3/PromiseKit.podspec
 
@@ -437,6 +437,27 @@ pod 'CombineCocoa', :podspec => './CustomPodspecs/CombineCocoa.podspec'
 
 # Remote Podspec
 pod 'CombineCocoa', :podspec => 'https://example.com/CombineCocoa.podspec'
+```
+
+## 16、通过pod修改代码
+
+```ruby
+# 通过pod修改代码
+post_install do |installer|
+    installer.pods_project.targets.each do |target|
+      if target.name == 'Flipper'
+        file_path = 'Pods/Flipper/xplat/Flipper/FlipperTransportTypes.h'
+        contents = File.read(file_path)
+        unless contents.include?('#include <functional>')
+          File.chmod(0755, file_path)
+          File.open(file_path, 'w') do |file|
+            file.puts('#include <functional>')
+            file.puts(contents)
+          end
+        end
+      end
+    end
+end
 ```
 
 ---

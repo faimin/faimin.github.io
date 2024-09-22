@@ -415,6 +415,18 @@ module ZD # 伪代码
 end
 ```
 
+## 15、使用自定义的Podspec代替原仓库的Podspec
+
+用以方便的解决原仓库`Podspec`配置错误或者想使用`fork`版本的问题
+
+```ruby
+# Local Podspec
+pod 'CombineCocoa', :podspec => './CustomPodspecs/CombineCocoa.podspec'
+
+# Remote Podspec
+pod 'CombineCocoa', :podspec => 'https://example.com/CombineCocoa.podspec'
+```
+
 ---
 
 ### 参考：

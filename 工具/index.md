@@ -247,6 +247,7 @@
 ### 剪切板
 
 - [EcoPaste](https://github.com/ayangweb/EcoPaste)
+- [Lanaya](https://github.com/ChurchTao/Lanaya)
 - [crosspaste-desktop](https://github.com/CrossPaste/crosspaste-desktop) - kotlin
 
 ### QR

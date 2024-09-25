@@ -340,7 +340,7 @@
 
 - [KeychainCracker](https://github.com/macmade/KeychainCracker)
 
-### 代理
+### VPN/代理
 
 - [clash-verge-rev](https://github.com/clash-verge-rev/clash-verge-rev)
 - [Tunnelblick](https://github.com/Tunnelblick/Tunnelblick) - OpenVPN

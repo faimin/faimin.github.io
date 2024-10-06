@@ -343,6 +343,7 @@
 ### VPN/代理
 
 - [clash-verge-rev](https://github.com/clash-verge-rev/clash-verge-rev)
+- [clash-nyanpasu](https://github.com/libnyanpasu/clash-nyanpasu)
 - [Tunnelblick](https://github.com/Tunnelblick/Tunnelblick) - OpenVPN
 - [whistle](https://github.com/avwo/whistle)
 
@@ -407,7 +408,10 @@
 ### CI
 
 - [maestro](https://github.com/mobile-dev-inc/maestro)
+- [Detox](https://github.com/wix/Detox)
+- [zealot](https://github.com/tryzealot/zealot)
 - [xcbeautify](https://github.com/cpisciotta/xcbeautify)
+- [xcpretty](https://github.com/xcpretty/xcpretty)
 
 ### Mach-O
 

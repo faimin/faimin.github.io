@@ -475,6 +475,8 @@
 ### 快捷打开终端
 
 - [OpenInTerminal](https://github.com/Ji4n1ng/OpenInTerminal)
+- [MenuHelper](https://github.com/Kyle-Ye/MenuHelper)
+- [SwiftMenu](https://github.com/lexrus/SwiftyMenu)
 - [FinderGo](https://github.com/onmyway133/FinderGo)
 - [Go2Shell](http://zipzapmac.com/Go2Shell)
 - [Alfred 插件](http://www.packal.org/workflow/terminalfinder)

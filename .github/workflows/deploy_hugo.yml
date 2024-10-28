@@ -41,7 +41,7 @@ jobs:
         uses: peaceiris/actions-hugo@v3	
         with:
           #hugo-version: 'latest'
-          hugo-version: '0.136.4'
+          hugo-version: '0.135.0'
           extended: true
 
       - name: Build

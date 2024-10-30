@@ -145,6 +145,7 @@
 - [Pearcleaner](https://github.com/alienator88/Pearcleaner) - Uninstall
 - [UninstallPKG](https://www.corecode.io/uninstallpkg/)
 - [AppCleaner](https://freemacsoft.net/appcleaner/)
+- [Bulk-Crap-Uninstaller](https://github.com/Klocman/Bulk-Crap-Uninstaller) - PC
 
 ### 系统监控
 

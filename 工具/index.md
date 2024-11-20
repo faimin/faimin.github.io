@@ -470,6 +470,7 @@
 - [onefetch](https://github.com/o2sh/onefetch) - Git information
 - [zoxide](https://github.com/ajeetdsouza/zoxide) - jump
 - [ios-deploy](https://github.com/ios-control/ios-deploy)
+- [ideviceinstaller](https://github.com/libimobiledevice/ideviceinstaller)
 - [joshuto](https://github.com/kamiyaa/joshuto) - file manager
 - [yazi](https://github.com/sxyazi/yazi) - file manager
 

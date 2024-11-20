@@ -471,6 +471,7 @@
 - [zoxide](https://github.com/ajeetdsouza/zoxide) - jump
 - [ios-deploy](https://github.com/ios-control/ios-deploy)
 - [ideviceinstaller](https://github.com/libimobiledevice/ideviceinstaller)
+- [ProvisionQL](https://github.com/ealeksandrov/ProvisionQL) - 预览证书
 - [joshuto](https://github.com/kamiyaa/joshuto) - file manager
 - [yazi](https://github.com/sxyazi/yazi) - file manager
 

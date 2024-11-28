@@ -170,10 +170,13 @@
 ### Office
 
 - [LibreOffice](https://zh-cn.libreoffice.org/)
+- [onlyoffice](https://www.onlyoffice.com/zh/)
 
 ### 流程图
 
 - [Draw.io](https://app.diagrams.net/)
+- [ExcalidrawZ](https://github.com/chocoford/ExcalidrawZ)
+  - [ExcalidrawZ - Mac App Store](https://apps.apple.com/us/app/excalidrawz/id6636493997)
 - [asciiflow](https://asciiflow.com/)
 - [tlddraw](https://www.tldraw.com/)
 
@@ -270,6 +273,7 @@
 - [LunarBar](https://github.com/LunarBar-app/LunarBar)
 - [CalendarX](https://github.com/ZzzM/CalendarX)
 - [Calendr](https://github.com/pakerwreah/Calendr)
+- [Itsycal](https://github.com/sfsam/Itsycal)
 
 ### TouchBar
 

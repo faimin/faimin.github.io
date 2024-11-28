@@ -16,6 +16,8 @@
 - [grep.app](https://grep.app/)
 - [startpage](https://www.startpage.com/)
 - [SearX](https://github.com/searxng/searxng)
+- [luxirty](https://search.luxirty.com/)
+- [Perplexica](https://github.com/ItzCrazyKns/Perplexica)
 
 ---
 
@@ -160,6 +162,7 @@
 - [Free Download Manager](https://www.freedownloadmanager.org/zh/)
 - [gopeed](https://github.com/GopeedLab/gopeed)
 - [FileCentipede](https://github.com/filecxx/FileCentipede)
+- [ab-download-manager](https://github.com/amir1376/ab-download-manager)
 - [lux](https://github.com/iawia002/lux) - 下载网站视频
 - [you-get](https://github.com/soimort/you-get) -
   下载网站视频，如需视频合并需额外安装`ffmpeg`
@@ -308,6 +311,7 @@
 ### 格式转码
 
 - [handbrake](https://handbrake.fr/)
+- [FileConverter](https://github.com/Tichau/FileConverter)
 
 ### NTFS
 

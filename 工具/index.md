@@ -49,6 +49,7 @@
 ### 效率
 
 - [PopClip](https://apps.apple.com/cn/app/popclip/id445189367?mt=12)
+- [Raycast](https://www.raycast.com/)
 - [Alfred](https://www.alfredapp.com/)
   - [alfred-workflows](https://github.com/zenorocha/alfred-workflows)
 - [Hammerspoon](http://hammerspoon.org/)

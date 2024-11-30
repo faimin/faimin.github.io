@@ -164,6 +164,7 @@
 - [gopeed](https://github.com/GopeedLab/gopeed)
 - [FileCentipede](https://github.com/filecxx/FileCentipede)
 - [ab-download-manager](https://github.com/amir1376/ab-download-manager)
+- [AriaNg-Native](https://github.com/mayswind/AriaNg-Native)
 - [lux](https://github.com/iawia002/lux) - 下载网站视频
 - [you-get](https://github.com/soimort/you-get) -
   下载网站视频，如需视频合并需额外安装`ffmpeg`

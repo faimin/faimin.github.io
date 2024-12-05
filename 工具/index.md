@@ -277,6 +277,10 @@
 - [Calendr](https://github.com/pakerwreah/Calendr)
 - [Itsycal](https://github.com/sfsam/Itsycal)
 
+### 置顶
+
+- [Topit](https://github.com/lihaoyun6/Topit) - 保持某APP置顶
+
 ### TouchBar
 
 - [Pock](https://github.com/pigigaldi/Pock)

@@ -161,6 +161,7 @@
 - [Motrix](https://github.com/agalwood/Motrix)
 - [imfile-desktop](https://github.com/imfile-io/imfile-desktop) - Motrix fork版本
 - [Free Download Manager](https://www.freedownloadmanager.org/zh/)
+- [NeatDownloadManager](https://www.neatdownloadmanager.com/index.php/en/)
 - [gopeed](https://github.com/GopeedLab/gopeed)
 - [FileCentipede](https://github.com/filecxx/FileCentipede)
 - [ab-download-manager](https://github.com/amir1376/ab-download-manager)
@@ -368,7 +369,7 @@
 - [Xee](https://apps.apple.com/cn/app/xee-image-viewer-and-browser/id639764244?mt=12)
 - [Picture View](https://apps.apple.com/tt/app/picture-view-image-browser/id1606275031?mt=12)
 - [FlowVision](https://github.com/netdcy/FlowVision)
-
+- [qimgv](https://github.com/easymodo/qimgv) - PC
 
 ---
 

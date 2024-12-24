@@ -26,8 +26,8 @@
 ### 包管理
 
 - [Homebrew](https://brew.sh/index_zh-cn)：`Mac`端的包管理工具，`PC`端的有`Scoop`、`Chocolate`、`Winget`
-  - [Cork](https://github.com/buresdv/Cork) : Homebrew GUI
-- [UniGetUI](https://github.com/marticliment/WingetUI) : PC包管理GUI
+  - [Applite](https://github.com/milanvarady/Applite) - Homebrew GUI
+- [UniGetUI](https://github.com/marticliment/WingetUI) - PC包管理GUI
 
 ### 终端
 
@@ -366,9 +366,9 @@
 
 ### 图片浏览器
 
+- [FlowVision](https://github.com/netdcy/FlowVision)
 - [Xee](https://apps.apple.com/cn/app/xee-image-viewer-and-browser/id639764244?mt=12)
 - [Picture View](https://apps.apple.com/tt/app/picture-view-image-browser/id1606275031?mt=12)
-- [FlowVision](https://github.com/netdcy/FlowVision)
 - [qimgv](https://github.com/easymodo/qimgv) - PC
 
 ---

@@ -371,6 +371,11 @@
 - [Picture View](https://apps.apple.com/tt/app/picture-view-image-browser/id1606275031?mt=12)
 - [qimgv](https://github.com/easymodo/qimgv) - PC
 
+### 视频会议
+
+- [jitsi-meet](https://github.com/jitsi/jitsi-meet)
+- [zoom-clone](https://github.com/adrianhajdin/zoom-clone)
+
 ---
 
 ## 开发
@@ -412,6 +417,16 @@
 
 - [chsrc](https://github.com/RubyMetric/chsrc)
 
+### Javascript engine
+
+- [quickjs](https://github.com/bellard/quickjs)
+- [QuickJS](https://github.com/quickjs-zh/QuickJS)
+- [boa](https://github.com/boa-dev/boa)
+
+### 打包
+
+- [pex](https://github.com/pex-tool/pex) - Python .pex
+
 ### 调试
 
 - [LLVM](https://github.com/llvm/llvm-project)
@@ -429,6 +444,8 @@
 - [zealot](https://github.com/tryzealot/zealot)
 - [xcbeautify](https://github.com/cpisciotta/xcbeautify)
 - [xcpretty](https://github.com/xcpretty/xcpretty)
+- [macos](https://github.com/dockur/macos) - MacOS Docker container
+- [pipelight](https://github.com/pipelight/pipelight)
 
 ### Mach-O
 
@@ -443,6 +460,7 @@
 - [ipsw](https://github.com/blacktop/ipsw)
 - [dSYMTools](https://github.com/answer-huang/dSYMTools)
 - [go-macho](https://github.com/blacktop/go-macho)
+- [gimli](https://github.com/gimli-rs/gimli)
 
 ### 逆向
 
@@ -459,6 +477,24 @@
 - [HexFriend](https://github.com/ridiculousfish/HexFiend)
 - [ImHex](https://github.com/WerWolv/ImHex)
 - [hexyl](https://github.com/sharkdp/hexyl)
+
+### 网络
+
+- [pingora](https://github.com/cloudflare/pingora)
+
+### Image图片
+
+- [oculante](https://github.com/woelper/oculante) - image viewer
+- [oxipng](https://github.com/shssoichiro/oxipng)
+- [rimage](https://github.com/SalOne22/rimage)
+
+### 音视频解码
+
+- [Symphonia](https://github.com/pdeljanov/Symphonia)
+
+### 屏幕捕捉
+
+- [xcap](https://github.com/nashaofu/xcap)
 
 ### 命令行
 
@@ -490,6 +526,7 @@
 - [ProvisionQL](https://github.com/ealeksandrov/ProvisionQL) - 预览证书
 - [joshuto](https://github.com/kamiyaa/joshuto) - file manager
 - [yazi](https://github.com/sxyazi/yazi) - file manager
+- [mc](https://github.com/thewh1teagle/mc) - copy
 
 ### 快捷打开终端
 
@@ -546,7 +583,9 @@
 
 > 开源的还有[Xit](https://github.com/Uncommon/Xit)、[GitUp](https://github.com/git-up/GitUp)，收费的有`Tower`、`Sublime Merge`、`GitKraken`
 
+- [sapling](https://github.com/facebook/sapling)
 - [dura](https://github.com/tkellogg/dura) - 防止代码丢失
+- [gitstars](https://github.com/cfour-hi/gitstars) - github stars
 
 ### 文件diff
 
@@ -556,6 +595,9 @@
 
 - [SQLiteBrowser](https://github.com/sqlitebrowser/sqlitebrowser)
 - [DBeaver](https://github.com/dbeaver/dbeaver)
+  
+- [limbo](https://github.com/tursodatabase/limbo)
+- [rbatis](https://github.com/rbatis/rbatis)
 
 ### WWDC
 
@@ -587,6 +629,11 @@
 ### 爬虫
 
 - [EasySpider](https://github.com/NaiboWang/EasySpider)
+
+### Log日志
+
+- [fluent-bit](https://github.com/fluent/fluent-bit)
+- [ezlog](https://github.com/s1rius/ezlog)
 
 ### Xcode Plugin
 

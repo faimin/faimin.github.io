@@ -261,6 +261,10 @@
 - [Lanaya](https://github.com/ChurchTao/Lanaya)
 - [crosspaste-desktop](https://github.com/CrossPaste/crosspaste-desktop) - kotlin
 
+### 文件搜索
+
+- [buzee-tauri](https://github.com/gsidhu/buzee-tauri)
+
 ### QR
 
 - [Viz](https://github.com/alienator88/Viz)
@@ -363,6 +367,10 @@
 - [clash-nyanpasu](https://github.com/libnyanpasu/clash-nyanpasu)
 - [Tunnelblick](https://github.com/Tunnelblick/Tunnelblick) - OpenVPN
 - [whistle](https://github.com/avwo/whistle)
+
+### Windows 激活
+
+- [HEU_KMS_Activator](https://github.com/zbezj/HEU_KMS_Activator)
 
 ### 图片浏览器
 
@@ -579,6 +587,7 @@
 - [Fork](https://git-fork.com)
 - [GitUI](https://github.com/extrawurst/gitui)
 - [LazyGit](https://github.com/jesseduffield/lazygit)
+- [Gitu](https://github.com/altsem/gitu)
 - [gitbutler](https://github.com/gitbutlerapp/gitbutler)
 
 > 开源的还有[Xit](https://github.com/Uncommon/Xit)、[GitUp](https://github.com/git-up/GitUp)，收费的有`Tower`、`Sublime Merge`、`GitKraken`
@@ -635,6 +644,14 @@
 - [fluent-bit](https://github.com/fluent/fluent-bit)
 - [ezlog](https://github.com/s1rius/ezlog)
 
+### 用户行为分析
+
+- [aptabase](https://github.com/aptabase/aptabase-swift)
+
+### 电子书
+
+- [readest](https://github.com/readest/readest)
+
 ### Xcode Plugin
 
 - [Json2Property](https://github.com/keepyounger/Json2Property)
@@ -688,10 +705,6 @@
 ### Windows VC 环境
 
 - [VCRedist](https://github.com/abbodi1406/vcredist)
-
-### Windows 激活
-
-- [HEU_KMS_Activator](https://github.com/zbezj/HEU_KMS_Activator)
 
 ---
 

@@ -585,6 +585,7 @@
 ### Git
 
 - [Fork](https://git-fork.com)
+- [sourcegit](https://github.com/sourcegit-scm/sourcegit)
 - [GitUI](https://github.com/extrawurst/gitui)
 - [LazyGit](https://github.com/jesseduffield/lazygit)
 - [Gitu](https://github.com/altsem/gitu)

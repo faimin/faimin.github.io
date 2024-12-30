@@ -34,6 +34,7 @@
 - [iTerm2](https://iterm2.com/)
 - [Alacritty](https://github.com/alacritty/alacritty)
 - [WezTerm](https://github.com/wez/wezterm)
+- [ghostty](https://github.com/ghostty-org/ghostty)
 - [kitty](https://github.com/kovidgoyal/kitty)
 - [WindTerm](https://github.com/kingToolbox/WindTerm)
 - [Tabby](https://github.com/Eugeny/tabby)
@@ -48,8 +49,8 @@
 
 ### 效率
 
-- [PopClip](https://apps.apple.com/cn/app/popclip/id445189367?mt=12)
 - [Raycast](https://www.raycast.com/)
+- [PopClip](https://apps.apple.com/cn/app/popclip/id445189367?mt=12)
 - [Alfred](https://www.alfredapp.com/)
   - [alfred-workflows](https://github.com/zenorocha/alfred-workflows)
 - [Hammerspoon](http://hammerspoon.org/)
@@ -137,10 +138,12 @@
 - [OnlySwitch](https://github.com/jacklandrin/OnlySwitch)
 - [NotchDrop](https://github.com/Lakr233/NotchDrop)
 
-### 输入法切换
+### 输入法
 
 - [KeyboardHolder](https://github.com/leaves615/KeyboardHolder)
 - [搜狗输入法切换助手](https://apps.apple.com/cn/app/%E6%90%9C%E7%8B%97%E8%BE%93%E5%85%A5%E6%B3%95%E5%88%87%E6%8D%A2%E5%8A%A9%E6%89%8B/id6443621266?mt=12)
+- [squirl](https://github.com/rime/squirrel) - 鼠须管
+- [Hamster](https://github.com/imfuxiao/Hamster) - 仓 iOS
 
 ### 系统优化
 

@@ -189,6 +189,7 @@
 ### Markdown
 
 - [MarkText](https://github.com/marktext/marktext)
+- [mdx-notes](https://github.com/maqi1520/mdx-notes)
 - [typst](https://github.com/typst/typst)
 
 ### 阅读

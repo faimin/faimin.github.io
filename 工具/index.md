@@ -31,14 +31,19 @@
 
 ### 终端
 
-- [iTerm2](https://iterm2.com/)
-- [Alacritty](https://github.com/alacritty/alacritty)
-- [WezTerm](https://github.com/wez/wezterm)
 - [ghostty](https://github.com/ghostty-org/ghostty)
+- [Alacritty](https://github.com/alacritty/alacritty)
+- [iTerm2](https://iterm2.com/)
+- [WezTerm](https://github.com/wez/wezterm)
 - [kitty](https://github.com/kovidgoyal/kitty)
 - [WindTerm](https://github.com/kingToolbox/WindTerm)
 - [Tabby](https://github.com/Eugeny/tabby)
 - [Warp](https://www.warp.dev/)
+
+### Font字体
+
+- font-fira-code-nerd-font
+- font-source-code-pro
 
 ### nvim
 
@@ -221,8 +226,8 @@
 
 ### 截图
 
-- [Snipaste](https://zh.snipaste.com/)
 - [pixpin](https://pixpinapp.com)
+- [Snipaste](https://zh.snipaste.com/)
 - [shottr](https://shottr.cc/)
 - [flameshot](https://github.com/flameshot-org/flameshot)
 - [eSearch](https://github.com/xushengfeng/eSearch)
@@ -299,7 +304,8 @@
 ### Quick Look
 
 - [glance](https://github.com/chamburr/glance) - All-in-one Quick Look plugin
-- [SouceCodeSyntaxHighlight](https://github.com/sbarex/SourceCodeSyntaxHighlight)
+  > brew install glance-chamburr
+- [SourceCodeSyntaxHighlight](https://github.com/sbarex/SourceCodeSyntaxHighlight)
 - [QLMarkdown](https://github.com/sbarex/QLMarkdown)
 - [Mac-QuickLook](https://github.com/haokaiyang/Mac-QuickLook)
 
@@ -543,7 +549,7 @@
 
 ### 快捷打开终端
 
-> 开启： 设置 -> 通用 -> 登录项与扩展 -> 扩展 -> **文件提供程序**
+  > 开启： 设置 -> 通用 -> 登录项与扩展 -> 扩展 -> **文件提供程序**
 
 - [OpenInTerminal](https://github.com/Ji4n1ng/OpenInTerminal)
 - [MenuHelper](https://github.com/Kyle-Ye/MenuHelper)
@@ -598,7 +604,7 @@
 - [Gitu](https://github.com/altsem/gitu)
 - [gitbutler](https://github.com/gitbutlerapp/gitbutler)
 
-> 开源的还有[Xit](https://github.com/Uncommon/Xit)、[GitUp](https://github.com/git-up/GitUp)，收费的有`Tower`、`Sublime Merge`、`GitKraken`
+  > 开源的还有[Xit](https://github.com/Uncommon/Xit)、[GitUp](https://github.com/git-up/GitUp)，收费的有`Tower`、`Sublime Merge`、`GitKraken`
 
 - [sapling](https://github.com/facebook/sapling)
 - [dura](https://github.com/tkellogg/dura) - 防止代码丢失

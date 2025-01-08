@@ -172,6 +172,7 @@
 - [lux](https://github.com/iawia002/lux) - 下载网站视频
 - [you-get](https://github.com/soimort/you-get) -
   下载网站视频，如需视频合并需额外安装`ffmpeg`
+- [Hitomi-Downloader](https://github.com/KurtBestor/Hitomi-Downloader)
 
 ### Office
 
@@ -542,6 +543,8 @@
 
 ### 快捷打开终端
 
+> 开启： 设置 -> 通用 -> 登录项与扩展 -> 扩展 -> **文件提供程序**
+
 - [OpenInTerminal](https://github.com/Ji4n1ng/OpenInTerminal)
 - [MenuHelper](https://github.com/Kyle-Ye/MenuHelper)
 - [SwiftMenu](https://github.com/lexrus/SwiftyMenu)
@@ -679,13 +682,14 @@
 
 - Shades of Purple - 主题
 - [Dracula](https://draculatheme.com/) - 主题
+- HardHacker Theme
+- Cline (prev. Claude Dev)
 - Code Runner
 - CodeLLDB
 - clangd
 - Error Lens
 - GitLess
 - Git Blame
-- GitLens
 - Git Graph
 - Path Intellisense
 - Thunder Client
@@ -701,6 +705,7 @@
 - Hex Editor
 - Doxygen Documentation Generator
 - Better Comments
+- Dependi
 - [whatchanged](https://marketplace.visualstudio.com/items?itemName=axetroy.vscode-whatchanged)
 - Swift
   > 1. 如果没有代码联想，可能是因为`sourcekit-lsp`与本机`Swift`不在同一目录下。在`/usr/local/bin`下建立一个`sourcekit-lsp`的软链接可以解决：`ls -s $(xcrun --find sourcekit-lsp) /usr/local/bin/sourcekit-lsp`。

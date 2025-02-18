@@ -24,7 +24,7 @@ hasCJKLanguage = true
 
 # default amount of posts in each pages
 # 默认每页列表显示的文章数目
-paginate = 12
+pagination.pagerSize = 12
 # google analytics code [UA-XXXXXXXX-X]
 # 谷歌分析代号 [UA-XXXXXXXX-X]
 googleAnalytics = ""
@@ -792,7 +792,7 @@ ignoreErrors = ["error-remote-getjson", "error-missing-instagram-accesstoken"]
   # Google Analytics 相关隐私 (被 params.analytics.google 替代)
   [privacy.googleAnalytics]
     # ...
-  [privacy.twitter]
+  [privacy.x]
     enableDNT = true
   [privacy.youtube]
     privacyEnhanced = true

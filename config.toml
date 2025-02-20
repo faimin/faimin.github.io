@@ -46,13 +46,6 @@ enableEmoji = true
 # 忽略一些构建错误
 ignoreErrors = ["error-remote-getjson", "error-missing-instagram-accesstoken"]
 
-# Author config
-# 作者配置
-[author]
-  name = "Zero.D.Saber"
-  email = "fuxianchao2009@163.com"
-  link = "https://github.com/faimin"
-
 # Menu config
 # 菜单配置
 [menu]
@@ -111,6 +104,13 @@ ignoreErrors = ["error-remote-getjson", "error-missing-instagram-accesstoken"]
   # website images for Open Graph and Twitter Cards
   # 网站图片, 用于 Open Graph 和 Twitter Cards
   images = ["/logo/avatar.gif"]
+
+  # Author config
+  # 作者配置
+  [params.author]
+    name = "Zero.D.Saber"
+    email = "fuxianchao2009@163.com"
+    link = "https://github.com/faimin"
 
   # Header config
   # 页面头部导航栏配置

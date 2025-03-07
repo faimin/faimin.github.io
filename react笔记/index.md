@@ -1,4 +1,4 @@
-# React Native笔记
+# React笔记
 
 
 <!--more-->
@@ -120,7 +120,7 @@ console.log(Array.isArray(arr)); // true
 </Text>
 ```
 
-## Q：hook函数不让在函数中使用怎么办？
+## Q：手动触发React-Query请求
 
 使用`useMutation`
 
@@ -161,7 +161,55 @@ fetchNextPageMutation.mutate({
 });
 ```
 
-## Q：ListEmptyComponets 不能铺满：
+## useInfiniteQuery用法
+
+```typescript
+export interface IBaseResponse<T> {
+    [propName: string]: any;
+    message?: string;
+    code?: string;
+    data: T;
+}
+
+export function useQueryXXList() {
+    const dispatch = useDispatch();
+    const currentPageCount = useAppSelector(selectCurrentPageCount);
+
+    return useInfiniteQuery<XXResponse>(
+        ['a', 'b'],
+        (params) => {
+            return requestXXList({ cursor: params?.pageParam });
+        },
+        {
+            onSuccess: (data) => {
+                const listCount = data?.pages?.length ?? 0;
+                if (currentPageCount == listCount) {
+                    return;
+                }
+                if (listCount > 0) {
+                    const xxData = data?.pages?.[listCount - 1]?.data;
+                    dispatch(updateXXListData(xxData));
+                } 
+            },
+            onError: (error) => {
+                console.log(error);
+            },
+            getNextPageParam: (
+                lastPage: IBaseResponse<XXListData>,
+                _pages,
+            ) => {
+                if (lastPage?.data?.nextCursor !== 'XX') {
+                    return lastPage?.data?.nextCursor;
+                }
+                // 没有更多数据
+                return undefined;
+            },
+        },
+    );
+}
+```
+
+## Q：ListEmptyComponents 不能铺满：
 
 给`SectionList`设置`contentContainerStyle`属性:
 
@@ -178,6 +226,79 @@ fetchNextPageMutation.mutate({
 > [React 中条件渲染的 N 种方法](https://mp.weixin.qq.com/s/ZOvR7htlTIppyr0_G39ezA)
 
 在写组件时不要用`{ 判断条件 && 组件 }`这种写法，因为假如前面的条件是`false`，那这个结果就是 `{ false }` ，然而这并不是一个合法的组件，在某些场景下会报错。建议使用`{ 判断条件 ? 组件 : null  }`这种方式。
+
+## Q: 条件渲染组件
+
+> Repo: [Zero.js](https://github.com/faimin/zero.js)
+
+```jsx
+// ref solid.js: https://github.com/solidjs/solid/blob/19013bffa7c2494b9ce43d0f00172ee529996134/packages/solid/src/render/flow.ts
+
+/**
+ * Selects a content based on condition when inside a `<Switch>` control flow
+ * ```typescript
+ *   <ZShow when={state.count > 0} fallback={<div>Loading...</div>}>
+ *      <div>My Content</div>
+ *   </ZShow>
+ * ```
+ */
+export function ZShow<T>(props: {
+	when: T | undefined | null | false;
+	fallback?: React.ReactNode;
+	children: React.ReactNode;
+}): React.JSX.Element | null {
+	return props.when ? <>{props.children}</> : <>{props.fallback ?? null}</>;
+}
+
+/**
+ * Switches between content based on mutually exclusive conditions
+ * ```typescript
+ * <ZSwitch fallback={<FourOhFour />}>
+ *   <ZMatch when={state.route === 'home'}>
+ *     <Home />
+ *   </ZMatch>
+ *   <ZMatch when={state.route === 'settings'}>
+ *     <Settings />
+ *   </ZMatch>
+ * </ZSwitch>
+ * ```
+ */
+export function ZSwitch(props: {
+	fallback?: React.JSX.Element;
+	children: React.JSX.Element | React.JSX.Element[];
+}): React.JSX.Element | null {
+	let conditions = props.children;
+
+	if (!Array.isArray(conditions)) {
+		conditions = [conditions];
+	}
+
+	for (let i = 0; i < conditions.length; ++i) {
+		const matchProps = conditions[i].props;
+		if (matchProps?.when) {
+			return <>{matchProps.children}</>;
+		}
+	}
+	return <>{props.fallback ?? null}</>;
+}
+
+export type ZMatchProps<T> = {
+	when: T | undefined | null | false;
+	children: React.ReactNode;
+};
+
+/**
+ * Selects a content based on condition when inside a `<Switch>` control flow
+ * ```typescript
+ * <ZMatch when={condition()}>
+ *   <Content/>
+ * </ZMatch>
+ * ```
+ */
+export function ZMatch<T>(props: ZMatchProps<T>): React.ReactNode | null {
+	return props.when ? <>{props.children}</> : null;
+}
+```
 
 ## Q: 切圆角时如何把子类超出父视图的部分也切掉？
 
@@ -270,53 +391,5 @@ export const xxxReducer = createSlice({
 +        );
 +    },
 });
-```
-
-## useInfiniteQuery用法
-
-```typescript
-export interface IBaseResponse<T> {
-    [propName: string]: any;
-    message?: string;
-    code?: string;
-    data: T;
-}
-
-export function useQueryXXList() {
-    const dispatch = useDispatch();
-    const currentPageCount = useAppSelector(selectCurrentPageCount);
-
-    return useInfiniteQuery<XXResponse>(
-        ['a', 'b'],
-        (params) => {
-            return requestXXList({ cursor: params?.pageParam });
-        },
-        {
-            onSuccess: (data) => {
-                const listCount = data?.pages?.length ?? 0;
-                if (currentPageCount == listCount) {
-                    return;
-                }
-                if (listCount > 0) {
-                    const xxData = data?.pages?.[listCount - 1]?.data;
-                    dispatch(updateXXListData(xxData));
-                } 
-            },
-            onError: (error) => {
-                console.log(error);
-            },
-            getNextPageParam: (
-                lastPage: IBaseResponse<XXListData>,
-                _pages,
-            ) => {
-                if (lastPage?.data?.nextCursor !== 'XX') {
-                    return lastPage?.data?.nextCursor;
-                }
-                // 没有更多数据
-                return undefined;
-            },
-        },
-    );
-}
 ```
 

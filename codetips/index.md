@@ -297,49 +297,7 @@ methodThatCallsBackOnMain(completion: { result in
 })
 ```
 
-## 15. 指针调用Swift函数
-
-> https://github.com/apple/swift/issues/70630
-
-```swift
-public class Printable {
-    public init (from sender : String) {
-        print ("Hello from \(sender)!")
-    }
-
-    public init (from sender : String, as name : String = "Bastie") { // 🆘  in result of init with one parameter unusable default value "Bastie" from init method
-        print ("Hello from \(name)?")
-    }
-}
-
-let fn = Printable.init(from:as:)
-let _ = fn("Sebastian")
-// or
-let _ = Printable.init(from:as:)("Sebastian")
-```
-
-## 16. 使用`map`简化代码
-
-> https://github.com/ReactiveX/RxSwift/pull/2549
-
-重构前：
-```swift
-let disposable: Disposable
-
-if let onDisposed = onDisposed {
-    disposable = Disposables.create(with: onDisposed)
-} else {
-    disposable = Disposables.create()
-}
-```
-
-重构后：
-```swift
-let disposable: Disposable = onDisposed.map( Disposables.create(with:) ) ?? Disposables.create()
-```
-
-
-## 17. Assert
+## 15. Assert
 
 `assert`会导致程序退出，下面这种方式不会使程序退出而只是让`IDE`断在指定位置，类似于打断点那种效果
 
@@ -399,7 +357,7 @@ import Darwin
 }        
 ```
 
-## 18. 保证对象的生命周期
+## 16. 保证对象的生命周期
 
 1. Swift
    
@@ -418,7 +376,7 @@ import Darwin
    
    在 Objective-C ARC 中你可以使用 `__attribute__((objc_precise_lifetime))` 或者 `NS_VALID_UNTIL_END_OF_SCOPE` 来标注变量以达到类似的效果。
 
-## 19. 区间判断
+## 17. 区间判断
 
     判断某一个值`x`是否在区间`[min, max]`内    
 
@@ -430,51 +388,7 @@ import Darwin
 if (( (x - minx) | (maxx - x) ) >= 0) ...
 ```
 
-## 20. 通过异或混淆key
-
-通过异或的方式（字符串正常会进入常量区，但是通过异或的方式编译器会直接换算成异步结果）
-
-```c
-#define ENCRYPT_KEY 0xAC
-
-static NSString * AES_KEY(){
-    unsigned char key[] = {
-        (ENCRYPT_KEY ^ 'd'),
-        (ENCRYPT_KEY ^ 'e'),
-        (ENCRYPT_KEY ^ 'm'),
-        (ENCRYPT_KEY ^ 'o'),
-        (ENCRYPT_KEY ^ '_'),
-        (ENCRYPT_KEY ^ 'A'),
-        (ENCRYPT_KEY ^ 'E'),
-        (ENCRYPT_KEY ^ 'S'),
-        (ENCRYPT_KEY ^ '_'),
-        (ENCRYPT_KEY ^ '\0'),
-    };
-    unsigned char * p = key;
-    while (((*p) ^= ENCRYPT_KEY) != '\0') {
-        p++;
-    }
-    return [NSString stringWithUTF8String:(const char *)key];
-}
-```
-
-## 21. 另类的NSTimer破环方案
-
-`block`结构中有个私有的函数：`invoke`。
-
-```objectivec
-@implementation NSTimer (ZDUtility)
-
-+ (instancetype)zd_fireSecondsFromNow:(NSTimeInterval)delay block:(dispatch_block_t)block {
-    return [self scheduledTimerWithTimeInterval:delay target:block selector:@selector(invoke) userInfo:nil repeats:NO];
-}
-
-@end
-```
-
-
-
----
+-------
 
 ### 参考
 
@@ -495,6 +409,4 @@ static NSString * AES_KEY(){
 - [Swift 中的 ARC 机制: 从基础到进阶](https://mp.weixin.qq.com/s/ZJ3gVI-jzDcKpRKa0IMi0A)
 
 - [C语言有什么奇淫技巧](https://www.zhihu.com/question/27417946)
-
-- [iOS 摸鱼周报 #56](https://zhangferry.com/2022/06/09/iOSWeeklyLearning_56/)
 

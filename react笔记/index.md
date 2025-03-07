@@ -393,3 +393,20 @@ export const xxxReducer = createSlice({
 });
 ```
 
+## Q: Vite中在开发环境引入调试工具
+
+```js
+if (process.env.NODE_ENV === "development") {
+	// 性能分析
+	import("react-scan").then((module) => {
+		const scan = module.scan;
+		scan({ enabled: true });
+	});
+
+	// 调试日志
+	import("vconsole").then((module) => {
+		const VConsole = module.default;
+		new VConsole();
+	});
+}
+```

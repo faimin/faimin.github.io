@@ -1,7 +1,7 @@
 ---
 title: "React笔记"
 date: 2024-01-14T01:38:00+08:00
-lastmod: 2025-03-07T14:00:00+08:00
+lastmod: 2025-03-07T15:15:00+08:00
 draft: false
 authorLink: "https://github.com/faimin"
 description: "记录React Native学习过程中的一点收获"
@@ -403,4 +403,22 @@ export const xxxReducer = createSlice({
 +        );
 +    },
 });
+```
+
+## Q: Vite中在开发环境引入调试工具
+
+```js
+if (process.env.NODE_ENV === "development") {
+	// 性能分析
+	import("react-scan").then((module) => {
+		const scan = module.scan;
+		scan({ enabled: true });
+	});
+
+	// 调试日志
+	import("vconsole").then((module) => {
+		const VConsole = module.default;
+		new VConsole();
+	});
+}
 ```

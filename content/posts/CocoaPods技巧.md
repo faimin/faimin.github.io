@@ -1,11 +1,11 @@
 ---
 title: "CocoaPods笔记"
 date: 2016-11-21T11:40:00+08:00
-lastmod: 2024-09-22T15:15:00+08:00
+lastmod: 2025-03-07T14:25:00+08:00
 draft: false
 authorLink: "https://github.com/faimin"
 description: ""
-tags: ["iOS", "cocoaPods", "tips"]
+tags: ["iOS", "CocoaPods", "tips"]
 categories: ["Tips"]
 
 images: []
@@ -112,13 +112,13 @@ s.prefix_header_contents = '#import "DDDefine.h"'
 
 ```ruby
 $ pod search ZDTableView
-[!] Unable to load a specification for the plugin `/Users/fuxianchao/.rvm/gems/ruby-2.2.1/gems/cocoapods-deintegrate-1.0.0.beta.1`
+[!] Unable to load a specification for the plugin `~/.rvm/gems/ruby-2.2.1/gems/cocoapods-deintegrate-1.0.0.beta.1`
 
 ――― MARKDOWN TEMPLATE ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
 
  Command
 
-/Users/fuxianchao/.rvm/gems/ruby-2.2.1/bin/pod search ZDTableView
+~/.rvm/gems/ruby-2.2.1/bin/pod search ZDTableView
 
 
  Report
@@ -137,7 +137,7 @@ $ pod search ZDTableView
         Host : Mac OS X 10.12.2 (16C67)
        Xcode : 8.2.1 (8C1002)
          Git : git version 2.11.0
-Ruby lib dir : /Users/fuxianchao/.rvm/rubies/ruby-2.2.1/lib
+Ruby lib dir : ~/.rvm/rubies/ruby-2.2.1/lib
 Repositories : cocoapods - https://github.com/CocoaPods/Old-Specs @ 6e256ccc84aad851d401fabb79b2c0f9e09bb875
                DDSpec - http://10.255.223.213/ios-code/DDSpec.git @ 941bed4b0c03090e13ecb7ee16a1eafa77969785
                master - https://github.com/CocoaPods/Specs.git @ 2d939ca0abb4172b9ef087d784b43e0696109e7c
@@ -155,17 +155,17 @@ cocoapods-try         : 0.4.5
 Error
 
 NoMethodError - undefined method `all' for Pod::Platform:Class
-/Users/fuxianchao/.rvm/gems/ruby-2.2.1/gems/cocoapods-search-1.0.0.beta.1/lib/cocoapods-search/command/search.rb:34:in `initialize'
-/Users/fuxianchao/.rvm/gems/ruby-2.2.1@global/gems/claide-0.9.1/lib/claide/command.rb:334:in `new'
-/Users/fuxianchao/.rvm/gems/ruby-2.2.1@global/gems/claide-0.9.1/lib/claide/command.rb:334:in `parse'
-/Users/fuxianchao/.rvm/gems/ruby-2.2.1@global/gems/claide-0.9.1/lib/claide/command.rb:330:in `parse'
-/Users/fuxianchao/.rvm/gems/ruby-2.2.1@global/gems/claide-0.9.1/lib/claide/command.rb:308:in `run'
-/Users/fuxianchao/.rvm/gems/ruby-2.2.1/gems/cocoapods-0.38.2/lib/cocoapods/command.rb:48:in `run'
-/Users/fuxianchao/.rvm/gems/ruby-2.2.1/gems/cocoapods-0.38.2/bin/pod:44:in `<top (required)>'
-/Users/fuxianchao/.rvm/gems/ruby-2.2.1/bin/pod:23:in `load'
-/Users/fuxianchao/.rvm/gems/ruby-2.2.1/bin/pod:23:in `<main>'
-/Users/fuxianchao/.rvm/gems/ruby-2.2.1/bin/ruby_executable_hooks:15:in `eval'
-/Users/fuxianchao/.rvm/gems/ruby-2.2.1/bin/ruby_executable_hooks:15:in `<main>'
+~/.rvm/gems/ruby-2.2.1/gems/cocoapods-search-1.0.0.beta.1/lib/cocoapods-search/command/search.rb:34:in `initialize'
+~/.rvm/gems/ruby-2.2.1@global/gems/claide-0.9.1/lib/claide/command.rb:334:in `new'
+~/.rvm/gems/ruby-2.2.1@global/gems/claide-0.9.1/lib/claide/command.rb:334:in `parse'
+~/.rvm/gems/ruby-2.2.1@global/gems/claide-0.9.1/lib/claide/command.rb:330:in `parse'
+~/.rvm/gems/ruby-2.2.1@global/gems/claide-0.9.1/lib/claide/command.rb:308:in `run'
+~/.rvm/gems/ruby-2.2.1/gems/cocoapods-0.38.2/lib/cocoapods/command.rb:48:in `run'
+~/.rvm/gems/ruby-2.2.1/gems/cocoapods-0.38.2/bin/pod:44:in `<top (required)>'
+~/.rvm/gems/ruby-2.2.1/bin/pod:23:in `load'
+~/.rvm/gems/ruby-2.2.1/bin/pod:23:in `<main>'
+~/.rvm/gems/ruby-2.2.1/bin/ruby_executable_hooks:15:in `eval'
+~/.rvm/gems/ruby-2.2.1/bin/ruby_executable_hooks:15:in `<main>'
 
 ――― TEMPLATE END ――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
 
@@ -183,7 +183,7 @@ https://github.com/CocoaPods/CocoaPods/blob/master/CONTRIBUTING.md
 Don't forget to anonymize any private data!
 ```
 
-这时候我的做法通常就是卸载`pod` ，然后重新安装。
+这时候我的做法通常就是卸载`pod`，然后重新安装。
 
 ```ruby
 $ which pod //得到path
@@ -308,7 +308,7 @@ pre_install do |installer|
 end
 ```
 
-## 13、使用`Ruby`特性快速设置头文件
+## 13、使用`Ruby`函数快捷处理source文件
 
   > https://github.com/mxcl/PromiseKit/blob/6.15.3/PromiseKit.podspec
 
@@ -439,7 +439,7 @@ pod 'CombineCocoa', :podspec => './CustomPodspecs/CombineCocoa.podspec'
 pod 'CombineCocoa', :podspec => 'https://example.com/CombineCocoa.podspec'
 ```
 
-## 16、通过pod修改代码
+## 16、通过pod hook修改源代码
 
 ```ruby
 # 通过pod修改代码
@@ -460,11 +460,39 @@ post_install do |installer|
 end
 ```
 
+## 17、在`podspec`中添加编译宏
+
+> 在`podspec`中添加编译宏，在`Objective-C`中添加编译宏使用`GCC_PREPROCESSOR_DEFINITIONS`，在`Swift`中添加编译宏使用`SWIFT_ACTIVE_COMPILATION_CONDITIONS`
+> 
+> 参考：[https://guides.cocoapods.org/syntax/podspec.html#pod_target_xcconfig](https://guides.cocoapods.org/syntax/podspec.html#pod_target_xcconfig)
+
+```ruby
+spec.pod_target_xcconfig = {
+  'DEFINES_MODULE' => 'YES',
+  'BUILD_LIBRARY_FOR_DISTRIBUTION' => 'YES',
+  'GCC_PREPROCESSOR_DEFINITIONS' => 'ZDFL=1',       # Objective-C中添加编译宏
+  'SWIFT_ACTIVE_COMPILATION_CONDITIONS' => 'ZDFL',  # Swift中添加编译宏
+}
+```
+
+## 18. 使用bundler统一管理团队`pod`版本
+
+```ruby
+# 初始化bundle
+bundle init
+# 在Gemfile中添加依赖
+
+# 安装依赖
+bundle install
+# 执行命令
+bundle exec pod install
+```
+
 ---
 
 ### 参考：
 
-- [podspec 语法指南](http://guides.cocoapods.org/syntax/podspec.html#specification)
+- [podspec 语法指南](http://guides.cocoapods.org/syntax/podspec.html)
 
 - [podfile 语法指南](https://guides.cocoapods.org/syntax/podfile.html)
 

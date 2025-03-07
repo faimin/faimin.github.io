@@ -1,5 +1,5 @@
 ---
-title: "React Native笔记"
+title: "React笔记"
 date: 2024-01-14T01:38:00+08:00
 lastmod: 2025-03-07T14:00:00+08:00
 draft: false

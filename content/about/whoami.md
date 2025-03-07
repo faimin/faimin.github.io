@@ -24,7 +24,7 @@ Coder，来自农村，处女座，踏实稳重，吃苦耐劳。
 -   `Swift`
 -   `Lua`
 -   `JavaScript`、`TypeScript`
--   `React Native`
+-   `React`、`ReactNative`
 -   `Flutter`
 
 喜欢`Rust`、`Go`

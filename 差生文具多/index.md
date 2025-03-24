@@ -200,7 +200,8 @@
 
 ### 阅读
 
-- [WeRead](https://github.com/tw93/Pake/releases) - 利用`Rust Tauri`打包的 APP
+- [readest](https://github.com/readest/readest)
+- [WeRead](https://github.com/tw93/Pake/releases) - 利用`Pake`打包的微信读书
 - [Legado](https://github.com/gedoor/legado) - Android
 - [报纸/期刊](http://www.53bk.com/baokan)
 - [十万个为什么](https://10why.net/)

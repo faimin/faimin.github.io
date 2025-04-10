@@ -125,13 +125,21 @@ int main(int argc, const char * argv[]) {
 ## 5. 数组的下标初始化
 
 ```objectivec
- const int numbers[] = {
-     [1] = 3,
-     [2] = 2,
-     [3] = 1,
-     [5] = 12306
- };
- // {0, 3, 2, 1, 0, 12306}
+const int numbers[] = {
+    [1] = 3,
+    [2] = 2,
+    [3] = 1,
+    [5] = 12306
+};
+// {0, 3, 2, 1, 0, 12306}
+
+static NSString * const FileTypeValue[] = {
+	[0] = @"png",
+	[2] = @"jpeg",
+	[4] = @"webp",
+	[1] = @"heic",
+};
+// {@"png", @"heic", @"jpeg", nil, @"webp"}
 ```
 
    **这个特性可以用来做枚举值和字符串的映射**

@@ -55,6 +55,8 @@
 ### 效率
 
 - [Raycast](https://www.raycast.com/)
+- [Wox](https://github.com/Wox-launcher/Wox)
+- [asyar](https://github.com/Xoshbin/asyar) - Raycast
 - [PopClip](https://apps.apple.com/cn/app/popclip/id445189367?mt=12)
 - [Alfred](https://www.alfredapp.com/)
   - [alfred-workflows](https://github.com/zenorocha/alfred-workflows)
@@ -195,6 +197,7 @@
 ### Markdown
 
 - [MarkText](https://github.com/marktext/marktext)
+- [MarkFlowy](https://github.com/drl990114/MarkFlowy)
 - [mdx-notes](https://github.com/maqi1520/mdx-notes)
 - [typst](https://github.com/typst/typst)
 
@@ -640,11 +643,16 @@
 
 - [Pake](https://github.com/tw93/Pake)
 
-### 网络
+### API
 
 - [thunder-client](https://marketplace.visualstudio.com/items?itemName=rangav.vscode-thunder-client)
 - [hoppscotch](https://github.com/hoppscotch/hoppscotch) - Postwomen
+- [yaak](https://github.com/mountain-loop/yaak)
+- [bruno](https://github.com/usebruno/bruno)
 - [RapidAPI / Paw](https://paw.cloud/)
+
+### 网络
+
 - [HTTPToolKit-Desktop](https://github.com/httptoolkit/httptoolkit-desktop)
 - [cocoa-reset-client](https://github.com/mmattozzi/cocoa-rest-client)
 - [Stream](https://apps.apple.com/cn/app/stream/id1312141691)

@@ -464,7 +464,11 @@ static NSString * AES_KEY(void) {
 }
 ```
 
-## 21. 另类的NSTimer破环方案
+## 21. 使用配置文件(.xcconfig)存储私密信息
+
+[一个行业难题，如何拯救你的API密钥：iOS中隐藏敏感信息的最佳方案](https://mp.weixin.qq.com/s/uRRDFTg8K8yGc9ef1oYaPw)
+
+## 22. 另类的NSTimer破环方案
 
 `block`结构中有个私有的函数：`invoke`。
 

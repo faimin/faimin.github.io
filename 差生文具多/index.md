@@ -432,10 +432,11 @@
 #### Flutter
 
 - [fvm](https://github.com/fluttertools/fvm)
+- [puro](https://github.com/pingbird/puro)
 
 #### Swift
 
-- [swiftly](https://github.com/swift-server/swiftly)
+- [swiftly](https://github.com/swiftlang/swiftly)
 
 ### 换源
 

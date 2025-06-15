@@ -275,6 +275,7 @@
 - [EcoPaste](https://github.com/ayangweb/EcoPaste)
 - [Lanaya](https://github.com/ChurchTao/Lanaya)
 - [crosspaste-desktop](https://github.com/CrossPaste/crosspaste-desktop) - kotlin
+- [SyncClipboard](https://github.com/Jeric-X/SyncClipboard)
 
 ### 文件搜索
 

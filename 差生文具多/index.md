@@ -648,11 +648,11 @@
 
 ### API
 
+- [hoppscotch](https://github.com/hoppscotch/hoppscotch/) - Postwomen
 - [thunder-client](https://marketplace.visualstudio.com/items?itemName=rangav.vscode-thunder-client)
-- [hoppscotch](https://github.com/hoppscotch/hoppscotch) - Postwomen
 - [yaak](https://github.com/mountain-loop/yaak)
 - [bruno](https://github.com/usebruno/bruno)
-- [RapidAPI / Paw](https://paw.cloud/)
+- [RapidAPI / Paw](https://rapidapi.com/)
 
 ### 网络
 

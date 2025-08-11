@@ -393,6 +393,7 @@
 ### 图片浏览器
 
 - [FlowVision](https://github.com/netdcy/FlowVision)
+- [PicView](https://github.com/Ruben2776/PicView)
 - [Xee](https://apps.apple.com/cn/app/xee-image-viewer-and-browser/id639764244?mt=12)
 - [Picture View](https://apps.apple.com/tt/app/picture-view-image-browser/id1606275031?mt=12)
 - [qimgv](https://github.com/easymodo/qimgv) - PC

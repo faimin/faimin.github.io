@@ -265,7 +265,8 @@
 
 - [Bob](https://apps.apple.com/cn/app/bob-%E7%BF%BB%E8%AF%91%E5%92%8C-ocr-%E5%B7%A5%E5%85%B7/id1630034110?mt=12)
 - [EasyDict](https://github.com/tisfeng/Easydict)
-- [沉浸式双语网页翻译扩展](https://github.com/immersive-translate/immersive-translate/)
+- [沉浸式双语网页翻译扩展](https://github.com/immersive-translate/old-immersive-translate?tab=readme-ov-file)
+- [FluentRead](https://github.com/Bistutu/FluentRead) 开源的沉浸式翻译
 - [kiss-translator](https://github.com/fishjar/kiss-translator)
 - [TTime](https://github.com/inkTimeRecord/TTime)
 - [pot-desktop](https://github.com/pot-app/pot-desktop)

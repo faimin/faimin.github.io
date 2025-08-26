@@ -541,6 +541,7 @@
 - [ugit](https://github.com/Bhupesh-V/ugit) - 撤销`git`操作
 - [thefuck](https://github.com/nvbn/thefuck)
 - [ipatool](https://github.com/majd/ipatool) - 下载`IPA`文件
+- [ipaverse](https://github.com/bahattinkoc/ipaverse) - 下载`IPA`文件
 - [HTTPie](https://github.com/jakubroztocil/httpie) - 查看网络
 - [zsh-autocomplete](https://github.com/marlonrichert/zsh-autocomplete)
 - [zsh-autosuggestions](https://github.com/zsh-users/zsh-autosuggestions)

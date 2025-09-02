@@ -705,8 +705,10 @@
 
 - Shades of Purple - 主题
 - [Dracula](https://draculatheme.com/) - 主题
-- HardHacker Theme
-- Cline (prev. Claude Dev)
+- [Catppuccin](https://github.com/catppuccin/vscode) - 主题
+- [HardHacker Theme](https://github.com/hardhackerlabs/theme-vscode) - 主题
+- Cline (prev. Claude Dev) - AI
+- Kilo Code AI Agent (Roo/Cline fork) - AI
 - Code Runner
 - CodeLLDB
 - clangd

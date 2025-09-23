@@ -155,8 +155,8 @@
 
 ### 系统优化
 
-- [Lemon Cleaner](https://github.com/Tencent/lemon-cleaner)
 - [Pearcleaner](https://github.com/alienator88/Pearcleaner) - Uninstall
+- [Lemon Cleaner](https://github.com/Tencent/lemon-cleaner)
 - [UninstallPKG](https://www.corecode.io/uninstallpkg/)
 - [AppCleaner](https://freemacsoft.net/appcleaner/)
 - [Bulk-Crap-Uninstaller](https://github.com/Klocman/Bulk-Crap-Uninstaller) - PC
@@ -325,6 +325,7 @@
 
 ### 键盘
 
+- [deskflow](https://github.com/deskflow/deskflow) - 键盘鼠标在多台设备中同步
 - [KeyCastr](https://github.com/keycastr/keycastr) - 显示当前按键
 - [Tickys](http://www.yingdev.com/projects/tickeys) - 模拟机械键盘的声音
 

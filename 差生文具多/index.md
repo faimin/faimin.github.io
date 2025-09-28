@@ -57,6 +57,7 @@
 - [Raycast](https://www.raycast.com/)
 - [Wox](https://github.com/Wox-launcher/Wox)
 - [asyar](https://github.com/Xoshbin/asyar) - Raycast
+- [Vicinae](https://github.com/vicinaehq/vicinae)
 - [PopClip](https://apps.apple.com/cn/app/popclip/id445189367?mt=12)
 - [Alfred](https://www.alfredapp.com/)
   - [alfred-workflows](https://github.com/zenorocha/alfred-workflows)
@@ -563,6 +564,7 @@
 - [joshuto](https://github.com/kamiyaa/joshuto) - file manager
 - [yazi](https://github.com/sxyazi/yazi) - file manager
 - [mc](https://github.com/thewh1teagle/mc) - copy
+- [fastfetch](https://github.com/fastfetch-cli/fastfetch) - 查看系统信息
 
 ### 快捷打开终端
 

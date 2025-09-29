@@ -563,6 +563,7 @@
 - [ProvisionQL](https://github.com/ealeksandrov/ProvisionQL) - 预览证书
 - [joshuto](https://github.com/kamiyaa/joshuto) - file manager
 - [yazi](https://github.com/sxyazi/yazi) - file manager
+- [Midnight Commander](https://github.com/MidnightCommander/mc) - 类似于yazi
 - [mc](https://github.com/thewh1teagle/mc) - copy
 - [fastfetch](https://github.com/fastfetch-cli/fastfetch) - 查看系统信息
 

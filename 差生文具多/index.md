@@ -245,6 +245,7 @@
 
 ### 窗口管理
 
+- [AeroSpace](https://github.com/nikitabobko/AeroSpace)
 - [Loop](https://github.com/MrKai77/Loop)
 - [Rectangle](https://github.com/rxhanson/Rectangle)
 - [yabai](https://github.com/koekeishiya/yabai)

@@ -584,6 +584,7 @@
 - [ImageSmith](https://apps.apple.com/cn/app/imagesmith-%E5%9B%BE%E7%89%87%E5%8E%8B%E7%BC%A9%E4%B8%93%E5%AE%B6/id1623828135?mt=12)
 - [Imagenie](https://github.com/meowtec/Imagine)
 - [Crunch](https://github.com/chrissimpkins/Crunch)
+- [PicSharp](https://github.com/AkiraBit/PicSharp)
 - [pic-smaller](https://github.com/joye61/pic-smaller)
 - [recompressor](https://zh.recompressor.com/)
 - [TinyPNG4Mac](https://github.com/kyleduo/TinyPNG4Mac)

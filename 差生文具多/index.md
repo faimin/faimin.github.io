@@ -26,6 +26,7 @@
 ### 包管理
 
 - [Homebrew](https://brew.sh/index_zh-cn)：`Mac`端的包管理工具，`PC`端的有`Scoop`、`Chocolate`、`Winget`
+  - [WailBrew](https://github.com/wickenico/WailBrew) - Homebrew GUI
   - [Applite](https://github.com/milanvarady/Applite) - Homebrew GUI
 - [UniGetUI](https://github.com/marticliment/WingetUI) - PC包管理GUI
 

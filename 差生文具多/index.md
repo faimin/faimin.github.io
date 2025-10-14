@@ -329,6 +329,7 @@
 ### 键盘
 
 - [deskflow](https://github.com/deskflow/deskflow) - 键盘鼠标在多台设备中同步
+- [lan-mouse](https://github.com/feschber/lan-mouse) - 键鼠在多台设备中同步
 - [KeyCastr](https://github.com/keycastr/keycastr) - 显示当前按键
 - [Tickys](http://www.yingdev.com/projects/tickeys) - 模拟机械键盘的声音
 

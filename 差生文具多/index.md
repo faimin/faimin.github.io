@@ -453,11 +453,12 @@
 
 - [chsrc](https://github.com/RubyMetric/chsrc)
 
-### Javascript engine
+### Javascript Engine
 
 - [quickjs](https://github.com/bellard/quickjs)
 - [QuickJS](https://github.com/quickjs-zh/QuickJS)
 - [boa](https://github.com/boa-dev/boa)
+- [ion](https://github.com/alshdavid/ion)
 
 ### 打包
 
@@ -536,11 +537,12 @@
 
 ### 命令行
 
-- [fig](https://docs.aws.amazon.com/amazonq/latest/qdeveloper-ug/command-line-getting-started-installing.html)
-- [inshellisense](https://github.com/microsoft/inshellisense)
+- [inshellisense](https://github.com/microsoft/inshellisense) - 命令行补全
+- [fig、Amazon Q](https://docs.aws.amazon.com/amazonq/latest/qdeveloper-ug/command-line-getting-started-installing.html)
+- [atuin](https://github.com/ellie/atuin) - shell history
+- [zoxide](https://github.com/ajeetdsouza/zoxide) - jump
 - [starship](https://github.com/starship/starship) - `prompt`
 - [nushell](https://github.com/nushell/nushell)
-- [atuin](https://github.com/ellie/atuin) - shell history
 - [fd](https://github.com/sharkdp/fd) - file search
 - [ripgrep](https://github.com/BurntSushi/ripgrep) - grep
 - [dust](https://github.com/bootandy/dust) - `du`
@@ -560,7 +562,6 @@
 - [tokei](https://github.com/XAMPPRocky/tokei) - 统计代码行数
 - [git-quick-stats](https://github.com/git-quick-stats/git-quick-stats) - Git statistics
 - [onefetch](https://github.com/o2sh/onefetch) - Git information
-- [zoxide](https://github.com/ajeetdsouza/zoxide) - jump
 - [ios-deploy](https://github.com/ios-control/ios-deploy)
 - [ideviceinstaller](https://github.com/libimobiledevice/ideviceinstaller)
 - [ProvisionQL](https://github.com/ealeksandrov/ProvisionQL) - 预览证书
@@ -666,10 +667,10 @@
 ### API
 
 - [hoppscotch](https://github.com/hoppscotch/hoppscotch/) - Postwomen
-- [thunder-client](https://marketplace.visualstudio.com/items?itemName=rangav.vscode-thunder-client)
 - [yaak](https://github.com/mountain-loop/yaak)
 - [bruno](https://github.com/usebruno/bruno)
 - [RapidAPI / Paw](https://rapidapi.com/)
+- [thunder-client](https://marketplace.visualstudio.com/items?itemName=rangav.vscode-thunder-client)
 
 ### 网络
 

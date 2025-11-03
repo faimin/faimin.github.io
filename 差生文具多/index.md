@@ -9,15 +9,15 @@
 
 ## 搜索引擎
 
-- [kimi](https://kimi.moonshot.cn/)
-- [phind](https://www.phind.com/)
 - [Yandex](https://yandex.com/)
+- [startpage](https://www.startpage.com/)
 - [Qwant](https://www.qwant.com/)
 - [grep.app](https://grep.app/)
-- [startpage](https://www.startpage.com/)
 - [SearX](https://github.com/searxng/searxng)
 - [luxirty](https://search.luxirty.com/)
 - [Perplexica](https://github.com/ItzCrazyKns/Perplexica)
+- [kimi](https://kimi.moonshot.cn/)
+- [phind](https://www.phind.com/)
 
 ---
 
@@ -188,6 +188,7 @@
 
 - [LibreOffice](https://zh-cn.libreoffice.org/)
 - [onlyoffice](https://www.onlyoffice.com/zh/)
+- [Web Office](https://ranuts.github.io/document/)
 
 ### 流程图
 
@@ -196,6 +197,7 @@
   - [ExcalidrawZ - Mac App Store](https://apps.apple.com/us/app/excalidrawz/id6636493997)
 - [asciiflow](https://asciiflow.com/)
 - [tlddraw](https://www.tldraw.com/)
+- [oxdraw](https://github.com/RohanAdwankar/oxdraw)
 
 ### Markdown
 
@@ -225,6 +227,7 @@
 > 收费的可以试试`Movist Pro`、`Infuse Pro`
 
 - [IINA](https://iina.io/)
+- [SMPlayer](https://github.com/smplayer-dev/smplayer)
 - [MPC-BE](https://github.com/Aleksoid1978/MPC-BE)
 - [MusicFree](https://github.com/maotoumao/MusicFree) - ReactNative
 
@@ -260,6 +263,7 @@
 
 ### 屏幕保护
 
+- [macos-live-screensaver](https://github.com/hauxir/macos-live-screensaver) - 视频作为屏保
 - [Brooklyn](https://github.com/pedrommcarrasco/Brooklyn)
 
 ### 防火墙
@@ -570,6 +574,7 @@
 - [Midnight Commander](https://github.com/MidnightCommander/mc) - 类似于yazi
 - [mc](https://github.com/thewh1teagle/mc) - copy
 - [fastfetch](https://github.com/fastfetch-cli/fastfetch) - 查看系统信息
+- [git-filter-repo](https://github.com/newren/git-filter-repo) - 改写git历史提交记录
 
 ### 快捷打开终端
 

@@ -458,8 +458,13 @@ end
 spec.pod_target_xcconfig = {
   'DEFINES_MODULE' => 'YES',
   'BUILD_LIBRARY_FOR_DISTRIBUTION' => 'YES',
-  'GCC_PREPROCESSOR_DEFINITIONS' => 'ZDFL=1',       # Objective-C中添加编译宏
-  'SWIFT_ACTIVE_COMPILATION_CONDITIONS' => 'ZDFL',  # Swift中添加编译宏
+  # Objective-C中添加编译宏
+  'GCC_PREPROCESSOR_DEFINITIONS' => 'ZDFL=1',   
+  # Swift中添加编译宏(注意宏变量后面没有=1)    
+  'SWIFT_ACTIVE_COMPILATION_CONDITIONS' => 'ZDFL',  
+  # Swift中开启实验性功能
+  ## 参考： https://github.com/reers/ReerRouter/blob/main/ReerRouter.podspec
+  'OTHER_SWIFT_FLAGS' => '-enable-experimental-feature NoncopyableGenerics -enable-experimental-feature Lifetimes',
 }
 ```
 
@@ -474,6 +479,53 @@ bundle init
 bundle install
 # 执行命令
 bundle exec pod install
+```
+
+## 19. 判断是否是本地pod
+
+```ruby
+post_install do |installer|
+  installer.pods_project.targets.each do |target|
+    # 方法1: 使用installer.local_pod?方法
+    is_local = installer.local_pod?(target.name)
+    
+    # 方法2: 检查pod的源码路径
+    pod_root_path = installer.sandbox.pod_dir(target.name)
+    is_local_path = pod_root_path.to_s.include?('Local Pods')
+    
+    # 方法3: 检查spec信息
+    pod_spec = installer.sandbox.specification_path(target.name)
+    is_from_local_spec = pod_spec&.include?('file://')
+    
+    puts "=== Pod分析: #{target.name} ==="
+    puts "installer.local_pod?(): #{is_local}"
+    puts "包含'Local Pods'路径: #{is_local_path}"
+    puts "本地文件协议: #{is_from_local_spec}"
+    
+    # 综合判断
+    if is_local || is_local_path || is_from_local_spec
+      puts "✓ 识别为本地pod"
+      handle_local_pod(target)
+    else
+      puts "✓ 识别为远程pod" 
+      handle_remote_pod(target)
+    end
+  end
+end
+
+def handle_local_pod(target)
+  # 本地pod特殊配置
+  target.build_configurations.each do |config|
+    config.build_settings['ENABLE_LOCAL_POD_SETTINGS'] = 'YES'
+  end
+end
+
+def handle_remote_pod(target)
+  # 远程pod特殊配置
+  target.build_configurations.each do |config|
+    config.build_settings['ENABLE_REMOTE_POD_SETTINGS'] = 'YES'
+  end
+end
 ```
 
 ---

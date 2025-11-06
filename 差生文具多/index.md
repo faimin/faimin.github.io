@@ -575,6 +575,7 @@
 - [mc](https://github.com/thewh1teagle/mc) - copy
 - [fastfetch](https://github.com/fastfetch-cli/fastfetch) - 查看系统信息
 - [git-filter-repo](https://github.com/newren/git-filter-repo) - 改写git历史提交记录
+- [filter-repo-rs](https://github.com/Cactusinhand/filter-repo-rs) - rust版git-filter-repo
 
 ### 快捷打开终端
 

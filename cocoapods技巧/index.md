@@ -481,49 +481,54 @@ bundle install
 bundle exec pod install
 ```
 
-## 19. 判断是否是本地pod
+## 19. 判断是否是本地`pod`
 
 ```ruby
 post_install do |installer|
-  installer.pods_project.targets.each do |target|
-    # 方法1: 使用installer.local_pod?方法
-    is_local = installer.local_pod?(target.name)
-    
-    # 方法2: 检查pod的源码路径
-    pod_root_path = installer.sandbox.pod_dir(target.name)
-    is_local_path = pod_root_path.to_s.include?('Local Pods')
-    
-    # 方法3: 检查spec信息
-    pod_spec = installer.sandbox.specification_path(target.name)
-    is_from_local_spec = pod_spec&.include?('file://')
-    
-    puts "=== Pod分析: #{target.name} ==="
-    puts "installer.local_pod?(): #{is_local}"
-    puts "包含'Local Pods'路径: #{is_local_path}"
-    puts "本地文件协议: #{is_from_local_spec}"
-    
-    # 综合判断
-    if is_local || is_local_path || is_from_local_spec
-      puts "✓ 识别为本地pod"
-      handle_local_pod(target)
-    else
-      puts "✓ 识别为远程pod" 
-      handle_remote_pod(target)
+  # 方法1: 检查Podfile.lock
+  # Podfile.lock 文件记录了每个 Pod 的来源信息。如果一个 Pod 是本地 Pod，它的路径会以 :path 指定。可以在 post_install 钩子中读取 Podfile.lock 文件并解析这些信息。
+  require 'yaml'
+  require 'set'
+  podfile_lock_path = File.join(installer.sandbox.root.parent, 'Podfile.lock')
+  podfile_lock = YAML.load_file(podfile_lock_path)
+
+  local_pods = Set["Pods"] # 本地Pod列表, 由于cocoapods创建的总target工程命名规则是Pods-XXX, 所以这里加上Pods避免误判
+  handled_remote_pods = Set.new # 已处理的Pod列表
+  podfile_lock['EXTERNAL SOURCES'].each do |pod|
+    next if pod.is_a?(Array) == false
+    pod_name = pod[0]
+    pod_options = pod[1]
+    if pod_options && pod_options[:path]
+      local_pods << pod_name
     end
   end
-end
 
-def handle_local_pod(target)
-  # 本地pod特殊配置
-  target.build_configurations.each do |config|
-    config.build_settings['ENABLE_LOCAL_POD_SETTINGS'] = 'YES'
+  # 方法2: 检查 Pods/Local Podspecs 目录
+  # 当安装本地 Pod 时，CocoaPods 会将本地 Pod 的 podspec 文件复制到 Pods/Local Podspecs 目录。可以通过检查这个目录来判断是否有本地 Pod。
+  local_podspecs_dir = File.join(installer.sandbox.root, 'Local Podspecs')
+  Dir.glob(File.join(local_podspecs_dir, '*.podspec*')).each do |podspec_path|
+    # 去掉扩展名取文件名
+    podspec_name = File.basename(podspec_path, '.podspec')
+    podspec_name = File.basename(podspec_name, '.json') if podspec_name.end_with?('.json')
+    puts "#{podspec_name} is a local pod"
   end
-end
 
-def handle_remote_pod(target)
-  # 远程pod特殊配置
-  target.build_configurations.each do |config|
-    config.build_settings['ENABLE_REMOTE_POD_SETTINGS'] = 'YES'
+  # 方法 3：检查 Pods 目录中的文件
+  # 如果本地 Pod 的文件是直接从本地路径复制到 Pods 目录的，可以通过检查 Pods 目录中的文件来判断。
+  pods_dir = installer.sandbox.root
+  Dir.glob(File.join(pods_dir, '*')).each do |pod_dir|
+    pod_name = File.basename(pod_dir)
+  end
+
+  ##########################################################
+
+  installer.pods_project.targets.each do |target|
+    # 带resource或subspec的pod会多次处理，所以这里做去重
+    real_name = target.name.split('-').first
+
+    # 方法 4: 检查pod的源码路径
+    pod_root_path = installer.sandbox.pod_dir(target.name)
+    is_local_path = !pod_root_path.to_s.include?('Pods') # 如果路径中不包含 Pods，则认为这是一个本地路径
   end
 end
 ```

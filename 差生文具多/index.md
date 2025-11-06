@@ -239,6 +239,7 @@
 
 - [pixpin](https://pixpinapp.com)
 - [Snipaste](https://zh.snipaste.com/)
+- [SnowShot](https://github.com/mg-chao/snow-shot)
 - [zenshot](https://github.com/easysoft/zenshot)
 - [shottr](https://shottr.cc/)
 - [flameshot](https://github.com/flameshot-org/flameshot)

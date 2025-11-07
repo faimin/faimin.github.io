@@ -535,7 +535,8 @@ post_install do |installer|
   ##########################################################
 
   installer.pods_project.targets.each do |target|
-    # 带resource或subspec的pod会多次处理，所以这里做去重
+    # 带resource的pod会自动生成同名的pod，格式大概如下：podname-xxxx
+    # 所以这里简单处理下，只截取"-"前面的pod名字，避免多次处理
     real_name = target.name.split('-').first
 
     # 方法 4: 检查pod的源码路径

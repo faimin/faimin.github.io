@@ -399,6 +399,10 @@
 - [Tunnelblick](https://github.com/Tunnelblick/Tunnelblick) - OpenVPN
 - [whistle](https://github.com/avwo/whistle)
 
+### Telegram
+
+- [AynGramDesktop](https://github.com/AyuGram/AyuGramDesktop)
+
 ### Windows 激活
 
 - [HEU_KMS_Activator](https://github.com/zbezj/HEU_KMS_Activator)

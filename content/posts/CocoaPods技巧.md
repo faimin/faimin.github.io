@@ -1,7 +1,7 @@
 ---
 title: "CocoaPods笔记"
 date: 2016-11-21T11:40:00+08:00
-lastmod: 2025-11-06T20:00:00+08:00
+lastmod: 2025-11-11T18:48:00+08:00
 draft: false
 authorLink: "https://github.com/faimin"
 description: ""
@@ -545,6 +545,35 @@ post_install do |installer|
   end
 end
 ```
+
+## 20. 区分`Debug`和`Release`环境
+
+```ruby
+# Debug环境
+pod 'CombineCocoa', :podspec => './CustomPodspecs/CombineCocoa.podspec', :configurations => ['Debug']
+
+# Release环境
+pod 'CombineCocoa', :podspec => './CustomPodspecs/CombineCocoa.podspec', :configurations => ['Release']
+```
+
+```ruby
+post_install do |installer|
+  installer.pods_project.targets.each do |target|
+    target.build_configurations.each do |config|
+      # Debug环境开启编译缓存
+      if config.name == 'Debug'
+        config.build_settings['COMPILATION_CACHE_ENABLE_CACHING'] = 'YES'
+      elsif config.name == 'Release'
+        config.build_settings['COMPILATION_CACHE_ENABLE_CACHING'] = 'NO'
+      end
+    end
+  end
+end
+```
+
+## 21. 使用`pod`安装本地`podspec`
+
+```ruby
 
 ---
 

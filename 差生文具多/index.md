@@ -323,6 +323,7 @@
 
 - [glance](https://github.com/chamburr/glance) - All-in-one Quick Look plugin
   > brew install glance-chamburr
+- [PeekX](https://github.com/altic-dev/PeekX) - 文件夹预览
 - [SourceCodeSyntaxHighlight](https://github.com/sbarex/SourceCodeSyntaxHighlight)
 - [QLMarkdown](https://github.com/sbarex/QLMarkdown)
 - [Mac-QuickLook](https://github.com/haokaiyang/Mac-QuickLook)
@@ -573,9 +574,6 @@
 - [tokei](https://github.com/XAMPPRocky/tokei) - 统计代码行数
 - [git-quick-stats](https://github.com/git-quick-stats/git-quick-stats) - Git statistics
 - [onefetch](https://github.com/o2sh/onefetch) - Git information
-- [ios-deploy](https://github.com/ios-control/ios-deploy)
-- [ideviceinstaller](https://github.com/libimobiledevice/ideviceinstaller)
-- [ProvisionQL](https://github.com/ealeksandrov/ProvisionQL) - 预览证书
 - [joshuto](https://github.com/kamiyaa/joshuto) - file manager
 - [yazi](https://github.com/sxyazi/yazi) - file manager
 - [Midnight Commander](https://github.com/MidnightCommander/mc) - 类似于yazi
@@ -594,6 +592,13 @@
 - [FinderGo](https://github.com/onmyway133/FinderGo)
 - [Go2Shell](http://zipzapmac.com/Go2Shell)
 - [Alfred 插件](http://www.packal.org/workflow/terminalfinder)
+
+### 设备管理
+
+- [iDescriptor](https://github.com/iDescriptor/iDescriptor) - 跨平台电脑连接管理iPhone
+- [ios-deploy](https://github.com/ios-control/ios-deploy)
+- [ideviceinstaller](https://github.com/libimobiledevice/ideviceinstaller)
+- [ProvisionQL](https://github.com/ealeksandrov/ProvisionQL) - 预览证书
 
 ### 图片压缩
 

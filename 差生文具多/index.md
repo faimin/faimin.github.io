@@ -581,6 +581,7 @@
 - [fastfetch](https://github.com/fastfetch-cli/fastfetch) - 查看系统信息
 - [git-filter-repo](https://github.com/newren/git-filter-repo) - 改写git历史提交记录
 - [filter-repo-rs](https://github.com/Cactusinhand/filter-repo-rs) - rust版git-filter-repo
+- [tuios](https://github.com/Gaurav-Gosain/tuios) - 类似tmux多窗口
 
 ### 快捷打开终端
 

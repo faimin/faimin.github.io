@@ -53,15 +53,24 @@
 - [vimr](https://github.com/qvacua/vimr) - GUI
 - [NvChad](https://github.com/NvChad/NvChad)
 
-### 效率
+### 快速启动
 
 - [Raycast](https://www.raycast.com/)
 - [Wox](https://github.com/Wox-launcher/Wox)
-- [asyar](https://github.com/Xoshbin/asyar) - Raycast
-- [Vicinae](https://github.com/vicinaehq/vicinae)
-- [PopClip](https://apps.apple.com/cn/app/popclip/id445189367?mt=12)
+- [Vicinae](https://github.com/vicinaehq/vicinae) - QT
+- [fast-forward](https://github.com/gaauwe/fast-forward) - Rust GPUI
+- [asyar](https://github.com/Xoshbin/asyar) - Tauri
 - [Alfred](https://www.alfredapp.com/)
   - [alfred-workflows](https://github.com/zenorocha/alfred-workflows)
+
+### 效率
+
+- [PopClip](https://apps.apple.com/cn/app/popclip/id445189367?mt=12)
+- [SwiftBar](https://github.com/swiftbar/SwiftBar)
+- [xbar](https://github.com/matryer/xbar)
+- [DevToys](https://github.com/ObuchiYuki/DevToysMac)
+- [OnlySwitch](https://github.com/jacklandrin/OnlySwitch)
+- [NotchDrop](https://github.com/Lakr233/NotchDrop)
 - [Hammerspoon](http://hammerspoon.org/)
 
   ```lua
@@ -140,12 +149,6 @@
   appWatcher = hs.application.watcher.new(applicationWatcher)
   appWatcher:start()
   ```
-
-- [SwiftBar](https://github.com/swiftbar/SwiftBar)
-- [xbar](https://github.com/matryer/xbar)
-- [DevToys](https://github.com/ObuchiYuki/DevToysMac)
-- [OnlySwitch](https://github.com/jacklandrin/OnlySwitch)
-- [NotchDrop](https://github.com/Lakr233/NotchDrop)
 
 ### 输入法
 

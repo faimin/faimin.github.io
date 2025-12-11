@@ -233,6 +233,7 @@
 - [SMPlayer](https://github.com/smplayer-dev/smplayer)
 - [MPC-BE](https://github.com/Aleksoid1978/MPC-BE)
 - [MusicFree](https://github.com/maotoumao/MusicFree) - ReactNative
+- [HiFidelity](https://github.com/rvarunrathod/HiFidelity) - 高保真Mac音乐播放器
 
 
 - [Music 站点](https://tools.liumingye.cn/music/#/)

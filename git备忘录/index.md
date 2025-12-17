@@ -41,7 +41,7 @@ $ git filter-branch --tree-filter 'rm -f target.file'
 
 #### git仓库迁移
 
-git仓库的迁移，在一些git管理平台像是gitlab和github是有的，推荐使用平台提供的方法，如果没有的话我们则可以使用git语句操作：
+`git`仓库的迁移，在一些`git`管理平台像是`gitlab`和`github`是有的，推荐使用平台提供的方法，如果没有的话我们则可以使用`git`语句操作：
 
 ```bash
 $ git clone --bare git@host/old.git # clone原仓库的裸仓库
@@ -49,7 +49,20 @@ $ cd old.git
 $ git push --mirror git@host/new.git # 使用mirror参数推送至新仓库
 ```
 
+#### 文件名大小写修改
+
+```bash
+## A.txt -> a.txt
+
+### 方法1
+$ git mv A.txt a.txt
+
+### 方法2
+A.txt -> xx.txt
+xx.txt -> a.txt
+```
 
 ## 参考
 
 [iOS摸鱼周报 第二期](https://juejin.cn/post/6913750369604468744)
+[Use 'git mv'to record filename case changes in Git](https://oleb.net/2025/git-mv-case-change/)

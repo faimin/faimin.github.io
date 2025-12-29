@@ -313,6 +313,7 @@
 - [CalendarX](https://github.com/ZzzM/CalendarX)
 - [Calendr](https://github.com/pakerwreah/Calendr)
 - [Itsycal](https://github.com/sfsam/Itsycal)
+- [MacCalendar](https://github.com/bylinxx/MacCalendar)
 
 ### 置顶
 

@@ -1,7 +1,7 @@
 ---
 title: "CocoaPods笔记"
 date: 2016-11-21T11:40:00+08:00
-lastmod: 2025-11-11T18:48:00+08:00
+lastmod: 2025-12-29T12:21:00+08:00
 draft: false
 authorLink: "https://github.com/faimin"
 description: ""
@@ -442,7 +442,7 @@ pod 'CombineCocoa', :podspec => 'https://example.com/CombineCocoa.podspec'
 ## 16、通过pod hook修改源代码
 
 ```ruby
-# 通过pod修改代码
+# 修改代码
 post_install do |installer|
     installer.pods_project.targets.each do |target|
       if target.name == 'Flipper'
@@ -457,6 +457,24 @@ post_install do |installer|
         end
       end
     end
+end
+```
+
+```ruby
+# 修改umbrella
+# https://github.com/robbiehanson/CocoaAsyncSocket/issues/851
+post_install do |installer|
+  installer.pods_project.targets.each do |target|
+    if target.name  == 'CocoaAsyncSocket'
+      umbrella_path = "#{installer.sandbox.target_support_files_dir(target.name)}/#{ target.name }-umbrella.h"
+      if File.exist?(umbrella_path)
+        contents = File.read(umbrella_path)
+        contents.gsub!(/#import "GCDAsyncSocket.h"/, '#import <CocoaAsyncSocket/GCDAsyncSocket.h>')
+        contents.gsub!(/#import "GCDAsyncUdpSocket.h"/, '#import <CocoaAsyncSocket/GCDAsyncUdpSocket.h>')
+        File.write(umbrella_path, contents)
+      end
+    end
+  end
 end
 ```
 

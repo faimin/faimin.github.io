@@ -178,7 +178,8 @@
 - [imfile-desktop](https://github.com/imfile-io/imfile-desktop) - Motrix fork版本
 - [Free Download Manager](https://www.freedownloadmanager.org/zh/)
 - [NeatDownloadManager](https://www.neatdownloadmanager.com/index.php/en/)
-- [gopeed](https://github.com/GopeedLab/gopeed)
+- [gopeed](https://github.com/GopeedLab/gopeed) - flutter+go
+- [brisk](https://github.com/BrisklyDev/brisk) - flutter
 - [FileCentipede](https://github.com/filecxx/FileCentipede)
 - [ab-download-manager](https://github.com/amir1376/ab-download-manager)
 - [AriaNg-Native](https://github.com/mayswind/AriaNg-Native)

@@ -160,6 +160,7 @@
 
 ### 系统优化
 
+- [Mole](https://github.com/tw93/Mole)
 - [Pearcleaner](https://github.com/alienator88/Pearcleaner) - Uninstall
 - [Lemon Cleaner](https://github.com/Tencent/lemon-cleaner)
 - [UninstallPKG](https://www.corecode.io/uninstallpkg/)

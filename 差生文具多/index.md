@@ -28,6 +28,7 @@
 - [Homebrew](https://brew.sh/index_zh-cn)：`Mac`端的包管理工具，`PC`端的有`Scoop`、`Chocolate`、`Winget`
   - [WailBrew](https://github.com/wickenico/WailBrew) - Homebrew GUI
   - [Applite](https://github.com/milanvarady/Applite) - Homebrew GUI
+- [ZeroBrew](https://github.com/lucasgelfond/zerobrew) - Homebrew替代品
 - [UniGetUI](https://github.com/marticliment/WingetUI) - PC包管理GUI
 
 ### 终端
@@ -583,6 +584,7 @@
 - [onefetch](https://github.com/o2sh/onefetch) - Git information
 - [joshuto](https://github.com/kamiyaa/joshuto) - file manager
 - [yazi](https://github.com/sxyazi/yazi) - file manager
+- [nnn](https://github.com/jarun/nnn) - 类似yazi
 - [Midnight Commander](https://github.com/MidnightCommander/mc) - 类似于yazi
 - [mc](https://github.com/thewh1teagle/mc) - copy
 - [fastfetch](https://github.com/fastfetch-cli/fastfetch) - 查看系统信息

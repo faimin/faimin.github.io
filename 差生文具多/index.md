@@ -34,6 +34,7 @@
 ### 终端
 
 - [ghostty](https://github.com/ghostty-org/ghostty)
+- [Kaku](https://github.com/tw93/Kaku)
 - [Alacritty](https://github.com/alacritty/alacritty)
 - [iTerm2](https://iterm2.com/)
 - [WezTerm](https://github.com/wez/wezterm)

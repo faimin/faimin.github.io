@@ -4,16 +4,16 @@
 <h4 id="覆盖最近一次commit">覆盖最近一次commit</h4>
 <div class="code-block code-line-numbers open" style="counter-reset: code-block 0">
     <div class="code-header language-bash">
-        <span class="code-title"><i class="arrow fas fa-angle-right fa-fw" aria-hidden="true"></i></span>
-        <span class="ellipses"><i class="fas fa-ellipsis-h fa-fw" aria-hidden="true"></i></span>
-        <span class="copy" title="复制到剪贴板"><i class="far fa-copy fa-fw" aria-hidden="true"></i></span>
+        <span class="code-title"><i class="arrow fas fa-angle-right" aria-hidden="true"></i></span>
+        <span class="ellipses"><i class="fas fa-ellipsis-h" aria-hidden="true"></i></span>
+        <span class="copy" title="复制到剪贴板"><i class="far fa-copy" aria-hidden="true"></i></span>
     </div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">$ git commit --amend -m <span class="s2">&#34;message&#34;</span></span></span></code></pre></div></div>
 <h4 id="合并多个commit">合并多个commit</h4>
 <div class="code-block code-line-numbers open" style="counter-reset: code-block 0">
     <div class="code-header language-bash">
-        <span class="code-title"><i class="arrow fas fa-angle-right fa-fw" aria-hidden="true"></i></span>
-        <span class="ellipses"><i class="fas fa-ellipsis-h fa-fw" aria-hidden="true"></i></span>
-        <span class="copy" title="复制到剪贴板"><i class="far fa-copy fa-fw" aria-hidden="true"></i></span>
+        <span class="code-title"><i class="arrow fas fa-angle-right" aria-hidden="true"></i></span>
+        <span class="ellipses"><i class="fas fa-ellipsis-h" aria-hidden="true"></i></span>
+        <span class="copy" title="复制到剪贴板"><i class="far fa-copy" aria-hidden="true"></i></span>
     </div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">$ git rebase -i <span class="o">[</span>startpoint<span class="o">]</span> <span class="o">[</span>endpoint<span class="o">]</span>
 </span></span><span class="line"><span class="cl">$ git rebase -i HEAD~2 <span class="c1"># 合并最近两次提交</span></span></span></code></pre></div></div>
 <p><code>endpoint</code>默认为当前分支指向的<code>HEAD</code>节点。参数<code>-i</code>表示<code>interactive(交互)</code>，该命令执行之后会进入一个<code>vim</code>的交互编辑界面，下面会有一些参数的说明：</p>]]></description></item></channel></rss>

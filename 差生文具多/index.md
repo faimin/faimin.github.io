@@ -62,6 +62,7 @@
 - [Vicinae](https://github.com/vicinaehq/vicinae) - QT
 - [fast-forward](https://github.com/gaauwe/fast-forward) - Rust GPUI
 - [asyar](https://github.com/Xoshbin/asyar) - Tauri
+- [ZTools](https://github.com/ZToolsCenter/ZTools) - uTools替代品
 - [Alfred](https://www.alfredapp.com/)
   - [alfred-workflows](https://github.com/zenorocha/alfred-workflows)
 
@@ -182,6 +183,7 @@
 - [Free Download Manager](https://www.freedownloadmanager.org/zh/)
 - [NeatDownloadManager](https://www.neatdownloadmanager.com/index.php/en/)
 - [gopeed](https://github.com/GopeedLab/gopeed) - flutter+go
+- [Surge](https://github.com/surge-downloader/Surge) - go tui
 - [brisk](https://github.com/BrisklyDev/brisk) - flutter
 - [FileCentipede](https://github.com/filecxx/FileCentipede)
 - [ab-download-manager](https://github.com/amir1376/ab-download-manager)

@@ -560,6 +560,7 @@
 
 - [inshellisense](https://github.com/microsoft/inshellisense) - 命令行补全
 - [intelli-shell](https://github.com/lasantosr/intelli-shell) - 命令行补全
+- [carapace](https://github.com/carapace-sh/carapace) - 命令行补全
 - [fig、Amazon Q、Kiro](https://kiro.dev/) - 命令行补全
 - [atuin](https://github.com/ellie/atuin) - shell history
 - [zoxide](https://github.com/ajeetdsouza/zoxide) - jump

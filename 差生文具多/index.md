@@ -179,6 +179,7 @@
 ### 下载
 
 - [Motrix](https://github.com/agalwood/Motrix)
+- [motrix-next](https://github.com/AnInsomniacy/motrix-next)
 - [imfile-desktop](https://github.com/imfile-io/imfile-desktop) - Motrix fork版本
 - [Free Download Manager](https://www.freedownloadmanager.org/zh/)
 - [NeatDownloadManager](https://www.neatdownloadmanager.com/index.php/en/)

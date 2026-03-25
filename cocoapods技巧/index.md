@@ -477,9 +477,9 @@ spec.pod_target_xcconfig = {
   'DEFINES_MODULE' => 'YES',
   'BUILD_LIBRARY_FOR_DISTRIBUTION' => 'YES',
   # Objective-C中添加编译宏
-  'GCC_PREPROCESSOR_DEFINITIONS' => 'ZDFL=1',   
+  'GCC_PREPROCESSOR_DEFINITIONS' => '$(inherited) ZDFL=1',   
   # Swift中添加编译宏(注意宏变量后面没有=1)    
-  'SWIFT_ACTIVE_COMPILATION_CONDITIONS' => 'ZDFL',  
+  'SWIFT_ACTIVE_COMPILATION_CONDITIONS' => '$(inherited) ZDFL',  
   # Swift中开启实验性功能
   ## 参考： https://github.com/reers/ReerRouter/blob/main/ReerRouter.podspec
   'OTHER_SWIFT_FLAGS' => '-enable-experimental-feature NoncopyableGenerics -enable-experimental-feature Lifetimes',

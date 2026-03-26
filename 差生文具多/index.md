@@ -28,7 +28,8 @@
 - [Homebrew](https://brew.sh/index_zh-cn)：`Mac`端的包管理工具，`PC`端的有`Scoop`、`Chocolate`、`Winget`
   - [WailBrew](https://github.com/wickenico/WailBrew) - Homebrew GUI
   - [Applite](https://github.com/milanvarady/Applite) - Homebrew GUI
-- [ZeroBrew](https://github.com/lucasgelfond/zerobrew) - Homebrew替代品
+- [ZeroBrew](https://github.com/lucasgelfond/zerobrew) - 加速Homebrew下载
+- [nanobrew](https://github.com/justrach/nanobrew) - 加速homebrew下载
 - [UniGetUI](https://github.com/marticliment/WingetUI) - PC包管理GUI
 
 ### 终端

@@ -312,6 +312,7 @@
 ### MenuBar
 
 - [HiddenBar](https://github.com/dwarvesf/hidden) - 折叠图标
+- [Thaw](https://github.com/stonerl/Thaw) - Ice fork
 - [Ice](https://github.com/jordanbaird/Ice)
 - [Dozer](https://github.com/Mortennn/Dozer)
 

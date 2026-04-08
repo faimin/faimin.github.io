@@ -179,8 +179,8 @@
 
 ### 下载
 
-- [Motrix](https://github.com/agalwood/Motrix)
 - [motrix-next](https://github.com/AnInsomniacy/motrix-next)
+- [Motrix](https://github.com/agalwood/Motrix)
 - [imfile-desktop](https://github.com/imfile-io/imfile-desktop) - Motrix fork版本
 - [Free Download Manager](https://www.freedownloadmanager.org/zh/)
 - [NeatDownloadManager](https://www.neatdownloadmanager.com/index.php/en/)
@@ -658,7 +658,9 @@
 ### Git
 
 - [Fork](https://git-fork.com)
-- [sourcegit](https://github.com/sourcegit-scm/sourcegit)
+- [sourcegit](https://github.com/sourcegit-scm/sourcegit) - AvaloniaUI
+- [Gitnuro](https://github.com/JetpackDuba/Gitnuro) - ComposeUI
+- [Rebased](https://github.com/DetachHead/rebased) - Jetbrains git client
 - [GitUI](https://github.com/extrawurst/gitui)
 - [LazyGit](https://github.com/jesseduffield/lazygit)
 - [Gitu](https://github.com/altsem/gitu)

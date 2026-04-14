@@ -167,6 +167,7 @@
 - [Mole](https://github.com/tw93/Mole)
 - [Pearcleaner](https://github.com/alienator88/Pearcleaner) - Uninstall
 - [Lemon Cleaner](https://github.com/Tencent/lemon-cleaner)
+- [PureMac](https://github.com/momenbasel/PureMac) - CleanMyMac替代品
 - [UninstallPKG](https://www.corecode.io/uninstallpkg/)
 - [AppCleaner](https://freemacsoft.net/appcleaner/)
 - [Bulk-Crap-Uninstaller](https://github.com/Klocman/Bulk-Crap-Uninstaller) - PC
@@ -272,6 +273,7 @@
 - [The Unarchiver](https://apps.apple.com/cn/app/the-unarchiver/id425424353?mt=12)
 - [Keka](https://www.keka.io/zh-cn/)
 - [PeaZip](https://github.com/peazip/PeaZip)
+- [ShichiZip](https://github.com/idawnlight/ShichiZip) - 7-Zip
 - [NanaZip](https://github.com/M2Team/NanaZip) - windows
 
 ### 屏幕保护

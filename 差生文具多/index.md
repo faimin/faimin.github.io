@@ -660,6 +660,7 @@
 ### Git
 
 - [Fork](https://git-fork.com)
+- [GitComet](https://github.com/Auto-Explore/GitComet) - gpui+gix
 - [sourcegit](https://github.com/sourcegit-scm/sourcegit) - AvaloniaUI
 - [Gitnuro](https://github.com/JetpackDuba/Gitnuro) - ComposeUI
 - [Rebased](https://github.com/DetachHead/rebased) - Jetbrains git client

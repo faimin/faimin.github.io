@@ -252,8 +252,10 @@
 
 - [pixpin](https://pixpinapp.com)
 - [Snipaste](https://zh.snipaste.com/)
-- [Snapzy](https://github.com/duongductrong/Snapzy) - Swift实现
 - [SnowShot](https://github.com/mg-chao/snow-shot)
+- [Snapzy](https://github.com/duongductrong/Snapzy) - Swift
+- [macshot](https://github.com/sw33tLie/macshot) - Swift
+- [capcap](https://github.com/realskyrin/capcap) - Swift
 - [zenshot](https://github.com/easysoft/zenshot)
 - [shottr](https://shottr.cc/)
 - [flameshot](https://github.com/flameshot-org/flameshot)

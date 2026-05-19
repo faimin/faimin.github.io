@@ -62,6 +62,7 @@
 - [Wox](https://github.com/Wox-launcher/Wox)
 - [Vicinae](https://github.com/vicinaehq/vicinae) - QT
 - [fast-forward](https://github.com/gaauwe/fast-forward) - Rust GPUI
+- [rustcast](https://github.com/RustCastLabs/rustcast)
 - [asyar](https://github.com/Xoshbin/asyar) - Tauri
 - [ZTools](https://github.com/ZToolsCenter/ZTools) - uTools替代品
 - [Alfred](https://www.alfredapp.com/)
@@ -361,6 +362,7 @@
 ### 屏幕录制
 
 - [QuickRecorder](https://github.com/lihaoyun6/QuickRecorder)
+- [himi-recorder](https://github.com/jrainlau/himi-recorder) - 一款具有隐身能力的 macOS 录屏工具 —— 绕过系统录屏检测机制，让被录制的应用无法感知正在被录屏。常驻菜单栏，框选任意区域，录制为 MP4。
 - [LICEcap](http://www.cockos.com/licecap/)
 - [Kap](https://github.com/wulkano/kap)
 - [GIFCapture](https://github.com/onmyway133/GifCapture)

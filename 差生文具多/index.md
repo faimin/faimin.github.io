@@ -157,8 +157,9 @@
 
 ### 输入法
 
-- [KeyboardHolder](https://github.com/leaves615/KeyboardHolder)
-- [InputSourcePro](https://github.com/runjuu/InputSourcePro)
+- [KeyboardHolder](https://github.com/leaves615/KeyboardHolder) - 输入法切
+- [InputSourcePro](https://github.com/runjuu/InputSourcePro) - 输入法切
+- [LockIME](https://github.com/oomol-lab/LockIME) - 输入法切换
 - [搜狗输入法切换助手](https://apps.apple.com/cn/app/%E6%90%9C%E7%8B%97%E8%BE%93%E5%85%A5%E6%B3%95%E5%88%87%E6%8D%A2%E5%8A%A9%E6%89%8B/id6443621266?mt=12)
 - [squirl](https://github.com/rime/squirrel) - 鼠须管
 - [Hamster](https://github.com/imfuxiao/Hamster) - 仓 iOS
@@ -270,6 +271,7 @@
 - [AeroSpace](https://github.com/nikitabobko/AeroSpace)
 - [Loop](https://github.com/MrKai77/Loop)
 - [Rectangle](https://github.com/rxhanson/Rectangle)
+- [AnyDrag](https://github.com/XueshiQiao/AnyDrag) - 拖拽窗口
 - [yabai](https://github.com/koekeishiya/yabai)
 
 ### 文件压缩

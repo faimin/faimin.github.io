@@ -44,9 +44,34 @@ $ git filter-branch --tree-filter 'rm -f target.file'
 `git`仓库的迁移，在一些`git`管理平台像是`gitlab`和`github`是有的，推荐使用平台提供的方法，如果没有的话我们则可以使用`git`语句操作：
 
 ```bash
-$ git clone --bare git@host/old.git # clone原仓库的裸仓库
+# --bare 参数表示仅克隆本地已有的local分支，远程分支不会clone下来
+# --mirror 参数表示克隆所有分支
+$ git clone --mirror git@host/old.git # clone原仓库的裸仓库
 $ cd old.git
 $ git push --mirror git@host/new.git # 使用mirror参数推送至新仓库
+```
+
+不适用`mirror`的迁移方案
+
+推送现有文件夹
+
+```bash
+cd existing_folder
+git init --initial-branch=main
+git remote add origin <new_repo_url>
+git add .
+git commit -m "Initial commit"
+git push --set-upstream origin main
+```
+
+推送现有的 `Git` 仓库
+
+```bash
+cd existing_repo
+git remote rename origin old-origin
+git remote add origin <new_repo_url>
+git push --set-upstream origin --all
+git push --set-upstream origin --tags
 ```
 
 #### 文件名大小写修改

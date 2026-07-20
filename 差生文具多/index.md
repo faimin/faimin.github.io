@@ -183,11 +183,13 @@
 ### 下载
 
 - [motrix-next](https://github.com/AnInsomniacy/motrix-next)
+- [gopeed](https://github.com/GopeedLab/gopeed) - flutter+go
+- [AriaFlow](https://github.com/FateLightX/AriaFlow) - Swift+Aria2
+- [FluxDown](https://github.com/zerx-lab/FluxDown) - 自研下载引擎
 - [Motrix](https://github.com/agalwood/Motrix)
 - [imfile-desktop](https://github.com/imfile-io/imfile-desktop) - Motrix fork版本
 - [Free Download Manager](https://www.freedownloadmanager.org/zh/)
 - [NeatDownloadManager](https://www.neatdownloadmanager.com/index.php/en/)
-- [gopeed](https://github.com/GopeedLab/gopeed) - flutter+go
 - [Surge](https://github.com/surge-downloader/Surge) - go tui
 - [brisk](https://github.com/BrisklyDev/brisk) - flutter
 - [FileCentipede](https://github.com/filecxx/FileCentipede)

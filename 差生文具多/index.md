@@ -59,6 +59,7 @@
 ### 快速启动
 
 - [Raycast](https://www.raycast.com/)
+- [Tinycast](https://github.com/abue-ammar/tinycast)
 - [Wox](https://github.com/Wox-launcher/Wox)
 - [Vicinae](https://github.com/vicinaehq/vicinae) - QT
 - [fast-forward](https://github.com/gaauwe/fast-forward) - Rust GPUI

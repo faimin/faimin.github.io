@@ -264,6 +264,7 @@
 - [Snapzy](https://github.com/duongductrong/Snapzy) - Swift
 - [macshot](https://github.com/sw33tLie/macshot) - Swift
 - [capcap](https://github.com/realskyrin/capcap) - Swift
+- [BetterShot](https://github.com/KartikLabhshetwar/better-shot) - SwiftUI
 - [zenshot](https://github.com/easysoft/zenshot)
 - [shottr](https://shottr.cc/)
 - [flameshot](https://github.com/flameshot-org/flameshot)

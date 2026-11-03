@@ -55,7 +55,23 @@
 <h3 id="network">Network</h3>
 <ul>
 <li>
-<p><a href="https://juejin.cn/post/6844903951335178248" target="_blank" rel="noopener noreffer ">计算机网络太难了？了解这一篇就够了</a></p>]]></description></item><item><title>《程序员的自我修养》笔记</title><link>https://faimin.github.io/%E7%A8%8B%E5%BA%8F%E5%91%98%E7%9A%84%E8%87%AA%E6%88%91%E4%BF%AE%E5%85%BB%E7%AC%94%E8%AE%B0/</link><pubDate>Thu, 22 Sep 2022 12:02:17 +0800</pubDate><author>fuxianchao2009@163.com (Zero.D.Saber)</author><guid>https://faimin.github.io/%E7%A8%8B%E5%BA%8F%E5%91%98%E7%9A%84%E8%87%AA%E6%88%91%E4%BF%AE%E5%85%BB%E7%AC%94%E8%AE%B0/</guid><description><![CDATA[<h2 id="视频">视频</h2>
+<p><a href="https://juejin.cn/post/6844903951335178248" target="_blank" rel="noopener noreffer ">计算机网络太难了？了解这一篇就够了</a></p>
+</li>
+<li>
+<p><a href="https://juejin.cn/post/6857287743966281736" target="_blank" rel="noopener noreffer ">「查缺补漏」巩固你的HTTP知识体系</a></p>
+</li>
+<li>
+<p><a href="https://blog.csdn.net/m0_37621078/article/details/106006303" target="_blank" rel="noopener noreffer ">Web技术（五）：HTTP/2 是如何解决HTTP/1.1 性能瓶颈的？</a></p>
+</li>
+<li>
+<p><a href="https://blog.csdn.net/m0_37621078/article/details/106506532" target="_blank" rel="noopener noreffer ">Web技术（六）：QUIC 是如何解决TCP 性能瓶颈的？</a></p>
+</li>
+<li>
+<p><a href="https://www.bilibili.com/video/BV1kV411j7hA/" target="_blank" rel="noopener noreffer ">一条视频讲清楚TCP协议与UDP协议-什么是三次握手与四次挥手</a></p>
+<div class="bilibili"><iframe src="//player.bilibili.com/player.html?bvid=BV1kV411j7hA&page=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"></iframe></div>
+
+</li>
+</ul>]]></description></item><item><title>《程序员的自我修养》笔记</title><link>https://faimin.github.io/%E7%A8%8B%E5%BA%8F%E5%91%98%E7%9A%84%E8%87%AA%E6%88%91%E4%BF%AE%E5%85%BB%E7%AC%94%E8%AE%B0/</link><pubDate>Thu, 22 Sep 2022 12:02:17 +0800</pubDate><author>fuxianchao2009@163.com (Zero.D.Saber)</author><guid>https://faimin.github.io/%E7%A8%8B%E5%BA%8F%E5%91%98%E7%9A%84%E8%87%AA%E6%88%91%E4%BF%AE%E5%85%BB%E7%AC%94%E8%AE%B0/</guid><description><![CDATA[<h2 id="视频">视频</h2>
 <div class="bilibili"><iframe src="//player.bilibili.com/player.html?bvid=BV1xf4y127AJ&page=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"></iframe></div>
 
 <h2 id="笔记">笔记</h2>
@@ -64,4 +80,26 @@
 <p>内存分为<code>不可访问区域</code>、<code>.text</code>、<code>.data</code>、<code>.bss</code>、<code>堆区</code>、<code>共享库</code>、<code>.stack</code>、<code>内核区</code>；</p>
 </li>
 <li>
-<p>全局变量、静态变量在数据段，其中已初始化并且初始化值不为<code>0</code>的<code>.data</code>段，初始化为<code>0</code>或者未初始化的在<code>.bss</code>段，函数中的变量（即指令）放在了<code>.text</code>段；</p>]]></description></item></channel></rss>
+<p>全局变量、静态变量在数据段，其中已初始化并且初始化值不为<code>0</code>的<code>.data</code>段，初始化为<code>0</code>或者未初始化的在<code>.bss</code>段，函数中的变量（即指令）放在了<code>.text</code>段；</p>
+</li>
+<li>
+<p><code>main</code>函数第一个参数是命令行参数个数，第二个是命令行参数；</p>
+</li>
+<li>
+<p><code>.bss</code>占用的是虚拟内存的空间，不占用<code>mach-o</code>文件的空间；</p>
+</li>
+<li>
+<p><code>mach-o</code>的<code>header</code>中记录了<code>.bss</code>要占多少空间；</p>
+</li>
+<li>
+<p><code>mach-o</code>中函数存的是偏移量，<code>pc寄存器</code>中存的是下一行指令的地址，跳转时需要用当前的指令偏移 + <code>pc指令</code>地址，才是我们要跳转到的函数地址；</p>
+</li>
+<li>
+<p>链接时只处理<code>mach-o</code>文件中的<code>global</code>符号，不处理<code>local</code>符号（比如文件中的<code>static</code>变量）；</p>
+</li>
+<li>
+<p>链接过程：</p>
+<p>a. 按属性（比如<code>.data / .text</code>）合并所有<code>mach-o</code>文件的段（即合并同名<code>section</code>为<code>segment</code>） -&gt; 并调整段偏移和段长度 -&gt; 合并符号表 -&gt; 进行符号解析 -&gt; 分配内存地址；</p>
+<p>b.由于编译过程中不会给符号分配地址，所以链接阶段要进行符号重定位（数据符号替换成真正的地址，函数符号替换成与下一行指令地址的偏移量）；</p>
+</li>
+</ol>]]></description></item></channel></rss>

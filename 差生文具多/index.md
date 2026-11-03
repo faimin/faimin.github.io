@@ -531,14 +531,20 @@
 - [macos](https://github.com/dockur/macos) - MacOS Docker container
 - [maestro](https://github.com/mobile-dev-inc/maestro)
 - [Detox](https://github.com/wix/Detox)
-- [zealot](https://github.com/tryzealot/zealot)
 - [xcbeautify](https://github.com/cpisciotta/xcbeautify)
 - [xcpretty](https://github.com/xcpretty/xcpretty)
 - [pipelight](https://github.com/pipelight/pipelight)
 - [wrkflw](https://github.com/bahdotsh/wrkflw) - 本地运行Github Action
 - [act](https://github.com/nektos/act) - 本地运行Github Action
-- [pipewirght](https://github.com/huangchengsir/pipewright) - Jenkins替代品
 - [blueprint](https://github.com/MustafaNatur/blueprint) - 给icon添加debug信息
+
+### CD
+
+- [contained-app](https://github.com/tdeverx/contained-app) - Apple Container
+- [macos](https://github.com/dockur/macos) - MacOS Docker container
+- [zealot](https://github.com/tryzealot/zealot) - Jenkins替代品
+- [pipewirght](https://github.com/huangchengsir/pipewright) - Jenkins替代品
+- [pipelight](https://github.com/pipelight/pipelight)
 
 ### Mach-O
 

@@ -542,7 +542,7 @@
 
 - [contained-app](https://github.com/tdeverx/contained-app) - Apple Container
 - [macos](https://github.com/dockur/macos) - MacOS Docker container
-- [zealot](https://github.com/tryzealot/zealot) - Jenkins替代品
+- [zealot](https://github.com/tryzealot/zealot) - 蒲公英替代品
 - [pipewirght](https://github.com/huangchengsir/pipewright) - Jenkins替代品
 - [pipelight](https://github.com/pipelight/pipelight)
 

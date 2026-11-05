@@ -336,6 +336,7 @@
 
 ### MenuBar
 
+- [dimble](https://github.com/fif7y/dimble)
 - [HiddenBar](https://github.com/dwarvesf/hidden) - 折叠图标
 - [Thaw](https://github.com/stonerl/Thaw) - Ice fork
 - [Ice](https://github.com/jordanbaird/Ice)
@@ -540,10 +541,11 @@
 
 ### CD
 
+- [woodpecker-ci](https://github.com/woodpecker-ci/woodpecker) - Jenkins替代品
+- [pipewirght](https://github.com/huangchengsir/pipewright) - Jenkins替代品
 - [contained-app](https://github.com/tdeverx/contained-app) - Apple Container
 - [macos](https://github.com/dockur/macos) - MacOS Docker container
 - [zealot](https://github.com/tryzealot/zealot) - 蒲公英替代品
-- [pipewirght](https://github.com/huangchengsir/pipewright) - Jenkins替代品
 - [pipelight](https://github.com/pipelight/pipelight)
 
 ### Mach-O

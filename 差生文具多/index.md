@@ -177,6 +177,7 @@
 - [AppCleaner](https://freemacsoft.net/appcleaner/)
 - [Bulk-Crap-Uninstaller](https://github.com/Klocman/Bulk-Crap-Uninstaller) - PC
 - [无名大叔系统优化工具箱](https://github.com/3z9w/3z9wopt) - PC
+- [pc-cleanup-optimizer](https://github.com/BeeCaptivate/pc-cleanup-optimizer) - PC
 
 ### 系统监控
 
@@ -247,16 +248,16 @@
 
 > 收费的可以试试`Movist Pro`、`Infuse Pro`
 
-- [IINA](https://iina.io/)
+- [IINA](https://iina.io/) - mpv
 - [KhuaPlayer](https://github.com/nake13/khuaplayer)
 - [SMPlayer](https://github.com/smplayer-dev/smplayer)
 - [MPC-BE](https://github.com/Aleksoid1978/MPC-BE) - Windows
+- [oxbow-player](https://github.com/wzv5/oxbow-player) - mpv
 - [MusicFree](https://github.com/maotoumao/MusicFree) - ReactNative
 - [HiFidelity](https://github.com/rvarunrathod/HiFidelity) - 高保真Mac音乐播放器
-
+- [mygo-music](https://github.com/egoist/mygo-music) - 音乐播放器
 
 - [Music 站点](https://tools.liumingye.cn/music/#/)
-- [网易云音乐 MAC 云盘上传工具](https://github.com/lulu-ls/cloud-uploader)
 
 ### 截图
 
@@ -710,6 +711,7 @@
 - [gitbutler](https://github.com/gitbutlerapp/gitbutler)
 - [foldgit](https://github.com/dufu1991/foldgit)
 - [Changes](https://github.com/maoyama/Changes) - Swift
+- [git-cowork](https://github.com/michael-smao/git-cowork) - 利用git进行codereview
 
   > 开源的还有[Xit](https://github.com/Uncommon/Xit)、[GitUp](https://github.com/git-up/GitUp)，收费的有`Tower`、`Sublime Merge`、`GitKraken`
 

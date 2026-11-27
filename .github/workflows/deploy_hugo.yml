@@ -56,7 +56,12 @@ jobs:
           "${RUNNER_TEMP}/dart-sass/sass" --version
 
       - name: Build
-        run: hugo --minify	
+        run: hugo --minify
+
+      # Pagefind indexes published HTML; required when params.search.type = "pagefind".
+      # Pagefind 索引已发布的 HTML；params.search.type = "pagefind" 时必须执行。
+      - name: Build Pagefind index
+        run: npx --yes pagefind --site docs --output-subdir _pagefind
 
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v4

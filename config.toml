@@ -220,7 +220,7 @@ ignoreLogs = ["error-remote-getjson", "error-missing-instagram-accesstoken"]
     enable = true
     # type of search engine ["lunr", "algolia", "fuse", "pagefind"]
     # 搜索引擎的类型 ["lunr", "algolia", "fuse", "pagefind"]
-    type = "lunr"
+    type = "pagefind"
     # max index length of the chunked content
     # 文章内容最长索引长度
     contentLength = 4000
@@ -254,6 +254,10 @@ ignoreLogs = ["error-remote-getjson", "error-missing-instagram-accesstoken"]
       ignoreLocation = false
       useExtendedSearch = false
       ignoreFieldNorm = false
+    [params.search.pagefind]
+      # Pagefind base path (run after hugo: npx pagefind --site docs --output-subdir _pagefind)
+      # Pagefind 基础路径（hugo 构建后运行: npx pagefind --site docs --output-subdir _pagefind）
+      basePath = "/_pagefind/"
 
   [params.image]
     # 缓存图片链接到本地
@@ -861,7 +865,7 @@ ignoreLogs = ["error-remote-getjson", "error-missing-instagram-accesstoken"]
     [languages.en.params]
     [languages.en.params.search]
       enable = true
-      type = "lunr"
+      type = "pagefind"
       contentLength = 4000
       placeholder = ""
       maxResultLength = 10
@@ -947,7 +951,7 @@ ignoreLogs = ["error-remote-getjson", "error-missing-instagram-accesstoken"]
     [languages.zh-cn.params]
     [languages.zh-cn.params.search]
       enable = true
-      type = "lunr"
+      type = "pagefind"
       contentLength = 4000
       placeholder = ""
       maxResultLength = 10

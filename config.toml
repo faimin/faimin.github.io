@@ -4,6 +4,10 @@ publishdir = "docs"
 # theme
 # 主题
 theme = "LoveIt"
+# LoveIt v0.4.1 requires Hugo >= 0.146.0 and Dart Sass (also installed in CI).
+# LoveIt v0.4.1 需要 Hugo >= 0.146.0 和 Dart Sass（CI 中也需安装）。
+# This site's locale/label configuration requires Hugo >= 0.158.0.
+# 本站使用 locale/label 语言配置，需要 Hugo >= 0.158.0。
 
 # website title
 # 网站标题
@@ -12,12 +16,11 @@ title = "Zero.D.Saber"
 # determines default content language ["en", "zh-cn", "fr", "pl", ...]
 # 设置默认的语言 ["en", "zh-cn", "fr", "pl", ...]
 defaultContentLanguage = "zh-cn"
-# language code ["en", "zh-CN", "fr", "pl", ...]
-# 网站语言, 仅在这里 CN 大写 ["en", "zh-CN", "fr", "pl", ...]
-languageCode = "zh-CN"
-# language name ["English", "简体中文", "Français", "Polski", ...]
-# 语言名称 ["English", "简体中文", "Français", "Polski", ...]
-languageName = "简体中文"
+# language locale; use a script subtag for simplified Chinese
+# 网站语言区域；简体中文使用带脚本子标签的语言标记
+locale = "zh-Hans-CN"
+# Language labels are configured under [languages] below.
+# 语言显示名称在下方 [languages] 中配置。
 # whether to include Chinese/Japanese/Korean
 # 是否包括中日韩文字
 hasCJKLanguage = true
@@ -25,9 +28,6 @@ hasCJKLanguage = true
 # default amount of posts in each pages
 # 默认每页列表显示的文章数目
 pagination.pagerSize = 12
-# google analytics code [UA-XXXXXXXX-X]
-# 谷歌分析代号 [UA-XXXXXXXX-X]
-googleAnalytics = ""
 # copyright description used only for seo schema
 # 版权描述，仅仅用于 SEO
 copyright = ""
@@ -44,7 +44,7 @@ enableEmoji = true
 
 # ignore some build errors
 # 忽略一些构建错误
-ignoreErrors = ["error-remote-getjson", "error-missing-instagram-accesstoken"]
+ignoreLogs = ["error-remote-getjson", "error-missing-instagram-accesstoken"]
 
 # Menu config
 # 菜单配置
@@ -164,7 +164,7 @@ ignoreErrors = ["error-remote-getjson", "error-missing-instagram-accesstoken"]
     icp = ""
     # license info (HTML format is supported)
     # 许可协议信息 (支持 HTML 格式)
-    license = '<a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a>'
+    license = '<a rel="license external nofollow noopener noreferrer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a>'
 
   # Section (all posts) page config
   # Section (所有文章) 页面配置
@@ -218,8 +218,8 @@ ignoreErrors = ["error-remote-getjson", "error-missing-instagram-accesstoken"]
   # 搜索配置
   [params.search]
     enable = true
-    # type of search engine ["lunr", "algolia"]
-    # 搜索引擎的类型 ["lunr", "algolia"]
+    # type of search engine ["lunr", "algolia", "fuse", "pagefind"]
+    # 搜索引擎的类型 ["lunr", "algolia", "fuse", "pagefind"]
     type = "lunr"
     # max index length of the chunked content
     # 文章内容最长索引长度
@@ -244,7 +244,7 @@ ignoreErrors = ["error-remote-getjson", "error-missing-instagram-accesstoken"]
       appID = ""
       searchKey = ""
     [params.search.fuse]
-      # DoIt 新增 | 0.2.12 https://fusejs.io/api/options.html
+      # Fuse.js options (LoveIt 0.4.0+): https://fusejs.io/api/options.html
       isCaseSensitive = false
       minMatchCharLength = 2
       findAllMatches = false
@@ -305,7 +305,7 @@ ignoreErrors = ["error-remote-getjson", "error-missing-instagram-accesstoken"]
   [params.social]
     GitHub = "https://github.com/faimin"
     Linkedin = ""
-    Twitter = ""
+    X = ""
     Instagram = ""
     Facebook = ""
     Telegram = ""
@@ -487,7 +487,7 @@ ignoreErrors = ["error-remote-getjson", "error-missing-instagram-accesstoken"]
     # 文章页面的分享信息设置
     [params.page.share]
       enable = true
-      Twitter = true
+      X = true
       Facebook = true
       Linkedin = false
       Whatsapp = false
@@ -500,16 +500,21 @@ ignoreErrors = ["error-remote-getjson", "error-missing-instagram-accesstoken"]
       Xing = false
       Line = true
       Instapaper = false
-      Pocket = false
       Flipboard = false
       Weibo = true
       Blogger = false
-      Baidu = false
       Odnoklassniki = false
       Evernote = false
-      Skype = false
       Trello = false
       Mix = false
+      # New share options in LoveIt v0.4.1; disabled until needed.
+      # LoveIt v0.4.1 新增的分享选项，按需开启。
+      Bluesky = false
+      Email = false
+      Douban = false
+      Qzone = false
+      Pinboard = false
+      WordPress = false
     # Comment config
     # 评论系统设置
     [params.page.comment]
@@ -529,35 +534,10 @@ ignoreErrors = ["error-remote-getjson", "error-missing-instagram-accesstoken"]
         repo = ""
         clientId = ""
         clientSecret = ""
-      # Valine comment config (https://github.com/xCss/Valine)
-      # Valine 评论系统设置 (https://github.com/xCss/Valine)
+      # Retired Valine backend; the replacement is configured under giscus below.
+      # 停用旧 Valine 后端，替代方案在下方 giscus 中配置。
       [params.page.comment.valine]
-        enable = true
-        appId = "QGzwQXOqs5JOhN4RGPOkR2mR-MdYXbMMI"
-        appKey = "WBmoGyJtbqUswvfLh6L8iEBr"
-        placeholder = ""
-        avatar = "mp"
-        meta= ""
-        pageSize = 10
-        # automatically adapt the current theme i18n configuration when empty
-        # 为空时自动适配当前主题 i18n 配置
-        lang = ""
-        visitor = true
-        recordIP = true
-        highlight = true
-        enableQQ = false
-        serverURLs = "https://leancloud.hugoloveit.com"
-        # emoji data file name, default is "google.yml"
-        # ["apple.yml", "google.yml", "facebook.yml", "twitter.yml"]
-        # located in "themes/LoveIt/assets/lib/valine/emoji/" directory
-        # you can store your own data files in the same path under your project:
-        # "assets/lib/valine/emoji/"
-        # emoji 数据文件名称, 默认是 "google.yml"
-        # ["apple.yml", "google.yml", "facebook.yml", "twitter.yml"]
-        # 位于 "themes/LoveIt/assets/lib/valine/emoji/" 目录
-        # 可以在你的项目下相同路径存放你自己的数据文件:
-        # "assets/lib/valine/emoji/"
-        emoji = ""
+        enable = false
       # Facebook comment config (https://developers.facebook.com/docs/plugins/comments)
       # Facebook 评论系统设置 (https://developers.facebook.com/docs/plugins/comments)
       [params.page.comment.facebook]
@@ -596,23 +576,23 @@ ignoreErrors = ["error-remote-getjson", "error-missing-instagram-accesstoken"]
       # giscus comment config (https://giscus.app/)
       # giscus comment 评论系统设置 (https://giscus.app/zh-CN)
       [params.page.comment.giscus]
-        # You can refer to the official documentation of giscus to use the following configuration.
-        # 你可以参考官方文档来使用下列配置
-        enable = false
-        repo = ""
-        repoId = ""
+        # Configured from the generated giscus script for the dedicated comments repository.
+        # 根据 giscus 生成的脚本配置，使用独立评论仓库。
+        enable = true
+        repo = "faimin/ZDBlogGiscus"
+        repoId = "R_kgDOV9vEeA"
         category = "Announcements"
-        categoryId = ""
-        # automatically adapt the current theme i18n configuration when empty
-        # 为空时自动适配当前主题 i18n 配置
-        lang = ""
+        categoryId = "DIC_kwDOV9vEeM4DMEwD"
+        lang = "zh-CN"
         mapping = "pathname"
         reactionsEnabled = "1"
-        emitMetadata = "0"
-        inputPosition = "bottom"
-        lazyLoading = false
-        lightTheme = "light"
-        darkTheme = "dark"
+        emitMetadata = "1"
+        inputPosition = "top"
+        lazyLoading = true
+        # Match data-theme="preferred_color_scheme" in both site theme modes.
+        # 对应脚本中的 preferred_color_scheme，两种站点主题模式下均跟随系统配色。
+        lightTheme = "preferred_color_scheme"
+        darkTheme = "preferred_color_scheme"
     # Third-party library config
     # 第三方库配置
     [params.page.library]
@@ -636,7 +616,7 @@ ignoreErrors = ["error-remote-getjson", "error-missing-instagram-accesstoken"]
       # 出版者信息
       [params.page.seo.publisher]
         name = "Zero.D.Saber"
-        logoUrl = "/images/avatar.png"
+        logoUrl = "/logo/avatar.png"
 
     [params.page.related]
       enable = true
@@ -672,10 +652,10 @@ ignoreErrors = ["error-remote-getjson", "error-missing-instagram-accesstoken"]
   [params.seo]
     # image URL
     # 图片 URL
-    image = "/images/Apple-Devices-Preview.png"
+    image = "/logo/avatar.png"
     # thumbnail URL
     # 缩略图 URL
-    thumbnailUrl = "/images/screenshot.png"
+    thumbnailUrl = "/logo/avatar.png"
     # Google 搜索结果中网站备用名字
     alternateName = ["faimin", "zero", "saber", "fuxianchao"]
 
@@ -717,12 +697,14 @@ ignoreErrors = ["error-remote-getjson", "error-missing-instagram-accesstoken"]
   # 第三方库文件的 CDN 设置
   [params.cdn]
     # CDN data file name, disabled by default
-    # ["jsdelivr.yml"]
+    # ["jsdelivr.yml", "jsdelivr.fastly.yml", "jsdelivr.cloudflare.yml", "unpkg.yml"]
     # located in "themes/LoveIt/assets/data/cdn/" directory
     # you can store your own data files in the same path under your project:
     # "assets/data/cdn/"
     # CDN 数据文件名称, 默认不启用
-    # ["jsdelivr.yml"]
+    # ["jsdelivr.yml", "jsdelivr.fastly.yml", "jsdelivr.cloudflare.yml", "unpkg.yml"]
+    # LoveIt v0.4.1 removed cdnjs.yml; use one of the files above.
+    # LoveIt v0.4.1 已移除 cdnjs.yml，请使用上方支持的配置。
     # 位于 "themes/LoveIt/assets/data/cdn/" 目录
     # 可以在你的项目下相同路径存放你自己的数据文件:
     # "assets/data/cdn/"
@@ -731,8 +713,8 @@ ignoreErrors = ["error-remote-getjson", "error-missing-instagram-accesstoken"]
   # Compatibility config
   # 兼容性设置
   [params.compatibility]
-    # whether to use Polyfill.io to be compatible with older browsers
-    # 是否使用 Polyfill.io 来兼容旧式浏览器
+    # whether to use the Polyfill service (cdnjs) to be compatible with older browsers
+    # 是否使用 Polyfill 服务 (cdnjs) 来兼容旧式浏览器
     polyfill = false
     # whether to use object-fit-images to be compatible with older browsers
     # 是否使用 object-fit-images 来兼容旧式浏览器
@@ -823,8 +805,8 @@ ignoreErrors = ["error-remote-getjson", "error-missing-instagram-accesstoken"]
 [languages]
   [languages.en]
     weight = 1
-    languageCode = "en"
-    languageName = "English"
+    locale = "en"
+    label = "English"
     hasCJKLanguage = false
     copyright = "This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License."
     [languages.en.menu]
@@ -899,7 +881,7 @@ ignoreErrors = ["error-remote-getjson", "error-missing-instagram-accesstoken"]
           disclaimer = ""
       [languages.en.params.social]
         GitHub = "faimin"
-        # Twitter = "xxxx"
+        # X = "xxxx"
         # Instagram = "xxxx"
         # Facebook = "xxxx"
         # Telegram = "xxxx"
@@ -910,8 +892,8 @@ ignoreErrors = ["error-remote-getjson", "error-missing-instagram-accesstoken"]
 
   [languages.zh-cn]
     weight = 2
-    languageCode = "zh-CN"
-    languageName = "简体中文"
+    locale = "zh-Hans-CN"
+    label = "简体中文"
     hasCJKLanguage = true
     copyright = "This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License."
     [languages.zh-cn.menu]

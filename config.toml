@@ -146,7 +146,9 @@ ignoreLogs = ["error-remote-getjson", "error-missing-instagram-accesstoken"]
     enable = true
     # Custom content (HTML format is supported)
     # 自定义内容 (支持 HTML 格式)
-    custom = '<span id="busuanzi_container_site_uv">本站访客数<span id="busuanzi_value_site_uv"></span>人次</span> | <span id="busuanzi_container_site_pv">本站总访问量 <span id="busuanzi_value_site_pv"></span>次 </span>'
+    # Vercount 兼容不蒜子 span；原 busuanzi.ibruce.info 常 502，导致访客数/访问量为空。
+    # Vercount is Busuanzi-compatible; the old busuanzi endpoint often 502s and leaves counts blank.
+    custom = '<span id="busuanzi_container_site_uv">本站访客数<span id="busuanzi_value_site_uv"></span>人次</span> | <span id="busuanzi_container_site_pv">本站总访问量 <span id="busuanzi_value_site_pv"></span>次</span><script defer src="https://cn.vercount.one/js"></script>'
     # whether to show Hugo and theme info
     # 是否显示 Hugo 和主题信息
     hugo = true
